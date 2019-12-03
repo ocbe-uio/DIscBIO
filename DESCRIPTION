@@ -16,7 +16,11 @@ Authors@R:
                role = c("cre"),
                email = "w.l.netto@medisin.uio.no")
     )
-Description: An open, multi-algorithmic pipeline for easy, fast and efficient analysis of cellular sub-populations and the molecular signatures that characterize them. The pipeline consists of four successive steps: data pre-processing, cellular clustering with pseudo-temporal ordering, defining differential expressed genes and biomarker identification.
+Description: An open, multi-algorithmic pipeline for easy, fast and efficient analysis 
+    of cellular sub-populations and the molecular signatures that characterize them.
+    The pipeline consists of four successive steps: data pre-processing,
+    cellular clustering with pseudo-temporal ordering, defining differential expressed genes
+    and biomarker identification <https://doi.org/10.1101/700989>.
 License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true
