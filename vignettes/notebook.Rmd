@@ -54,292 +54,7 @@ require(samr)
 
 source("RaceID_class.R")
 source("DiscBIO_class.R")
-
 ```
-
-    Loading required package: tsne
-    Loading required package: pheatmap
-    Loading required package: MASS
-    Loading required package: cluster
-    Loading required package: mclust
-    Package 'mclust' version 5.4.3
-    Type 'citation("mclust")' for citing this R package in publications.
-    Loading required package: flexmix
-    Loading required package: lattice
-    Loading required package: fpc
-    Loading required package: amap
-    Loading required package: RColorBrewer
-    Loading required package: locfit
-    locfit 1.5-9.1 	 2013-03-22
-    Loading required package: TSCAN
-    Loading required package: genefilter
-    
-    Attaching package: ‘genefilter’
-    
-    The following object is masked from ‘package:MASS’:
-    
-        area
-    
-    Loading required package: statmod
-    Loading required package: ggplot2
-    Loading required package: gplots
-    
-    Attaching package: ‘gplots’
-    
-    The following object is masked from ‘package:stats’:
-    
-        lowess
-    
-    Loading required package: DESeq2
-    Loading required package: S4Vectors
-    Loading required package: stats4
-    Loading required package: BiocGenerics
-    Loading required package: parallel
-    
-    Attaching package: ‘BiocGenerics’
-    
-    The following objects are masked from ‘package:parallel’:
-    
-        clusterApply, clusterApplyLB, clusterCall, clusterEvalQ,
-        clusterExport, clusterMap, parApply, parCapply, parLapply,
-        parLapplyLB, parRapply, parSapply, parSapplyLB
-    
-    The following object is masked from ‘package:flexmix’:
-    
-        unique
-    
-    The following objects are masked from ‘package:stats’:
-    
-        IQR, mad, sd, var, xtabs
-    
-    The following objects are masked from ‘package:base’:
-    
-        anyDuplicated, append, as.data.frame, basename, cbind, colMeans,
-        colnames, colSums, dirname, do.call, duplicated, eval, evalq,
-        Filter, Find, get, grep, grepl, intersect, is.unsorted, lapply,
-        lengths, Map, mapply, match, mget, order, paste, pmax, pmax.int,
-        pmin, pmin.int, Position, rank, rbind, Reduce, rowMeans, rownames,
-        rowSums, sapply, setdiff, sort, table, tapply, union, unique,
-        unsplit, which, which.max, which.min
-    
-    
-    Attaching package: ‘S4Vectors’
-    
-    The following object is masked from ‘package:gplots’:
-    
-        space
-    
-    The following object is masked from ‘package:base’:
-    
-        expand.grid
-    
-    Loading required package: IRanges
-    Loading required package: GenomicRanges
-    Loading required package: GenomeInfoDb
-    Loading required package: SummarizedExperiment
-    Loading required package: Biobase
-    Welcome to Bioconductor
-    
-        Vignettes contain introductory material; view with
-        'browseVignettes()'. To cite Bioconductor, see
-        'citation("Biobase")', and for packages 'citation("pkgname")'.
-    
-    Loading required package: DelayedArray
-    Loading required package: matrixStats
-    
-    Attaching package: ‘matrixStats’
-    
-    The following objects are masked from ‘package:Biobase’:
-    
-        anyMissing, rowMedians
-    
-    The following objects are masked from ‘package:genefilter’:
-    
-        rowSds, rowVars
-    
-    Loading required package: BiocParallel
-    
-    Attaching package: ‘DelayedArray’
-    
-    The following objects are masked from ‘package:matrixStats’:
-    
-        colMaxs, colMins, colRanges, rowMaxs, rowMins, rowRanges
-    
-    The following objects are masked from ‘package:base’:
-    
-        aperm, apply
-    
-    Loading required package: robustbase
-    
-    Attaching package: ‘robustbase’
-    
-    The following objects are masked from ‘package:matrixStats’:
-    
-        colMedians, rowMedians
-    
-    The following object is masked from ‘package:Biobase’:
-    
-        rowMedians
-    
-    Loading required package: philentropy
-    
-    Attaching package: ‘philentropy’
-    
-    The following object is masked from ‘package:SummarizedExperiment’:
-    
-        distance
-    
-    The following object is masked from ‘package:GenomicRanges’:
-    
-        distance
-    
-    The following object is masked from ‘package:IRanges’:
-    
-        distance
-    
-    Loading required package: igraph
-    
-    Attaching package: ‘igraph’
-    
-    The following objects are masked from ‘package:DelayedArray’:
-    
-        path, simplify
-    
-    The following object is masked from ‘package:GenomicRanges’:
-    
-        union
-    
-    The following object is masked from ‘package:IRanges’:
-    
-        union
-    
-    The following object is masked from ‘package:S4Vectors’:
-    
-        union
-    
-    The following objects are masked from ‘package:BiocGenerics’:
-    
-        normalize, path, union
-    
-    The following object is masked from ‘package:flexmix’:
-    
-        clusters
-    
-    The following objects are masked from ‘package:stats’:
-    
-        decompose, spectrum
-    
-    The following object is masked from ‘package:base’:
-    
-        union
-    
-    Loading required package: boot
-    
-    Attaching package: ‘boot’
-    
-    The following object is masked from ‘package:robustbase’:
-    
-        salinity
-    
-    The following object is masked from ‘package:flexmix’:
-    
-        boot
-    
-    The following object is masked from ‘package:lattice’:
-    
-        melanoma
-    
-    Loading required package: biomaRt
-    Loading required package: tidyr
-    
-    Attaching package: ‘tidyr’
-    
-    The following object is masked from ‘package:igraph’:
-    
-        crossing
-    
-    The following object is masked from ‘package:S4Vectors’:
-    
-        expand
-    
-    Loading required package: calibrate
-    Loading required package: partykit
-    Loading required package: grid
-    Loading required package: libcoin
-    Loading required package: mvtnorm
-    
-    Attaching package: ‘partykit’
-    
-    The following object is masked from ‘package:SummarizedExperiment’:
-    
-        width
-    
-    The following object is masked from ‘package:DelayedArray’:
-    
-        width
-    
-    The following object is masked from ‘package:GenomicRanges’:
-    
-        width
-    
-    The following object is masked from ‘package:IRanges’:
-    
-        width
-    
-    The following object is masked from ‘package:S4Vectors’:
-    
-        width
-    
-    The following object is masked from ‘package:BiocGenerics’:
-    
-        width
-    
-    Loading required package: RWeka
-    Loading required package: rpart
-    Loading required package: rpart.plot
-    Loading required package: imager
-    Warning message in library(package, lib.loc = lib.loc, character.only = TRUE, logical.return = TRUE, :
-    “there is no package called ‘imager’”Loading required package: png
-    Loading required package: NetIndices
-    Loading required package: httr
-    
-    Attaching package: ‘httr’
-    
-    The following object is masked from ‘package:Biobase’:
-    
-        content
-    
-    Loading required package: jsonlite
-    Loading required package: tidyverse
-    ── [1mAttaching packages[22m ─────────────────────────────────────── tidyverse 1.2.1 ──
-    [32m✔[39m [34mtibble [39m 2.1.1       [32m✔[39m [34mdplyr  [39m 0.8.0.[31m1[39m
-    [32m✔[39m [34mreadr  [39m 1.3.1       [32m✔[39m [34mstringr[39m 1.4.0  
-    [32m✔[39m [34mpurrr  [39m 0.3.2       [32m✔[39m [34mforcats[39m 0.4.0  
-    ── [1mConflicts[22m ────────────────────────────────────────── tidyverse_conflicts() ──
-    [31m✖[39m [34mdplyr[39m::[32mas_data_frame()[39m   masks [34mtibble[39m::as_data_frame(), [34migraph[39m::as_data_frame()
-    [31m✖[39m [34mdplyr[39m::[32mcollapse()[39m        masks [34mIRanges[39m::collapse()
-    [31m✖[39m [34mdplyr[39m::[32mcombine()[39m         masks [34mBiobase[39m::combine(), [34mBiocGenerics[39m::combine()
-    [31m✖[39m [34mpurrr[39m::[32mcompose()[39m         masks [34migraph[39m::compose()
-    [31m✖[39m [34mhttr[39m::[32mcontent()[39m          masks [34mBiobase[39m::content()
-    [31m✖[39m [34mdplyr[39m::[32mcount()[39m           masks [34mmatrixStats[39m::count()
-    [31m✖[39m [34mtidyr[39m::[32mcrossing()[39m        masks [34migraph[39m::crossing()
-    [31m✖[39m [34mdplyr[39m::[32mdesc()[39m            masks [34mIRanges[39m::desc()
-    [31m✖[39m [34mtidyr[39m::[32mexpand()[39m          masks [34mS4Vectors[39m::expand()
-    [31m✖[39m [34mdplyr[39m::[32mfilter()[39m          masks [34mstats[39m::filter()
-    [31m✖[39m [34mdplyr[39m::[32mfirst()[39m           masks [34mS4Vectors[39m::first()
-    [31m✖[39m [34mpurrr[39m::[32mflatten()[39m         masks [34mjsonlite[39m::flatten()
-    [31m✖[39m [34mdplyr[39m::[32mgroups()[39m          masks [34migraph[39m::groups()
-    [31m✖[39m [34mdplyr[39m::[32mlag()[39m             masks [34mstats[39m::lag()
-    [31m✖[39m [34mpurrr[39m::[32mmap()[39m             masks [34mmclust[39m::map()
-    [31m✖[39m [34mBiocGenerics[39m::[32mPosition()[39m masks [34mggplot2[39m::Position(), [34mbase[39m::Position()
-    [31m✖[39m [34mpurrr[39m::[32mreduce()[39m          masks [34mGenomicRanges[39m::reduce(), [34mIRanges[39m::reduce()
-    [31m✖[39m [34mdplyr[39m::[32mrename()[39m          masks [34mS4Vectors[39m::rename()
-    [31m✖[39m [34mdplyr[39m::[32mselect()[39m          masks [34mbiomaRt[39m::select(), [34mMASS[39m::select()
-    [31m✖[39m [34mpurrr[39m::[32msimplify()[39m        masks [34migraph[39m::simplify(), [34mDelayedArray[39m::simplify()
-    [31m✖[39m [34mdplyr[39m::[32mslice()[39m           masks [34mIRanges[39m::slice()
-    [31m✖[39m [34mreadr[39m::[32mspec()[39m            masks [34mgenefilter[39m::spec()
-    Loading required package: samr
-
 
 ## Loading datasets
 
@@ -583,196 +298,196 @@ Clusters
 
 
 
-<dl class=dl-horizontal>
-	<dt>G1_1</dt>
-		<dd>1</dd>
-	<dt>G1_2</dt>
-		<dd>2</dd>
-	<dt>G1_3</dt>
-		<dd>2</dd>
-	<dt>G1_4</dt>
-		<dd>1</dd>
-	<dt>G1_5</dt>
-		<dd>1</dd>
-	<dt>G1_6</dt>
-		<dd>1</dd>
-	<dt>G1_7</dt>
-		<dd>2</dd>
-	<dt>G1_8</dt>
-		<dd>2</dd>
-	<dt>G1_9</dt>
-		<dd>3</dd>
-	<dt>G1_10</dt>
-		<dd>3</dd>
-	<dt>G1_11</dt>
-		<dd>3</dd>
-	<dt>G1_12</dt>
-		<dd>1</dd>
-	<dt>G1_13</dt>
-		<dd>3</dd>
-	<dt>G1_14</dt>
-		<dd>1</dd>
-	<dt>G1_15</dt>
-		<dd>1</dd>
-	<dt>G1_16</dt>
-		<dd>1</dd>
-	<dt>G1_17</dt>
-		<dd>3</dd>
-	<dt>G1_18</dt>
-		<dd>2</dd>
-	<dt>G1_19</dt>
-		<dd>2</dd>
-	<dt>G1_20</dt>
-		<dd>2</dd>
-	<dt>G1_21</dt>
-		<dd>3</dd>
-	<dt>G1_22</dt>
-		<dd>1</dd>
-	<dt>G1_23</dt>
-		<dd>2</dd>
-	<dt>G1_24</dt>
-		<dd>2</dd>
-	<dt>G1_25</dt>
-		<dd>1</dd>
-	<dt>G1_26</dt>
-		<dd>2</dd>
-	<dt>G1_27</dt>
-		<dd>3</dd>
-	<dt>G1_28</dt>
-		<dd>2</dd>
-	<dt>G1_29</dt>
-		<dd>2</dd>
-	<dt>G1_30</dt>
-		<dd>2</dd>
-	<dt>S_1</dt>
-		<dd>2</dd>
-	<dt>S_2</dt>
-		<dd>2</dd>
-	<dt>S_3</dt>
-		<dd>2</dd>
-	<dt>S_4</dt>
-		<dd>2</dd>
-	<dt>S_5</dt>
-		<dd>2</dd>
-	<dt>S_6</dt>
-		<dd>2</dd>
-	<dt>S_7</dt>
-		<dd>2</dd>
-	<dt>S_8</dt>
-		<dd>1</dd>
-	<dt>S_9</dt>
-		<dd>2</dd>
-	<dt>S_10</dt>
-		<dd>2</dd>
-	<dt>S_11</dt>
-		<dd>2</dd>
-	<dt>S_12</dt>
-		<dd>2</dd>
-	<dt>S_13</dt>
-		<dd>2</dd>
-	<dt>S_14</dt>
-		<dd>1</dd>
-	<dt>S_15</dt>
-		<dd>2</dd>
-	<dt>S_16</dt>
-		<dd>1</dd>
-	<dt>S_17</dt>
-		<dd>2</dd>
-	<dt>S_18</dt>
-		<dd>1</dd>
-	<dt>S_19</dt>
-		<dd>1</dd>
-	<dt>S_20</dt>
-		<dd>2</dd>
-	<dt>S_21</dt>
-		<dd>2</dd>
-	<dt>S_22</dt>
-		<dd>2</dd>
-	<dt>S_23</dt>
-		<dd>1</dd>
-	<dt>S_24</dt>
-		<dd>1</dd>
-	<dt>S_25</dt>
-		<dd>2</dd>
-	<dt>S_26</dt>
-		<dd>2</dd>
-	<dt>S_27</dt>
-		<dd>2</dd>
-	<dt>S_28</dt>
-		<dd>3</dd>
-	<dt>S_29</dt>
-		<dd>2</dd>
-	<dt>S_30</dt>
-		<dd>2</dd>
-	<dt>S_31</dt>
-		<dd>2</dd>
-	<dt>S_32</dt>
-		<dd>3</dd>
-	<dt>G2_1</dt>
-		<dd>2</dd>
-	<dt>G2_2</dt>
-		<dd>2</dd>
-	<dt>G2_3</dt>
-		<dd>2</dd>
-	<dt>G2_4</dt>
-		<dd>3</dd>
-	<dt>G2_5</dt>
-		<dd>1</dd>
-	<dt>G2_6</dt>
-		<dd>1</dd>
-	<dt>G2_7</dt>
-		<dd>2</dd>
-	<dt>G2_8</dt>
-		<dd>2</dd>
-	<dt>G2_9</dt>
-		<dd>2</dd>
-	<dt>G2_10</dt>
-		<dd>1</dd>
-	<dt>G2_11</dt>
-		<dd>3</dd>
-	<dt>G2_12</dt>
-		<dd>2</dd>
-	<dt>G2_13</dt>
-		<dd>1</dd>
-	<dt>G2_14</dt>
-		<dd>2</dd>
-	<dt>G2_15</dt>
-		<dd>3</dd>
-	<dt>G2_16</dt>
-		<dd>1</dd>
-	<dt>G2_17</dt>
-		<dd>1</dd>
-	<dt>G2_18</dt>
-		<dd>1</dd>
-	<dt>G2_19</dt>
-		<dd>2</dd>
-	<dt>G2_20</dt>
-		<dd>2</dd>
-	<dt>G2_21</dt>
-		<dd>2</dd>
-	<dt>G2_22</dt>
-		<dd>1</dd>
-	<dt>G2_23</dt>
-		<dd>3</dd>
-	<dt>G2_24</dt>
-		<dd>1</dd>
-	<dt>G2_25</dt>
-		<dd>2</dd>
-	<dt>G2_26</dt>
-		<dd>3</dd>
-	<dt>G2_27</dt>
-		<dd>3</dd>
-	<dt>G2_28</dt>
-		<dd>2</dd>
-	<dt>G2_29</dt>
-		<dd>2</dd>
-	<dt>G2_30</dt>
-		<dd>1</dd>
-	<dt>G2_31</dt>
-		<dd>2</dd>
-	<dt>G2_32</dt>
-		<dd>2</dd>
-</dl>
+```
+	G1_1
+		1
+	G1_2
+		2
+	G1_3
+		2
+	G1_4
+		1
+	G1_5
+		1
+	G1_6
+		1
+	G1_7
+		2
+	G1_8
+		2
+	G1_9
+		3
+	G1_10
+		3
+	G1_11
+		3
+	G1_12
+		1
+	G1_13
+		3
+	G1_14
+		1
+	G1_15
+		1
+	G1_16
+		1
+	G1_17
+		3
+	G1_18
+		2
+	G1_19
+		2
+	G1_20
+		2
+	G1_21
+		3
+	G1_22
+		1
+	G1_23
+		2
+	G1_24
+		2
+	G1_25
+		1
+	G1_26
+		2
+	G1_27
+		3
+	G1_28
+		2
+	G1_29
+		2
+	G1_30
+		2
+	S_1
+		2
+	S_2
+		2
+	S_3
+		2
+	S_4
+		2
+	S_5
+		2
+	S_6
+		2
+	S_7
+		2
+	S_8
+		1
+	S_9
+		2
+	S_10
+		2
+	S_11
+		2
+	S_12
+		2
+	S_13
+		2
+	S_14
+		1
+	S_15
+		2
+	S_16
+		1
+	S_17
+		2
+	S_18
+		1
+	S_19
+		1
+	S_20
+		2
+	S_21
+		2
+	S_22
+		2
+	S_23
+		1
+	S_24
+		1
+	S_25
+		2
+	S_26
+		2
+	S_27
+		2
+	S_28
+		3
+	S_29
+		2
+	S_30
+		2
+	S_31
+		2
+	S_32
+		3
+	G2_1
+		2
+	G2_2
+		2
+	G2_3
+		2
+	G2_4
+		3
+	G2_5
+		1
+	G2_6
+		1
+	G2_7
+		2
+	G2_8
+		2
+	G2_9
+		2
+	G2_10
+		1
+	G2_11
+		3
+	G2_12
+		2
+	G2_13
+		1
+	G2_14
+		2
+	G2_15
+		3
+	G2_16
+		1
+	G2_17
+		1
+	G2_18
+		1
+	G2_19
+		2
+	G2_20
+		2
+	G2_21
+		2
+	G2_22
+		1
+	G2_23
+		3
+	G2_24
+		1
+	G2_25
+		2
+	G2_26
+		3
+	G2_27
+		3
+	G2_28
+		2
+	G2_29
+		2
+	G2_30
+		1
+	G2_31
+		2
+	G2_32
+		2
+```
 
 
 
@@ -1038,196 +753,196 @@ save(MBClusters,file="MBClusters.Rdata")
 
 
 
-<dl class=dl-horizontal>
-	<dt>G1_1</dt>
-		<dd>1</dd>
-	<dt>G1_2</dt>
-		<dd>1</dd>
-	<dt>G1_3</dt>
-		<dd>1</dd>
-	<dt>G1_4</dt>
-		<dd>1</dd>
-	<dt>G1_5</dt>
-		<dd>1</dd>
-	<dt>G1_6</dt>
-		<dd>1</dd>
-	<dt>G1_7</dt>
-		<dd>1</dd>
-	<dt>G1_8</dt>
-		<dd>1</dd>
-	<dt>G1_9</dt>
-		<dd>1</dd>
-	<dt>G1_10</dt>
-		<dd>1</dd>
-	<dt>G1_11</dt>
-		<dd>1</dd>
-	<dt>G1_12</dt>
-		<dd>1</dd>
-	<dt>G1_13</dt>
-		<dd>1</dd>
-	<dt>G1_14</dt>
-		<dd>1</dd>
-	<dt>G1_15</dt>
-		<dd>1</dd>
-	<dt>G1_16</dt>
-		<dd>1</dd>
-	<dt>G1_17</dt>
-		<dd>1</dd>
-	<dt>G1_18</dt>
-		<dd>1</dd>
-	<dt>G1_19</dt>
-		<dd>1</dd>
-	<dt>G1_20</dt>
-		<dd>3</dd>
-	<dt>G1_21</dt>
-		<dd>1</dd>
-	<dt>G1_22</dt>
-		<dd>1</dd>
-	<dt>G1_23</dt>
-		<dd>1</dd>
-	<dt>G1_24</dt>
-		<dd>1</dd>
-	<dt>G1_25</dt>
-		<dd>1</dd>
-	<dt>G1_26</dt>
-		<dd>2</dd>
-	<dt>G1_27</dt>
-		<dd>1</dd>
-	<dt>G1_28</dt>
-		<dd>3</dd>
-	<dt>G1_29</dt>
-		<dd>1</dd>
-	<dt>G1_30</dt>
-		<dd>1</dd>
-	<dt>S_1</dt>
-		<dd>3</dd>
-	<dt>S_2</dt>
-		<dd>1</dd>
-	<dt>S_3</dt>
-		<dd>3</dd>
-	<dt>S_4</dt>
-		<dd>3</dd>
-	<dt>S_5</dt>
-		<dd>3</dd>
-	<dt>S_6</dt>
-		<dd>3</dd>
-	<dt>S_7</dt>
-		<dd>1</dd>
-	<dt>S_8</dt>
-		<dd>1</dd>
-	<dt>S_9</dt>
-		<dd>3</dd>
-	<dt>S_10</dt>
-		<dd>1</dd>
-	<dt>S_11</dt>
-		<dd>3</dd>
-	<dt>S_12</dt>
-		<dd>3</dd>
-	<dt>S_13</dt>
-		<dd>3</dd>
-	<dt>S_14</dt>
-		<dd>3</dd>
-	<dt>S_15</dt>
-		<dd>1</dd>
-	<dt>S_16</dt>
-		<dd>1</dd>
-	<dt>S_17</dt>
-		<dd>3</dd>
-	<dt>S_18</dt>
-		<dd>1</dd>
-	<dt>S_19</dt>
-		<dd>3</dd>
-	<dt>S_20</dt>
-		<dd>3</dd>
-	<dt>S_21</dt>
-		<dd>3</dd>
-	<dt>S_22</dt>
-		<dd>3</dd>
-	<dt>S_23</dt>
-		<dd>3</dd>
-	<dt>S_24</dt>
-		<dd>1</dd>
-	<dt>S_25</dt>
-		<dd>3</dd>
-	<dt>S_26</dt>
-		<dd>3</dd>
-	<dt>S_27</dt>
-		<dd>3</dd>
-	<dt>S_28</dt>
-		<dd>3</dd>
-	<dt>S_29</dt>
-		<dd>3</dd>
-	<dt>S_30</dt>
-		<dd>3</dd>
-	<dt>S_31</dt>
-		<dd>1</dd>
-	<dt>S_32</dt>
-		<dd>3</dd>
-	<dt>G2_1</dt>
-		<dd>1</dd>
-	<dt>G2_2</dt>
-		<dd>2</dd>
-	<dt>G2_3</dt>
-		<dd>1</dd>
-	<dt>G2_4</dt>
-		<dd>3</dd>
-	<dt>G2_5</dt>
-		<dd>2</dd>
-	<dt>G2_6</dt>
-		<dd>2</dd>
-	<dt>G2_7</dt>
-		<dd>2</dd>
-	<dt>G2_8</dt>
-		<dd>2</dd>
-	<dt>G2_9</dt>
-		<dd>1</dd>
-	<dt>G2_10</dt>
-		<dd>3</dd>
-	<dt>G2_11</dt>
-		<dd>1</dd>
-	<dt>G2_12</dt>
-		<dd>3</dd>
-	<dt>G2_13</dt>
-		<dd>1</dd>
-	<dt>G2_14</dt>
-		<dd>2</dd>
-	<dt>G2_15</dt>
-		<dd>2</dd>
-	<dt>G2_16</dt>
-		<dd>1</dd>
-	<dt>G2_17</dt>
-		<dd>1</dd>
-	<dt>G2_18</dt>
-		<dd>2</dd>
-	<dt>G2_19</dt>
-		<dd>2</dd>
-	<dt>G2_20</dt>
-		<dd>2</dd>
-	<dt>G2_21</dt>
-		<dd>2</dd>
-	<dt>G2_22</dt>
-		<dd>1</dd>
-	<dt>G2_23</dt>
-		<dd>2</dd>
-	<dt>G2_24</dt>
-		<dd>2</dd>
-	<dt>G2_25</dt>
-		<dd>1</dd>
-	<dt>G2_26</dt>
-		<dd>2</dd>
-	<dt>G2_27</dt>
-		<dd>3</dd>
-	<dt>G2_28</dt>
-		<dd>2</dd>
-	<dt>G2_29</dt>
-		<dd>2</dd>
-	<dt>G2_30</dt>
-		<dd>1</dd>
-	<dt>G2_31</dt>
-		<dd>1</dd>
-	<dt>G2_32</dt>
-		<dd>1</dd>
-</dl>
+```
+	G1_1
+		1
+	G1_2
+		1
+	G1_3
+		1
+	G1_4
+		1
+	G1_5
+		1
+	G1_6
+		1
+	G1_7
+		1
+	G1_8
+		1
+	G1_9
+		1
+	G1_10
+		1
+	G1_11
+		1
+	G1_12
+		1
+	G1_13
+		1
+	G1_14
+		1
+	G1_15
+		1
+	G1_16
+		1
+	G1_17
+		1
+	G1_18
+		1
+	G1_19
+		1
+	G1_20
+		3
+	G1_21
+		1
+	G1_22
+		1
+	G1_23
+		1
+	G1_24
+		1
+	G1_25
+		1
+	G1_26
+		2
+	G1_27
+		1
+	G1_28
+		3
+	G1_29
+		1
+	G1_30
+		1
+	S_1
+		3
+	S_2
+		1
+	S_3
+		3
+	S_4
+		3
+	S_5
+		3
+	S_6
+		3
+	S_7
+		1
+	S_8
+		1
+	S_9
+		3
+	S_10
+		1
+	S_11
+		3
+	S_12
+		3
+	S_13
+		3
+	S_14
+		3
+	S_15
+		1
+	S_16
+		1
+	S_17
+		3
+	S_18
+		1
+	S_19
+		3
+	S_20
+		3
+	S_21
+		3
+	S_22
+		3
+	S_23
+		3
+	S_24
+		1
+	S_25
+		3
+	S_26
+		3
+	S_27
+		3
+	S_28
+		3
+	S_29
+		3
+	S_30
+		3
+	S_31
+		1
+	S_32
+		3
+	G2_1
+		1
+	G2_2
+		2
+	G2_3
+		1
+	G2_4
+		3
+	G2_5
+		2
+	G2_6
+		2
+	G2_7
+		2
+	G2_8
+		2
+	G2_9
+		1
+	G2_10
+		3
+	G2_11
+		1
+	G2_12
+		3
+	G2_13
+		1
+	G2_14
+		2
+	G2_15
+		2
+	G2_16
+		1
+	G2_17
+		1
+	G2_18
+		2
+	G2_19
+		2
+	G2_20
+		2
+	G2_21
+		2
+	G2_22
+		1
+	G2_23
+		2
+	G2_24
+		2
+	G2_25
+		1
+	G2_26
+		2
+	G2_27
+		3
+	G2_28
+		2
+	G2_29
+		2
+	G2_30
+		1
+	G2_31
+		1
+	G2_32
+		1
+```
 
 
 
