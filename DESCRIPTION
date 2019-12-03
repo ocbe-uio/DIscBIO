@@ -24,3 +24,7 @@ Description: An open, multi-algorithmic pipeline for easy, fast and efficient an
 License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true
+Suggests: 
+    knitr,
+    rmarkdown
+VignetteBuilder: knitr
