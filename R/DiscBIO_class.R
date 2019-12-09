@@ -1,3 +1,6 @@
+#' PSCANseq
+#' @slot slot slot slot
+#' @importFrom methods new
 PSCANseq <- setClass("PSCANseq ", slots = c(expdata   = "data.frame", ndata = "data.frame", fdata = "data.frame", 
                                     distances  = "matrix", tsne = "data.frame", background = "list", out = "list", 
                                     cpart      = "vector", fcol = "vector", filterpar = "list", clusterpar = "list", 
@@ -23,6 +26,11 @@ setValidity("PSCANseq ",
             }
             )
 
+#' @title title
+#' @description description
+#' @param .Object .Object
+#' @param expdata expdata
+#' @importFrom methods validObject
 setMethod("initialize",
           signature = "PSCANseq ",
           definition = function(.Object, expdata ){
@@ -63,7 +71,13 @@ setMethod("Normalizedata",
           }
           )
 
-
+#' @title title
+#' @description description 
+#' @export
+#' @param x x
+#' @param n n
+#' @param dsn dsn
+#' @importFrom stats aggregate
 downsample <- function(x,n,dsn){
   x <- round( x[,apply(x,2,sum,na.rm=TRUE) >= n], 0)
   nn <- min( apply(x,2,sum) )
@@ -88,10 +102,33 @@ downsample <- function(x,n,dsn){
   return(ds)
 }
 
+#' @title title
+#' @description description 
+#' @export
+#' @param x x
+#' @param method method
+#' @param ... ...
+#' @importFrom stats as.dist cor
 dist.gen <- function(x,method="euclidean", ...) if ( method %in% c("spearman","pearson","kendall") ) as.dist( 1 - cor(t(x),method=method,...) ) else dist(x,method=method,...)
 
 dist.gen.pairs <- function(x,y,...) dist.gen(t(cbind(x,y)),...)
 
+#' @title title
+#' @description description 
+#' @export
+#' @param x x
+#' @param clustnr clustnr
+#' @param bootnr bootnr
+#' @param metric metric
+#' @param do.gap do.gap
+#' @param SE.method SE.method
+#' @param SE.factor SE.factor
+#' @param B.gap B.gap
+#' @param cln cln
+#' @param rseed rseed
+#' @importFrom cluster clusGap maxSE
+#' @importFrom stats kmeans
+#' @importFrom fpc clusterboot
 clustfun <- function(x,clustnr=20,bootnr=50,metric="pearson",do.gap=TRUE,SE.method="Tibs2001SEmax",SE.factor=.25,B.gap=50,cln=0,rseed=17000)
 {
   if ( clustnr < 2) stop("Choose clustnr > 1")
@@ -100,7 +137,7 @@ clustfun <- function(x,clustnr=20,bootnr=50,metric="pearson",do.gap=TRUE,SE.meth
     gpr <- NULL
     if ( do.gap ){
       set.seed(rseed)
-      gpr <- clusGap(as.matrix(di), FUN = kmeans, K.max = clustnr, B = B.gap) 
+      gpr <- clusGap(as.matrix(di), FUNcluster = kmeans, K.max = clustnr, B = B.gap) 
       if ( cln == 0 ) cln <- maxSE(gpr$Tab[,3],gpr$Tab[,4],method=SE.method,SE.factor)
     }    
     if ( cln <= 1 ) {
@@ -153,6 +190,11 @@ setMethod("plotGap",
 
 
 setGeneric("comptSNE", function(object,rseed=15555) standardGeneric("comptSNE"))
+#' @title title
+#' @description description
+#' @param object object
+#' @param rseed rseed
+#' @importFrom tsne tsne
 setMethod("comptSNE",
           signature = "PSCANseq ",
           definition = function(object,rseed){
@@ -174,6 +216,10 @@ setMethod("comptSNE",
 
 #Silhouette 
 setGeneric("plotSilhouette", function(object,K) standardGeneric("plotSilhouette"))
+#' @title title
+#' @description description
+#' @param object object
+#' @importFrom cluster silhouette
 setMethod("plotSilhouette",
           signature = "PSCANseq ",
           definition = function(object){
@@ -190,7 +236,14 @@ setMethod("plotSilhouette",
 
 
 
-#Jaccard 
+#' @title title
+#' @description description 
+#' @export
+#' @param object object
+#' @param Clustering Clustering
+#' @importFrom IRanges distance
+#' @importFrom boot boot
+#' @importFrom graphics barplot box
 Jaccard<- function(object,Clustering) {
     JACCARD<-c()
     if ( ! ( Clustering %in% c( "K-means","MB") ) ) stop("Clustering has to be either K-means or MB")
@@ -221,6 +274,10 @@ Jaccard<- function(object,Clustering) {
 
 
 setGeneric("plottSNE", function(object) standardGeneric("plottSNE"))
+#' @title title
+#' @description description
+#' @param object object
+#' @importFrom graphics text
 setMethod("plottSNE",
           signature = "PSCANseq ",
           definition = function(object){
@@ -238,6 +295,10 @@ setMethod("plottSNE",
 
 
 setGeneric("plotKmeansLabelstSNE", function(object) standardGeneric("plotKmeansLabelstSNE"))
+#' @title title
+#' @description description
+#' @param object object
+#' @importFrom graphics text
 setMethod("plotKmeansLabelstSNE",
           signature = "PSCANseq ",
           definition = function(object){
@@ -279,7 +340,14 @@ setMethod("plotSymbolstSNE",
           )
 
 
-
+#' @title title
+#' @description description 
+#' @export
+#' @param object1 object1
+#' @param object2 object2
+#' @param types types
+#' @importFrom grDevices rainbow
+#' @importFrom graphics legend
 PCAplotSymbols= function(object1,object2,types=NULL){
 	types <- names(object2)
 	types<- gsub("_[0-9]+","",types)
@@ -299,6 +367,11 @@ PCAplotSymbols= function(object1,object2,types=NULL){
 
 setGeneric("KMclustheatmap", function(object,hmethod="single") standardGeneric("KMclustheatmap"))
 
+#' @title title
+#' @description description
+#' @param object object
+#' @param hmethod hmethod
+#' @importFrom stats hclust
 setMethod("KMclustheatmap",
           signature = "PSCANseq ",
           definition = function(object,hmethod){
@@ -346,8 +419,8 @@ setMethod("KMclustheatmap",
               points(ol,rep(0,length(ol)),col=col[cclmo[u]],pch=15,cex=.75)
               tmp <- append(tmp,mean(ol))
             }
-            axis(1,at=tmp,lab=cclmo)
-            axis(2,at=tmp,lab=cclmo)
+            axis(1,at=tmp,labels=cclmo)
+            axis(2,at=tmp,labels=cclmo)
             par(mar = c(3,2.5,2.5,2))
             image(1, ColorLevels,
                   matrix(data=ColorLevels, ncol=length(ColorLevels),nrow=1),
@@ -360,7 +433,17 @@ setMethod("KMclustheatmap",
           )
 
 
-
+#' @title title
+#' @description description 
+#' @export
+#' @param data data
+#' @param clusternum clusternum
+#' @param modelNames modelNames
+#' @param reduce reduce
+#' @param cluster cluster
+#' @importFrom mclust Mclust
+#' @importFrom stats dist prcomp lm
+#' @importFrom igraph graph.adjacency minimum.spanning.tree
 Exprmclust <- function (data, clusternum = 2:9, modelNames = "VVV", reduce = T, cluster = NULL) {
       set.seed(12345)
       if (reduce) {
@@ -400,7 +483,13 @@ Exprmclust <- function (data, clusternum = 2:9, modelNames = "VVV", reduce = T, 
 
 
 
-
+#' @title title
+#' @description description 
+#' @export
+#' @param object object
+#' @importFrom RColorBrewer brewer.pal
+#' @importFrom grDevices colorRampPalette
+#' @importFrom graphics layout par image
 PlotMBorderPCA<- function(object) {
     l <- object[,3]
     mi <- min(l,na.rm=TRUE)
@@ -475,8 +564,8 @@ setMethod("MBclustheatmap",
               points(ol,rep(0,length(ol)),col=col[cclmo[u]],pch=15,cex=.75)
               tmp <- append(tmp,mean(ol))
             }
-            axis(1,at=tmp,lab=cclmo)
-            axis(2,at=tmp,lab=cclmo)
+            axis(1,at=tmp,labels=cclmo)
+            axis(2,at=tmp,labels=cclmo)
             par(mar = c(3,2.5,2.5,2))
             image(1, ColorLevels,
                   matrix(data=ColorLevels, ncol=length(ColorLevels),nrow=1),
@@ -490,6 +579,7 @@ setMethod("MBclustheatmap",
 
 
 setGeneric("plotExptSNE", function(object,g,n="") standardGeneric("plotExptSNE"))
+
 setMethod("plotExptSNE",
           signature = "PSCANseq ",
           definition = function(object,g,n=""){
@@ -518,9 +608,21 @@ setMethod("plotExptSNE",
           }
           )
 
-
-
-
+#' @title title
+#' @description description 
+#' @export
+#' @param mclustobj mclustobj
+#' @param x x
+#' @param y y
+#' @param MSTorder MSTorder
+#' @param show_tree show_tree
+#' @param show_full_tree show_full_tree
+#' @param show_cell_names show_cell_names
+#' @param cell_name_size cell_name_size
+#' @param markerexpr markerexpr
+#' @param showcluster showcluster
+#' @importFrom ggplot2 ggplot aes geom_point aes_string scale_colour_manual geom_text geom_segment guides guide_legend xlab ylab theme element_blank element_line unit element_text element_rect
+#' @importFrom igraph get.edgelist degree get.shortest.paths
 Plotmclust <- function(mclustobj, x = 1, y = 2, MSTorder = NULL, show_tree = T, show_full_tree = F, show_cell_names = F, cell_name_size = 3, markerexpr = NULL, showcluster = T) {
       color_by = "State"
       lib_info_with_pseudo <- data.frame(State=mclustobj$clusterid,sample_name=names(mclustobj$clusterid))
@@ -610,6 +712,11 @@ Plotmclust <- function(mclustobj, x = 1, y = 2, MSTorder = NULL, show_tree = T, 
 
 
 setGeneric("comptsneMB", function(object,rseed=15555) standardGeneric("comptsneMB"))
+#' @title title
+#' @description description
+#' @param object object
+#' @param rseed rseed
+#' @importFrom tsne tsne
 setMethod("comptsneMB",
           signature = "PSCANseq ",
           definition = function(object,rseed){
@@ -626,6 +733,10 @@ setMethod("comptsneMB",
            
 
 setGeneric("plottsneMB", function(object,K) standardGeneric("plottsneMB"))
+#' @title title
+#' @description description
+#' @param object object
+#' @importFrom graphics text
 setMethod("plottsneMB",
           signature = "PSCANseq ",
           definition = function(object){
@@ -641,6 +752,10 @@ setMethod("plottsneMB",
                
 
 setGeneric("plotMBLabelstSNE", function(object) standardGeneric("plotMBLabelstSNE"))
+#' @title title
+#' @description description
+#' @param object object
+#' @importFrom graphics text
 setMethod("plotMBLabelstSNE",
           signature = "PSCANseq ",
           definition = function(object){
@@ -664,7 +779,10 @@ setMethod("plotMBLabelstSNE",
 
 
 setGeneric("plotsilhouetteMB", function(object,K) standardGeneric("plotsilhouetteMB"))
-
+#' @title title
+#' @description description
+#' @param object object
+#' @importFrom cluster silhouette
 setMethod("plotsilhouetteMB",
           signature = "PSCANseq ",
           definition = function(object){
@@ -733,6 +851,16 @@ VolcanoPlot<-function(object,Value,DEGs,fc,adj=FALSE,FS=.4){
     add_legend("topleft", legend=c(paste0("DEGs (FC < ",fc," - FDR> ",Value,")   "), paste0("DEGs (FC > ",fc," - FDR> ",Value,")"),paste0("DEGs (FC > ",fc," - FDR< ",Value,")   ")), pch=20, col=c("black", "red","blue"),horiz=TRUE, bty='n', cex=0.7)
 }
 
+#' @title title
+#' @description description 
+#' @export
+#' @param exp.df exp.df
+#' @param class.vec class.vec
+#' @param segments segments
+#' @param performance performance
+#' @param class.algo class.algo
+#' @importFrom stats predict
+#' @importFrom rpart rpart
 cross.val <- function(exp.df, class.vec, segments, performance, class.algo){
 	
 	#Start cross validation loop
@@ -813,14 +941,14 @@ MCC <- function(con.mat){
     return((TP*TN-FP*FN)/denom)
 }
 
-
-
-
-
-
-
-
-
+#' @title title
+#' @description description 
+#' @export
+#' @param object object
+#' @importFrom RWeka J48
+#' @importFrom graphics plot
+#' @importFrom partykit as.party
+#' @importFrom grid gpar
 J48DT<-function(object){
 	exp.df<-as.data.frame(t(object))
 	classVector<- factor(colnames(object))
@@ -863,7 +991,12 @@ J48DTeval<- function(object,num.folds=10,First,Second){
 
 
 
-
+#' @title title
+#' @description description 
+#' @export
+#' @param object object
+#' @importFrom rpart rpart
+#' @importFrom rpart.plot rpart.plot
 RpartDT<-function(object){
 	exp.df<-as.data.frame(t(object))
 	classVector<- factor(colnames(object))
@@ -908,7 +1041,13 @@ RpartEVAL<- function(object,num.folds=10,First,Second){
 
 
 
-
+#' @title title
+#' @description description 
+#' @export
+#' @param data data
+#' @param FileName FileName
+#' @importFrom httr content
+#' @importFrom readr read_tsv
 PPI<-function(data,FileName){
 	# Save base enpoint as variable
 	string_api_url <- "https://string-db.org/api/"
@@ -930,7 +1069,15 @@ PPI<-function(data,FileName){
 }
 
 
-
+#' @title title
+#' @description description 
+#' @export
+#' @param data data
+#' @param FileName FileName
+#' @importFrom httr GET status_code
+#' @importFrom utils download.file
+#' @importFrom png readPNG
+#' @importFrom graphics plot rasterImage
 Networking<-function(data,FileName){
 	string_api_url <- "https://string-db.org/api/"
 	output_format <- "image"
@@ -952,7 +1099,12 @@ Networking<-function(data,FileName){
 	rasterImage(Network,0,0,1,1)	
 }
 
-
+#' @title title
+#' @description description 
+#' @export
+#' @param object object
+#' @importFrom igraph graph.data.frame as_adjacency_matrix distance_table average.path.length get.adjacency V E mean_distance
+#' @importFrom NetIndices GenInd
 NetAnalysis<-function(object){
     if ( length(object[,1])<1 ) stop( "No Protein-Protein Interactions" )
     df<-object[,-c(1,2)]
@@ -981,10 +1133,21 @@ NetAnalysis<-function(object){
     return(AnalysisTable)    
 }
 
-
-
-
-
+#' @title title
+#' @description description 
+#' @export
+#' @param object object
+#' @param percentile percentile
+#' @param CV CV
+#' @param GeneList GeneList
+#' @param geneCol geneCol
+#' @param FgeneCol FgeneCol
+#' @param erccCol erccCol
+#' @param Val Val
+#' @importFrom matrixStats rowVars
+#' @importFrom stats quantile var fitted.values pchisq p.adjust
+#' @importFrom graphics plot axis abline points lines
+#' @importFrom statmod glmgam.fit
 NoiseFiltering<-function(object,percentile,CV,GeneList,geneCol,FgeneCol,erccCol,Val=TRUE){
     geneTypes <- factor( c( ENSG="ENSG", ERCC="ERCC" )[ substr( rownames(object), 1, 4 ) ] )    # Split data into sub tables based on the factor object geneTypes
     countsG1ms   <- valuesG1ms[ which( geneTypes=="ENSG" ), ]                                   # calculate normalisation for counts\n",
@@ -1077,8 +1240,13 @@ NoiseFiltering<-function(object,percentile,CV,GeneList,geneCol,FgeneCol,erccCol,
     return (genes_test)
 }
 
-
-
+#' @title title
+#' @description description 
+#' @export
+#' @param object object
+#' @param Clusters Clusters
+#' @param sampleNames sampleNames
+#' @importFrom TSCAN TSCANorder
 KmeanOrder<-function(object,Clusters,sampleNames){
 	lpsmclust <- Exprmclust(object,clusternum =4,reduce = F, cluster = Clusters)
 	lpsorder <- TSCANorder(lpsmclust)
@@ -1093,9 +1261,13 @@ KmeanOrder<-function(object,Clusters,sampleNames){
 	return(sc@kordering)
 }
 
-
-
-
+#' @title title
+#' @description description 
+#' @export
+#' @param object object
+#' @param sampleNames sampleNames
+#' @param Names Names
+#' @importFrom TSCAN TSCANorder
 MB_Order<-function(object,sampleNames,Names){
 	lpsorderMB <- TSCANorder(object)
 	orderID<-lpsorderMB
@@ -1109,6 +1281,16 @@ MB_Order<-function(object,sampleNames,Names){
 	return(sc@MBordering)
 }
 
+#' @title title
+#' @description description 
+#' @export
+#' @param object object
+#' @param Cluster_ID Cluster_ID
+#' @param K K
+#' @param First First
+#' @param Second Second
+#' @param sigDEG sigDEG
+#' @importFrom biomaRt useDataset useMart getBM
 ClassVectoringDT<- function(object,Cluster_ID,K,First,Second,sigDEG){
     SC<-PSCANseq(object)
     SC<- Normalizedata(SC)
@@ -1151,10 +1333,17 @@ ClassVectoringDT<- function(object,Cluster_ID,K,First,Second,sigDEG){
     return(DATAforDT)
 }
 
-
-
-
-
+#' @title title
+#' @description description 
+#' @export
+#' @param object object
+#' @param Cluster_ID Cluster_ID
+#' @param K K
+#' @param fdr fdr
+#' @param name name
+#' @importFrom samr samr samr.compute.delta.table samr.plot samr.compute.siggenes.table
+#' @importFrom graphics title
+#' @importFrom utils write.csv
 DEGanalysis<- function(object,Cluster_ID,K,fdr,name){
     Nam <-colnames(object)
     num<-c(1:K)
@@ -1314,14 +1503,18 @@ DEGanalysis<- function(object,Cluster_ID,K,fdr,name){
     return(list(sigDEG,DEGsTable))
 }
 
-
-
-
-
-
-
-
-
+#' @title title
+#' @description description 
+#' @export
+#' @param object object
+#' @param Cluster_ID Cluster_ID
+#' @param fdr fdr
+#' @param name name
+#' @param First First
+#' @param Second Second
+#' @importFrom samr samr samr.compute.delta.table samr.plot samr.compute.siggenes.table
+#' @importFrom graphics title
+#' @importFrom utils write.csv
 DEGanalysisM<- function(object,Cluster_ID,fdr,name,First,Second){
     Nam <-colnames(object)
     num<-c(1:K)
@@ -1443,6 +1636,16 @@ DEGanalysisM<- function(object,Cluster_ID,fdr,name,First,Second){
 
 setGeneric("FindOutliersKM", function(object,outminc=5,outlg=2,probthr=1e-3,thr=2**-(1:40),outdistquant=.75) standardGeneric("FindOutliersKM"))
 
+#' @title title
+#' @description description
+#' @param object object
+#' @param outminc outminc
+#' @param outlg outlg
+#' @param probthr probthr
+#' @param thr thr
+#' @param outdistquant outdistquant
+#' @importFrom stats coef pnbinom
+#' @importFrom amap K
 setMethod("FindOutliersKM",
           signature = "PSCANseq ",
           definition = function(object,outminc,outlg,probthr,thr,outdistquant) {
@@ -1557,7 +1760,7 @@ setMethod("FindOutliersKM",
             d <- b[2,1] - b[1,1]
             y <- 0
             for ( i in 1:max(p) ) y <- append(y,b[sum(p <=i),1] + d/2)
-            axis(1,at=(y[1:(length(y)-1)] + y[-1])/2,lab=1:max(p))
+            axis(1,at=(y[1:(length(y)-1)] + y[-1])/2,labels=1:max(p))
             box()
             cat("The following cells are considered as outlier cells:",which(object@cpart>K),"\n")
             print(which(object@cpart>K))
@@ -1575,6 +1778,15 @@ setMethod("FindOutliersKM",
 
 setGeneric("FindOutliersMB", function(object,outminc=5,outlg=2,probthr=1e-3,thr=2**-(1:40),outdistquant=.75) standardGeneric("FindOutliersMB"))
 
+#' @title title
+#' @description description
+#' @param object object
+#' @param outminc outminc
+#' @param outlg outlg
+#' @param probthr probthr
+#' @param thr thr
+#' @param outdistquant outdistquant
+#' @importFrom stats pnbinom
 setMethod("FindOutliersMB",
           signature = "PSCANseq ",
           definition = function(object,outminc,outlg,probthr,thr,outdistquant) {
@@ -1690,7 +1902,7 @@ setMethod("FindOutliersMB",
             d <- b[2,1] - b[1,1]
             y <- 0
             for ( i in 1:max(p) ) y <- append(y,b[sum(p <=i),1] + d/2)
-            axis(1,at=(y[1:(length(y)-1)] + y[-1])/2,lab=1:max(p))
+            axis(1,at=(y[1:(length(y)-1)] + y[-1])/2,labels=1:max(p))
             box()
             cat("The following cells are considered as outlier cells:",which(object@cpart>K),"\n")
             print(which(object@cpart>K))
@@ -1699,6 +1911,13 @@ setMethod("FindOutliersMB",
           }
         )
 
+#' @title title
+#' @description description 
+#' @export
+#' @param p p
+#' @param N N
+#' @param n n
+#' @importFrom stats pbinom
 binompval <- function(p,N,n){
   pval   <- pbinom(n,round(N,0),p,lower.tail=TRUE)
   pval[!is.na(pval) & pval > 0.5] <- 1-pval[!is.na(pval) & pval > 0.5]
@@ -1793,7 +2012,11 @@ setMethod("MBClustDiffGenes",
           }
           )
 
-
+#' @title title
+#' @description description
+#' @param object object
+#' @param fdr fdr
+#' @importFrom dplyr select
 setGeneric("KMClustDiffGenes", function(object,fdr=.01) standardGeneric("KMClustDiffGenes"))
 setMethod("KMClustDiffGenes",
           signature = "PSCANseq ",
@@ -1886,7 +2109,12 @@ setMethod("KMClustDiffGenes",
 
 
 
-
+#' @title title
+#' @description description 
+#' @export
+#' @param counts counts
+#' @param locfunc locfunc
+#' @importFrom stats median
 estimateSizeFactorsForMatrix = function (counts, locfunc = median){
 	loggeomeans <- rowMeans(log(counts))
 	apply(counts, 2, function(cnts) exp(locfunc((log(cnts) - loggeomeans)[is.finite(loggeomeans)])))

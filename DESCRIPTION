@@ -24,10 +24,15 @@ Description: An open, multi-algorithmic pipeline for easy, fast and efficient an
 License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true
+Imports: methods, TSCAN, boot, httr, mclust, statmod, biomaRt, samr, igraph,
+	RWeka, partykit, grid, IRanges, NetIndices, png, matrixStats, grDevices,
+	readr, RColorBrewer, ggplot2, rpart, fpc, cluster, rpart.plot, amap, dplyr,
+	tsne
 Depends:
-    R (>= 3.5)
+    R (>= 3.5),
 Suggests: 
     knitr,
-    rmarkdown
+    rmarkdown,
+	testthat
 VignetteBuilder: knitr
 RoxygenNote: 7.0.2
