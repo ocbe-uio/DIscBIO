@@ -11,6 +11,38 @@ PSCANseq
 \section{Slots}{
 
 \describe{
-\item{\code{slot}}{slot slot}
+\item{\code{expdata}}{}
+
+\item{\code{ndata}}{}
+
+\item{\code{fdata}}{}
+
+\item{\code{distances}}{}
+
+\item{\code{tsne}}{}
+
+\item{\code{background}}{}
+
+\item{\code{out}}{}
+
+\item{\code{cpart}}{}
+
+\item{\code{fcol}}{}
+
+\item{\code{filterpar}}{}
+
+\item{\code{clusterpar}}{}
+
+\item{\code{outlierpar}}{}
+
+\item{\code{kmeans}}{}
+
+\item{\code{MBclusters}}{}
+
+\item{\code{kordering}}{}
+
+\item{\code{MBordering}}{}
+
+\item{\code{MBtsne}}{}
 }}
 
