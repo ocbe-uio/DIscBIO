@@ -1,0 +1,128 @@
+#' @title title
+#' @description description 
+#' @export
+#' @param object object
+#' @param Cluster_ID Cluster_ID
+#' @param fdr fdr
+#' @param name name
+#' @param First First
+#' @param Second Second
+#' @importFrom samr samr samr.compute.delta.table samr.plot samr.compute.siggenes.table
+#' @importFrom graphics title
+#' @importFrom utils write.csv
+DEGanalysisM<- function(object,Cluster_ID,fdr,name,First,Second){
+    Nam <-colnames(object)
+    num<-c(1:K)
+    num1<- paste("CL", num, sep="")
+    for (n in num){
+        Nam<-ifelse((Cluster_ID==n),num1[n],Nam)
+    }
+    colnames(object)<-Nam
+    sg1 <- object[,which(colnames(object)==First )]
+    sg2 <- object[,which(colnames(object)==Second)]
+    sg<-cbind(sg1,sg2)
+    
+    sg3 <- factor(gsub(paste0("(",First,"|",Second,").*"), "\\1", colnames(sg)), levels = c(paste0(First), paste0(Second)))
+    sg3<-sg3[!is.na(sg3)]
+    
+    colnames(sg)<-sg3
+    len<-c(length(sg[,which(colnames(sg)==First)]),length(sg[,which(colnames(sg)==Second)]))
+    print(len)
+        y <- c(rep(1:2,len))
+        L<-as.matrix(sg)
+        gname<-rownames(sg)
+        x<-L
+        data=list(x=x,y=y, geneid=gname)
+        samr.obj<-samr(data, resp.type="Two class unpaired", assay.type="seq",nperms=100,nresamp=20,testStatistic="wilcoxon",random.seed=15)
+        delta.table <- samr.compute.delta.table(samr.obj)
+        DEGsTable<-data.frame()
+        DEGsE<-c()
+        DEGsS<-c()
+        wm<-which.min(delta.table[,5])
+        if (delta.table[wm,5]<=fdr){
+            w<-which(delta.table[,5]<= fdr)
+            delta<-delta.table[w[1],1]-0.001
+    
+            samr.plot(samr.obj, delta)
+            title(paste0("DEGs in the ",Second," in ",First," VS ",Second))
+    
+            siggenes.table<-samr.compute.siggenes.table(samr.obj,delta, data, delta.table)
+        
+            FDRl<-as.numeric(siggenes.table$genes.lo[,8])/100
+            FDRu<-as.numeric(siggenes.table$genes.up[,8])/100
+
+            siggenes.table$genes.lo[,8]<- FDRl
+            siggenes.table$genes.up[,8]<- FDRu
+    
+            DEGsTable[1,1]<-paste0(First," VS ",Second)
+            DEGsTable[1,2]<-Second
+            DEGsTable[1,3]<-length(FDRu)
+            DEGsTable[1,4]<-paste0("Up-regulated-",name,Second,"in",First,"VS",Second,".csv")
+            DEGsTable[1,5]<-length(FDRl)
+            DEGsTable[1,6]<-paste0("Low-regulated-",name,Second,"in",First,"VS",Second,".csv")
+
+            DEGsTable[2,1]<-paste0(First," VS ",Second)
+            DEGsTable[2,2]<-First
+            DEGsTable[2,3]<-length(FDRu)
+            DEGsTable[2,4]<-paste0("Low-regulated-",name,First,"in",First,"VS",Second,".csv")
+            DEGsTable[2,5]<-length(FDRl)
+            DEGsTable[2,6]<-paste0("Up-regulated-",name,First,"in",First,"VS",Second,".csv")
+    
+            if (length(FDRl)>0){
+                mart <- useDataset("hsapiens_gene_ensembl", useMart("ensembl"))
+                genes <- siggenes.table$genes.lo[,3]
+                G_list <- getBM(filters= "ensembl_gene_id", attributes= c("ensembl_gene_id","hgnc_symbol"),values=genes,mart= mart)
+                FinalDEGsL<-cbind(genes,siggenes.table$genes.lo)
+                FinalDEGsL<-merge(FinalDEGsL,G_list,by.x="genes",by.y="ensembl_gene_id")
+                FinalDEGsL[,3]<-FinalDEGsL[,10]
+                FinalDEGsL<-FinalDEGsL[,c(-1,-10)]
+                FinalDEGsL<-FinalDEGsL[order(FinalDEGsL[,8]),]
+                cat(paste0("Low-regulated genes in the ",Second," in ",First," VS ",Second,"\n"))
+        
+                write.csv(FinalDEGsL, file = paste0("Low-regulated-",name,Second,"in",First,"VS",Second,".csv"))
+                write.csv(FinalDEGsL, file = paste0("Up-regulated-",name,First,"in",First,"VS",Second,".csv"))
+                DEGsS<-c(DEGsS,FinalDEGsL[,2])
+                DEGsE<-c(DEGsE,as.character(FinalDEGsL[,3]))
+            }
+    
+            if (length(FDRu)>0){
+                mart <- useDataset("hsapiens_gene_ensembl", useMart("ensembl"))
+                genes <- siggenes.table$genes.up[,3]
+                G_list <- getBM(filters= "ensembl_gene_id", attributes= c("ensembl_gene_id","hgnc_symbol"),values=genes,mart= mart)
+                FinalDEGsU<-cbind(genes,siggenes.table$genes.up)
+                FinalDEGsU<-merge(FinalDEGsU,G_list,by.x="genes",by.y="ensembl_gene_id")
+                FinalDEGsU[,3]<-FinalDEGsU[,10]
+                FinalDEGsU<-FinalDEGsU[,c(-1,-10)]
+                FinalDEGsU<-FinalDEGsU[order(FinalDEGsU[,8]),]
+                cat(paste0("Up-regulated genes in the ",Second," in ",First," VS ",Second,"\n"))
+        
+                write.csv(FinalDEGsU, file = paste0("Up-regulated-",name,Second,"in",First,"VS",Second,".csv"))
+                write.csv(FinalDEGsU, file = paste0("Low-regulated-",name,First,"in",First,"VS",Second,".csv"))
+                DEGsS<-c(DEGsS,FinalDEGsU[,2])
+                DEGsE<-c(DEGsE,as.character(FinalDEGsU[,3]))
+            }
+
+        }else{
+            DEGsTable[1,1]<-paste0(First," VS ",Second)
+            DEGsTable[1,2]<-Second
+            DEGsTable[1,3]<-NA
+            DEGsTable[1,4]<-NA
+            DEGsTable[1,5]<-NA
+            DEGsTable[1,6]<-NA
+
+            DEGsTable[2,1]<-paste0(First," VS ",Second)
+            DEGsTable[2,2]<-First
+            DEGsTable[2,3]<-NA
+            DEGsTable[2,4]<-NA
+            DEGsTable[2,5]<-NA
+            DEGsTable[2,6]<-NA
+        }
+    
+    cat("The results of DEGs are saved in your directory","\n")
+    colnames(DEGsTable)<-c("Comparisons","Target cluster","Up-regulated genes","File name","Low-regulated genes","File name")
+    write.csv(DEGsTable, file = "DEGsTable.csv")
+    print(DEGsTable)
+    sigDEG<-cbind(DEGsE,DEGsS)
+    write.csv(sigDEG, file = "sigDEG.csv")
+    return(list(sigDEG,DEGsTable))
+}

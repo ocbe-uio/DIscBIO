@@ -1,0 +1,151 @@
+#' @title Noise Filtering
+#' @description Given a matrix or data frame of count data, this function 
+#' estimates the size factors as follows: Each column is divided by the 
+#' geometric means of the rows. The median (or, if requested, another location
+#' estimator) of these ratios (skipping the genes with a # geometric mean of
+#' zero) is used as the size factor for this column. Source: DESeq package.
+#' @param object object
+#' @param percentile percentile
+#' @param CV CV
+#' @param GeneList GeneList
+#' @param geneCol geneCol
+#' @param FgeneCol FgeneCol
+#' @param erccCol erccCol
+#' @param Val Val
+#' @param plot Generate plot?
+#' @param export Export results? 
+#' @importFrom matrixStats rowVars
+#' @importFrom stats quantile var fitted.values pchisq p.adjust
+#' @importFrom graphics plot axis abline points lines
+#' @importFrom statmod glmgam.fit
+#' @export
+NoiseFiltering <- function(object, percentile, CV, GeneList, geneCol, FgeneCol,
+                           erccCol, Val = TRUE, plot = TRUE, export = TRUE) {
+    # Split data into sub tables based on the factor object geneTypes
+    shortNames <- substr(rownames(object), 1, 4)
+    geneTypes <- factor(c(ENSG = "ENSG", ERCC = "ERCC" )[shortNames])
+
+    # calculate normalisation for counts\n",
+    countsG1ms <- valuesG1ms[which(geneTypes == "ENSG"), ]
+    countsERCC <- valuesG1ms[which( geneTypes=="ERCC" ), ]
+    sfERCC <- estimateSizeFactorsForMatrix(countsERCC)
+    sfG1ms <- estimateSizeFactorsForMatrix(countsG1ms)
+
+    # Divide columns by size factors to normalize counts
+    nCountsERCC <- t(t(countsERCC) / sfERCC)
+    nCountsG1ms <- t(t(countsG1ms) / sfG1ms)
+
+    # perform fit, define sample moments per gene
+    meansG1ms <- rowMeans(nCountsG1ms)
+    varsG1ms <- rowVars(nCountsG1ms)
+    cv2G1ms <- varsG1ms / meansG1ms ^ 2
+    meansERCC <- rowMeans(nCountsERCC)
+    varsERCC <- rowVars(nCountsERCC)
+    cv2ERCC <- varsERCC / meansERCC ^ 2
+    minMeanForFit <- unname(
+        quantile(meansERCC[which(cv2ERCC > .3)], percentile)
+    )
+
+    cat("Cut-off value for the ERCCs= ", round(minMeanForFit,digits=2), "\n\n")
+
+    #Perform the fit of technical noise strength on average count. We regress cv2HeLa on 1/meansForHeLa. We use the
+    #glmgam.fit function from the statmod package to perform the regression as a GLM fit of the gamma family with log link.
+    #The 'cbind' construct serves to produce a model matrix with an intercept.
+    useForFit <- meansERCC >= minMeanForFit
+    fit <- glmgam.fit(
+        cbind(a0 = 1, a1tilde = 1 / meansERCC[useForFit]),
+        cv2ERCC[useForFit]
+    )
+
+    cat("Coefficients of the fit:","\n")
+    print(fit$coefficients)
+    table(useForFit)  # ASK: not printed. Remove?
+
+    #To get the actual noise coefficients, we need to subtract Xi
+    xi <- mean(1 / sfERCC)
+    a0 <- unname(fit$coefficients["a0"])
+    a1 <- unname(fit$coefficients["a1tilde"] - xi)
+
+    #cat("\n","The actual noise coefficients: ",c( a0, a1 ),"\n")
+    #how much variance does the fit explain?
+    residual <- var(log(fitted.values(fit)) - log(cv2ERCC[useForFit]))
+    total <- var(log(cv2ERCC[useForFit]))
+
+    cat(
+        "Explained variances of log CV^2 values= ",
+        c(round(1 - residual / total, digits = 2)), "\n\n"
+    )
+
+    ## Pick out genes above noise line
+
+    # test which entries are above the line
+    idx_test <- cv2G1ms>(xi + a1) / meansG1ms + a0
+
+    # pick out genes that fulfil statement
+    genes_test <- gene_names2[idx_test] #pick out genes
+    genes_test <- genes_test[!is.na(genes_test)] #remove na entries
+    meansG1ms_test <- meansG1ms[idx_test] #take out mean values for fulfilled genes
+    meansG1ms_test <- meansG1ms_test[!is.na(meansG1ms_test)] #remove na entries
+    cv2G1ms_test <- cv2G1ms[idx_test] #take out cv2 values for fulfilled genes
+    cv2G1ms_test <- cv2G1ms_test[!is.na(cv2G1ms_test)] #remove na entries
+    genes_test <- genes_test[-which(sapply(genes_test, is.null))]
+    genes_test <- sapply(genes_test, paste0, collapse = "")
+
+    cat(
+        "Number of genes that passed the filtering= ",
+        length(genes_test), "\n\n"
+    )
+
+    if (export) {
+        write.csv(genes_test, file = "Noise_filtering_genes_test.csv")
+        cat("The filtered gene list was saved as: Noise_filtering_genes_test\n")
+    }
+
+    # ASK: Where is this used?
+    
+    ## test genes for variance, the following is the term Psi + a0 * Theta, that appears in the formula for Omega.
+    psia1theta <- mean(1 / sfG1ms, na.rm = TRUE) + a1 *
+        mean(sfERCC / sfG1ms,na.rm = TRUE)
+
+    # Now, we perform a one-sided test against the null hypothesis that the true variance is at most the technical variation plus biological variation with a CV of at most 50% (minBiolDisp = .52).
+    minBiolDisp <- 0.5 ^ 2
+
+    #Calculate Omega, then perform the test, using the formula given in the Online methods and in Supplementary Note 6.
+    m <- ncol(countsG1ms)
+    cv2th <- a0 + minBiolDisp + a0 * minBiolDisp
+    testDenom <- (meansG1ms * psia1theta + meansG1ms ^ 2 * cv2th) /
+        (1 + cv2th/m)
+    p <- 1 - pchisq(varsG1ms * (m - 1) / testDenom, m - 1)
+    p <- subset(p, !is.nan(p))
+
+    #Adjust for multiple testing with the Benjamini-Hochberg method, cut at 10%
+    padj <- p.adjust(p, "BH")
+
+    if (plot) {
+        plot( NULL, xaxt="n", yaxt="n",log="xy", xlim = c( 1e-1, 3e5 ), ylim = c( .005, 100 ),main="Gene filtration by accounting for technical noise",
+        xlab = "Average normalized read count", ylab = "Squared coefficient of variation (CV^2)" )
+        axis( 1, 10^(-1:5), c("0.1", "1", "10", "100", "1000", expression(10^4), expression(10^5) ) )
+        axis( 2, 10^(-2:2), c("0.01", "0.1", "1", "10", "100" ), las=2 )
+        abline( h=10^(-2:1), v=10^(-1:5), col="#D0D0D0", lwd=2 )
+        # Plot the genes, use a different color if they are highly variable
+        points( meansG1ms, cv2G1ms, pch=20, cex=.2,col = geneCol )
+
+        #highlight gene list from test
+        points( meansG1ms_test, cv2G1ms_test, pch=20, cex=.22,col= FgeneCol)
+
+        # Add the technical noise fit, as before
+        xg <- 10^seq( -2, 6, length.out=1000 )
+        lines( xg, (xi+a1)/xg + a0, col="red", lwd=5 )
+        
+        # Add the normalised ERCC points
+        if (Val){
+            points( meansERCC[useForFit], cv2ERCC[useForFit], pch=20, cex=1.5, col=erccCol ) # Showing only the valied ERCCs
+        }else{
+            points( meansERCC, cv2ERCC, pch=20, cex=2, col=erccCol) # Showing all the valied ERCCs
+        }
+        add_legend("topleft", legend=c("Noise curve","ERCC spike-ins","Genes above the noise line"), pch=c(15,20,20), 
+        col=c("red",erccCol,FgeneCol),horiz=TRUE, bty='n', cex=0.85)
+    }
+
+    return(genes_test)
+}
