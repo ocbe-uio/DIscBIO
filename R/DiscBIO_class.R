@@ -17,9 +17,12 @@
 #' @slot MBordering 
 #' @slot MBtsne     
 #' @importFrom methods new
-#' @export
+#' @name PSCANseq
+#' @rdname PSCANseq
+#' @aliases PSCANseq-class, PSCANseq-class
+#' @exportClass PSCANseq
 PSCANseq <- setClass(
-    Class = "PSCANseq ",
+    Class = "PSCANseq",
     slots = c(
         expdata    = "data.frame",
         ndata      = "data.frame",
@@ -41,8 +44,7 @@ PSCANseq <- setClass(
     )
 )
 
-#' @export
-setValidity("PSCANseq ",
+setValidity("PSCANseq",
             function(object) {
               msg <- NULL
               if ( ! is.data.frame(object@expdata) ){
@@ -66,9 +68,9 @@ setValidity("PSCANseq ",
 #' @param .Object .Object
 #' @param expdata expdata
 #' @importFrom methods validObject
-#' @export
+#' @rdname initialize
 setMethod("initialize",
-          signature = "PSCANseq ",
+          signature = "PSCANseq",
           definition = function(.Object, expdata ){
             .Object@expdata <- expdata
             .Object@ndata <- expdata
@@ -78,10 +80,22 @@ setMethod("initialize",
           }
           )
 
+#' @title title
 #' @export
+#' @rdname Normalizedata
+#' @param object object
+#' @param mintotal mintotal
+#' @param minexpr minexpr
+#' @param minnumber minnumber
+#' @param maxexpr maxexpr
+#' @param downsample downsample
+#' @param dsn dsn
+#' @param rseed rseed
 setGeneric("Normalizedata", function(object, mintotal=1000, minexpr=0, minnumber=0, maxexpr=Inf, downsample=FALSE, dsn=1, rseed=17000) standardGeneric("Normalizedata"))
+
+#' @rdname Normalizedata
 setMethod("Normalizedata",
-          signature = "PSCANseq ",
+          signature = "PSCANseq",
           definition = function(object,mintotal,minexpr,minnumber,maxexpr,downsample,dsn,rseed) {
             if ( ! is.numeric(mintotal) ) stop( "mintotal has to be a positive number" ) else if ( mintotal <= 0 ) stop( "mintotal has to be a positive number" )
             if ( ! is.numeric(minexpr) ) stop( "minexpr has to be a non-negative number" ) else if ( minexpr < 0 ) stop( "minexpr has to be a non-negative number" )
@@ -105,42 +119,73 @@ setMethod("Normalizedata",
           }
           )
 
+#' @title title
 #' @export
-setGeneric("Clustexp", function(object,clustnr=20,bootnr=50,metric="pearson",do.gap=TRUE,SE.method="Tibs2001SEmax",SE.factor=.25,B.gap=50,cln=0,rseed=17000) standardGeneric("Clustexp"))
-setMethod("Clustexp",
-          signature = "PSCANseq ",
-          definition = function(object,clustnr,bootnr,metric,do.gap,SE.method,SE.factor,B.gap,cln,rseed) {
-            if ( ! is.numeric(clustnr) ) stop("clustnr has to be a positive integer") else if ( round(clustnr) != clustnr | clustnr <= 0 ) stop("clustnr has to be a positive integer")
-            if ( ! is.numeric(bootnr) ) stop("bootnr has to be a positive integer") else if ( round(bootnr) != bootnr | bootnr <= 0 ) stop("bootnr has to be a positive integer")
-            if ( ! ( metric %in% c( "spearman","pearson","kendall","euclidean","maximum","manhattan","canberra","binary","minkowski") ) ) stop("metric has to be one of the following: spearman, pearson, kendall, euclidean, maximum, manhattan, canberra, binary, minkowski")
-            if ( ! ( SE.method %in% c( "firstSEmax","Tibs2001SEmax","globalSEmax","firstmax","globalmax") ) ) stop("SE.method has to be one of the following: firstSEmax, Tibs2001SEmax, globalSEmax, firstmax, globalmax")
-            if ( ! is.numeric(SE.factor) ) stop("SE.factor has to be a non-negative integer") else if  ( SE.factor < 0 )  stop("SE.factor has to be a non-negative integer")
-            if ( ! ( is.numeric(do.gap) | is.logical(do.gap) ) ) stop( "do.gap has to be logical (TRUE/FALSE)" )
-            if ( ! is.numeric(B.gap) ) stop("B.gap has to be a positive integer") else if ( round(B.gap) != B.gap | B.gap <= 0 ) stop("B.gap has to be a positive integer")
-            if ( ! is.numeric(cln) ) stop("cln has to be a non-negative integer") else if ( round(cln) != cln | cln < 0 ) stop("cln has to be a non-negative integer")          
-            if ( ! is.numeric(rseed) ) stop("rseed has to be numeric")
-            if ( !do.gap & cln == 0 ) stop("cln has to be a positive integer or do.gap has to be TRUE")
-            object@clusterpar <- list(clustnr=clustnr,bootnr=bootnr,metric=metric,do.gap=do.gap,SE.method=SE.method,SE.factor=SE.factor,B.gap=B.gap,cln=cln,rseed=rseed)
-            y <- clustfun(object@fdata,clustnr,bootnr,metric,do.gap,SE.method,SE.factor,B.gap,cln,rseed)
-            object@kmeans    <- list(kpart=y$clb$result$partition, jaccard=y$clb$bootmean, gap=y$gpr)
-            object@distances <- as.matrix( y$di )
-            set.seed(111111)
-            object@fcol <- sample(rainbow(max(y$clb$result$partition)))
-            return(object)
-          }
-          )
+#' @rdname Clustexp
+#' @docType methods
+#' @param object object
+#' @param clustnr clustnr
+#' @param bootnr bootnr
+#' @param metric metric
+#' @param do.gap do.gap
+#' @param SE.method SE.method
+#' @param SE.factor SE.factor
+#' @param B.gap B.gap
+#' @param cln cln
+#' @param rseed rseed
+setGeneric("Clustexp", function(object, clustnr = 20, bootnr = 50,
+                                metric = "pearson", do.gap = TRUE,
+                                SE.method = "Tibs2001SEmax", SE.factor = .25,
+                                B.gap = 50, cln = 0, rseed = 17000) {
+        standardGeneric("Clustexp")
+})
 
+#' @rdname Clustexp
+setMethod(
+    f = "Clustexp",
+    signature = "PSCANseq",
+    definition = function(object, clustnr, bootnr, metric, do.gap, SE.method,
+                          SE.factor, B.gap, cln, rseed) {
+        # Validation
+        if ( ! is.numeric(clustnr) ) stop("clustnr has to be a positive integer") else if ( round(clustnr) != clustnr | clustnr <= 0 ) stop("clustnr has to be a positive integer")
+        if ( ! is.numeric(bootnr) ) stop("bootnr has to be a positive integer") else if ( round(bootnr) != bootnr | bootnr <= 0 ) stop("bootnr has to be a positive integer")
+        if ( ! ( metric %in% c( "spearman","pearson","kendall","euclidean","maximum","manhattan","canberra","binary","minkowski") ) ) stop("metric has to be one of the following: spearman, pearson, kendall, euclidean, maximum, manhattan, canberra, binary, minkowski")
+        if ( ! ( SE.method %in% c( "firstSEmax","Tibs2001SEmax","globalSEmax","firstmax","globalmax") ) ) stop("SE.method has to be one of the following: firstSEmax, Tibs2001SEmax, globalSEmax, firstmax, globalmax")
+        if ( ! is.numeric(SE.factor) ) stop("SE.factor has to be a non-negative integer") else if  ( SE.factor < 0 )  stop("SE.factor has to be a non-negative integer")
+        if ( ! ( is.numeric(do.gap) | is.logical(do.gap) ) ) stop( "do.gap has to be logical (TRUE/FALSE)" )
+        if ( ! is.numeric(B.gap) ) stop("B.gap has to be a positive integer") else if ( round(B.gap) != B.gap | B.gap <= 0 ) stop("B.gap has to be a positive integer")
+        if ( ! is.numeric(cln) ) stop("cln has to be a non-negative integer") else if ( round(cln) != cln | cln < 0 ) stop("cln has to be a non-negative integer")          
+        if ( ! is.numeric(rseed) ) stop("rseed has to be numeric")
+        if ( !do.gap & cln == 0 ) stop("cln has to be a positive integer or do.gap has to be TRUE")
+        
+        # Operations
+        object@clusterpar <- list(clustnr=clustnr,bootnr=bootnr,metric=metric,do.gap=do.gap,SE.method=SE.method,SE.factor=SE.factor,B.gap=B.gap,cln=cln,rseed=rseed)
+        y <- clustfun(object@fdata,clustnr,bootnr,metric,do.gap,SE.method,SE.factor,B.gap,cln,rseed)
+        object@kmeans    <- list(kpart=y$clb$result$partition, jaccard=y$clb$bootmean, gap=y$gpr)
+        object@distances <- as.matrix( y$di )
+        set.seed(111111)
+        object@fcol <- sample(rainbow(max(y$clb$result$partition)))
+        return(object)
+})
+
+#' @title title
 #' @export
+#' @rdname plotGap
+#' @param object object
 setGeneric("plotGap", function(object) standardGeneric("plotGap"))
+
+#' @rdname plotGap
 setMethod("plotGap",
-          signature = "PSCANseq ",
+          signature = "PSCANseq",
           definition = function(object){
             if ( length(object@kmeans$kpart) == 0 ) stop("run clustexp before plotgap")
             plot(object@kmeans$gap,ylim=c(0.1,0.5),las=1,main="Gap Statistics")
           }
           )
 
+#' @title title
 #' @export
+#' @rdname comptSNE
 setGeneric("comptSNE", function(object,rseed=15555) standardGeneric("comptSNE"))
 
 #' @title title
@@ -148,9 +193,10 @@ setGeneric("comptSNE", function(object,rseed=15555) standardGeneric("comptSNE"))
 #' @param object object
 #' @param rseed rseed
 #' @importFrom tsne tsne
+#' @rdname comptSNE
 #' @export
 setMethod("comptSNE",
-          signature = "PSCANseq ",
+          signature = "PSCANseq",
           definition = function(object,rseed){
             if ( length(object@kmeans$kpart) == 0 ) stop("run clustexp before comptsne")
             set.seed(rseed)
@@ -168,16 +214,19 @@ setMethod("comptSNE",
 
             
 
-#Silhouette 
+#' @title title
 #' @export
+#' @rdname plotSilhouette
+#' @param K K
 setGeneric("plotSilhouette", function(object,K) standardGeneric("plotSilhouette"))
 #' @title title
 #' @description description
 #' @param object object
 #' @importFrom cluster silhouette
+#' @rdname plotSilhouette
 #' @export
 setMethod("plotSilhouette",
-          signature = "PSCANseq ",
+          signature = "PSCANseq",
           definition = function(object){
             if ( length(object@kmeans$kpart) == 0 ) stop("run clustexp before plotsilhouette")
             if ( length(unique(object@kmeans$kpart)) < 2 ) stop("only a single cluster: no silhouette plot")
@@ -190,14 +239,17 @@ setMethod("plotSilhouette",
           )
 
 #' @export
+#' @title title
+#' @rdname plottSNE
+#' @param object object
 setGeneric("plottSNE", function(object) standardGeneric("plottSNE"))
 #' @title title
 #' @description description
-#' @param object object
 #' @importFrom graphics text
+#' @rdname plotSilhouette
 #' @export
 setMethod("plottSNE",
-          signature = "PSCANseq ",
+          signature = "PSCANseq",
           definition = function(object){
             if ( length(object@tsne) == 0 ) stop("run comptsne before plottsne")
 		col=c("black","blue","green","red","yellow","gray")
@@ -210,15 +262,16 @@ setMethod("plottSNE",
           )
 
 
-
-
+#' @title title
+#' @rdname plotKmeansLabelstSNE
 setGeneric("plotKmeansLabelstSNE", function(object) standardGeneric("plotKmeansLabelstSNE"))
 #' @title title
 #' @description description
 #' @param object object
+#' @rdname plotKmeansLabelstSNE
 #' @importFrom graphics text
 setMethod("plotKmeansLabelstSNE",
-          signature = "PSCANseq ",
+          signature = "PSCANseq",
           definition = function(object){
             if ( length(object@tsne) == 0 ) stop("run comptsne before plotKmeansLabelstSNE")
             Clusters<-object@kmeans$kpart
@@ -236,12 +289,17 @@ setMethod("plotKmeansLabelstSNE",
           }
           )  
 
+#' @title title
 #' @export
+#' @rdname plotSymbolstSNE
+#' @param object object
+#' @param types types
 setGeneric("plotSymbolstSNE", function(object,types=NULL) standardGeneric("plotSymbolstSNE"))
 
 #' @export
+#' @rdname plotSymbolstSNE
 setMethod("plotSymbolstSNE",
-          signature = "PSCANseq ",
+          signature = "PSCANseq",
           definition = function(object,types){
             if ( is.null(types) ) types <- names(object@fdata)
             if ( length(object@tsne) == 0 ) stop("run comptsne before plotSymbolstSNE")
@@ -258,8 +316,9 @@ setMethod("plotSymbolstSNE",
           }
           )
 
-
+#' @title title
 #' @export
+#' @rdname KMclustheatmap
 setGeneric("KMclustheatmap", function(object,hmethod="single") standardGeneric("KMclustheatmap"))
 
 #' @title title
@@ -268,8 +327,9 @@ setGeneric("KMclustheatmap", function(object,hmethod="single") standardGeneric("
 #' @param hmethod hmethod
 #' @importFrom stats hclust
 #' @export
+#' @rdname KMclustheatmap
 setMethod("KMclustheatmap",
-          signature = "PSCANseq ",
+          signature = "PSCANseq",
           definition = function(object,hmethod){
             x <- object@fdata  
             part <- object@kmeans$kpart
@@ -328,12 +388,17 @@ setMethod("KMclustheatmap",
           }
           )
 
+#' @title title
 #' @export
+#' @rdname MBclustheatmap
+#' @param object object
+#' @param hmethod hmethod
 setGeneric("MBclustheatmap", function(object,hmethod="single") standardGeneric("MBclustheatmap"))
 
 #' @export
+#' @rdname MBclustheatmap
 setMethod("MBclustheatmap",
-          signature = "PSCANseq ",
+          signature = "PSCANseq",
           definition = function(object,hmethod){
             x <- object@fdata  
 		object@clusterpar$metric <- "pearson"
@@ -395,12 +460,18 @@ setMethod("MBclustheatmap",
           }
           )
 
+#' @title title
 #' @export
+#' @rdname plotExptSNE
+#' @param object object
+#' @param g g
+#' @param n n
 setGeneric("plotExptSNE", function(object,g,n="") standardGeneric("plotExptSNE"))
 
 #' @export
+#' @rdname plotExptSNE
 setMethod("plotExptSNE",
-          signature = "PSCANseq ",
+          signature = "PSCANseq",
           definition = function(object,g,n=""){
             if ( length(object@tsne) == 0 ) stop("run comptsne before plotExptSNE")
             if ( length(intersect(g,rownames(object@ndata))) < length(unique(g)) ) stop("second argument does not correspond to set of rownames slot ndata of SCseq object")
@@ -427,16 +498,19 @@ setMethod("plotExptSNE",
           }
           )
 
+#' @title title
 #' @export
+#' @rdname comptsneMB
 setGeneric("comptsneMB", function(object,rseed=15555) standardGeneric("comptsneMB"))
 #' @title title
 #' @description description
 #' @param object object
 #' @param rseed rseed
 #' @importFrom tsne tsne
+#' @rdname comptsneMB
 #' @export
 setMethod("comptsneMB",
-          signature = "PSCANseq ",
+          signature = "PSCANseq",
           definition = function(object,rseed){
             if ( length(object@MBclusters) == 0 ) stop("run clustexp before comptsneMB")
             set.seed(rseed)
@@ -449,15 +523,19 @@ setMethod("comptsneMB",
           }
           )
            
+#' @title title
 #' @export
+#' @rdname plottsneMB
+#' @param K K
 setGeneric("plottsneMB", function(object,K) standardGeneric("plottsneMB"))
 #' @title title
 #' @description description
 #' @param object object
 #' @importFrom graphics text
 #' @export
+#' @rdname plottsneMB
 setMethod("plottsneMB",
-          signature = "PSCANseq ",
+          signature = "PSCANseq",
           definition = function(object){
             if ( length(object@MBtsne) == 0 ) stop("run comptsneMB before plottsneMB")
 		col=c("black","blue","green","red","yellow","gray")
@@ -468,16 +546,19 @@ setMethod("plottsneMB",
             }
           }
           )    
-               
+
+#' @title title
 #' @export
+#' @rdname plotMBLabelstSNE
 setGeneric("plotMBLabelstSNE", function(object) standardGeneric("plotMBLabelstSNE"))
 #' @title title
 #' @description description
 #' @param object object
 #' @importFrom graphics text
+#' @rdname plotMBLabelstSNE
 #' @export
 setMethod("plotMBLabelstSNE",
-          signature = "PSCANseq ",
+          signature = "PSCANseq",
           definition = function(object){
             if ( length(object@MBtsne) == 0 ) stop("run comptsneMB before plotMBLabelstSNE")
             Clusters<-object@MBclusters$clusterid
@@ -495,15 +576,19 @@ setMethod("plotMBLabelstSNE",
           }
           ) 
 
+#' @title title
 #' @export
+#' @rdname plotsilhouetteMB
+#' @param K k
 setGeneric("plotsilhouetteMB", function(object,K) standardGeneric("plotsilhouetteMB"))
 #' @title title
 #' @description description
 #' @param object object
 #' @importFrom cluster silhouette
+#' @rdname plotsilhouetteMB
 #' @export
 setMethod("plotsilhouetteMB",
-          signature = "PSCANseq ",
+          signature = "PSCANseq",
           definition = function(object){
             if ( length(object@MBclusters$clusterid) == 0 ) stop("run exprmclust before plotsilhouetteMB")
             if ( length(unique(object@MBclusters$clusterid)) < 2 ) stop("only a single cluster: no silhouette plot")
@@ -515,12 +600,18 @@ setMethod("plotsilhouetteMB",
           }
           )
 
+#' @title title
 #' @export
+#' @rdname plotexptsneMB
+#' @param object object
+#' @param g g
+#' @param n n
 setGeneric("plotexptsneMB", function(object,g,n="") standardGeneric("plotexptsneMB"))
 
 #' @export
+#' @rdname plotexptsneMB
 setMethod("plotexptsneMB",
-          signature = "PSCANseq ",
+          signature = "PSCANseq",
           definition = function(object,g,n=""){
             if ( length(object@MBtsne) == 0 ) stop("run comptsneMB before plotexptsneMB")
             if ( length(intersect(g,rownames(object@ndata))) < length(unique(g)) ) stop("second argument does not correspond to set of rownames slot ndata of SCseq object")
@@ -548,7 +639,9 @@ setMethod("plotexptsneMB",
           }
           )
 
+#' @title title
 #' @export
+#' @rdname FindOutliersKM
 setGeneric("FindOutliersKM", function(object,outminc=5,outlg=2,probthr=1e-3,thr=2**-(1:40),outdistquant=.75) standardGeneric("FindOutliersKM"))
 
 #' @title title
@@ -561,9 +654,10 @@ setGeneric("FindOutliersKM", function(object,outminc=5,outlg=2,probthr=1e-3,thr=
 #' @param outdistquant outdistquant
 #' @importFrom stats coef pnbinom
 #' @importFrom amap K
+#' @rdname FindOutliersKM
 #' @export
 setMethod("FindOutliersKM",
-          signature = "PSCANseq ",
+          signature = "PSCANseq",
           definition = function(object,outminc,outlg,probthr,thr,outdistquant) {
             if ( length(object@kmeans$kpart) == 0 ) stop("run clustexp before FindOutliersKM")
             if ( ! is.numeric(outminc) ) stop("outminc has to be a non-negative integer") else if ( round(outminc) != outminc | outminc < 0 ) stop("outminc has to be a non-negative integer")
@@ -685,7 +779,9 @@ setMethod("FindOutliersKM",
           }
         )
 
+#' @title title
 #' @export
+#' @rdname FindOutliersMB
 setGeneric("FindOutliersMB", function(object,outminc=5,outlg=2,probthr=1e-3,thr=2**-(1:40),outdistquant=.75) standardGeneric("FindOutliersMB"))
 
 #' @title title
@@ -697,9 +793,10 @@ setGeneric("FindOutliersMB", function(object,outminc=5,outlg=2,probthr=1e-3,thr=
 #' @param thr thr
 #' @param outdistquant outdistquant
 #' @importFrom stats pnbinom
+#' @rdname FindOutliersMB
 #' @export
 setMethod("FindOutliersMB",
-          signature = "PSCANseq ",
+          signature = "PSCANseq",
           definition = function(object,outminc,outlg,probthr,thr,outdistquant) {
             if ( length(object@MBclusters$clusterid) == 0 ) stop("run exprmclust before FindOutliersMB")
             if ( ! is.numeric(outminc) ) stop("outminc has to be a non-negative integer") else if ( round(outminc) != outminc | outminc < 0 ) stop("outminc has to be a non-negative integer")
@@ -823,10 +920,15 @@ setMethod("FindOutliersMB",
         )
 
 #' @export
+#' @title title
+#' @rdname MBClustDiffGenes
 setGeneric("MBClustDiffGenes", function(object,fdr=.01) standardGeneric("MBClustDiffGenes"))
 #' @export
+#' @rdname MBClustDiffGenes
+#' @param object object
+#' @param fdr fdr
 setMethod("MBClustDiffGenes",
-          signature = "PSCANseq ",
+          signature = "PSCANseq",
           definition = function(object,fdr){
             if ( ! is.numeric(fdr) ) stop("pvalue has to be a number between 0 and 1") else if (  fdr < 0 | fdr > 1 ) stop("fdr has to be a number between 0 and 1")
             cdiff <- list()
@@ -915,11 +1017,13 @@ setMethod("MBClustDiffGenes",
 #' @param object object
 #' @param fdr fdr
 #' @importFrom dplyr select
+#' @rdname KMClustDiffGenes
 #' @export
 setGeneric("KMClustDiffGenes", function(object,fdr=.01) standardGeneric("KMClustDiffGenes"))
 #' @export
+#' @rdname KMClustDiffGenes
 setMethod("KMClustDiffGenes",
-          signature = "PSCANseq ",
+          signature = "PSCANseq",
           definition = function(object,fdr){
             if ( ! is.numeric(fdr) ) stop("pvalue has to be a number between 0 and 1") else if (  fdr < 0 | fdr > 1 ) stop("fdr has to be a number between 0 and 1")
             cdiff <- list()

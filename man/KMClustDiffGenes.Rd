@@ -2,9 +2,12 @@
 % Please edit documentation in R/DiscBIO_class.R
 \name{KMClustDiffGenes}
 \alias{KMClustDiffGenes}
+\alias{KMClustDiffGenes,PSCANseq-method}
 \title{title}
 \usage{
 KMClustDiffGenes(object, fdr = 0.01)
+
+\S4method{KMClustDiffGenes}{PSCANseq}(object, fdr = 0.01)
 }
 \arguments{
 \item{object}{object}
