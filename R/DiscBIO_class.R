@@ -1,12 +1,47 @@
 #' PSCANseq
-#' @slot slot slot slot
+#' @slot expdata    
+#' @slot ndata      
+#' @slot fdata      
+#' @slot distances  
+#' @slot tsne       
+#' @slot background 
+#' @slot out        
+#' @slot cpart      
+#' @slot fcol       
+#' @slot filterpar  
+#' @slot clusterpar 
+#' @slot outlierpar 
+#' @slot kmeans     
+#' @slot MBclusters 
+#' @slot kordering  
+#' @slot MBordering 
+#' @slot MBtsne     
 #' @importFrom methods new
-PSCANseq <- setClass("PSCANseq ", slots = c(expdata   = "data.frame", ndata = "data.frame", fdata = "data.frame", 
-                                    distances  = "matrix", tsne = "data.frame", background = "list", out = "list", 
-                                    cpart      = "vector", fcol = "vector", filterpar = "list", clusterpar = "list", 
-                                    outlierpar = "list", kmeans = "list",MBclusters = "vector",kordering = "vector",
-                                    MBordering = "vector" , MBtsne = "data.frame"))
+#' @export
+PSCANseq <- setClass(
+    Class = "PSCANseq ",
+    slots = c(
+        expdata    = "data.frame",
+        ndata      = "data.frame",
+        fdata      = "data.frame", 
+        distances  = "matrix",
+        tsne       = "data.frame",
+        background = "list",
+        out        = "list", 
+        cpart      = "vector",
+        fcol       = "vector",
+        filterpar  = "list",
+        clusterpar = "list", 
+        outlierpar = "list",
+        kmeans     = "list",
+        MBclusters = "vector",
+        kordering  = "vector",
+        MBordering = "vector",
+        MBtsne     = "data.frame"
+    )
+)
 
+#' @export
 setValidity("PSCANseq ",
             function(object) {
               msg <- NULL
@@ -31,6 +66,7 @@ setValidity("PSCANseq ",
 #' @param .Object .Object
 #' @param expdata expdata
 #' @importFrom methods validObject
+#' @export
 setMethod("initialize",
           signature = "PSCANseq ",
           definition = function(.Object, expdata ){
@@ -42,9 +78,7 @@ setMethod("initialize",
           }
           )
 
-
-
-
+#' @export
 setGeneric("Normalizedata", function(object, mintotal=1000, minexpr=0, minnumber=0, maxexpr=Inf, downsample=FALSE, dsn=1, rseed=17000) standardGeneric("Normalizedata"))
 setMethod("Normalizedata",
           signature = "PSCANseq ",
@@ -96,8 +130,7 @@ setMethod("Clustexp",
           }
           )
 
-
-
+#' @export
 setGeneric("plotGap", function(object) standardGeneric("plotGap"))
 setMethod("plotGap",
           signature = "PSCANseq ",
@@ -107,15 +140,15 @@ setMethod("plotGap",
           }
           )
 
-
-
-
+#' @export
 setGeneric("comptSNE", function(object,rseed=15555) standardGeneric("comptSNE"))
+
 #' @title title
 #' @description description
 #' @param object object
 #' @param rseed rseed
 #' @importFrom tsne tsne
+#' @export
 setMethod("comptSNE",
           signature = "PSCANseq ",
           definition = function(object,rseed){
@@ -136,11 +169,13 @@ setMethod("comptSNE",
             
 
 #Silhouette 
+#' @export
 setGeneric("plotSilhouette", function(object,K) standardGeneric("plotSilhouette"))
 #' @title title
 #' @description description
 #' @param object object
 #' @importFrom cluster silhouette
+#' @export
 setMethod("plotSilhouette",
           signature = "PSCANseq ",
           definition = function(object){
@@ -154,17 +189,13 @@ setMethod("plotSilhouette",
           }
           )
 
-
-
-
-    
-
-
+#' @export
 setGeneric("plottSNE", function(object) standardGeneric("plottSNE"))
 #' @title title
 #' @description description
 #' @param object object
 #' @importFrom graphics text
+#' @export
 setMethod("plottSNE",
           signature = "PSCANseq ",
           definition = function(object){
@@ -205,9 +236,10 @@ setMethod("plotKmeansLabelstSNE",
           }
           )  
 
-
-
+#' @export
 setGeneric("plotSymbolstSNE", function(object,types=NULL) standardGeneric("plotSymbolstSNE"))
+
+#' @export
 setMethod("plotSymbolstSNE",
           signature = "PSCANseq ",
           definition = function(object,types){
@@ -227,7 +259,7 @@ setMethod("plotSymbolstSNE",
           )
 
 
-
+#' @export
 setGeneric("KMclustheatmap", function(object,hmethod="single") standardGeneric("KMclustheatmap"))
 
 #' @title title
@@ -235,6 +267,7 @@ setGeneric("KMclustheatmap", function(object,hmethod="single") standardGeneric("
 #' @param object object
 #' @param hmethod hmethod
 #' @importFrom stats hclust
+#' @export
 setMethod("KMclustheatmap",
           signature = "PSCANseq ",
           definition = function(object,hmethod){
@@ -295,15 +328,10 @@ setMethod("KMclustheatmap",
           }
           )
 
-
-
-
-
-
-
-
+#' @export
 setGeneric("MBclustheatmap", function(object,hmethod="single") standardGeneric("MBclustheatmap"))
 
+#' @export
 setMethod("MBclustheatmap",
           signature = "PSCANseq ",
           definition = function(object,hmethod){
@@ -367,9 +395,10 @@ setMethod("MBclustheatmap",
           }
           )
 
-
+#' @export
 setGeneric("plotExptSNE", function(object,g,n="") standardGeneric("plotExptSNE"))
 
+#' @export
 setMethod("plotExptSNE",
           signature = "PSCANseq ",
           definition = function(object,g,n=""){
@@ -398,16 +427,14 @@ setMethod("plotExptSNE",
           }
           )
 
-
-      
-      
-            
+#' @export
 setGeneric("comptsneMB", function(object,rseed=15555) standardGeneric("comptsneMB"))
 #' @title title
 #' @description description
 #' @param object object
 #' @param rseed rseed
 #' @importFrom tsne tsne
+#' @export
 setMethod("comptsneMB",
           signature = "PSCANseq ",
           definition = function(object,rseed){
@@ -422,12 +449,13 @@ setMethod("comptsneMB",
           }
           )
            
-
+#' @export
 setGeneric("plottsneMB", function(object,K) standardGeneric("plottsneMB"))
 #' @title title
 #' @description description
 #' @param object object
 #' @importFrom graphics text
+#' @export
 setMethod("plottsneMB",
           signature = "PSCANseq ",
           definition = function(object){
@@ -441,12 +469,13 @@ setMethod("plottsneMB",
           }
           )    
                
-
+#' @export
 setGeneric("plotMBLabelstSNE", function(object) standardGeneric("plotMBLabelstSNE"))
 #' @title title
 #' @description description
 #' @param object object
 #' @importFrom graphics text
+#' @export
 setMethod("plotMBLabelstSNE",
           signature = "PSCANseq ",
           definition = function(object){
@@ -466,14 +495,13 @@ setMethod("plotMBLabelstSNE",
           }
           ) 
 
-
-
-
+#' @export
 setGeneric("plotsilhouetteMB", function(object,K) standardGeneric("plotsilhouetteMB"))
 #' @title title
 #' @description description
 #' @param object object
 #' @importFrom cluster silhouette
+#' @export
 setMethod("plotsilhouetteMB",
           signature = "PSCANseq ",
           definition = function(object){
@@ -487,8 +515,10 @@ setMethod("plotsilhouetteMB",
           }
           )
 
+#' @export
 setGeneric("plotexptsneMB", function(object,g,n="") standardGeneric("plotexptsneMB"))
 
+#' @export
 setMethod("plotexptsneMB",
           signature = "PSCANseq ",
           definition = function(object,g,n=""){
@@ -518,10 +548,7 @@ setMethod("plotexptsneMB",
           }
           )
 
-
-
-
-
+#' @export
 setGeneric("FindOutliersKM", function(object,outminc=5,outlg=2,probthr=1e-3,thr=2**-(1:40),outdistquant=.75) standardGeneric("FindOutliersKM"))
 
 #' @title title
@@ -534,6 +561,7 @@ setGeneric("FindOutliersKM", function(object,outminc=5,outlg=2,probthr=1e-3,thr=
 #' @param outdistquant outdistquant
 #' @importFrom stats coef pnbinom
 #' @importFrom amap K
+#' @export
 setMethod("FindOutliersKM",
           signature = "PSCANseq ",
           definition = function(object,outminc,outlg,probthr,thr,outdistquant) {
@@ -657,13 +685,7 @@ setMethod("FindOutliersKM",
           }
         )
 
-
-
-
-
-
-
-
+#' @export
 setGeneric("FindOutliersMB", function(object,outminc=5,outlg=2,probthr=1e-3,thr=2**-(1:40),outdistquant=.75) standardGeneric("FindOutliersMB"))
 
 #' @title title
@@ -675,6 +697,7 @@ setGeneric("FindOutliersMB", function(object,outminc=5,outlg=2,probthr=1e-3,thr=
 #' @param thr thr
 #' @param outdistquant outdistquant
 #' @importFrom stats pnbinom
+#' @export
 setMethod("FindOutliersMB",
           signature = "PSCANseq ",
           definition = function(object,outminc,outlg,probthr,thr,outdistquant) {
@@ -799,11 +822,9 @@ setMethod("FindOutliersMB",
           }
         )
 
-
-
-
-
+#' @export
 setGeneric("MBClustDiffGenes", function(object,fdr=.01) standardGeneric("MBClustDiffGenes"))
+#' @export
 setMethod("MBClustDiffGenes",
           signature = "PSCANseq ",
           definition = function(object,fdr){
@@ -894,7 +915,9 @@ setMethod("MBClustDiffGenes",
 #' @param object object
 #' @param fdr fdr
 #' @importFrom dplyr select
+#' @export
 setGeneric("KMClustDiffGenes", function(object,fdr=.01) standardGeneric("KMClustDiffGenes"))
+#' @export
 setMethod("KMClustDiffGenes",
           signature = "PSCANseq ",
           definition = function(object,fdr){
