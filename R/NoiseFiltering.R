@@ -91,7 +91,7 @@ NoiseFiltering <- function(object, percentile, CV, GeneList, geneCol, FgeneCol,
     meansG1ms_test <- meansG1ms_test[!is.na(meansG1ms_test)] #remove na entries
     cv2G1ms_test <- cv2G1ms[idx_test] #take out cv2 values for fulfilled genes
     cv2G1ms_test <- cv2G1ms_test[!is.na(cv2G1ms_test)] #remove na entries
-    genes_test <- genes_test[-which(sapply(genes_test, is.null))]
+    genes_test <- genes_test[which(!sapply(genes_test, is.null))]
     genes_test <- sapply(genes_test, paste0, collapse = "")
 
     cat(
