@@ -9,7 +9,7 @@
 \usage{
 plotSilhouette(object, K)
 
-\S4method{plotSilhouette}{PSCANseq}(object)
+\S4method{plotSilhouette}{PSCANseq}(object, K)
 
 \S4method{plottSNE}{PSCANseq}(object)
 }
