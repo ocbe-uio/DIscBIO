@@ -14,13 +14,15 @@
 #' @param Val Val
 #' @param plot Generate plot?
 #' @param export Export results? 
+#' @param quiet if `TRUE`, suppresses printed output
 #' @importFrom matrixStats rowVars
 #' @importFrom stats quantile var fitted.values pchisq p.adjust
 #' @importFrom graphics plot axis abline points lines
 #' @importFrom statmod glmgam.fit
 #' @export
 NoiseFiltering <- function(object, percentile, CV, GeneList, geneCol, FgeneCol,
-                           erccCol, Val = TRUE, plot = TRUE, export = TRUE) {
+                           erccCol, Val = TRUE, plot = TRUE, export = TRUE,
+                           quiet = FALSE) {
     # Split data into sub tables based on the factor object geneTypes
     shortNames <- substr(rownames(object), 1, 4)
     geneTypes <- factor(c(ENSG = "ENSG", ERCC = "ERCC" )[shortNames])
@@ -47,7 +49,13 @@ NoiseFiltering <- function(object, percentile, CV, GeneList, geneCol, FgeneCol,
         quantile(meansERCC[which(cv2ERCC > .3)], percentile)
     )
 
-    cat("Cut-off value for the ERCCs= ", round(minMeanForFit,digits=2), "\n\n")
+    if (!quiet) {
+        cat(
+            "Cut-off value for the ERCCs= ",
+            round(minMeanForFit, digits = 2),
+            "\n\n"
+        )
+    }
 
     #Perform the fit of technical noise strength on average count. We regress cv2HeLa on 1/meansForHeLa. We use the
     #glmgam.fit function from the statmod package to perform the regression as a GLM fit of the gamma family with log link.
@@ -58,9 +66,11 @@ NoiseFiltering <- function(object, percentile, CV, GeneList, geneCol, FgeneCol,
         cv2ERCC[useForFit]
     )
 
-    cat("Coefficients of the fit:","\n")
-    print(fit$coefficients)
-    table(useForFit)  # ASK: not printed. Remove?
+    if (!quiet) {
+        cat("Coefficients of the fit:", "\n")
+        print(fit$coefficients)
+        table(useForFit)  # ASK: not printed. Remove?
+    }
 
     #To get the actual noise coefficients, we need to subtract Xi
     xi <- mean(1 / sfERCC)
@@ -73,10 +83,13 @@ NoiseFiltering <- function(object, percentile, CV, GeneList, geneCol, FgeneCol,
     residual <- var(log(fitted.values(fit)) - log(cv2ERCC[useForFit]))
     total <- var(log(cv2ERCC[useForFit]))
 
-    cat(
-        "Explained variances of log CV^2 values= ",
-        c(round(1 - residual / total, digits = 2)), "\n\n"
-    )
+    if (!quiet) {
+        cat(
+            "Explained variances of log CV^2 values= ",
+            c(round(1 - residual / total, digits = 2)),
+            "\n\n"
+        )
+    }
 
     ## Pick out genes above noise line
 
@@ -94,10 +107,13 @@ NoiseFiltering <- function(object, percentile, CV, GeneList, geneCol, FgeneCol,
     genes_test <- genes_test[which(!sapply(genes_test, is.null))]
     genes_test <- sapply(genes_test, paste0, collapse = "")
 
-    cat(
-        "Number of genes that passed the filtering= ",
-        length(genes_test), "\n\n"
-    )
+    if (!quiet) {
+        cat(
+            "Number of genes that passed the filtering= ",
+            length(genes_test),
+            "\n\n"
+        )
+    }
 
     if (export) {
         write.csv(genes_test, file = "Noise_filtering_genes_test.csv")
