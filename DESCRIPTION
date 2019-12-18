@@ -66,6 +66,8 @@ Collate:
     'J48DTeval.R'
     'Jaccard.R'
     'KmeanOrder.R'
+    'KmeansCBI.R'
+    'Kmeansruns.R'
     'MB_Order.R'
     'NetAnalysis.R'
     'Networking.R'
