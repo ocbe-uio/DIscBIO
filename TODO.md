@@ -12,3 +12,4 @@ Ideally, the non-critical tasks below would also be addressed before release:
 - [ ] Reduce data folder size
 - [ ] Reduce doc folder size
 - [ ] Uniformize capitalization of function names and arguments
+- [ ] Remove unessential variable assignments from [test.reproduceNotebook.R](tests/testthat/test.reproduceNotebook.R)

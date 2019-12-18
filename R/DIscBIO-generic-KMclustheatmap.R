@@ -1,18 +1,19 @@
 #' @title title
 #' @export
 #' @rdname KMclustheatmap
-setGeneric("KMclustheatmap", function(object,hmethod="single") standardGeneric("KMclustheatmap"))
+setGeneric("KMclustheatmap", function(object,hmethod="single", plot = TRUE) standardGeneric("KMclustheatmap"))
 
 #' @title title
 #' @description description
 #' @param object object
 #' @param hmethod hmethod
+#' @param plot if `TRUE`, plots the heatmap; otherwise, just prints cclmo
 #' @importFrom stats hclust
 #' @export
 #' @rdname KMclustheatmap
 setMethod("KMclustheatmap",
           signature = "PSCANseq",
-          definition = function(object,hmethod){
+          definition = function(object,hmethod, plot = TRUE){
             x <- object@fdata  
             part <- object@kmeans$kpart
             na <- c()
@@ -39,33 +40,36 @@ setMethod("KMclustheatmap",
             col=c("black","blue","green","red","yellow","gray")
             mi  <- min(di,na.rm=TRUE)
             ma  <- max(di,na.rm=TRUE)
-            layout(matrix(data=c(1,3,2,4), nrow=2, ncol=2), widths=c(5,1,5,1), heights=c(5,1,1,1))
-            ColorRamp   <- colorRampPalette(brewer.pal(n = 7,name = "RdYlBu"))(100)
-            ColorLevels <- seq(mi, ma, length=length(ColorRamp))
-            if ( mi == ma ){
-              ColorLevels <- seq(0.99*mi, 1.01*ma, length=length(ColorRamp))
+            if (plot) {
+              layout(matrix(data=c(1,3,2,4), nrow=2, ncol=2), widths=c(5,1,5,1), heights=c(5,1,1,1))
+              ColorRamp   <- colorRampPalette(brewer.pal(n = 7,name = "RdYlBu"))(100)
+              ColorLevels <- seq(mi, ma, length=length(ColorRamp))
+              if ( mi == ma ){
+                ColorLevels <- seq(0.99*mi, 1.01*ma, length=length(ColorRamp))
+              }
+
+              par(mar = c(3,5,2.5,2))
+              image(as.matrix(di[ptn,ptn]),col=ColorRamp,axes=FALSE)
+              abline(0,1)
+              box()
+              
+              tmp <- c()
+              for ( u in 1:max(part) ){
+                ol <- (0:(length(part) - 1)/(length(part) - 1))[ptn %in% names(x)[part == u]]
+                points(rep(0,length(ol)),ol,col=col[cclmo[u]],pch=15,cex=.75)
+                points(ol,rep(0,length(ol)),col=col[cclmo[u]],pch=15,cex=.75)
+                tmp <- append(tmp,mean(ol))
+              }
+              axis(1,at=tmp,labels=cclmo)
+              axis(2,at=tmp,labels=cclmo)
+              par(mar = c(3,2.5,2.5,2))
+              image(1, ColorLevels,
+                    matrix(data=ColorLevels, ncol=length(ColorLevels),nrow=1),
+                    col=ColorRamp,
+                    xlab="",ylab="",las=2,
+                    xaxt="n")
+              layout(1)
             }
-            par(mar = c(3,5,2.5,2))
-            image(as.matrix(di[ptn,ptn]),col=ColorRamp,axes=FALSE)
-            abline(0,1)
-            box()
-            
-            tmp <- c()
-            for ( u in 1:max(part) ){
-              ol <- (0:(length(part) - 1)/(length(part) - 1))[ptn %in% names(x)[part == u]]
-              points(rep(0,length(ol)),ol,col=col[cclmo[u]],pch=15,cex=.75)
-              points(ol,rep(0,length(ol)),col=col[cclmo[u]],pch=15,cex=.75)
-              tmp <- append(tmp,mean(ol))
-            }
-            axis(1,at=tmp,labels=cclmo)
-            axis(2,at=tmp,labels=cclmo)
-            par(mar = c(3,2.5,2.5,2))
-            image(1, ColorLevels,
-                  matrix(data=ColorLevels, ncol=length(ColorLevels),nrow=1),
-                  col=ColorRamp,
-                  xlab="",ylab="",las=2,
-                  xaxt="n")
-            layout(1)
             return(cclmo)
           }
           )

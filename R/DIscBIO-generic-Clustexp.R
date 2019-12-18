@@ -12,10 +12,12 @@
 #' @param B.gap B.gap
 #' @param cln cln
 #' @param rseed rseed
+#' @param quiet if `TRUE`, intermediate output is suppressed
 setGeneric("Clustexp", function(object, clustnr = 20, bootnr = 50,
                                 metric = "pearson", do.gap = TRUE,
                                 SE.method = "Tibs2001SEmax", SE.factor = .25,
-                                B.gap = 50, cln = 0, rseed = 17000) {
+                                B.gap = 50, cln = 0, rseed = 17000,
+                                quiet = FALSE) {
         standardGeneric("Clustexp")
 })
 
@@ -24,7 +26,7 @@ setMethod(
     f = "Clustexp",
     signature = "PSCANseq",
     definition = function(object, clustnr, bootnr, metric, do.gap, SE.method,
-                          SE.factor, B.gap, cln, rseed) {
+                          SE.factor, B.gap, cln, rseed, quiet = FALSE) {
         # Validation
         if ( ! is.numeric(clustnr) ) stop("clustnr has to be a positive integer") else if ( round(clustnr) != clustnr | clustnr <= 0 ) stop("clustnr has to be a positive integer")
         if ( ! is.numeric(bootnr) ) stop("bootnr has to be a positive integer") else if ( round(bootnr) != bootnr | bootnr <= 0 ) stop("bootnr has to be a positive integer")
@@ -39,10 +41,10 @@ setMethod(
         
         # Operations
         object@clusterpar <- list(clustnr=clustnr,bootnr=bootnr,metric=metric,do.gap=do.gap,SE.method=SE.method,SE.factor=SE.factor,B.gap=B.gap,cln=cln,rseed=rseed)
-        y <- clustfun(object@fdata,clustnr,bootnr,metric,do.gap,SE.method,SE.factor,B.gap,cln,rseed)
+        y <- clustfun(object@fdata,clustnr,bootnr,metric,do.gap,SE.method,SE.factor,B.gap,cln,rseed, quiet = quiet)
         object@kmeans    <- list(kpart=y$clb$result$partition, jaccard=y$clb$bootmean, gap=y$gpr)
         object@distances <- as.matrix( y$di )
-        set.seed(111111)
+        set.seed(111111)  # ASK: why fix?
         object@fcol <- sample(rainbow(max(y$clb$result$partition)))
         return(object)
 })

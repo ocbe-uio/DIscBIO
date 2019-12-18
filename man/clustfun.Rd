@@ -14,7 +14,8 @@ clustfun(
   SE.factor = 0.25,
   B.gap = 50,
   cln = 0,
-  rseed = 17000
+  rseed = 17000,
+  quiet = FALSE
 )
 }
 \arguments{
@@ -37,6 +38,8 @@ clustfun(
 \item{cln}{cln}
 
 \item{rseed}{rseed}
+
+\item{quiet}{if `TRUE`, intermediate output is suppressed}
 }
 \description{
 description

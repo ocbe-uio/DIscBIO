@@ -25,7 +25,7 @@ License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true
 Imports: methods, TSCAN, boot, httr, mclust, statmod, biomaRt, samr, igraph,
-	RWeka, partykit, grid, IRanges, NetIndices, png, matrixStats, grDevices,
+	RWeka, partykit, grid, philentropy, NetIndices, png, matrixStats, grDevices,
 	readr, RColorBrewer, ggplot2, rpart, fpc, cluster, rpart.plot, amap, dplyr,
 	tsne
 Depends:
@@ -66,6 +66,8 @@ Collate:
     'J48DTeval.R'
     'Jaccard.R'
     'KmeanOrder.R'
+    'KmeansCBI.R'
+    'Kmeansruns.R'
     'MB_Order.R'
     'NetAnalysis.R'
     'Networking.R'

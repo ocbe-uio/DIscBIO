@@ -4,12 +4,16 @@
 \alias{Jaccard}
 \title{title}
 \usage{
-Jaccard(object, Clustering)
+Jaccard(object, Clustering, K, plot = TRUE)
 }
 \arguments{
 \item{object}{object}
 
 \item{Clustering}{Clustering}
+
+\item{K}{K}
+
+\item{plot}{if `TRUE`, plots the mean Jaccard similarities}
 }
 \description{
 description

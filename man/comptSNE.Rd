@@ -5,14 +5,16 @@
 \alias{comptSNE,PSCANseq-method}
 \title{title}
 \usage{
-comptSNE(object, rseed = 15555)
+comptSNE(object, rseed = 15555, quiet = FALSE)
 
-\S4method{comptSNE}{PSCANseq}(object, rseed = 15555)
+\S4method{comptSNE}{PSCANseq}(object, rseed = 15555, quiet = FALSE)
 }
 \arguments{
 \item{object}{object}
 
 \item{rseed}{rseed}
+
+\item{quiet}{if `TRUE`, suppresses intermediate output}
 }
 \description{
 description

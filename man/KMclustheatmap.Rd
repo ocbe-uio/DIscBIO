@@ -5,14 +5,16 @@
 \alias{KMclustheatmap,PSCANseq-method}
 \title{title}
 \usage{
-KMclustheatmap(object, hmethod = "single")
+KMclustheatmap(object, hmethod = "single", plot = TRUE)
 
-\S4method{KMclustheatmap}{PSCANseq}(object, hmethod = "single")
+\S4method{KMclustheatmap}{PSCANseq}(object, hmethod = "single", plot = TRUE)
 }
 \arguments{
 \item{object}{object}
 
 \item{hmethod}{hmethod}
+
+\item{plot}{if `TRUE`, plots the heatmap; otherwise, just prints cclmo}
 }
 \description{
 description
