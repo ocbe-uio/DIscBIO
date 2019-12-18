@@ -7,7 +7,8 @@ Before reaching the first stable release of DIscBIO, the following tasks must be
 
 # Wishlist for the next stable release
 
-Ideally, the tasks below would also be addressed before release:
+Ideally, the non-critical tasks below would also be addressed before release:
 
 - [ ] Reduce data folder size
 - [ ] Reduce doc folder size
+- [ ] Uniformize capitalization of function names and arguments
