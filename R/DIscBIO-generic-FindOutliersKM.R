@@ -1,7 +1,7 @@
 #' @title title
 #' @export
 #' @rdname FindOutliersKM
-setGeneric("FindOutliersKM", function(object,outminc=5,outlg=2,probthr=1e-3,thr=2**-(1:40),outdistquant=.75) standardGeneric("FindOutliersKM"))
+setGeneric("FindOutliersKM", function(object, K, outminc=5,outlg=2,probthr=1e-3,thr=2**-(1:40),outdistquant=.75) standardGeneric("FindOutliersKM"))
 
 #' @title title
 #' @description description
@@ -11,13 +11,14 @@ setGeneric("FindOutliersKM", function(object,outminc=5,outlg=2,probthr=1e-3,thr=
 #' @param probthr probthr
 #' @param thr thr
 #' @param outdistquant outdistquant
+#' @param K K
 #' @importFrom stats coef pnbinom
 #' @importFrom amap K
 #' @rdname FindOutliersKM
 #' @export
 setMethod("FindOutliersKM",
           signature = "PSCANseq",
-          definition = function(object,outminc,outlg,probthr,thr,outdistquant) {
+          definition = function(object, K, outminc,outlg,probthr,thr,outdistquant) {
             if ( length(object@kmeans$kpart) == 0 ) stop("run clustexp before FindOutliersKM")
             if ( ! is.numeric(outminc) ) stop("outminc has to be a non-negative integer") else if ( round(outminc) != outminc | outminc < 0 ) stop("outminc has to be a non-negative integer")
             if ( ! is.numeric(outlg) ) stop("outlg has to be a non-negative integer") else if ( round(outlg) != outlg | outlg < 0 ) stop("outlg has to be a non-negative integer")

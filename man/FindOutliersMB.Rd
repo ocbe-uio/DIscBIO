@@ -7,6 +7,7 @@
 \usage{
 FindOutliersMB(
   object,
+  K,
   outminc = 5,
   outlg = 2,
   probthr = 0.001,
@@ -16,6 +17,7 @@ FindOutliersMB(
 
 \S4method{FindOutliersMB}{PSCANseq}(
   object,
+  K,
   outminc = 5,
   outlg = 2,
   probthr = 0.001,
@@ -25,6 +27,8 @@ FindOutliersMB(
 }
 \arguments{
 \item{object}{object}
+
+\item{K}{K}
 
 \item{outminc}{outminc}
 

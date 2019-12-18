@@ -1,7 +1,7 @@
 #' @title title
 #' @export
 #' @rdname FindOutliersMB
-setGeneric("FindOutliersMB", function(object,outminc=5,outlg=2,probthr=1e-3,thr=2**-(1:40),outdistquant=.75) standardGeneric("FindOutliersMB"))
+setGeneric("FindOutliersMB", function(object, K, outminc=5,outlg=2,probthr=1e-3,thr=2**-(1:40),outdistquant=.75) standardGeneric("FindOutliersMB"))
 
 #' @title title
 #' @description description
@@ -11,12 +11,13 @@ setGeneric("FindOutliersMB", function(object,outminc=5,outlg=2,probthr=1e-3,thr=
 #' @param probthr probthr
 #' @param thr thr
 #' @param outdistquant outdistquant
+#' @param K K
 #' @importFrom stats pnbinom
 #' @rdname FindOutliersMB
 #' @export
 setMethod("FindOutliersMB",
           signature = "PSCANseq",
-          definition = function(object,outminc,outlg,probthr,thr,outdistquant) {
+          definition = function(object, K, outminc,outlg,probthr,thr,outdistquant) {
             if ( length(object@MBclusters$clusterid) == 0 ) stop("run exprmclust before FindOutliersMB")
             if ( ! is.numeric(outminc) ) stop("outminc has to be a non-negative integer") else if ( round(outminc) != outminc | outminc < 0 ) stop("outminc has to be a non-negative integer")
             if ( ! is.numeric(outlg) ) stop("outlg has to be a non-negative integer") else if ( round(outlg) != outlg | outlg < 0 ) stop("outlg has to be a non-negative integer")
