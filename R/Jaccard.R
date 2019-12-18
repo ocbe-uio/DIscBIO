@@ -3,17 +3,18 @@
 #' @export
 #' @param object object
 #' @param Clustering Clustering
-#' @importFrom IRanges distance
+#' @param K K
+#' @importFrom philentropy distance
 #' @importFrom boot boot
 #' @importFrom graphics barplot box
-Jaccard<- function(object,Clustering) {
+Jaccard <- function(object, Clustering, K, plot = TRUE) {
     JACCARD<-c()
     if ( ! ( Clustering %in% c( "K-means","MB") ) ) stop("Clustering has to be either K-means or MB")
     JS <- function(data, indices) {
-      d <- data[indices,]                                    # allows boot to select sample 
-      jac<-distance(t(d), method = "jaccard")
-      jac1<-1- jac
-      JSmean<- mean(jac1)
+      d <- data[indices, ] # allows boot to select sample 
+      jac <- suppressMessages(distance(t(d), method = "jaccard"))
+      jac1 <- 1 - jac
+      JSmean <- mean(jac1)
       return(JSmean)
     }
     for (i in 1:K){

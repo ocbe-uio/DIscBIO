@@ -4,12 +4,14 @@
 \alias{Jaccard}
 \title{title}
 \usage{
-Jaccard(object, Clustering)
+Jaccard(object, Clustering, K)
 }
 \arguments{
 \item{object}{object}
 
 \item{Clustering}{Clustering}
+
+\item{K}{K}
 }
 \description{
 description
