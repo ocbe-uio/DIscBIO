@@ -1,7 +1,7 @@
 #' @title title
 #' @export
 #' @rdname FindOutliersKM
-setGeneric("FindOutliersKM", function(object, K, outminc=5,outlg=2,probthr=1e-3,thr=2**-(1:40),outdistquant=.75, plot = TRUE) standardGeneric("FindOutliersKM"))
+setGeneric("FindOutliersKM", function(object, K, outminc=5,outlg=2,probthr=1e-3,thr=2**-(1:40),outdistquant=.75, plot = TRUE, quiet = FALSE) standardGeneric("FindOutliersKM"))
 
 #' @title title
 #' @description description
@@ -13,13 +13,14 @@ setGeneric("FindOutliersKM", function(object, K, outminc=5,outlg=2,probthr=1e-3,
 #' @param outdistquant outdistquant
 #' @param K K
 #' @param plot If `TRUE`, produces a plot of -log10prob per K
+#' @param quiet If `TRUE`, intermediary output is suppressed
 #' @importFrom stats coef pnbinom
 #' @importFrom amap K
 #' @rdname FindOutliersKM
 #' @export
 setMethod("FindOutliersKM",
           signature = "PSCANseq",
-          definition = function(object, K, outminc,outlg,probthr,thr,outdistquant, plot = TRUE) {
+          definition = function(object, K, outminc,outlg,probthr,thr,outdistquant, plot = TRUE, quiet = FALSE) {
             if ( length(object@kmeans$kpart) == 0 ) stop("run clustexp before FindOutliersKM")
             if ( ! is.numeric(outminc) ) stop("outminc has to be a non-negative integer") else if ( round(outminc) != outminc | outminc < 0 ) stop("outminc has to be a non-negative integer")
             if ( ! is.numeric(outlg) ) stop("outlg has to be a non-negative integer") else if ( round(outlg) != outlg | outlg < 0 ) stop("outlg has to be a non-negative integer")
@@ -134,8 +135,10 @@ setMethod("FindOutliersKM",
               axis(1,at=(y[1:(length(y)-1)] + y[-1])/2,labels=1:max(p))
               box()
           }
+          if (!quiet) {
             cat("The following cells are considered as outlier cells:",which(object@cpart>K),"\n")
             print(which(object@cpart>K))
+          }
             LL= which(object@cpart>K)  
             return(LL)
           }

@@ -4,7 +4,7 @@
 \alias{KmeanOrder}
 \title{title}
 \usage{
-KmeanOrder(object, Clusters, sampleNames)
+KmeanOrder(object, Clusters, sampleNames, quiet = FALSE, export = TRUE)
 }
 \arguments{
 \item{object}{object}
@@ -12,6 +12,10 @@ KmeanOrder(object, Clusters, sampleNames)
 \item{Clusters}{Clusters}
 
 \item{sampleNames}{sampleNames}
+
+\item{quiet}{if `TRUE`, suppresses intermediary output}
+
+\item{export}{if `TRUE`, exports order table to csv}
 }
 \description{
 description
