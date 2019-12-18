@@ -14,7 +14,8 @@ NoiseFiltering(
   erccCol,
   Val = TRUE,
   plot = TRUE,
-  export = TRUE
+  export = TRUE,
+  quiet = FALSE
 )
 }
 \arguments{
@@ -37,6 +38,8 @@ NoiseFiltering(
 \item{plot}{Generate plot?}
 
 \item{export}{Export results?}
+
+\item{quiet}{if `TRUE`, suppresses printed output}
 }
 \description{
 Given a matrix or data frame of count data, this function 

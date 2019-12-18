@@ -14,20 +14,23 @@
 #' @param Val Val
 #' @param plot Generate plot?
 #' @param export Export results? 
+#' @param quiet if `TRUE`, suppresses printed output
 #' @importFrom matrixStats rowVars
 #' @importFrom stats quantile var fitted.values pchisq p.adjust
 #' @importFrom graphics plot axis abline points lines
 #' @importFrom statmod glmgam.fit
 #' @export
 NoiseFiltering <- function(object, percentile, CV, GeneList, geneCol, FgeneCol,
-                           erccCol, Val = TRUE, plot = TRUE, export = TRUE) {
+                           erccCol, Val = TRUE, plot = TRUE, export = TRUE,
+                           quiet = FALSE) {
     # Split data into sub tables based on the factor object geneTypes
     shortNames <- substr(rownames(object), 1, 4)
     geneTypes <- factor(c(ENSG = "ENSG", ERCC = "ERCC" )[shortNames])
 
     # calculate normalisation for counts\n",
-    countsG1ms <- valuesG1ms[which(geneTypes == "ENSG"), ]
-    countsERCC <- valuesG1ms[which( geneTypes=="ERCC" ), ]
+    # TODO: "valuesG1ms" is the demo data. Transform into Object argument
+    countsG1ms <- object[which(geneTypes == "ENSG"), ]
+    countsERCC <- object[which(geneTypes == "ERCC" ), ]
     sfERCC <- estimateSizeFactorsForMatrix(countsERCC)
     sfG1ms <- estimateSizeFactorsForMatrix(countsG1ms)
 
@@ -46,7 +49,13 @@ NoiseFiltering <- function(object, percentile, CV, GeneList, geneCol, FgeneCol,
         quantile(meansERCC[which(cv2ERCC > .3)], percentile)
     )
 
-    cat("Cut-off value for the ERCCs= ", round(minMeanForFit,digits=2), "\n\n")
+    if (!quiet) {
+        cat(
+            "Cut-off value for the ERCCs= ",
+            round(minMeanForFit, digits = 2),
+            "\n\n"
+        )
+    }
 
     #Perform the fit of technical noise strength on average count. We regress cv2HeLa on 1/meansForHeLa. We use the
     #glmgam.fit function from the statmod package to perform the regression as a GLM fit of the gamma family with log link.
@@ -57,55 +66,65 @@ NoiseFiltering <- function(object, percentile, CV, GeneList, geneCol, FgeneCol,
         cv2ERCC[useForFit]
     )
 
-    cat("Coefficients of the fit:","\n")
-    print(fit$coefficients)
-    table(useForFit)  # ASK: not printed. Remove?
+    if (!quiet) {
+        cat("Coefficients of the fit:", "\n")
+        print(fit$coefficients)
+        table(useForFit)  # ASK: not printed. Remove?
+    }
 
     #To get the actual noise coefficients, we need to subtract Xi
     xi <- mean(1 / sfERCC)
     a0 <- unname(fit$coefficients["a0"])
     a1 <- unname(fit$coefficients["a1tilde"] - xi)
 
+    # ASK: add switch to print these? Otherwise, remove
     #cat("\n","The actual noise coefficients: ",c( a0, a1 ),"\n")
     #how much variance does the fit explain?
     residual <- var(log(fitted.values(fit)) - log(cv2ERCC[useForFit]))
     total <- var(log(cv2ERCC[useForFit]))
 
-    cat(
-        "Explained variances of log CV^2 values= ",
-        c(round(1 - residual / total, digits = 2)), "\n\n"
-    )
+    if (!quiet) {
+        cat(
+            "Explained variances of log CV^2 values= ",
+            c(round(1 - residual / total, digits = 2)),
+            "\n\n"
+        )
+    }
 
     ## Pick out genes above noise line
 
     # test which entries are above the line
-    idx_test <- cv2G1ms>(xi + a1) / meansG1ms + a0
+    idx_test <- cv2G1ms > (xi + a1) / meansG1ms + a0
 
-    # pick out genes that fulfil statement
-    genes_test <- gene_names2[idx_test] #pick out genes
+    # pick out genes that fulfill statement
+    # TODO: gene_names2 is test data. Generalize?
+    genes_test <- GeneList[idx_test] #pick out genes
     genes_test <- genes_test[!is.na(genes_test)] #remove na entries
     meansG1ms_test <- meansG1ms[idx_test] #take out mean values for fulfilled genes
     meansG1ms_test <- meansG1ms_test[!is.na(meansG1ms_test)] #remove na entries
     cv2G1ms_test <- cv2G1ms[idx_test] #take out cv2 values for fulfilled genes
     cv2G1ms_test <- cv2G1ms_test[!is.na(cv2G1ms_test)] #remove na entries
-    genes_test <- genes_test[-which(sapply(genes_test, is.null))]
+    genes_test <- genes_test[which(!sapply(genes_test, is.null))]
     genes_test <- sapply(genes_test, paste0, collapse = "")
 
-    cat(
-        "Number of genes that passed the filtering= ",
-        length(genes_test), "\n\n"
-    )
+    if (!quiet) {
+        cat(
+            "Number of genes that passed the filtering= ",
+            length(genes_test),
+            "\n\n"
+        )
+    }
 
     if (export) {
         write.csv(genes_test, file = "Noise_filtering_genes_test.csv")
         cat("The filtered gene list was saved as: Noise_filtering_genes_test\n")
     }
 
-    # ASK: Where is this used?
+    # ASK: Where is this (below and before plot) used?
     
     ## test genes for variance, the following is the term Psi + a0 * Theta, that appears in the formula for Omega.
     psia1theta <- mean(1 / sfG1ms, na.rm = TRUE) + a1 *
-        mean(sfERCC / sfG1ms,na.rm = TRUE)
+        mean(sfERCC / sfG1ms, na.rm = TRUE)
 
     # Now, we perform a one-sided test against the null hypothesis that the true variance is at most the technical variation plus biological variation with a CV of at most 50% (minBiolDisp = .52).
     minBiolDisp <- 0.5 ^ 2
@@ -121,6 +140,7 @@ NoiseFiltering <- function(object, percentile, CV, GeneList, geneCol, FgeneCol,
     #Adjust for multiple testing with the Benjamini-Hochberg method, cut at 10%
     padj <- p.adjust(p, "BH")
 
+    # TODO: plotting of the results should be a different function
     if (plot) {
         plot( NULL, xaxt="n", yaxt="n",log="xy", xlim = c( 1e-1, 3e5 ), ylim = c( .005, 100 ),main="Gene filtration by accounting for technical noise",
         xlab = "Average normalized read count", ylab = "Squared coefficient of variation (CV^2)" )
