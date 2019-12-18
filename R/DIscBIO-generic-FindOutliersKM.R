@@ -1,7 +1,7 @@
 #' @title title
 #' @export
 #' @rdname FindOutliersKM
-setGeneric("FindOutliersKM", function(object, K, outminc=5,outlg=2,probthr=1e-3,thr=2**-(1:40),outdistquant=.75) standardGeneric("FindOutliersKM"))
+setGeneric("FindOutliersKM", function(object, K, outminc=5,outlg=2,probthr=1e-3,thr=2**-(1:40),outdistquant=.75, plot = TRUE) standardGeneric("FindOutliersKM"))
 
 #' @title title
 #' @description description
@@ -12,13 +12,14 @@ setGeneric("FindOutliersKM", function(object, K, outminc=5,outlg=2,probthr=1e-3,
 #' @param thr thr
 #' @param outdistquant outdistquant
 #' @param K K
+#' @param plot If `TRUE`, produces a plot of -log10prob per K
 #' @importFrom stats coef pnbinom
 #' @importFrom amap K
 #' @rdname FindOutliersKM
 #' @export
 setMethod("FindOutliersKM",
           signature = "PSCANseq",
-          definition = function(object, K, outminc,outlg,probthr,thr,outdistquant) {
+          definition = function(object, K, outminc,outlg,probthr,thr,outdistquant, plot = TRUE) {
             if ( length(object@kmeans$kpart) == 0 ) stop("run clustexp before FindOutliersKM")
             if ( ! is.numeric(outminc) ) stop("outminc has to be a non-negative integer") else if ( round(outminc) != outminc | outminc < 0 ) stop("outminc has to be a non-negative integer")
             if ( ! is.numeric(outlg) ) stop("outlg has to be a non-negative integer") else if ( round(outlg) != outlg | outlg < 0 ) stop("outlg has to be a non-negative integer")
@@ -120,18 +121,19 @@ setMethod("FindOutliersKM",
                            p <- object@kmeans$kpart[ order(object@kmeans$kpart,decreasing=FALSE)]
             x <- object@out$cprobs[names(p)]
             fcol <- c("black","blue","green","red","yellow","gray")
-
-            for ( i in 1:max(p) ){
-              y <- -log10(x + 2.2e-16)
-              y[p != i] <- 0
-              if ( i == 1 ) b <- barplot(y,ylim=c(0,max(-log10(x + 2.2e-16))*1.1),col=fcol[i],border=fcol[i],names.arg=FALSE,ylab="-log10prob") else barplot(y,add=TRUE,col=fcol[i],border=fcol[i],names.arg=FALSE,axes=FALSE)
-  }
-            abline(-log10(object@outlierpar$probthr),0,col="black",lty=2)
-            d <- b[2,1] - b[1,1]
-            y <- 0
-            for ( i in 1:max(p) ) y <- append(y,b[sum(p <=i),1] + d/2)
-            axis(1,at=(y[1:(length(y)-1)] + y[-1])/2,labels=1:max(p))
-            box()
+          if (plot) {
+              for ( i in 1:max(p) ){
+                y <- -log10(x + 2.2e-16)
+                y[p != i] <- 0
+                if ( i == 1 ) b <- barplot(y,ylim=c(0,max(-log10(x + 2.2e-16))*1.1),col=fcol[i],border=fcol[i],names.arg=FALSE,ylab="-log10prob") else barplot(y,add=TRUE,col=fcol[i],border=fcol[i],names.arg=FALSE,axes=FALSE)
+    }
+              abline(-log10(object@outlierpar$probthr),0,col="black",lty=2)
+              d <- b[2,1] - b[1,1]
+              y <- 0
+              for ( i in 1:max(p) ) y <- append(y,b[sum(p <=i),1] + d/2)
+              axis(1,at=(y[1:(length(y)-1)] + y[-1])/2,labels=1:max(p))
+              box()
+          }
             cat("The following cells are considered as outlier cells:",which(object@cpart>K),"\n")
             print(which(object@cpart>K))
             LL= which(object@cpart>K)  

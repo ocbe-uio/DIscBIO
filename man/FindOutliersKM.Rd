@@ -12,7 +12,8 @@ FindOutliersKM(
   outlg = 2,
   probthr = 0.001,
   thr = 2^-(1:40),
-  outdistquant = 0.75
+  outdistquant = 0.75,
+  plot = TRUE
 )
 
 \S4method{FindOutliersKM}{PSCANseq}(
@@ -22,7 +23,8 @@ FindOutliersKM(
   outlg = 2,
   probthr = 0.001,
   thr = 2^-(1:40),
-  outdistquant = 0.75
+  outdistquant = 0.75,
+  plot = TRUE
 )
 }
 \arguments{
@@ -39,6 +41,8 @@ FindOutliersKM(
 \item{thr}{thr}
 
 \item{outdistquant}{outdistquant}
+
+\item{plot}{If `TRUE`, produces a plot of -log10prob per K}
 }
 \description{
 description
