@@ -17,6 +17,10 @@ There is also a standalone, interactive Jupyter notebook demo of DIscBIO on Bind
 
 Please realize that this branch of DIscBIO is under active development and may not work as expected.
 
+# Development
+
+DIscBIO is Open Source software licensed under the [MIT license](https://tldrlegal.com/license/mit-license), so all contributions are welcome. Please read the [TODO.md](TODO.md) document for a list of issues we are currently working on for the next stable release of the package.
+
 # Reference
 
 DIscBIO:a user-friendly pipeline for biomarker discovery in single-cell transcriptomics

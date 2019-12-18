@@ -26,8 +26,9 @@ NoiseFiltering <- function(object, percentile, CV, GeneList, geneCol, FgeneCol,
     geneTypes <- factor(c(ENSG = "ENSG", ERCC = "ERCC" )[shortNames])
 
     # calculate normalisation for counts\n",
-    countsG1ms <- valuesG1ms[which(geneTypes == "ENSG"), ]
-    countsERCC <- valuesG1ms[which( geneTypes=="ERCC" ), ]
+    # TODO: "valuesG1ms" is the demo data. Transform into Object argument
+    countsG1ms <- object[which(geneTypes == "ENSG"), ]
+    countsERCC <- object[which(geneTypes == "ERCC" ), ]
     sfERCC <- estimateSizeFactorsForMatrix(countsERCC)
     sfG1ms <- estimateSizeFactorsForMatrix(countsG1ms)
 
@@ -66,6 +67,7 @@ NoiseFiltering <- function(object, percentile, CV, GeneList, geneCol, FgeneCol,
     a0 <- unname(fit$coefficients["a0"])
     a1 <- unname(fit$coefficients["a1tilde"] - xi)
 
+    # ASK: add switch to print these? Otherwise, remove
     #cat("\n","The actual noise coefficients: ",c( a0, a1 ),"\n")
     #how much variance does the fit explain?
     residual <- var(log(fitted.values(fit)) - log(cv2ERCC[useForFit]))
@@ -79,10 +81,11 @@ NoiseFiltering <- function(object, percentile, CV, GeneList, geneCol, FgeneCol,
     ## Pick out genes above noise line
 
     # test which entries are above the line
-    idx_test <- cv2G1ms>(xi + a1) / meansG1ms + a0
+    idx_test <- cv2G1ms > (xi + a1) / meansG1ms + a0
 
-    # pick out genes that fulfil statement
-    genes_test <- gene_names2[idx_test] #pick out genes
+    # pick out genes that fulfill statement
+    # TODO: gene_names2 is test data. Generalize?
+    genes_test <- GeneList[idx_test] #pick out genes
     genes_test <- genes_test[!is.na(genes_test)] #remove na entries
     meansG1ms_test <- meansG1ms[idx_test] #take out mean values for fulfilled genes
     meansG1ms_test <- meansG1ms_test[!is.na(meansG1ms_test)] #remove na entries
@@ -101,11 +104,11 @@ NoiseFiltering <- function(object, percentile, CV, GeneList, geneCol, FgeneCol,
         cat("The filtered gene list was saved as: Noise_filtering_genes_test\n")
     }
 
-    # ASK: Where is this used?
+    # ASK: Where is this (below and before plot) used?
     
     ## test genes for variance, the following is the term Psi + a0 * Theta, that appears in the formula for Omega.
     psia1theta <- mean(1 / sfG1ms, na.rm = TRUE) + a1 *
-        mean(sfERCC / sfG1ms,na.rm = TRUE)
+        mean(sfERCC / sfG1ms, na.rm = TRUE)
 
     # Now, we perform a one-sided test against the null hypothesis that the true variance is at most the technical variation plus biological variation with a CV of at most 50% (minBiolDisp = .52).
     minBiolDisp <- 0.5 ^ 2
@@ -121,6 +124,7 @@ NoiseFiltering <- function(object, percentile, CV, GeneList, geneCol, FgeneCol,
     #Adjust for multiple testing with the Benjamini-Hochberg method, cut at 10%
     padj <- p.adjust(p, "BH")
 
+    # TODO: plotting of the results should be a different function
     if (plot) {
         plot( NULL, xaxt="n", yaxt="n",log="xy", xlim = c( 1e-1, 3e5 ), ylim = c( .005, 100 ),main="Gene filtration by accounting for technical noise",
         xlab = "Average normalized read count", ylab = "Squared coefficient of variation (CV^2)" )
