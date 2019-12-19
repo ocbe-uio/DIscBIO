@@ -1,5 +1,6 @@
 # DIscBIO
-A user-friendly pipeline for biomarker discovery in single-cell transcriptomics
+
+A user-friendly pipeline for biomarker discovery in single-cell transcriptomics.
 
 This is an R package based on the software available at https://github.com/SystemsBiologist/PSCAN.
 
@@ -13,9 +14,9 @@ remotes::install_github("ocbe-uio/DIscBIO", "dev")
 
 on an interactive R session.
 
-There is also a standalone, interactive Jupyter notebook demo of DIscBIO on Binder, which you can access by clicking [here](https://mybinder.org/v2/gh/SystemsBiologist/PSCAN/discbio-pub?filepath=DIscBIO.ipynb).
+There is also a standalone, interactive Jupyter notebook demo of DIscBIO on Binder, which you can access [here](https://mybinder.org/v2/gh/SystemsBiologist/PSCAN/discbio-pub?filepath=DIscBIO.ipynb).
 
-Please realize that this branch of DIscBIO is under active development and may not work as expected.
+Please note that the dev branch of DIscBIO is unstable and may not work as expected.
 
 # Development
 
@@ -23,6 +24,6 @@ DIscBIO is Open Source software licensed under the [MIT license](https://tldrleg
 
 # Reference
 
-DIscBIO:a user-friendly pipeline for biomarker discovery in single-cell transcriptomics
-Salim Ghannoum, Benjamin Ragan-Kelley, Emma Jonasson, Anders Ståhlberg, Alvaro Köhn-Luque
+*DIscBIO:a user-friendly pipeline for biomarker discovery in single-cell transcriptomics*<br>
+Salim Ghannoum, Benjamin Ragan-Kelley, Emma Jonasson, Anders Ståhlberg, Alvaro Köhn-Luque<br>
 bioRxiv 700989; doi: https://doi.org/10.1101/700989
