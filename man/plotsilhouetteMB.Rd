@@ -7,12 +7,12 @@
 \usage{
 plotsilhouetteMB(object, K)
 
-\S4method{plotsilhouetteMB}{PSCANseq}(object)
+\S4method{plotsilhouetteMB}{PSCANseq}(object, K)
 }
 \arguments{
 \item{object}{object}
 
-\item{K}{k}
+\item{K}{K}
 }
 \description{
 description

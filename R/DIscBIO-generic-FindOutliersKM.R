@@ -12,8 +12,8 @@ setGeneric("FindOutliersKM", function(object, K, outminc=5,outlg=2,probthr=1e-3,
 #' @param thr thr
 #' @param outdistquant outdistquant
 #' @param K K
-#' @param plot If `TRUE`, produces a plot of -log10prob per K
-#' @param quiet If `TRUE`, intermediary output is suppressed
+#' @param plot if `TRUE`, produces a plot of -log10prob per K
+#' @param quiet if `TRUE`, intermediary output is suppressed
 #' @importFrom stats coef pnbinom
 #' @importFrom amap K
 #' @rdname FindOutliersKM

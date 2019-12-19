@@ -4,7 +4,7 @@
 \alias{MB_Order}
 \title{title}
 \usage{
-MB_Order(object, sampleNames, Names)
+MB_Order(object, sampleNames, Names, quiet = FALSE, export = TRUE)
 }
 \arguments{
 \item{object}{object}
@@ -12,6 +12,10 @@ MB_Order(object, sampleNames, Names)
 \item{sampleNames}{sampleNames}
 
 \item{Names}{Names}
+
+\item{quiet}{if `TRUE`, intermediary output is suppressed}
+
+\item{export}{if `TRUE`, exports the results as a CSV file}
 }
 \description{
 description

@@ -1,6 +1,7 @@
 # This test makes sure the package works with respect to the interactive notebook
-
-context("Reproducing Jupyter notebook: loading and pre-processing")
+# TODO: optimize to save time: eliminate redundant code. Shorten replications?
+# TODO: investigate all those associations to sc. Maybe they should be parts of functions.
+context("Reproducing notebook: loading and pre-processing")
 
 # Loading datasets =============================================================
 test_that("Loading datasets generate the expected output", {
@@ -64,7 +65,7 @@ test_that("Data pre-processing results are reproduced", {
 
 # 2. Cellular Clustering and Pseudo Time ordering ==============================
 
-context("Reproducing Jupyter notebook: cell clusters and pseudo-time ordering")
+context("Reproducing notebook: cell clusters and pseudo-time ordering")
 
 K <- 3  # Number of Clusters
 sc_temp <- Clustexp(
@@ -77,11 +78,10 @@ Clusters <- sc@kmeans$kpart
 KmeansClusters <- Clusters # To be used for defining DEGs
 AllClusters <- sc@cpart
 sc@cpart <- Clusters
-Clustering <- "K-means" # Jaccard of k-means clusters
 
 # The cell will be considered as an outlier if it has a minimum of 0.5% of the number of filtered genes as outlier genes.
 outlg <- round(length(sc@fdata[, 1]) / 200)
-Outliers <- FindOutliersKM(
+OutliersKM <- FindOutliersKM(
     object = sc, K = K, outminc = 5, outlg = outlg, probthr = .5 * 1e-3,
     thr = 2**-(1:40), outdistquant = 1, plot = FALSE, quiet = TRUE
 )
@@ -114,14 +114,104 @@ rownames(sc@ndata)[nrow(sc@ndata)] <- "Pseudo-time ordering of Kmeans clustering
 g <- rownames(sc@ndata)[nrow(sc@ndata)]
 # plotExptSNE(sc, g)
 
+procdataTSCAN <- sc@fdata
+lpsmclustMB <- Exprmclust(
+    procdataTSCAN, clusternum = K, reduce = T, quiet = TRUE
+)
+MBClusters <- lpsmclustMB$clusterid   # To be used for defining DEGs
+sc@MBclusters <- MBClusters
+
+# Plotmclust(lpsmclustMB)
+# PCAplotSymbols(lpsmclustMB$pcareduceres,sc@fdata)
+
+# Plotting the model-based clusters in tSNE maps
+sc@MBclusters <- lpsmclustMB
+sc <- comptsneMB(sc, rseed = 15555, quiet = TRUE)
+# plottsneMB(sc)
+# plotMBLabelstSNE(sc)
+sc@MBclusters <- lpsmclustMB
+# plotsilhouetteMB(sc, K)
+
+outlg <- round(length(sc@fdata[, 1]) / 100)     # The cell will be considered as an outlier if it has a minimum of 0.5% of the number of filtered genes as outlier genes. 
+OutliersMB <- FindOutliersMB(sc, K, outminc=5,outlg=outlg,probthr=.5*1e-3,thr=2**-(1:40),outdistquant=1, plot = FALSE, quiet = TRUE) # ASK: relies on sc having @MBclusters (see lines above). Should this be another argument? Otherwise, function fails.
+
+# RemovingOutliers=FALSE     
+# # RemovingOutliers=TRUE                    # Removing the defined outlier cells based on Model-Based Clustering
+
+# if(RemovingOutliers==TRUE){
+#     names(Outliers)=NULL
+#     Outliers
+#     valuesG1ms=valuesG1ms[-Outliers]
+#     MLSrawWithoutERCC=MLSrawWithoutERCC[-Outliers]
+
+#     dim(valuesG1ms)
+#     dim(MLSrawWithoutERCC)
+
+#     colnames(valuesG1ms)
+#     colnames(MLSrawWithoutERCC)
+#     cat("Outlier cells were removed, now you need to start from the beginning")
+# }
+
+sampleNames <- colnames(procdataTSCAN)
+sc@MBclusters <- lpsmclustMB
+
+Names <- names(sc@MBclusters$clusterid)
+
+MBorder <- MB_Order(lpsmclustMB, sampleNames, Names, export = FALSE, quiet = TRUE)
+sc@MBordering <- MBorder
+MBordertable <- cbind(lpsmclustMB$pcareduceres, MBorder)
+# PlotMBorderPCA(MBordertable)
+sc@ndata <- rbind(sc@ndata, sc@MBordering)
+rownames(sc@ndata)[nrow(sc@ndata)] <- "Pseudo-time ordering of MBclustering"     # in case the user wanted to repeat this step the name: "Pseudo-time ordering of MBclustering" should be change each time.
+g <- rownames(sc@ndata)[nrow(sc@ndata)]
+# plotexptsneMB(sc, g)
+
 test_that("Reproduced cellular clustering and pseudo time ordering", {
     expect_output(str(sc_temp@expdata), "59746 obs. of  94 variables")
     expect_equal(as.numeric(table(Clusters)), c(29, 50, 15))
-    # ASK: are these differences justifiable?
     expect_equivalent(
-        object = Jaccard(sc, Clustering, K, plot = FALSE),
-        expected = c(.671, .768, .681),
-        tolerance = 0.01)
-    expect_equal(as.numeric(Outliers), c(1, 13, 22))
+        object = Jaccard(sc, "K-means", K, plot = FALSE),
+        expected = c(.671, .768, .681), # ASK: are differences justifiable?
+        tolerance = 0.01
+    )
+    expect_equivalent(
+        object = Jaccard(sc, "MB", K, plot = FALSE),
+        expected = c(.660, .766, .812),
+        tolerance = 0.01
+    )
+    expect_equal(as.numeric(OutliersKM), c(1, 13, 22))
+    expect_equal(as.numeric(OutliersMB), vector("double"))
     expect_equal(KMclustheatmap(sc, plot = FALSE), c(3, 1, 2))
+    expect_equal(MBclustheatmap(sc, plot = FALSE, quiet = TRUE), c(2, 1, 3))
+    expect_equal(
+        object = as.numeric(MBClusters),
+        expected = c(
+            1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 3, 1, 1, 1,
+            1, 1, 2, 1, 3, 1, 1, 3, 1, 3, 3, 3, 3, 1, 1, 3, 1, 3, 3, 3, 3, 1, 1,
+            3, 1, 3, 3, 3, 3, 3, 1, 3, 3, 3, 3, 3, 3, 1, 3, 1, 2, 1, 3, 2, 2, 2,
+            2, 1, 3, 1, 3, 1, 2, 2, 1, 1, 2, 2, 2, 2, 1, 2, 2, 1, 2, 3, 2, 2, 1,
+            1, 1
+        )
+    )
+    expect_equal(
+        object = MBorder,
+        expected = c(
+            39, 29, 56, 35, 25, 52, 54, 23, 37, 26, 48, 46, 40, 38, 49, 33, 18,
+            44, 47, 70, 32, 36, 57, 42, 53, 6, 27, 71, 41, 34, 88, 64, 94, 86,
+            76, 72, 51, 59, 68, 60, 84, 78, 89, 79, 61, 63, 81, 58, 92, 80, 93,
+            85, 83, 62, 69, 77, 67, 75, 90, 82, 65, 73, 19, 17, 50, 91, 7, 11,
+            15, 12, 28, 66, 20, 87, 21, 4, 3, 45, 43, 2, 8, 5, 1, 55, 9, 10, 24,
+            14, 74, 16, 13, 22, 30, 31
+        )
+    )
+})
+
+context("Reproducing notebook: determining (DEGs)")
+
+context("Reproducing notebook: identifying biomarkers")
+
+context("Reproducing notebook: final results")
+
+test_that("Final objects are the same", {
+    # TODO: add tests from results in ls.str() or something
 })

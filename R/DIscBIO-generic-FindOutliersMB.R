@@ -1,7 +1,15 @@
 #' @title title
 #' @export
 #' @rdname FindOutliersMB
-setGeneric("FindOutliersMB", function(object, K, outminc=5,outlg=2,probthr=1e-3,thr=2**-(1:40),outdistquant=.75) standardGeneric("FindOutliersMB"))
+setGeneric(
+  name = "FindOutliersMB",
+  def = function(
+    object, K, outminc = 5, outlg = 2, probthr = 1e-3, thr = 2**-(1:40),
+    outdistquant = .75, plot = TRUE, quiet = FALSE
+    ) {
+      standardGeneric("FindOutliersMB")
+    }
+)
 
 #' @title title
 #' @description description
@@ -12,59 +20,101 @@ setGeneric("FindOutliersMB", function(object, K, outminc=5,outlg=2,probthr=1e-3,
 #' @param thr thr
 #' @param outdistquant outdistquant
 #' @param K K
+#' @param plot If `TRUE`, produces a plot of -log10prob per K
+#' @param quiet If `TRUE`, intermediary output is suppressed
 #' @importFrom stats pnbinom
 #' @rdname FindOutliersMB
 #' @export
-setMethod("FindOutliersMB",
-          signature = "PSCANseq",
-          definition = function(object, K, outminc,outlg,probthr,thr,outdistquant) {
-            if ( length(object@MBclusters$clusterid) == 0 ) stop("run exprmclust before FindOutliersMB")
-            if ( ! is.numeric(outminc) ) stop("outminc has to be a non-negative integer") else if ( round(outminc) != outminc | outminc < 0 ) stop("outminc has to be a non-negative integer")
-            if ( ! is.numeric(outlg) ) stop("outlg has to be a non-negative integer") else if ( round(outlg) != outlg | outlg < 0 ) stop("outlg has to be a non-negative integer")
-            if ( ! is.numeric(probthr) ) stop("probthr has to be a number between 0 and 1") else if (  probthr < 0 | probthr > 1 ) stop("probthr has to be a number between 0 and 1")
-            if ( ! is.numeric(thr) ) stop("thr hast to be a vector of numbers between 0 and 1") else if ( min(thr) < 0 | max(thr) > 1 ) stop("thr hast to be a vector of numbers between 0 and 1")
-            if ( ! is.numeric(outdistquant) ) stop("outdistquant has to be a number between 0 and 1") else if (  outdistquant < 0 | outdistquant > 1 ) stop("outdistquant has to be a number between 0 and 1")
-            object<- Clustexp(object, clustnr=20,bootnr=50,metric="pearson",do.gap=T,SE.method="Tibs2001SEmax",SE.factor=.25,B.gap=50,cln=K,rseed=17000)
-			object@outlierpar <- list( outminc=outminc,outlg=outlg,probthr=probthr,thr=thr,outdistquant=outdistquant )
+setMethod(
+  f = "FindOutliersMB",
+  signature = "PSCANseq",
+  definition = function(
+    object, K, outminc, outlg, probthr, thr, outdistquant, plot = TRUE,
+    quiet = FALSE
+  ) {
+    if (length(object@MBclusters$clusterid) == 0) {
+      stop("run exprmclust before FindOutliersMB")
+    }
+    if (!is.numeric(outminc)) {
+      stop("outminc has to be a non-negative integer")
+    } else if (round(outminc) != outminc | outminc < 0) {
+      stop("outminc has to be a non-negative integer")
+    }
+    if (!is.numeric(outlg)) {
+      stop("outlg has to be a non-negative integer")
+    } else if (round(outlg) != outlg | outlg < 0) {
+      stop("outlg has to be a non-negative integer")
+    }
+    if (!is.numeric(probthr)) {
+      stop("probthr has to be a number between 0 and 1")
+    } else if (probthr < 0 | probthr > 1) {
+      stop("probthr has to be a number between 0 and 1")
+    }
+    if (!is.numeric(thr)) {
+      stop("thr hast to be a vector of numbers between 0 and 1")
+    } else if (min(thr) < 0 | max(thr) > 1) {
+      stop("thr hast to be a vector of numbers between 0 and 1")
+    }
+    if (!is.numeric(outdistquant)) {
+      stop("outdistquant has to be a number between 0 and 1")
+    } else if (outdistquant < 0 | outdistquant > 1) {
+      stop("outdistquant has to be a number between 0 and 1")
+    }
+    object <- Clustexp(
+      object, clustnr = 20, bootnr = 50, metric = "pearson", do.gap = T,
+      SE.method = "Tibs2001SEmax", SE.factor = .25, B.gap = 50, cln = K,
+      rseed = 17000, quiet = quiet
+    )
+    object@outlierpar <- list(
+      outminc = outminc, outlg = outlg, probthr = probthr, thr = thr,
+      outdistquant = outdistquant
+    )
             
-			### calibrate background model
-            m <- log2(apply(object@fdata,1,mean))
-            v <- log2(apply(object@fdata,1,var))
-            f <- m > -Inf & v > -Inf
-            m <- m[f]
-            v <- v[f]
-            mm <- -8
-            repeat{
-              fit <- lm(v ~ m + I(m^2)) 
-              if( coef(fit)[3] >= 0 | mm >= 3){
-                break
-              }
-              mm <- mm + .5
-              f <- m > mm
-              m <- m[f]
-              v <- v[f]
-            }
-            object@background <- list()
-            object@background$vfit <- fit
-            object@background$lvar <- function(x,object) 2**(coef(object@background$vfit)[1] + log2(x)*coef(object@background$vfit)[2] + coef(object@background$vfit)[3] * log2(x)**2)
-            object@background$lsize <- function(x,object) x**2/(max(x + 1e-6,object@background$lvar(x,object)) - x)
+    ### calibrate background model
+    m <- log2(apply(object@fdata,1,mean))
+    v <- log2(apply(object@fdata,1,var))
+    f <- m > -Inf & v > -Inf
+    m <- m[f]
+    v <- v[f]
+    mm <- -8
+    repeat{
+      fit <- lm(v ~ m + I(m ^ 2)) 
+      if (coef(fit)[3] >= 0 | mm >= 3) {
+        break
+      }
+      mm <- mm + .5
+      f <- m > mm
+      m <- m[f]
+      v <- v[f]
+    }
+    object@background <- list()
+    object@background$vfit <- fit
+    object@background$lvar <- function(x,object) {
+      2**(coef(object@background$vfit)[1] +
+        log2(x) * coef(object@background$vfit)[2] +
+        coef(object@background$vfit)[3] *
+        log2(x)**2)
+    }
+    object@background$lsize <- function(x,object) {
+      x**2/(max(x + 1e-6,object@background$lvar(x,object)) - x)
+    }
 
-            ### identify outliers
-            out   <- c()
-            stest <- rep(0,length(thr))
-            cprobs <- c()
-            for ( n in 1:max(object@MBclusters$clusterid) ){     
-              if ( sum(object@MBclusters$clusterid == n) == 1 ){ cprobs <- append(cprobs,.5); names(cprobs)[length(cprobs)] <- names(object@MBclusters$clusterid)[object@MBclusters$clusterid == n]; next }
-              x <- object@fdata[,object@MBclusters$clusterid == n]
-              x <- x[apply(x,1,max) > outminc,]
-              z <- t( apply(x,1,function(x){ apply( cbind( pnbinom(round(x,0),mu=mean(x),size=object@background$lsize(mean(x),object)) , 1 - pnbinom(round(x,0),mu=mean(x),size=object@background$lsize(mean(x),object)) ),1, min) } ) )
-              cp <- apply(z,2,function(x){ y <- p.adjust(x,method="BH"); y <- y[order(y,decreasing=FALSE)]; return(y[outlg]);})
-              f <- cp < probthr
-              cprobs <- append(cprobs,cp)
-              if ( sum(f) > 0 ) out <- append(out,names(x)[f])
-              for ( j in 1:length(thr) )  stest[j] <-  stest[j] + sum( cp < thr[j] )  
-            }
-            object@out <-list(out=out,stest=stest,thr=thr,cprobs=cprobs)
+    ### identify outliers
+    out <- c()
+    stest <- rep(0,length(thr))
+    cprobs <- c()
+    for (n in 1:max(object@MBclusters$clusterid)) {
+      if (sum(object@MBclusters$clusterid == n) == 1) {cprobs <- append(cprobs,.5); names(cprobs)[length(cprobs)] <- names(object@MBclusters$clusterid)[object@MBclusters$clusterid == n]; next }
+      x <- object@fdata[,object@MBclusters$clusterid == n]
+      x <- x[apply(x,1,max) > outminc,]
+      z <- t( apply(x,1,function(x){ apply( cbind( pnbinom(round(x,0),mu=mean(x),size=object@background$lsize(mean(x),object)) , 1 - pnbinom(round(x,0),mu=mean(x),size=object@background$lsize(mean(x),object)) ),1, min) } ) )
+      cp <- apply(z,2,function(x){ y <- p.adjust(x,method="BH"); y <- y[order(y,decreasing=FALSE)]; return(y[outlg]);})
+      f <- cp < probthr
+      cprobs <- append(cprobs,cp)
+      if ( sum(f) > 0 ) out <- append(out,names(x)[f])
+      for ( j in 1:length(thr) )  stest[j] <-  stest[j] + sum( cp < thr[j] )  
+    }
+    object@out <-list(out=out,stest=stest,thr=thr,cprobs=cprobs)
 
             ### cluster outliers
             clp2p.cl <- c()
@@ -120,7 +170,7 @@ setMethod("FindOutliersMB",
                            p <- object@MBclusters$clusterid[ order(object@MBclusters$clusterid,decreasing=FALSE)]
             x <- object@out$cprobs[names(p)]
             fcol <- c("black","blue","green","red","yellow","gray")
-
+          if (plot) {
             for ( i in 1:max(p) ){
               y <- -log10(x + 2.2e-16)
               y[p != i] <- 0
@@ -132,8 +182,11 @@ setMethod("FindOutliersMB",
             for ( i in 1:max(p) ) y <- append(y,b[sum(p <=i),1] + d/2)
             axis(1,at=(y[1:(length(y)-1)] + y[-1])/2,labels=1:max(p))
             box()
+        }
+        if (!quiet) {
             cat("The following cells are considered as outlier cells:",which(object@cpart>K),"\n")
             print(which(object@cpart>K))
+        }
             LL= which(object@cpart>K)  
             return(LL)
           }
