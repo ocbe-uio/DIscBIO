@@ -6,10 +6,11 @@
 #' @param modelNames modelNames
 #' @param reduce reduce
 #' @param cluster cluster
-#' @importFrom mclust Mclust
+#' @param quiet if `TRUE`, suppresses intermediary output
+#' @importFrom mclust Mclust mclustBIC
 #' @importFrom stats dist prcomp lm
 #' @importFrom igraph graph.adjacency minimum.spanning.tree
-Exprmclust <- function (data, clusternum = 2:9, modelNames = "VVV", reduce = T, cluster = NULL) {
+Exprmclust <- function (data, clusternum = 2:9, modelNames = "VVV", reduce = T, cluster = NULL, quiet = FALSE) {
       set.seed(12345)
       if (reduce) {
             sdev <- prcomp(t(data), scale = T)$sdev[1:20]
@@ -29,7 +30,13 @@ Exprmclust <- function (data, clusternum = 2:9, modelNames = "VVV", reduce = T, 
       }
       if (is.null(cluster)) {   
             clusternum <- clusternum[clusternum > 1]
-            res <- suppressWarnings(Mclust(pcareduceres, G = clusternum, modelNames = modelNames))
+            res <- Mclust(
+                  data = pcareduceres,
+                  G = clusternum,
+                  modelNames = modelNames,
+                  warn = FALSE,
+                  verbose = !quiet
+            )
             clusterid <- apply(res$z, 1, which.max)
             clunum <- res$G
       } else {

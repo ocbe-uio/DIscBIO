@@ -9,7 +9,8 @@ Exprmclust(
   clusternum = 2:9,
   modelNames = "VVV",
   reduce = T,
-  cluster = NULL
+  cluster = NULL,
+  quiet = FALSE
 )
 }
 \arguments{
@@ -22,6 +23,8 @@ Exprmclust(
 \item{reduce}{reduce}
 
 \item{cluster}{cluster}
+
+\item{quiet}{if `TRUE`, suppresses intermediary output}
 }
 \description{
 description

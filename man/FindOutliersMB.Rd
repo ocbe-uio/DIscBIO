@@ -12,7 +12,9 @@ FindOutliersMB(
   outlg = 2,
   probthr = 0.001,
   thr = 2^-(1:40),
-  outdistquant = 0.75
+  outdistquant = 0.75,
+  plot = TRUE,
+  quiet = FALSE
 )
 
 \S4method{FindOutliersMB}{PSCANseq}(
@@ -22,7 +24,9 @@ FindOutliersMB(
   outlg = 2,
   probthr = 0.001,
   thr = 2^-(1:40),
-  outdistquant = 0.75
+  outdistquant = 0.75,
+  plot = TRUE,
+  quiet = FALSE
 )
 }
 \arguments{
@@ -39,6 +43,10 @@ FindOutliersMB(
 \item{thr}{thr}
 
 \item{outdistquant}{outdistquant}
+
+\item{plot}{If `TRUE`, produces a plot of -log10prob per K}
+
+\item{quiet}{If `TRUE`, intermediary output is suppressed}
 }
 \description{
 description

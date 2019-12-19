@@ -5,14 +5,18 @@
 \alias{MBclustheatmap,PSCANseq-method}
 \title{title}
 \usage{
-MBclustheatmap(object, hmethod = "single")
+MBclustheatmap(object, hmethod = "single", plot = TRUE, quiet = FALSE)
 
-\S4method{MBclustheatmap}{PSCANseq}(object, hmethod = "single")
+\S4method{MBclustheatmap}{PSCANseq}(object, hmethod = "single", plot = TRUE, quiet = FALSE)
 }
 \arguments{
 \item{object}{object}
 
 \item{hmethod}{hmethod}
+
+\item{plot}{if `TRUE`, plots the results}
+
+\item{quiet}{if `TRUE`, intermediary output is suppressed}
 }
 \description{
 title

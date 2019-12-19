@@ -44,9 +44,9 @@ FindOutliersKM(
 
 \item{outdistquant}{outdistquant}
 
-\item{plot}{If `TRUE`, produces a plot of -log10prob per K}
+\item{plot}{if `TRUE`, produces a plot of -log10prob per K}
 
-\item{quiet}{If `TRUE`, intermediary output is suppressed}
+\item{quiet}{if `TRUE`, intermediary output is suppressed}
 }
 \description{
 description

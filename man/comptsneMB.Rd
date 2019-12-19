@@ -5,14 +5,16 @@
 \alias{comptsneMB,PSCANseq-method}
 \title{title}
 \usage{
-comptsneMB(object, rseed = 15555)
+comptsneMB(object, rseed = 15555, quiet = FALSE)
 
-\S4method{comptsneMB}{PSCANseq}(object, rseed = 15555)
+\S4method{comptsneMB}{PSCANseq}(object, rseed = 15555, quiet = FALSE)
 }
 \arguments{
 \item{object}{object}
 
 \item{rseed}{rseed}
+
+\item{quiet}{if `TRUE`, suppresses intermediate output}
 }
 \description{
 description
