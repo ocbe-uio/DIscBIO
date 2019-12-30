@@ -11,23 +11,24 @@
 #' @importFrom mclust Mclust mclustBIC
 #' @importFrom stats dist prcomp lm
 #' @importFrom igraph graph.adjacency minimum.spanning.tree
-Exprmclust <- function (data, clusternum = 2:9, modelNames = "VVV", reduce = T, cluster = NULL, quiet = FALSE) {
+ExprmclustMB <- function (object, clusternum = 3, modelNames = "VVV", reduce = T, cluster = NULL, quiet = FALSE) {
       set.seed(12345)
+	  obj<-object@fdata
       if (reduce) {
-            sdev <- prcomp(t(data), scale = T)$sdev[1:20]
+            sdev <- prcomp(t(obj), scale = T)$sdev[1:20]
             x <- 1:20
             optpoint <- which.min(sapply(2:10, function(i) {
                   x2 <- pmax(0, x - i)
                   sum(lm(sdev ~ x + x2)$residuals^2)
             }))
             pcadim = optpoint + 1
-            tmpdata <- t(apply(data, 1, scale))
-            colnames(tmpdata) <- colnames(data)
+            tmpdata <- t(apply(obj, 1, scale))
+            colnames(tmpdata) <- colnames(obj)
             tmppc <- prcomp(t(tmpdata), scale = T)
             pcareduceres <- t(tmpdata) %*% tmppc$rotation[, 1:pcadim]
       }
       else {
-            pcareduceres <- t(data)
+            pcareduceres <- t(obj)
       }
       if (is.null(cluster)) {   
             clusternum <- clusternum[clusternum > 1]
@@ -51,5 +52,7 @@ Exprmclust <- function (data, clusternum = 2:9, modelNames = "VVV", reduce = T, 
       dp <- as.matrix(dist(clucenter))
       gp <- graph.adjacency(dp, mode = "undirected", weighted = TRUE)
       dp_mst <- minimum.spanning.tree(gp)
-      list(pcareduceres = pcareduceres, MSTtree = dp_mst, clusterid = clusterid, clucenter = clucenter)
+      full_List<-list(pcareduceres = pcareduceres, MSTtree = dp_mst, clusterid = clusterid, clucenter = clucenter)
+	  object@MBclusters<-full_List
+    	return(object)
 }
