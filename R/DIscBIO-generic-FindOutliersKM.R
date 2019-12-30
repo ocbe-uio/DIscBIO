@@ -15,6 +15,8 @@
 #' @importFrom amap K
 #' @rdname FindOutliersKM
 #' @export
+setGeneric("FindOutliersKM", function(object, K, outminc=5,outlg=2,probthr=1e-3,thr=2**-(1:40),outdistquant=.75, plot = TRUE, quiet = FALSE) standardGeneric("FindOutliersKM"))
+
 setMethod("FindOutliersKM",
           signature = "PSCANseq",
           definition = function(object, K, outminc,outlg,probthr,thr,outdistquant, plot = TRUE, quiet = FALSE) {

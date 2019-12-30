@@ -19,17 +19,35 @@
 #' @importFrom graphics plot axis abline points lines
 #' @importFrom statmod glmgam.fit
 #' @export
-NoiseFiltering <- function(object, percentile, CV, GeneList, geneCol, FgeneCol,
-                           erccCol, Val = TRUE, plot = TRUE, export = TRUE,
+
+setGeneric("NoiseFiltering", function(object, percentile=0.8, CV= 0.3, geneCol="yellow", FgeneCol="black",
+                           erccCol="blue", Val = TRUE, plot = TRUE, export = TRUE,
+                           quiet = FALSE) standardGeneric("NoiseFiltering"))
+
+setMethod("NoiseFiltering",
+          signature = "PSCANseq",
+          definition = function(object, percentile=0.8, CV= 0.3, geneCol="yellow", FgeneCol="black",
+                           erccCol="blue", Val = TRUE, plot = TRUE, export = TRUE,
                            quiet = FALSE) {
-    # Split data into sub tables based on the factor object geneTypes
-    shortNames <- substr(rownames(object), 1, 4)
+	if ( ! is.numeric(percentile) ) stop( "percentile has to be a positive number" ) else if ( percentile <= 0 ) stop( "percentile has to be a positive number" )
+	if ( ! is.numeric(CV) ) stop( "CV has to be a positive number" ) else if ( CV <= 0 ) stop( "CV has to be a positive number" )
+
+    # Split data into sub tables based on the factor data geneTypes
+	GeneList = rownames(object@expdata)
+	data = object@expdataAll
+    shortNames <- substr(rownames(data), 1, 4)
     geneTypes <- factor(c(ENSG = "ENSG", ERCC = "ERCC" )[shortNames])
 
     # calculate normalisation for counts\n",
-    # TODO: "valuesG1ms" is the demo data. Transform into Object argument
-    countsG1ms <- object[which(geneTypes == "ENSG"), ]
-    countsERCC <- object[which(geneTypes == "ERCC" ), ]
+    # TODO: "valuesG1ms" is the demo data. Transform into data argument
+    countsG1ms <- data[which(geneTypes == "ENSG"), ]
+    countsERCC <- data[which(geneTypes == "ERCC" ), ]
+	
+	estimateSizeFactorsForMatrix = function (counts, locfunc = median){
+		loggeomeans <- rowMeans(log(counts))
+		apply(counts, 2, function(cnts) exp(locfunc((log(cnts) - loggeomeans)[is.finite(loggeomeans)])))
+	}
+	
     sfERCC <- estimateSizeFactorsForMatrix(countsERCC)
     sfG1ms <- estimateSizeFactorsForMatrix(countsG1ms)
 
@@ -45,7 +63,7 @@ NoiseFiltering <- function(object, percentile, CV, GeneList, geneCol, FgeneCol,
     varsERCC <- rowVars(nCountsERCC)
     cv2ERCC <- varsERCC / meansERCC ^ 2
     minMeanForFit <- unname(
-        quantile(meansERCC[which(cv2ERCC > .3)], percentile)
+        quantile(meansERCC[which(cv2ERCC > CV)], percentile)
     )
 
     if (!quiet) {
@@ -125,7 +143,7 @@ NoiseFiltering <- function(object, percentile, CV, GeneList, geneCol, FgeneCol,
     psia1theta <- mean(1 / sfG1ms, na.rm = TRUE) + a1 *
         mean(sfERCC / sfG1ms, na.rm = TRUE)
 
-    # Now, we perform a one-sided test against the null hypothesis that the true variance is at most the technical variation plus biological variation with a CV of at most 50% (minBiolDisp = .52).
+    # Now, we perform a one-sided test against the null hypothesis that the true variance is at most the technical variation plus biological variation.
     minBiolDisp <- 0.5 ^ 2
 
     #Calculate Omega, then perform the test, using the formula given in the Online methods and in Supplementary Note 6.
@@ -140,6 +158,7 @@ NoiseFiltering <- function(object, percentile, CV, GeneList, geneCol, FgeneCol,
     padj <- p.adjust(p, "BH")
 
     # TODO: plotting of the results should be a different function
+	
     if (plot) {
         plot( NULL, xaxt="n", yaxt="n",log="xy", xlim = c( 1e-1, 3e5 ), ylim = c( .005, 100 ),main="Gene filtration by accounting for technical noise",
         xlab = "Average normalized read count", ylab = "Squared coefficient of variation (CV^2)" )
@@ -162,9 +181,16 @@ NoiseFiltering <- function(object, percentile, CV, GeneList, geneCol, FgeneCol,
         }else{
             points( meansERCC, cv2ERCC, pch=20, cex=2, col=erccCol) # Showing all the valied ERCCs
         }
+		add_legend <- function(...) {
+		opar <- par(fig=c(0, 1, 0, 1), oma=c(0, 0, 0, 0), 
+		mar=c(0, 0, 0, 0), new=TRUE)
+		on.exit(par(opar))
+		plot(0, 0, type='n', bty='n', xaxt='n', yaxt='n')
+		legend(...)
+		}
         add_legend("topleft", legend=c("Noise curve","ERCC spike-ins","Genes above the noise line"), pch=c(15,20,20), 
         col=c("red",erccCol,FgeneCol),horiz=TRUE, bty='n', cex=0.85)
     }
-
-    return(genes_test)
-}
+	object@noiseF<-genes_test
+    return(object)
+})
