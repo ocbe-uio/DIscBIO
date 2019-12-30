@@ -26,6 +26,9 @@ setMethod("KMclustheatmap",
               if ( j == 1 ) tmp <- data.frame(cent) else tmp <- cbind(tmp,cent)
             }
             names(tmp) <- paste("cl",na,sep=".")
+					
+			dist.gen <- function(x,method="euclidean", ...) if ( method %in% c("spearman","pearson","kendall") ) as.dist( 1 - cor(t(x),method=method,...) ) else dist(x,method=method,...)
+			dist.gen.pairs <- function(x,y,...) dist.gen(t(cbind(x,y)),...)
             if ( max(part) > 1 )  cclmo <- hclust(dist.gen(as.matrix(dist.gen(t(tmp),method=object@clusterpar$metric))),method=hmethod)$order else cclmo <- 1
             q <- part
             for ( i in 1:max(part) ){

@@ -16,8 +16,9 @@ setMethod("plotsilhouetteMB",
           definition = function(object, K){
             if ( length(object@MBclusters$clusterid) == 0 ) stop("run exprmclust before plotsilhouetteMB")
             if ( length(unique(object@MBclusters$clusterid)) < 2 ) stop("only a single cluster: no silhouette plot")
-		col=c("black","blue","green","red","yellow","gray")
+			col=c("black","blue","green","red","yellow","gray")
             kpart <- object@MBclusters$clusterid
+			dist.gen <- function(x,method="euclidean", ...) if ( method %in% c("spearman","pearson","kendall") ) as.dist( 1 - cor(t(x),method=method,...) ) else dist(x,method=method,...)
             distances  <- dist.gen(t(object@fdata))
             si <- silhouette(kpart,distances)
             plot(si,col=col[1:K])

@@ -24,5 +24,12 @@ VolcanoPlot<-function(object,value=0.05,name,fc=0.5,adj=TRUE,FS=.4){
     with(FC, points(FC[,7], -log10(FC[,8]), pch=20,cex=2, col="red"))
     with(sigFC, points(sigFC[,7], -log10(sigFC[,8]), pch=20,cex=2, col="blue"))
     with(sigFC, textxy(sigFC[,7], -log10(sigFC[,8]), labs=sigFC[,2], cex=FS,col="blue"))
-    add_legend("topleft", legend=c(paste0("DEGs (FC < ",fc," - FDR> ",Value,")   "), paste0("DEGs (FC > ",fc," - FDR> ",Value,")"),paste0("DEGs (FC > ",fc," - FDR< ",Value,")   ")), pch=20, col=c("black", "red","blue"),horiz=TRUE, bty='n', cex=0.7)
+	add_legend <- function(...) {
+		opar <- par(fig=c(0, 1, 0, 1), oma=c(0, 0, 0, 0), 
+		mar=c(0, 0, 0, 0), new=TRUE)
+		on.exit(par(opar))
+		plot(0, 0, type='n', bty='n', xaxt='n', yaxt='n')
+		legend(...)
+	}
+    add_legend("topleft", legend=c(paste0("DEGs (FC < ",fc," - FDR> ",value,")   "), paste0("DEGs (FC > ",fc," - FDR> ",value,")"),paste0("DEGs (FC > ",fc," - FDR< ",value,")   ")), pch=20, col=c("black", "red","blue"),horiz=TRUE, bty='n', cex=0.7)
 }
