@@ -1,6 +1,11 @@
-#' @title title
-#' @export
+#' @title Computing tSNE for K-means clustering
+#' @description This function is used to compute the t-Distributed Stochastic Neighbor Embedding (t-SNE).
+#' @param object \code{PSCANseq} class object.
+#' @param Integer number. Random seed to to yield exactly reproducible maps across different runs. Default is 15555. 
+#' @param quiet if `TRUE`, suppresses intermediate output
+#' @importFrom tsne tsne
 #' @rdname comptSNE
+#' @export
 setGeneric(
   name = "comptSNE",
   def = function(object, rseed = 15555, quiet = FALSE) {
@@ -8,14 +13,6 @@ setGeneric(
   }
 )
 
-#' @title title
-#' @description description
-#' @param object object
-#' @param rseed rseed
-#' @param quiet if `TRUE`, suppresses intermediate output
-#' @importFrom tsne tsne
-#' @rdname comptSNE
-#' @export
 setMethod(
   "comptSNE",
   signature = "PSCANseq",

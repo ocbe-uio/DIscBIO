@@ -1,10 +1,6 @@
-#' @export
-#' @title title
-#' @rdname plottSNE
-#' @param object object
-setGeneric("plottSNE", function(object) standardGeneric("plottSNE"))
-#' @title title
-#' @description description
+#' @title tSNE map for K-means clustering
+#' @description Visualizing the K-means clusters using tSNE maps
+#' @param object \code{PSCANseq} class object.
 #' @importFrom graphics text
 #' @rdname plotSilhouette
 #' @export

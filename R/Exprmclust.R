@@ -1,11 +1,12 @@
-#' @title title
-#' @description description 
+#' @title Performing Model-based clustering on expression values
+#' @description this function first uses principal component analysis (PCA) to reduce dimensionality of original data. It then performs model-based clustering 
+#' on the transformed expression values. 
 #' @export
-#' @param data data
-#' @param clusternum clusternum
-#' @param modelNames modelNames
-#' @param reduce reduce
-#' @param cluster cluster
+#' @param object \code{PSCANseq} class object.
+#' @param clusternum An integer vector specifying all possible cluster numbers. Default is 3.
+#' @param modelNames model to be used in model-based clustering. By default "ellipsoidal, varying volume, shape, and orientation" is used.
+#' @param reduce A logical vector that allows performing the PCA on the expression data. Default is TRUE.
+#' @param cluster A vector showing the ID of cells in the clusters.
 #' @param quiet if `TRUE`, suppresses intermediary output
 #' @importFrom mclust Mclust mclustBIC
 #' @importFrom stats dist prcomp lm

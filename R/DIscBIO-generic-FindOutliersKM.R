@@ -1,17 +1,14 @@
-#' @title title
-#' @export
-#' @rdname FindOutliersKM
-setGeneric("FindOutliersKM", function(object, K, outminc=5,outlg=2,probthr=1e-3,thr=2**-(1:40),outdistquant=.75, plot = TRUE, quiet = FALSE) standardGeneric("FindOutliersKM"))
-
-#' @title title
-#' @description description
-#' @param object object
-#' @param outminc outminc
-#' @param outlg outlg
-#' @param probthr probthr
-#' @param thr thr
-#' @param outdistquant outdistquant
-#' @param K K
+#' @title Inference of outlier cells in K-means clustering
+#' @description This functions performs the outlier identification
+#' @param object \code{PSCANseq} class object.
+#' @param outminc minimal transcript count of a gene in a clusters to be tested for being an outlier gene. Default is 5.
+#' @param outlg Minimum number of outlier genes required for being an outlier cell. Default is 2.
+#' @param probthr outlier probability threshold for a minimum of \code{outlg} genes to be an outlier cell. This probability is computed from a negative binomial 
+#' background model of expression in a cluster. Default is 0.001.
+#' @param thr probability values for which the number of outliers is computed in order to plot the dependence of the number of outliers on the probability threshold. Default is 2**-(1:40).
+#' @param outdistquant Real number between zero and one. Outlier cells are merged to outlier clusters if their distance smaller than the outdistquant-quantile of
+#' the distance distribution of  pairs of cells in the orginal clusters after outlier removal. Default is 0.75.
+#' @param K Number of clusters to be used.
 #' @param plot if `TRUE`, produces a plot of -log10prob per K
 #' @param quiet if `TRUE`, intermediary output is suppressed
 #' @importFrom stats coef pnbinom

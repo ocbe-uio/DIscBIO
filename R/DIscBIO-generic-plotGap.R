@@ -1,7 +1,7 @@
-#' @title title
+#' @title Plotting Gap Statistics
 #' @export
 #' @rdname plotGap
-#' @param object object
+#' @param object \code{PSCANseq} class object.
 setGeneric("plotGap", function(object) standardGeneric("plotGap"))
 
 #' @rdname plotGap

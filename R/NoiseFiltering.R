@@ -4,16 +4,15 @@
 #' geometric means of the rows. The median (or, if requested, another location
 #' estimator) of these ratios (skipping the genes with a # geometric mean of
 #' zero) is used as the size factor for this column. Source: DESeq package.
-#' @param object object
-#' @param percentile percentile
-#' @param CV CV
-#' @param GeneList GeneList
-#' @param geneCol geneCol
-#' @param FgeneCol FgeneCol
-#' @param erccCol erccCol
-#' @param Val Val
-#' @param plot Generate plot?
-#' @param export Export results? 
+#' @param object \code{PSCANseq} class object.
+#' @param percentile A numeric value of the percentile. It is used to validate the ERCC spik-ins. Default is 0.8.
+#' @param CV A numeric value of the coefficient of variation. It is used to validate the ERCC spik-ins. Default is 0.5.
+#' @param geneCol Color of the genes that did not pass the filtration.
+#' @param FgeneCol Color of the genes that passt the filtration.
+#' @param erccCol Color of the ERCC spik-ins.
+#' @param Val A logical vector that allows plotting only the validated ERCC spike-ins. Default is TRUE. If Val=FALSE will plot all the ERCC spike-ins.
+#' @param plot A logical vector that allows plotting the technical noise. Default is TRUE. 
+#' @param export A logical vector that allows writing the final gene list in excel file. Default is TRUE. 
 #' @param quiet if `TRUE`, suppresses printed output
 #' @importFrom matrixStats rowVars
 #' @importFrom stats quantile var fitted.values pchisq p.adjust

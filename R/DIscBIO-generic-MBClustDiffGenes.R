@@ -1,11 +1,12 @@
-#' @export
-#' @title title
+#' @title ClustDiffGenes
 #' @rdname MBClustDiffGenes
+#' @param object \code{PSCANseq} class object.
+#' @param fdr A numeric value of the false discovery rate. Default is 0.01.
+#' @importFrom stats pbinom
+#' @export
 setGeneric("MBClustDiffGenes", function(object,fdr=.01) standardGeneric("MBClustDiffGenes"))
 #' @export
 #' @rdname MBClustDiffGenes
-#' @param object object
-#' @param fdr fdr
 setMethod("MBClustDiffGenes",
           signature = "PSCANseq",
           definition = function(object,fdr){

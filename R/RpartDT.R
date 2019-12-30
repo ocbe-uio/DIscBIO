@@ -1,7 +1,6 @@
-#' @title title
-#' @description description 
+#' @title RPART Decision Tree
+#' @description The decision tree analysis is implemented over a training dataset, which consisted of the DEGs obtained by either SAMseq or the binomial differential expression.  
 #' @export
-#' @param object object
 #' @importFrom rpart rpart
 #' @importFrom rpart.plot rpart.plot
 RpartDT<-function(object){

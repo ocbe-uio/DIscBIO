@@ -1,18 +1,23 @@
-#' @title title
+#' @title Clustering of single-cell transcriptome data
+#' @description This functions performs the initial clustering of the RaceID algorithm.
 #' @export
 #' @rdname Clustexp
 #' @docType methods
-#' @param object object
-#' @param clustnr clustnr
-#' @param bootnr bootnr
-#' @param metric metric
-#' @param do.gap do.gap
-#' @param SE.method SE.method
-#' @param SE.factor SE.factor
-#' @param B.gap B.gap
-#' @param cln cln
-#' @param rseed rseed
+#' @param object \code{PSCANseq} class object.
+#' @param clustnr Maximum number of clusters for the derivation of the cluster number by the saturation of mean within-cluster-dispersion. Default is 20.
+#' @param bootnr A numeric value of booststrapping runs for \code{clusterboot}. Default is 50.
+#' @param metric Is the method to transform the input data to a distance object. 
+#' Metric has to be one of the following: ["spearman","pearson","kendall","euclidean","maximum","manhattan","canberra","binary","minkowski"]. 
+#' @param do.gap A logical vector that allows generating the number of clusters based on the gap statistics. Default is TRUE.
+#' @param SE.method The SE.method determines the first local maximum of the gap statistics. 
+#' The SE.method has to be one of the following:["firstSEmax","Tibs2001SEmax","globalSEmax","firstmax","globalmax"]. Default is "Tibs2001SEmax"
+#' @param SE.factor A numeric value of the fraction of the standard deviation by which the local maximum is required to differ from the neighboring points it is compared to. 
+#' Default is 0.25.
+#' @param B.gap Number of bootstrap runs for the calculation of the gap statistics. Default is 50
+#' @param cln Number of clusters to be used. Default is \code{NULL} and the cluster number is inferred by the saturation criterion.
+#' @param rseed Integer number. Random seed to enforce reproducible clustering results. Default is 17000.
 #' @param quiet if `TRUE`, intermediate output is suppressed
+#' @rdname Clustexp
 setGeneric("Clustexp", function(object, clustnr = 20, bootnr = 50,
                                 metric = "pearson", do.gap = TRUE,
                                 SE.method = "Tibs2001SEmax", SE.factor = .25,

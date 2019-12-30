@@ -1,14 +1,16 @@
-#' @title title
+#' @title Plotting the Model-based clusters in a heatmap representation of the cell-to-cell distances
+#' @description  This functions plots a heatmap of the distance matrix grouped by clusters. Individual clusters are highlighted with rainbow colors along the x and y-axes.
+#' @param object \code{PSCANseq} class object.
+#' @param hmethod  Agglomeration method used for determining the cluster order from hierarchical clustering of the cluster medoids. 
+#' This should be one of "ward.D", "ward.D2", "single", "complete", "average". Default is "single".
+#' @param plot if `TRUE`, plots the heatmap; otherwise, just prints cclmo
+#' @param quiet if `TRUE`, intermediary output is suppressed
+#' @importFrom stats hclust
 #' @export
 #' @rdname MBclustheatmap
-#' @param object object
-#' @param hmethod hmethod
-#' @param plot if `TRUE`, plots the results
-#' @param quiet if `TRUE`, intermediary output is suppressed
+
 setGeneric("MBclustheatmap", function(object,hmethod="single", plot = TRUE, quiet = FALSE) standardGeneric("MBclustheatmap"))
 
-#' @export
-#' @rdname MBclustheatmap
 setMethod("MBclustheatmap",
           signature = "PSCANseq",
           definition = function(object,hmethod, plot = TRUE, quiet = FALSE){

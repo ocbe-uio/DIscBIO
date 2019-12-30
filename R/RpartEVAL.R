@@ -1,5 +1,11 @@
-RpartEVAL<- function(object,num.folds=10,First,Second){
-	exp.imput.df<-as.data.frame(t(object))
+#' @title Evaluating the performance of the RPART Decision Tree.
+#' @description This function evaluates the performance of the generated trees for error estimation by ten-fold cross validation assessment.
+#' @export
+#' @param data The resulted data from running the function J48DT.
+#' @param num.folds A numeric value of the number of folds for the cross validation assessment. Default is 10.
+#' @param First A string vector showing the first target cluster.  Default is "CL1"
+#' @param Second A string vector showing the second target cluster.  Default is "CL2"
+
 	num.instances<-nrow(exp.imput.df)
 	indices<-1:num.instances
 	classVector<- factor(colnames(object))

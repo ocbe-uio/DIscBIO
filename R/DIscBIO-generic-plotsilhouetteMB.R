@@ -1,14 +1,16 @@
-#' @title title
+#' @title Silhouette Plot for Model-based clustering
+#' @description The silhouette provides a representation of how well each point is represented by its cluster in comparison to the 
+#' closest neighboring cluster. It computes for each point the difference between the average similarity 
+#' to all points in the same cluster and to all points in the closest neighboring cluster. This difference it 
+#' normalize such that it can take values between -1 and 1 with higher values reflecting better 
+#' representation of a point by its cluster.
 #' @export
 #' @rdname plotsilhouetteMB
-#' @param K K
+#' @param object \code{PSCANseq} class object.
+#' @param K A numeric value of the number of clusters
+
 setGeneric("plotsilhouetteMB", function(object,K) standardGeneric("plotsilhouetteMB"))
-#' @title title
-#' @description description
-#' @param object object
-#' @importFrom cluster silhouette
-#' @rdname plotsilhouetteMB
-#' @export
+
 setMethod("plotsilhouetteMB",
           signature = "PSCANseq",
           definition = function(object, K){

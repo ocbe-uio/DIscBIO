@@ -1,7 +1,7 @@
-#' @title title
-#' @description description 
+#' @title Networking analysis.
+#' @description This function checks the connectivity degree and the betweenness centrality, which reflect the communication flow in the defined PPI networks
 #' @export
-#' @param object object
+#' @param data Protein-protein interaction data frame resulted from running the PPI function. 
 #' @importFrom igraph graph.data.frame as_adjacency_matrix distance_table average.path.length get.adjacency V E mean_distance
 #' @importFrom NetIndices GenInd
 NetAnalysis<-function(object){

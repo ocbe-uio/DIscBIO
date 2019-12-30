@@ -1,14 +1,12 @@
-#' @title title
-#' @export
-#' @rdname plottsneMB
-#' @param K K
-setGeneric("plottsneMB", function(object,K) standardGeneric("plottsneMB"))
-#' @title title
-#' @description description
-#' @param object object
+#' @title tSNE map for Model-based clustering
+#' @description Visualizing the Model-based clusters using tSNE maps
+#' @param object \code{PSCANseq} class object.
+#' @param K A numeric value of the number of clusters
 #' @importFrom graphics text
 #' @export
 #' @rdname plottsneMB
+setGeneric("plottsneMB", function(object,K) standardGeneric("plottsneMB"))
+
 setMethod("plottsneMB",
           signature = "PSCANseq",
           definition = function(object){

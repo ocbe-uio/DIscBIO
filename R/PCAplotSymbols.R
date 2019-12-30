@@ -1,9 +1,8 @@
 #' @title title
 #' @description description 
 #' @export
-#' @param object1 object1
-#' @param object2 object2
-#' @param types types
+#' @param object \code{PSCANseq} class object.
+#' @param types If types=NULL then the names of the cells will be grouped automatically. Default is NULL
 #' @importFrom grDevices rainbow
 #' @importFrom graphics legend
 PCAplotSymbols= function(object1,object2,types=NULL){

@@ -1,13 +1,14 @@
-#' @title title
+#' @title Highlighting gene expression in K-means clustering in the t-SNE map
+#' @description The t-SNE map representation can also be used to analyze expression of a gene or a group of genes, 
+#' to investigate cluster specific gene expression patterns
+#' @param object \code{PSCANseq} class object.
+#' @param g  Individual gene name or vector with a group of gene names corresponding to a subset of valid row names of the \code{ndata} slot
+#' of the \code{PSCANseq} object.
+#' @param n String of characters representing the title of the plot. Default is NULL and the first element of \code{g} is chosen.
 #' @export
 #' @rdname plotExptSNE
-#' @param object object
-#' @param g g
-#' @param n n
-setGeneric("plotExptSNE", function(object,g,n="") standardGeneric("plotExptSNE"))
+setGeneric("plotExptSNE", function(object,g,n=NULL) standardGeneric("plotExptSNE"))
 
-#' @export
-#' @rdname plotExptSNE
 setMethod("plotExptSNE",
           signature = "PSCANseq",
           definition = function(object,g,n=""){

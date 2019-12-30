@@ -1,13 +1,11 @@
-#' @title title
-#' @export
-#' @rdname plotMBLabelstSNE
-setGeneric("plotMBLabelstSNE", function(object) standardGeneric("plotMBLabelstSNE"))
-#' @title title
-#' @description description
-#' @param object object
+#' title tSNE map for Model-based clustering with labels
+#' @description Visualizing the Model-based clusters using tSNE maps 
+#' @param object \code{PSCANseq} class object.
 #' @importFrom graphics text
 #' @rdname plotMBLabelstSNE
 #' @export
+setGeneric("plotMBLabelstSNE", function(object) standardGeneric("plotMBLabelstSNE"))
+
 setMethod("plotMBLabelstSNE",
           signature = "PSCANseq",
           definition = function(object){

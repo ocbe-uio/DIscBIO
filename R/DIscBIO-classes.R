@@ -1,5 +1,8 @@
 #' PSCANseq
+#' @title The PSCANseq Class
+#' @description The PSCANseq class is the central object storing all information generated throughout the pipeline. 
 #' @slot expdata    
+#' @slot expdataAll   
 #' @slot ndata      
 #' @slot fdata      
 #' @slot distances  
@@ -16,11 +19,14 @@
 #' @slot kordering  
 #' @slot MBordering 
 #' @slot MBtsne     
+#' @slot noiseF
+#' @slot FinalGeneList  
 #' @importFrom methods new
 #' @name PSCANseq
 #' @rdname PSCANseq
 #' @aliases PSCANseq-class, PSCANseq-class
 #' @exportClass PSCANseq
+#' @export
 PSCANseq <- setClass(
     Class = "PSCANseq",
     slots = c(
@@ -44,6 +50,11 @@ PSCANseq <- setClass(
     )
 )
 
+#' validity function for PSCANseq
+#'
+#' @param object An PSCANseq object.
+#' @name PSCANseq
+#' @export
 setValidity("PSCANseq",
             function(object) {
               msg <- NULL
@@ -63,12 +74,6 @@ setValidity("PSCANseq",
             }
             )
 
-#' @title title
-#' @description description
-#' @param .Object .Object
-#' @param expdata expdata
-#' @importFrom methods validObject
-#' @rdname initialize
 setMethod("initialize",
           signature = "PSCANseq",
           definition = function(.Object, expdata ){

@@ -1,7 +1,7 @@
-#' @title title
-#' @description description 
+#' @title J48 Decision Tree
+#' @description The decision tree analysis is implemented over a training dataset, which consisted of the DEGs obtained by either SAMseq or the binomial differential expression.  
 #' @export
-#' @param object object
+#' @param data A data frame resulted from running the function ClassVectoringDT.
 #' @importFrom RWeka J48
 #' @importFrom graphics plot
 #' @importFrom partykit as.party

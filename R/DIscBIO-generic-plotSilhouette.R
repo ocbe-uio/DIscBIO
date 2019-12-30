@@ -1,17 +1,18 @@
-#' @title title
+#' @title Silhouette Plot for K-means clustering
+#' @description The silhouette provides a representation of how well each point is represented by its cluster in comparison to the 
+#' closest neighboring cluster. It computes for each point the difference between the average similarity 
+#' to all points in the same cluster and to all points in the closest neighboring cluster. This difference it 
+#' normalize such that it can take values between -1 and 1 with higher values reflecting better 
+#' representation of a point by its cluster.
 #' @export
 #' @rdname plotSilhouette
-#' @param object object
-#' @param K K
+#' @param object \code{PSCANseq} class object.
+#' @param K A numeric value of the number of clusters
 setGeneric(
   name = "plotSilhouette",
   def = function(object,K) standardGeneric("plotSilhouette")
 )
-#' @title title
-#' @description description
-#' @importFrom cluster silhouette
-#' @rdname plotSilhouette
-#' @export
+
 setMethod(
   f = "plotSilhouette",
   signature = "PSCANseq",

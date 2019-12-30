@@ -1,16 +1,15 @@
-#' @title title
-#' @export
-#' @rdname KMclustheatmap
-setGeneric("KMclustheatmap", function(object,hmethod="single", plot = TRUE) standardGeneric("KMclustheatmap"))
-
-#' @title title
-#' @description description
-#' @param object object
-#' @param hmethod hmethod
+#' @title Plotting the K-means clusters in a heatmap representation of the cell-to-cell distances
+#' @description  This functions plots a heatmap of the distance matrix grouped by clusters. Individual clusters are highlighted with rainbow colors along the x and y-axes.
+#' @param object \code{PSCANseq} class object.
+#' @param hmethod  Agglomeration method used for determining the cluster order from hierarchical clustering of the cluster medoids. 
+#' This should be one of "ward.D", "ward.D2", "single", "complete", "average". Default is "single".
 #' @param plot if `TRUE`, plots the heatmap; otherwise, just prints cclmo
 #' @importFrom stats hclust
 #' @export
 #' @rdname KMclustheatmap
+
+setGeneric("KMclustheatmap", function(object,hmethod="single", plot = TRUE) standardGeneric("KMclustheatmap"))
+
 setMethod("KMclustheatmap",
           signature = "PSCANseq",
           definition = function(object,hmethod, plot = TRUE){
