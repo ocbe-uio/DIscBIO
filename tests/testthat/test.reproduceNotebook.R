@@ -29,7 +29,10 @@ noiseF   <- NoiseFiltering(
     plot = FALSE, export = FALSE, quiet = TRUE
 )       # Val=F  will plot all the ERCC spike-ins
 
-sc <- PSCANseq(MLSrawWithoutERCC) # TODO: understand how PSCANseq can be called as a function (this could cause problems in a clean installation)
+# TODO: understand how PSCANseq can be called as a function (this could cause
+# problems in a clean installation). Discover what triggers this line to work
+sc <- PSCANseq(MLSrawWithoutERCC)
+
 sc <- Normalizedata(sc, mintotal = 1000)
 gene_list <- noiseF
 gene_names <- rownames(sc@ndata)
@@ -207,6 +210,8 @@ test_that("Reproduced cellular clustering and pseudo time ordering", {
 })
 
 context("Reproducing notebook: determining (DEGs)")
+
+Cluster_ID <- MBClusters
 
 context("Reproducing notebook: identifying biomarkers")
 
