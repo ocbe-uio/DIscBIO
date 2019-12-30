@@ -12,6 +12,7 @@ setMethod("plotSymbolstSNE",
             if ( is.null(types) ) types <- names(object@fdata)
             if ( length(object@tsne) == 0 ) stop("run comptsne before plotSymbolstSNE")
             if ( length(types) != ncol(object@fdata) ) stop("types argument has wrong length. Length has to equal to the column number of object@ndata")
+			
             coloc <- rainbow(length(unique(types)))
             syms <- c()
             plot(object@tsne,xlab="Dim 1",ylab="Dim 2",pch=20,col="grey")

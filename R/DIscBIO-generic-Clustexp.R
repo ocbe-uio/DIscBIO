@@ -21,18 +21,13 @@
 setGeneric("Clustexp", function(object, clustnr = 20, bootnr = 50,
                                 metric = "pearson", do.gap = TRUE,
                                 SE.method = "Tibs2001SEmax", SE.factor = .25,
-                                B.gap = 50, cln = 0, rseed = 17000,
-                                quiet = FALSE) {
+                                B.gap = 50, cln = 0, rseed = 17000,quiet = FALSE) {
         standardGeneric("Clustexp")
 })
 
-#' @rdname Clustexp
-setMethod(
-    f = "Clustexp",
+setMethod(f="Clustexp",
     signature = "PSCANseq",
-    definition = function(object, clustnr, bootnr, metric, do.gap, SE.method,
-                          SE.factor, B.gap, cln, rseed, quiet = FALSE) {
-        # Validation
+          definition = function(object,clustnr,bootnr,metric,do.gap,SE.method,SE.factor,B.gap,cln,rseed,quiet = FALSE) {
         if ( ! is.numeric(clustnr) ) stop("clustnr has to be a positive integer") else if ( round(clustnr) != clustnr | clustnr <= 0 ) stop("clustnr has to be a positive integer")
         if ( ! is.numeric(bootnr) ) stop("bootnr has to be a positive integer") else if ( round(bootnr) != bootnr | bootnr <= 0 ) stop("bootnr has to be a positive integer")
         if ( ! ( metric %in% c( "spearman","pearson","kendall","euclidean","maximum","manhattan","canberra","binary","minkowski") ) ) stop("metric has to be one of the following: spearman, pearson, kendall, euclidean, maximum, manhattan, canberra, binary, minkowski")

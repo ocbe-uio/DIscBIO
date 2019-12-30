@@ -15,14 +15,10 @@
 #' @importFrom amap K
 #' @export
 #' @rdname FindOutliersMB
-#' 
-
 setGeneric(
   name = "FindOutliersMB",
-  def = function(
-    object, K, outminc = 5, outlg = 2, probthr = 1e-3, thr = 2**-(1:40),
-    outdistquant = .75, plot = TRUE, quiet = FALSE
-    ) {
+  def = function(object, K, outminc = 5, outlg = 2, probthr = 1e-3, thr = 2**-(1:40),
+    outdistquant = .75, plot = TRUE, quiet = FALSE) {
       standardGeneric("FindOutliersMB")
     }
 )
