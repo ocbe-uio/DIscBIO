@@ -2,8 +2,7 @@
 % Please edit documentation in R/DIscBIO-generic-Normalizedata.R
 \name{Normalizedata}
 \alias{Normalizedata}
-\alias{Normalizedata,PSCANseq-method}
-\title{title}
+\title{Normalizing and filtering}
 \usage{
 Normalizedata(
   object,
@@ -15,35 +14,26 @@ Normalizedata(
   dsn = 1,
   rseed = 17000
 )
-
-\S4method{Normalizedata}{PSCANseq}(
-  object,
-  mintotal = 1000,
-  minexpr = 0,
-  minnumber = 0,
-  maxexpr = Inf,
-  downsample = FALSE,
-  dsn = 1,
-  rseed = 17000
-)
 }
 \arguments{
-\item{object}{object}
+\item{object}{\code{PSCANseq} class object.}
 
-\item{mintotal}{mintotal}
+\item{mintotal}{minimum total transcript number required. Cells with less than \code{mintotal} transcripts are filtered out. Default is 1000.}
 
-\item{minexpr}{minexpr}
+\item{minexpr}{minimum required transcript count of a gene in at least \code{minnumber} cells. All other genes are filtered out. Default is 0.}
 
-\item{minnumber}{minnumber}
+\item{minnumber}{minimum number of cells that are expressing each gene at minexpr transcripts. Default is 0.}
 
-\item{maxexpr}{maxexpr}
+\item{maxexpr}{maximum allowed transcript count of a gene in at least a single cell after normalization or downsampling. All other genes are filtered out. Default is Inf.}
 
-\item{downsample}{downsample}
+\item{downsample}{A logical vector. Default is FALSE. If downsample is set to TRUE, then transcript counts are downsampled to mintotal transcripts per cell, instead of 
+the normalization. Downsampled versions of the transcript count data are averaged across dsn samples}
 
-\item{dsn}{dsn}
+\item{dsn}{A numeric value of the number of samples to be used to average the downsampled versions of the transcript count data. Default is 1 which means that sampling
+noise should be comparable across cells. For high numbers of dsn the data will become similar to the median normalization.}
 
-\item{rseed}{rseed}
+\item{rseed}{Integer number. Random seed to enforce reproducible clustering results. Default is 17000.}
 }
 \description{
-title
+This function allows filtering of genes and cells to be used in the downstream analysis.
 }

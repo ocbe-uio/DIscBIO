@@ -2,16 +2,13 @@
 % Please edit documentation in R/DIscBIO-generic-plotKmeansLabelstSNE.R
 \name{plotKmeansLabelstSNE}
 \alias{plotKmeansLabelstSNE}
-\alias{plotKmeansLabelstSNE,PSCANseq-method}
-\title{title}
+\title{tSNE map for K-means clustering with labels}
 \usage{
 plotKmeansLabelstSNE(object)
-
-\S4method{plotKmeansLabelstSNE}{PSCANseq}(object)
 }
 \arguments{
-\item{object}{object}
+\item{object}{\code{PSCANseq} class object.}
 }
 \description{
-description
+Visualizing the K-means clusters using tSNE maps
 }

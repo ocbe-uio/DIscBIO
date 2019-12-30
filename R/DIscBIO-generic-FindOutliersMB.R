@@ -24,7 +24,7 @@ setGeneric(
 )
 
 setMethod(f="FindOutliersMB",
-          signature = "PSCANseq ",
+          signature = "PSCANseq",
           definition = function(object,K,outminc,outlg,probthr,thr,outdistquant,plot = TRUE, quiet = FALSE) {
             if ( length(object@MBclusters$clusterid) == 0 ) stop("run exprmclust before FindOutliersMB")
             if ( ! is.numeric(outminc) ) stop("outminc has to be a non-negative integer") else if ( round(outminc) != outminc | outminc < 0 ) stop("outminc has to be a non-negative integer")

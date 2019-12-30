@@ -3,8 +3,7 @@
 \docType{methods}
 \name{Clustexp}
 \alias{Clustexp}
-\alias{Clustexp,PSCANseq-method}
-\title{title}
+\title{Clustering of single-cell transcriptome data}
 \usage{
 Clustexp(
   object,
@@ -19,44 +18,33 @@ Clustexp(
   rseed = 17000,
   quiet = FALSE
 )
-
-\S4method{Clustexp}{PSCANseq}(
-  object,
-  clustnr = 20,
-  bootnr = 50,
-  metric = "pearson",
-  do.gap = TRUE,
-  SE.method = "Tibs2001SEmax",
-  SE.factor = 0.25,
-  B.gap = 50,
-  cln = 0,
-  rseed = 17000,
-  quiet = FALSE
-)
 }
 \arguments{
-\item{object}{object}
+\item{object}{\code{PSCANseq} class object.}
 
-\item{clustnr}{clustnr}
+\item{clustnr}{Maximum number of clusters for the derivation of the cluster number by the saturation of mean within-cluster-dispersion. Default is 20.}
 
-\item{bootnr}{bootnr}
+\item{bootnr}{A numeric value of booststrapping runs for \code{clusterboot}. Default is 50.}
 
-\item{metric}{metric}
+\item{metric}{Is the method to transform the input data to a distance object. 
+Metric has to be one of the following: ["spearman","pearson","kendall","euclidean","maximum","manhattan","canberra","binary","minkowski"].}
 
-\item{do.gap}{do.gap}
+\item{do.gap}{A logical vector that allows generating the number of clusters based on the gap statistics. Default is TRUE.}
 
-\item{SE.method}{SE.method}
+\item{SE.method}{The SE.method determines the first local maximum of the gap statistics. 
+The SE.method has to be one of the following:["firstSEmax","Tibs2001SEmax","globalSEmax","firstmax","globalmax"]. Default is "Tibs2001SEmax"}
 
-\item{SE.factor}{SE.factor}
+\item{SE.factor}{A numeric value of the fraction of the standard deviation by which the local maximum is required to differ from the neighboring points it is compared to. 
+Default is 0.25.}
 
-\item{B.gap}{B.gap}
+\item{B.gap}{Number of bootstrap runs for the calculation of the gap statistics. Default is 50}
 
-\item{cln}{cln}
+\item{cln}{Number of clusters to be used. Default is \code{NULL} and the cluster number is inferred by the saturation criterion.}
 
-\item{rseed}{rseed}
+\item{rseed}{Integer number. Random seed to enforce reproducible clustering results. Default is 17000.}
 
 \item{quiet}{if `TRUE`, intermediate output is suppressed}
 }
 \description{
-title
+This functions performs the initial clustering of the RaceID algorithm.
 }

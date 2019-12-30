@@ -3,16 +3,16 @@
 \name{KMClustDiffGenes}
 \alias{KMClustDiffGenes}
 \alias{KMClustDiffGenes,PSCANseq-method}
-\title{title}
+\title{ClustDiffGenes}
 \usage{
 KMClustDiffGenes(object, fdr = 0.01)
 
 \S4method{KMClustDiffGenes}{PSCANseq}(object, fdr = 0.01)
 }
 \arguments{
-\item{object}{object}
+\item{object}{\code{PSCANseq} class object.}
 
-\item{fdr}{fdr}
+\item{fdr}{A numeric value of the false discovery rate. Default is 0.01.}
 }
 \description{
 description

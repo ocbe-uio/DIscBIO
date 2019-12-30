@@ -17,7 +17,6 @@
 #' @param cln Number of clusters to be used. Default is \code{NULL} and the cluster number is inferred by the saturation criterion.
 #' @param rseed Integer number. Random seed to enforce reproducible clustering results. Default is 17000.
 #' @param quiet if `TRUE`, intermediate output is suppressed
-#' @rdname Clustexp
 setGeneric("Clustexp", function(object, clustnr = 20, bootnr = 50,
                                 metric = "pearson", do.gap = TRUE,
                                 SE.method = "Tibs2001SEmax", SE.factor = .25,

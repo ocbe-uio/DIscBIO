@@ -2,13 +2,13 @@
 % Please edit documentation in R/J48DT.R
 \name{J48DT}
 \alias{J48DT}
-\title{title}
+\title{J48 Decision Tree}
 \usage{
-J48DT(object)
+J48DT(data)
 }
 \arguments{
-\item{object}{object}
+\item{data}{A data frame resulted from running the function ClassVectoringDT.}
 }
 \description{
-description
+The decision tree analysis is implemented over a training dataset, which consisted of the DEGs obtained by either SAMseq or the binomial differential expression.
 }

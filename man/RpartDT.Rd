@@ -2,13 +2,10 @@
 % Please edit documentation in R/RpartDT.R
 \name{RpartDT}
 \alias{RpartDT}
-\title{title}
+\title{RPART Decision Tree}
 \usage{
-RpartDT(object)
-}
-\arguments{
-\item{object}{object}
+RpartDT(data)
 }
 \description{
-description
+The decision tree analysis is implemented over a training dataset, which consisted of the DEGs obtained by either SAMseq or the binomial differential expression.
 }

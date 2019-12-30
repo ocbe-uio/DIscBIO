@@ -2,20 +2,19 @@
 % Please edit documentation in R/DIscBIO-generic-plotexptsneMB.R
 \name{plotexptsneMB}
 \alias{plotexptsneMB}
-\alias{plotexptsneMB,PSCANseq-method}
-\title{title}
+\title{Highlighting gene expression in Model-based clustering in the t-SNE map}
 \usage{
-plotexptsneMB(object, g, n = "")
-
-\S4method{plotexptsneMB}{PSCANseq}(object, g, n = "")
+plotexptsneMB(object, g, n = NULL)
 }
 \arguments{
-\item{object}{object}
+\item{object}{\code{PSCANseq} class object.}
 
-\item{g}{g}
+\item{g}{Individual gene name or vector with a group of gene names corresponding to a subset of valid row names of the \code{ndata} slot
+of the \code{PSCANseq} object.}
 
-\item{n}{n}
+\item{n}{String of characters representing the title of the plot. Default is NULL and the first element of \code{g} is chosen.}
 }
 \description{
-title
+The t-SNE map representation can also be used to analyze expression of a gene or a group of genes, 
+to investigate cluster specific gene expression patterns
 }

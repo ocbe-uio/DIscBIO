@@ -2,19 +2,20 @@
 % Please edit documentation in R/Jaccard.R
 \name{Jaccard}
 \alias{Jaccard}
-\title{title}
+\title{Jaccard’s similarity}
 \usage{
-Jaccard(object, Clustering, K, plot = TRUE)
+Jaccard(object, Clustering = "K-means", K, plot = TRUE)
 }
 \arguments{
-\item{object}{object}
+\item{object}{\code{PSCANseq} class object.}
 
-\item{Clustering}{Clustering}
+\item{Clustering}{Clustering has to be one of the following: ["K-means","MB"]. Default is "K-means"}
 
-\item{K}{K}
+\item{K}{A numeric value of the number of clusters}
 
 \item{plot}{if `TRUE`, plots the mean Jaccard similarities}
 }
 \description{
-description
+Robustness of the clusters can be assessed by Jaccard’s similarity, which reflects the reproducibility of individual clusters across bootstrapping runs.
+Jaccard’s similarity is the intersect of two clusters divided by the union.
 }

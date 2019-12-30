@@ -4,14 +4,12 @@
 \alias{PCAplotSymbols}
 \title{title}
 \usage{
-PCAplotSymbols(object1, object2, types = NULL)
+PCAplotSymbols(object, types = NULL)
 }
 \arguments{
-\item{object1}{object1}
+\item{object}{\code{PSCANseq} class object.}
 
-\item{object2}{object2}
-
-\item{types}{types}
+\item{types}{If types=NULL then the names of the cells will be grouped automatically. Default is NULL}
 }
 \description{
 description

@@ -2,20 +2,17 @@
 % Please edit documentation in R/DIscBIO-generic-comptsneMB.R
 \name{comptsneMB}
 \alias{comptsneMB}
-\alias{comptsneMB,PSCANseq-method}
-\title{title}
+\title{Computing tSNE for Model-based clustering}
 \usage{
 comptsneMB(object, rseed = 15555, quiet = FALSE)
-
-\S4method{comptsneMB}{PSCANseq}(object, rseed = 15555, quiet = FALSE)
 }
 \arguments{
-\item{object}{object}
-
-\item{rseed}{rseed}
+\item{object}{\code{PSCANseq} class object.}
 
 \item{quiet}{if `TRUE`, suppresses intermediate output}
+
+\item{Integer}{number. Random seed to to yield exactly reproducible maps across different runs. Default is 15555.}
 }
 \description{
-description
+This function is used to compute the t-Distributed Stochastic Neighbor Embedding (t-SNE).
 }

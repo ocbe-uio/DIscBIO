@@ -2,20 +2,18 @@
 % Please edit documentation in R/DIscBIO-generic-KMclustheatmap.R
 \name{KMclustheatmap}
 \alias{KMclustheatmap}
-\alias{KMclustheatmap,PSCANseq-method}
-\title{title}
+\title{Plotting the K-means clusters in a heatmap representation of the cell-to-cell distances}
 \usage{
 KMclustheatmap(object, hmethod = "single", plot = TRUE)
-
-\S4method{KMclustheatmap}{PSCANseq}(object, hmethod = "single", plot = TRUE)
 }
 \arguments{
-\item{object}{object}
+\item{object}{\code{PSCANseq} class object.}
 
-\item{hmethod}{hmethod}
+\item{hmethod}{Agglomeration method used for determining the cluster order from hierarchical clustering of the cluster medoids. 
+This should be one of "ward.D", "ward.D2", "single", "complete", "average". Default is "single".}
 
 \item{plot}{if `TRUE`, plots the heatmap; otherwise, just prints cclmo}
 }
 \description{
-description
+This functions plots a heatmap of the distance matrix grouped by clusters. Individual clusters are highlighted with rainbow colors along the x and y-axes.
 }

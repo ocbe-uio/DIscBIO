@@ -2,21 +2,17 @@
 % Please edit documentation in R/KmeanOrder.R
 \name{KmeanOrder}
 \alias{KmeanOrder}
-\title{title}
+\title{Pseudo-time ordering based on k-means clusters}
 \usage{
-KmeanOrder(object, Clusters, sampleNames, quiet = FALSE, export = TRUE)
+KmeanOrder(object, quiet = FALSE, export = TRUE)
 }
 \arguments{
-\item{object}{object}
-
-\item{Clusters}{Clusters}
-
-\item{sampleNames}{sampleNames}
+\item{object}{\code{PSCANseq} class object.}
 
 \item{quiet}{if `TRUE`, suppresses intermediary output}
 
 \item{export}{if `TRUE`, exports order table to csv}
 }
 \description{
-description
+This function takes the exact output of exprmclust function and construct Pseudo-time ordering by mapping all cells onto the path that connects cluster centers.
 }

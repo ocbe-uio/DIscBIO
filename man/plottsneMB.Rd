@@ -2,18 +2,15 @@
 % Please edit documentation in R/DIscBIO-generic-plottsneMB.R
 \name{plottsneMB}
 \alias{plottsneMB}
-\alias{plottsneMB,PSCANseq-method}
-\title{title}
+\title{tSNE map for Model-based clustering}
 \usage{
 plottsneMB(object, K)
-
-\S4method{plottsneMB}{PSCANseq}(object)
 }
 \arguments{
-\item{object}{object}
+\item{object}{\code{PSCANseq} class object.}
 
-\item{K}{K}
+\item{K}{A numeric value of the number of clusters}
 }
 \description{
-description
+Visualizing the Model-based clusters using tSNE maps
 }

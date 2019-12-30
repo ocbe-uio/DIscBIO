@@ -25,7 +25,7 @@ geneCol  <- "yellow"
 FgeneCol <- "black"
 erccCol  <- "blue"
 noiseF   <- NoiseFiltering(
-    Object, percentile, CV, gene_names2, geneCol, FgeneCol, erccCol, Val=T,
+    Object, percentile, CV, geneCol, FgeneCol, erccCol, Val=T,
     plot = FALSE, export = FALSE, quiet = TRUE
 )       # Val=F  will plot all the ERCC spike-ins
 

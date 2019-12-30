@@ -6,12 +6,11 @@
 \usage{
 NoiseFiltering(
   object,
-  percentile,
-  CV,
-  GeneList,
-  geneCol,
-  FgeneCol,
-  erccCol,
+  percentile = 0.8,
+  CV = 0.3,
+  geneCol = "yellow",
+  FgeneCol = "black",
+  erccCol = "blue",
   Val = TRUE,
   plot = TRUE,
   export = TRUE,
@@ -19,25 +18,23 @@ NoiseFiltering(
 )
 }
 \arguments{
-\item{object}{object}
+\item{object}{\code{PSCANseq} class object.}
 
-\item{percentile}{percentile}
+\item{percentile}{A numeric value of the percentile. It is used to validate the ERCC spik-ins. Default is 0.8.}
 
-\item{CV}{CV}
+\item{CV}{A numeric value of the coefficient of variation. It is used to validate the ERCC spik-ins. Default is 0.5.}
 
-\item{GeneList}{GeneList}
+\item{geneCol}{Color of the genes that did not pass the filtration.}
 
-\item{geneCol}{geneCol}
+\item{FgeneCol}{Color of the genes that passt the filtration.}
 
-\item{FgeneCol}{FgeneCol}
+\item{erccCol}{Color of the ERCC spik-ins.}
 
-\item{erccCol}{erccCol}
+\item{Val}{A logical vector that allows plotting only the validated ERCC spike-ins. Default is TRUE. If Val=FALSE will plot all the ERCC spike-ins.}
 
-\item{Val}{Val}
+\item{plot}{A logical vector that allows plotting the technical noise. Default is TRUE.}
 
-\item{plot}{Generate plot?}
-
-\item{export}{Export results?}
+\item{export}{A logical vector that allows writing the final gene list in excel file. Default is TRUE.}
 
 \item{quiet}{if `TRUE`, suppresses printed output}
 }

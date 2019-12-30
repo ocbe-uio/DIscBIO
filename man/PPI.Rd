@@ -2,15 +2,17 @@
 % Please edit documentation in R/PPI.R
 \name{PPI}
 \alias{PPI}
-\title{title}
+\title{Defining protein-protein interactions (PPI) over a list of genes,}
 \usage{
-PPI(data, FileName)
+PPI(data, FileName, species = "9606")
 }
 \arguments{
-\item{data}{data}
+\item{data}{A gene list.}
 
-\item{FileName}{FileName}
+\item{FileName}{A string vector showing the name to be used to save the resulted table.}
+
+\item{species}{The taxonomy name/id. Default is "9606" for Homo sapiens.}
 }
 \description{
-description
+This function uses STRING-api. The outcome of STRING analysis will be stored in tab separated values (TSV) files.
 }

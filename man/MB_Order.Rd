@@ -2,21 +2,19 @@
 % Please edit documentation in R/MB_Order.R
 \name{MB_Order}
 \alias{MB_Order}
-\title{title}
+\title{Pseudo-time ordering based on Model-based clusters}
 \usage{
-MB_Order(object, sampleNames, Names, quiet = FALSE, export = TRUE)
+MB_Order(object, quiet = FALSE, export = TRUE)
 }
 \arguments{
-\item{object}{object}
-
-\item{sampleNames}{sampleNames}
-
-\item{Names}{Names}
+\item{object}{\code{PSCANseq} class object.}
 
 \item{quiet}{if `TRUE`, intermediary output is suppressed}
 
 \item{export}{if `TRUE`, exports the results as a CSV file}
+
+\item{data}{The exact output of the exprmclust function.}
 }
 \description{
-description
+This function takes the exact output of exprmclust function and construct Pseudo-time ordering by mapping all cells onto the path that connects cluster centers.
 }
