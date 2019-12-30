@@ -6,12 +6,11 @@
 #' @param species The taxonomy name/id. Default is "9606" for Homo sapiens.
 #' @importFrom httr content
 #' @importFrom readr read_tsv
-PPI<-function(data,FileName){
+PPI<-function(data,FileName,species="9606"){
 	# Save base enpoint as variable
 	string_api_url <- "https://string-db.org/api/"
 	output_format <- "tsv" #"json", "tsv-no-header", "tsv", "xml"
 	method <- "network"
-	species <- "9606"
 	your_identifiers <- ""
 	optional_parameters <- ""
 	# Construct API request

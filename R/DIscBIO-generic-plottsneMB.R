@@ -9,9 +9,9 @@ setGeneric("plottsneMB", function(object,K) standardGeneric("plottsneMB"))
 
 setMethod("plottsneMB",
           signature = "PSCANseq",
-          definition = function(object){
+          definition = function(object,K){
             if ( length(object@MBtsne) == 0 ) stop("run comptsneMB before plottsneMB")
-		col=c("black","blue","green","red","yellow","gray")
+			col=c("black","blue","green","red","yellow","gray")
             part <- object@MBclusters$clusterid
             plot(object@MBtsne,xlab="Dim 1",ylab="Dim 2",pch=20,cex=1.5,col="lightgrey",las=1)
             for ( i in 1:K ){

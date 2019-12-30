@@ -4,9 +4,9 @@
 #' @param data Protein-protein interaction data frame resulted from running the PPI function. 
 #' @importFrom igraph graph.data.frame as_adjacency_matrix distance_table average.path.length get.adjacency V E mean_distance
 #' @importFrom NetIndices GenInd
-NetAnalysis<-function(object){
-    if ( length(object[,1])<1 ) stop( "No Protein-Protein Interactions" )
-    df<-object[,-c(1,2)]
+NetAnalysis<-function(data){
+    if ( length(data[,1])<1 ) stop( "No Protein-Protein Interactions" )
+    df<-data[,-c(1,2)]
     gg <- graph.data.frame(df)
     betweenness<-betweenness(gg)
     betweenness.table<- data.frame(betweenness)

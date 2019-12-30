@@ -9,7 +9,7 @@
 #' @importFrom philentropy distance
 #' @importFrom boot boot
 #' @importFrom graphics barplot box
-Jaccard <- function(object, Clustering, K, plot = TRUE) {
+Jaccard <- function(object, Clustering="K-means", K, plot = TRUE) {
     JACCARD <-c()
     if (!(Clustering %in% c( "K-means","MB"))) {
         stop("Clustering has to be either K-means or MB")

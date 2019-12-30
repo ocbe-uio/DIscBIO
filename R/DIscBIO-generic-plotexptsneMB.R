@@ -11,10 +11,10 @@ setGeneric("plotexptsneMB", function(object,g,n=NULL) standardGeneric("plotexpts
 
 setMethod("plotexptsneMB",
           signature = "PSCANseq",
-          definition = function(object,g,n=""){
+          definition = function(object,g,n=NULL){
             if ( length(object@MBtsne) == 0 ) stop("run comptsneMB before plotexptsneMB")
             if ( length(intersect(g,rownames(object@ndata))) < length(unique(g)) ) stop("second argument does not correspond to set of rownames slot ndata of SCseq object")
-            if ( n == "" ) n <- g[1]
+            if (is.null(n))  n <- g[1]
             l <- apply(object@ndata[g,] - .1,2,sum) + .1
             
             mi <- min(l,na.rm=TRUE)

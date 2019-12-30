@@ -8,11 +8,10 @@
 #' @importFrom utils download.file
 #' @importFrom png readPNG
 #' @importFrom graphics plot rasterImage
-Networking<-function(data,FileName){
+Networking<-function(data,FileName,species="9606"){
 	string_api_url <- "https://string-db.org/api/"
 	output_format <- "image"
 	method <- "network"
-	species <- "9606"
 	your_identifiers <- ""
 	optional_parameters <- ""
 

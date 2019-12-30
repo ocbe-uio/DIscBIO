@@ -6,8 +6,11 @@
 #' @param quiet if `TRUE`, intermediary output is suppressed
 #' @param export if `TRUE`, exports the results as a CSV file
 #' @importFrom TSCAN TSCANorder
-MB_Order<-function(object, sampleNames,Names, quiet = FALSE, export = TRUE){
-	lpsorderMB <- TSCANorder(object)
+MB_Order<-function(object, quiet = FALSE, export = TRUE){
+	data=object@MBclusters
+	lpsorderMB <- TSCANorder(data)
+	Names<-names(object@MBclusters$clusterid)
+	sampleNames<-colnames(object@fdata)
 	orderID<-lpsorderMB
 	order<-c(1:length(lpsorderMB))
 	orderTableMB<-data.frame(order,orderID)
@@ -23,5 +26,6 @@ MB_Order<-function(object, sampleNames,Names, quiet = FALSE, export = TRUE){
 	FinalOrder<-orderTableMB[match(sampleNames, orderTableMB$orderID),]
 	MBordering<-FinalOrder[,1]
 	names(MBordering)<-names(Names)
-	return(MBordering)
+	object@MBordering<-MBordering
+	return(object)
 }

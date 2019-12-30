@@ -1,7 +1,7 @@
 #' PSCANseq
 #' @title The PSCANseq Class
 #' @description The PSCANseq class is the central object storing all information generated throughout the pipeline. 
-#' @slot expdata    
+#' @slot expdata 
 #' @slot expdataAll   
 #' @slot ndata      
 #' @slot fdata      
@@ -18,7 +18,7 @@
 #' @slot MBclusters 
 #' @slot kordering  
 #' @slot MBordering 
-#' @slot MBtsne     
+#' @slot MBtsne  
 #' @slot noiseF
 #' @slot FinalGeneList  
 #' @importFrom methods new
@@ -31,6 +31,7 @@ PSCANseq <- setClass(
     Class = "PSCANseq",
     slots = c(
         expdata    = "data.frame",
+		expdataAll    = "data.frame",
         ndata      = "data.frame",
         fdata      = "data.frame", 
         distances  = "matrix",
@@ -46,7 +47,9 @@ PSCANseq <- setClass(
         MBclusters = "vector",
         kordering  = "vector",
         MBordering = "vector",
-        MBtsne     = "data.frame"
+        MBtsne     = "data.frame",
+		noiseF   = "vector",
+		FinalGeneList   = "vector"
     )
 )
 
@@ -76,7 +79,12 @@ setValidity("PSCANseq",
 
 setMethod("initialize",
           signature = "PSCANseq",
-          definition = function(.Object, expdata ){
+          definition = function(.Object, expdataAll ){
+		    .Object@expdataAll <- expdataAll
+			shortNames <- substr(rownames(expdataAll), 1, 4)
+			geneTypes <- factor(c(ENSG = "ENSG", ERCC = "ERCC" )[shortNames])
+			expdata <- expdataAll[which(geneTypes == "ENSG"), ]
+			#countsERCC <- expdataAll[which(geneTypes == "ERCC" ), ]
             .Object@expdata <- expdata
             .Object@ndata <- expdata
             .Object@fdata <- expdata
