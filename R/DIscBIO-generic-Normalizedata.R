@@ -27,9 +27,33 @@ setMethod("Normalizedata",
             if ( ! is.numeric(dsn) ) stop( "dsn has to be a positive integer number" ) else if ( round(dsn) != dsn | dsn <= 0 ) stop( "dsn has to be a positive integer number" )
             object@filterpar <- list(mintotal=mintotal, minexpr=minexpr, minnumber=minnumber, maxexpr=maxexpr, downsample=downsample, dsn=dsn)
             object@ndata <- object@expdata[,apply(object@expdata,2,sum,na.rm=TRUE) >= mintotal]
+                
             if ( downsample ){
-              set.seed(rseed)
-              object@ndata <- downsample(object@expdata,n=mintotal,dsn=dsn)
+                downsample <- function(x,n,dsn){
+				x <- round( x[,apply(x,2,sum,na.rm=TRUE) >= n], 0)
+				nn <- min( apply(x,2,sum) )
+				for ( j in 1:dsn ){
+					z  <- data.frame(GENEID=rownames(x))
+					rownames(z) <- rownames(x)
+					initv <- rep(0,nrow(z))
+					for ( i in 1:dim(x)[2] ){
+						y <- aggregate(rep(1,nn),list(sample(rep(rownames(x),x[,i]),nn)),sum)
+						na <- names(x)[i]
+						names(y) <- c("GENEID",na)
+						rownames(y) <- y$GENEID
+						z[,na] <- initv
+						k <- intersect(rownames(z),y$GENEID)
+						z[k,na] <- y[k,na]
+						z[is.na(z[,na]),na] <- 0
+					}
+					rownames(z) <- as.vector(z$GENEID)
+					ds <- if ( j == 1 ) z[,-1] else ds + z[,-1]
+				}
+				ds <- ds/dsn + .1
+				return(ds)
+                }
+                set.seed(rseed)
+                object@ndata <- downsample(object@expdata,n=mintotal,dsn=dsn)
             }else{
               x <- object@ndata
               object@ndata <- as.data.frame( t(t(x)/apply(x,2,sum))*median(apply(x,2,sum,na.rm=TRUE)) + .1 )
@@ -39,5 +63,5 @@ setMethod("Normalizedata",
             x <- object@fdata
             object@fdata <- x[apply(x,1,max,na.rm=TRUE) < maxexpr,]
             return(object)
-          }
-          )
+    }
+    )
