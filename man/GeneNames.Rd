@@ -3,7 +3,7 @@
 \docType{data}
 \name{GeneNames}
 \alias{GeneNames}
-\title{GeneNames data}
+\title{GeneNames}
 \description{
-GeneNames data
+GeneNames
 }

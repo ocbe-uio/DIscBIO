@@ -19,25 +19,7 @@ Kmeansruns(
 )
 }
 \arguments{
-\item{data}{data}
-
-\item{krange}{krange}
-
-\item{criterion}{criterion}
-
-\item{iter.max}{iter.max}
-
 \item{runs}{number of runs}
-
-\item{scaledata}{scaledata}
-
-\item{alpha}{alpha}
-
-\item{critout}{critout}
-
-\item{plot}{plot}
-
-\item{method}{method}
 
 \item{...}{extra parameters to be passed to kmm}
 }

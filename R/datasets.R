@@ -1,16 +1,16 @@
-#' valuesG1ms data
+#' valuesG1ms
 #'
 #' @name valuesG1ms
 #' @docType data
 NULL
 
-#' MLSrawWithoutERCC data
+#' MLSrawWithoutERCC
 #'
 #' @name MLSrawWithoutERCC
 #' @docType data
 NULL
 
-#' GeneNames data
+#' GeneNames
 #'
 #' @name GeneNames
 #' @docType data

@@ -3,7 +3,7 @@
 \docType{data}
 \name{MLSrawWithoutERCC}
 \alias{MLSrawWithoutERCC}
-\title{MLSrawWithoutERCC data}
+\title{MLSrawWithoutERCC}
 \description{
-MLSrawWithoutERCC data
+MLSrawWithoutERCC
 }

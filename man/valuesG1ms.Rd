@@ -3,7 +3,7 @@
 \docType{data}
 \name{valuesG1ms}
 \alias{valuesG1ms}
-\title{valuesG1ms data}
+\title{valuesG1ms}
 \description{
-valuesG1ms data
+valuesG1ms
 }

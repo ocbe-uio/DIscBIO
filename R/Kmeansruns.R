@@ -1,14 +1,14 @@
 #' @title K-means runs
-#' @param data data
-#' @param krange krange
-#' @param criterion criterion
-#' @param iter.max iter.max
+#' @param data
+#' @param krange
+#' @param criterion
+#' @param iter.max
 #' @param runs number of runs
-#' @param scaledata scaledata
-#' @param alpha alpha
-#' @param critout critout
-#' @param plot plot
-#' @param method method
+#' @param scaledata
+#' @param alpha
+#' @param critout
+#' @param plot
+#' @param method
 #' @param ... extra parameters to be passed to kmm
 #' @importFrom amap Kmeans
 #' @importFrom graphics pairs
