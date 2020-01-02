@@ -1,26 +1,26 @@
 #' PSCANseq
 #' @title The PSCANseq Class
 #' @description The PSCANseq class is the central object storing all information generated throughout the pipeline. 
-#' @slot expdata <slot description>
-#' @slot expdataAll <slot description>
-#' @slot ndata <slot description>
-#' @slot fdata <slot description>
-#' @slot distances <slot description>
-#' @slot tsne <slot description>
-#' @slot background <slot description>
-#' @slot out <slot description>
-#' @slot cpart <slot description>
-#' @slot fcol <slot description>
-#' @slot filterpar <slot description>
-#' @slot clusterpar <slot description>
-#' @slot outlierpar <slot description>
-#' @slot kmeans <slot description>
-#' @slot MBclusters <slot description>
-#' @slot kordering <slot description>
-#' @slot MBordering <slot description>
-#' @slot MBtsne <slot description>
-#' @slot noiseF <slot description>
-#' @slot FinalGeneList <slot description>
+#' @slot expdata
+#' @slot expdataAll
+#' @slot ndata
+#' @slot fdata
+#' @slot distances
+#' @slot tsne
+#' @slot background
+#' @slot out
+#' @slot cpart
+#' @slot fcol
+#' @slot filterpar
+#' @slot clusterpar
+#' @slot outlierpar
+#' @slot kmeans
+#' @slot MBclusters
+#' @slot kordering
+#' @slot MBordering
+#' @slot MBtsne
+#' @slot noiseF
+#' @slot FinalGeneList
 #' @importFrom methods new validObject
 #' @name PSCANseq
 #' @rdname PSCANseq
