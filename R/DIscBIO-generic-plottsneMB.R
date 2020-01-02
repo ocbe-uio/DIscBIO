@@ -1,19 +1,17 @@
-#' @title title
-#' @export
-#' @rdname plottsneMB
-#' @param K K
-setGeneric("plottsneMB", function(object,K) standardGeneric("plottsneMB"))
-#' @title title
-#' @description description
-#' @param object object
+#' @title tSNE map for Model-based clustering
+#' @description Visualizing the Model-based clusters using tSNE maps
+#' @param object \code{PSCANseq} class object.
+#' @param K A numeric value of the number of clusters
 #' @importFrom graphics text
+setGeneric("plottsneMB", function(object,K) standardGeneric("plottsneMB"))
+
 #' @export
 #' @rdname plottsneMB
 setMethod("plottsneMB",
           signature = "PSCANseq",
-          definition = function(object){
+          definition = function(object,K){
             if ( length(object@MBtsne) == 0 ) stop("run comptsneMB before plottsneMB")
-		col=c("black","blue","green","red","yellow","gray")
+			col=c("black","blue","green","red","yellow","gray")
             part <- object@MBclusters$clusterid
             plot(object@MBtsne,xlab="Dim 1",ylab="Dim 2",pch=20,cex=1.5,col="lightgrey",las=1)
             for ( i in 1:K ){

@@ -1,17 +1,17 @@
-#' @title title
-#' @description description 
+#' @title Plotting the network.
+#' @description This function uses STRING-api to plot the network. 
 #' @export
-#' @param data data
-#' @param FileName FileName
+#' @param data A gene list.
+#' @param FileName A string vector showing the name to be used to save the resulted network.
+#' @param species The taxonomy name/id. Default is "9606" for Homo sapiens.
 #' @importFrom httr GET status_code
 #' @importFrom utils download.file
 #' @importFrom png readPNG
 #' @importFrom graphics plot rasterImage
-Networking<-function(data,FileName){
+Networking<-function(data,FileName,species="9606"){
 	string_api_url <- "https://string-db.org/api/"
 	output_format <- "image"
 	method <- "network"
-	species <- "9606"
 	your_identifiers <- ""
 	optional_parameters <- ""
 

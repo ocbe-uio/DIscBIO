@@ -2,15 +2,17 @@
 % Please edit documentation in R/Networking.R
 \name{Networking}
 \alias{Networking}
-\title{title}
+\title{Plotting the network.}
 \usage{
-Networking(data, FileName)
+Networking(data, FileName, species = "9606")
 }
 \arguments{
-\item{data}{data}
+\item{data}{A gene list.}
 
-\item{FileName}{FileName}
+\item{FileName}{A string vector showing the name to be used to save the resulted network.}
+
+\item{species}{The taxonomy name/id. Default is "9606" for Homo sapiens.}
 }
 \description{
-description
+This function uses STRING-api to plot the network.
 }

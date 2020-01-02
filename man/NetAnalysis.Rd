@@ -2,13 +2,17 @@
 % Please edit documentation in R/NetAnalysis.R
 \name{NetAnalysis}
 \alias{NetAnalysis}
-\title{title}
+\title{Networking analysis.}
 \usage{
-NetAnalysis(object)
+NetAnalysis(data, export = TRUE, FileName = "1")
 }
 \arguments{
-\item{object}{object}
+\item{data}{Protein-protein interaction data frame resulted from running the PPI function.}
+
+\item{export}{if `TRUE`, exports the analysis table as a csv file}
+
+\item{FileName}{suffix for the file name (if export = TRUE)}
 }
 \description{
-description
+This function checks the connectivity degree and the betweenness centrality, which reflect the communication flow in the defined PPI networks
 }

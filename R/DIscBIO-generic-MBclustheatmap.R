@@ -1,10 +1,13 @@
-#' @title title
-#' @export
-#' @rdname MBclustheatmap
-#' @param object object
-#' @param hmethod hmethod
-#' @param plot if `TRUE`, plots the results
+#' @title Plotting the Model-based clusters in a heatmap representation of the cell-to-cell distances
+#' @description  This functions plots a heatmap of the distance matrix grouped by clusters. Individual clusters are highlighted with rainbow colors along the x and y-axes.
+#' @param object \code{PSCANseq} class object.
+#' @param hmethod  Agglomeration method used for determining the cluster order from hierarchical clustering of the cluster medoids. 
+#' This should be one of "ward.D", "ward.D2", "single", "complete", "average". Default is "single".
+#' @param plot if `TRUE`, plots the heatmap; otherwise, just prints cclmo
 #' @param quiet if `TRUE`, intermediary output is suppressed
+#' @importFrom stats hclust as.dist cor kmeans
+#' @importFrom cluster clusGap maxSE
+#' @importFrom fpc clusterboot
 setGeneric("MBclustheatmap", function(object,hmethod="single", plot = TRUE, quiet = FALSE) standardGeneric("MBclustheatmap"))
 
 #' @export
@@ -14,6 +17,27 @@ setMethod("MBclustheatmap",
           definition = function(object,hmethod, plot = TRUE, quiet = FALSE){
             x <- object@fdata  
 		object@clusterpar$metric <- "pearson"
+		dist.gen <- function(x,method="euclidean", ...) if ( method %in% c("spearman","pearson","kendall") ) as.dist( 1 - cor(t(x),method=method,...) ) else dist(x,method=method,...)
+		dist.gen.pairs <- function(x,y,...) dist.gen(t(cbind(x,y)),...)
+		clustfun <- function(x,clustnr=20,bootnr=50,metric="pearson",do.gap=TRUE,SE.method="Tibs2001SEmax",SE.factor=.25,B.gap=50,cln=0,rseed=17000,quiet = FALSE){
+			if ( clustnr < 2) stop("Choose clustnr > 1")
+			di <- dist.gen(t(x),method=metric)
+			if ( do.gap | cln > 0 ){
+				gpr <- NULL
+				if ( do.gap ){
+					set.seed(rseed)
+					gpr <- clusGap(as.matrix(di), FUNcluster = kmeans, K.max = clustnr, B = B.gap) 
+					if ( cln == 0 ) cln <- maxSE(gpr$Tab[,3],gpr$Tab[,4],method=SE.method,SE.factor)
+				}    
+				if ( cln <= 1 ) {
+					clb <- list(result=list(partition=rep(1,dim(x)[2])),bootmean=1)
+					names(clb$result$partition) <- names(x)
+					return(list(x=x,clb=clb,gpr=gpr,di=di))
+				}
+				clb <- clusterboot(di,B=bootnr,distances=FALSE,bootmethod="boot",clustermethod=KmeansCBI,krange=cln,scaling=FALSE,multipleboot=FALSE,bscompare=TRUE,seed=rseed)
+				return(list(x=x,clb=clb,gpr=gpr,di=di))
+			}
+		}
  		y <- clustfun(object@fdata,clustnr=20,bootnr=50,metric="pearson",do.gap=TRUE,SE.method="Tibs2001SEmax",SE.factor=.25,B.gap=50,cln=0,rseed=17000, quiet = quiet) 
 		object@distances <- as.matrix( y$di )
             part <- object@MBclusters$clusterid

@@ -3,15 +3,15 @@
 \name{plotMBLabelstSNE}
 \alias{plotMBLabelstSNE}
 \alias{plotMBLabelstSNE,PSCANseq-method}
-\title{title}
+\title{title tSNE map for Model-based clustering with labels}
 \usage{
 plotMBLabelstSNE(object)
 
 \S4method{plotMBLabelstSNE}{PSCANseq}(object)
 }
 \arguments{
-\item{object}{object}
+\item{object}{\code{PSCANseq} class object.}
 }
 \description{
-description
+Visualizing the Model-based clusters using tSNE maps
 }

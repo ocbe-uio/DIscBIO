@@ -3,15 +3,15 @@
 \name{plotGap}
 \alias{plotGap}
 \alias{plotGap,PSCANseq-method}
-\title{title}
+\title{Plotting Gap Statistics}
 \usage{
 plotGap(object)
 
 \S4method{plotGap}{PSCANseq}(object)
 }
 \arguments{
-\item{object}{object}
+\item{object}{\code{PSCANseq} class object.}
 }
 \description{
-title
+Plotting Gap Statistics
 }

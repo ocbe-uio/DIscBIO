@@ -1,19 +1,20 @@
-#' @title title
-#' @export
-#' @rdname plotexptsneMB
-#' @param object object
-#' @param g g
-#' @param n n
-setGeneric("plotexptsneMB", function(object,g,n="") standardGeneric("plotexptsneMB"))
+#' @title Highlighting gene expression in Model-based clustering in the t-SNE map
+#' @description The t-SNE map representation can also be used to analyze expression of a gene or a group of genes, 
+#' to investigate cluster specific gene expression patterns
+#' @param object \code{PSCANseq} class object.
+#' @param g  Individual gene name or vector with a group of gene names corresponding to a subset of valid row names of the \code{ndata} slot
+#' of the \code{PSCANseq} object.
+#' @param n String of characters representing the title of the plot. Default is NULL and the first element of \code{g} is chosen.
+setGeneric("plotexptsneMB", function(object,g,n=NULL) standardGeneric("plotexptsneMB"))
 
 #' @export
 #' @rdname plotexptsneMB
 setMethod("plotexptsneMB",
           signature = "PSCANseq",
-          definition = function(object,g,n=""){
+          definition = function(object,g,n=NULL){
             if ( length(object@MBtsne) == 0 ) stop("run comptsneMB before plotexptsneMB")
             if ( length(intersect(g,rownames(object@ndata))) < length(unique(g)) ) stop("second argument does not correspond to set of rownames slot ndata of SCseq object")
-            if ( n == "" ) n <- g[1]
+            if (is.null(n))  n <- g[1]
             l <- apply(object@ndata[g,] - .1,2,sum) + .1
             
             mi <- min(l,na.rm=TRUE)

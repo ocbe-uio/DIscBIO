@@ -1,14 +1,12 @@
-#' @title title
-#' @export
-#' @rdname KMclustheatmap
+#' @title Plotting the K-means clusters in a heatmap representation of the cell-to-cell distances
+#' @description  This functions plots a heatmap of the distance matrix grouped by clusters. Individual clusters are highlighted with rainbow colors along the x and y-axes.
+#' @param object \code{PSCANseq} class object.
+#' @param hmethod  Agglomeration method used for determining the cluster order from hierarchical clustering of the cluster medoids. 
+#' This should be one of "ward.D", "ward.D2", "single", "complete", "average". Default is "single".
+#' @param plot if `TRUE`, plots the heatmap; otherwise, just prints cclmo
+#' @importFrom stats hclust as.dist cor
 setGeneric("KMclustheatmap", function(object,hmethod="single", plot = TRUE) standardGeneric("KMclustheatmap"))
 
-#' @title title
-#' @description description
-#' @param object object
-#' @param hmethod hmethod
-#' @param plot if `TRUE`, plots the heatmap; otherwise, just prints cclmo
-#' @importFrom stats hclust
 #' @export
 #' @rdname KMclustheatmap
 setMethod("KMclustheatmap",
@@ -27,6 +25,9 @@ setMethod("KMclustheatmap",
               if ( j == 1 ) tmp <- data.frame(cent) else tmp <- cbind(tmp,cent)
             }
             names(tmp) <- paste("cl",na,sep=".")
+					
+			dist.gen <- function(x,method="euclidean", ...) if ( method %in% c("spearman","pearson","kendall") ) as.dist( 1 - cor(t(x),method=method,...) ) else dist(x,method=method,...)
+			dist.gen.pairs <- function(x,y,...) dist.gen(t(cbind(x,y)),...)
             if ( max(part) > 1 )  cclmo <- hclust(dist.gen(as.matrix(dist.gen(t(tmp),method=object@clusterpar$metric))),method=hmethod)$order else cclmo <- 1
             q <- part
             for ( i in 1:max(part) ){

@@ -1,11 +1,10 @@
-#' @title title
-#' @rdname plotKmeansLabelstSNE
-setGeneric("plotKmeansLabelstSNE", function(object) standardGeneric("plotKmeansLabelstSNE"))
-#' @title title
-#' @description description
-#' @param object object
+#' @title tSNE map for K-means clustering with labels
+#' @description Visualizing the K-means clusters using tSNE maps 
+#' @param object \code{PSCANseq} class object.
 #' @rdname plotKmeansLabelstSNE
 #' @importFrom graphics text
+setGeneric("plotKmeansLabelstSNE", function(object) standardGeneric("plotKmeansLabelstSNE"))
+
 setMethod("plotKmeansLabelstSNE",
           signature = "PSCANseq",
           definition = function(object){
@@ -23,4 +22,4 @@ setMethod("plotKmeansLabelstSNE",
             plot(object@tsne,xlab="Dim 1",ylab="Dim 2",pch=20,cex=.5,col="lightgrey")
             text(object@tsne[,1],object@tsne[,2],labels,cex=.7,col=COL)
           }
-          )  
+          )		  

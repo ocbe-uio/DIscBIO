@@ -3,17 +3,17 @@
 \name{plotSymbolstSNE}
 \alias{plotSymbolstSNE}
 \alias{plotSymbolstSNE,PSCANseq-method}
-\title{title}
+\title{tSNE map for K-means clustering with symbols}
 \usage{
 plotSymbolstSNE(object, types = NULL)
 
 \S4method{plotSymbolstSNE}{PSCANseq}(object, types = NULL)
 }
 \arguments{
-\item{object}{object}
+\item{object}{\code{PSCANseq} class object.}
 
-\item{types}{types}
+\item{types}{If types=NULL then the names of the cells will be grouped automatically. Default is NULL}
 }
 \description{
-title
+Visualizing the K-means clusters using tSNE maps
 }

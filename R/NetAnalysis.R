@@ -1,12 +1,14 @@
-#' @title title
-#' @description description 
+#' @title Networking analysis.
+#' @description This function checks the connectivity degree and the betweenness centrality, which reflect the communication flow in the defined PPI networks
 #' @export
-#' @param object object
+#' @param data Protein-protein interaction data frame resulted from running the PPI function. 
+#' @param export if `TRUE`, exports the analysis table as a csv file
+#' @param FileName suffix for the file name (if export = TRUE)
 #' @importFrom igraph graph.data.frame as_adjacency_matrix distance_table average.path.length get.adjacency V E mean_distance
 #' @importFrom NetIndices GenInd
-NetAnalysis<-function(object){
-    if ( length(object[,1])<1 ) stop( "No Protein-Protein Interactions" )
-    df<-object[,-c(1,2)]
+NetAnalysis<-function(data, export=TRUE, FileName="1"){
+    if ( length(data[,1])<1 ) stop( "No Protein-Protein Interactions" )
+    df<-data[,-c(1,2)]
     gg <- graph.data.frame(df)
     betweenness<-betweenness(gg)
     betweenness.table<- data.frame(betweenness)
@@ -17,7 +19,13 @@ NetAnalysis<-function(object){
     names <- rownames(degree.table)
     rownames(degree.table) <- NULL
     AnalysisTable <- cbind(names,degree.table,betweenness.table)
-    write.csv(AnalysisTable, file = paste0("NetworkAnalysisTable-",FileName,".csv"))
+
+    if (export) {
+        write.csv(
+            AnalysisTable,
+            file = paste0("NetworkAnalysisTable-",FileName,".csv")
+        )
+    }
 
     test.graph.adj<-get.adjacency(gg,sparse=F)
     test.graph.properties<-GenInd(test.graph.adj)

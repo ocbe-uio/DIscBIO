@@ -5,45 +5,57 @@
 \alias{PSCANseq}
 \alias{PSCANseq-class,}
 \alias{PSCANseq-class}
-\title{PSCANseq}
+\title{The PSCANseq Class}
+\arguments{
+\item{object}{An PSCANseq object.}
+}
 \description{
+The PSCANseq class is the central object storing all information generated throughout the pipeline.
+}
+\details{
 PSCANseq
 }
 \section{Slots}{
 
 \describe{
-\item{\code{expdata}}{}
+\item{\code{expdata}}{<slot description>}
 
-\item{\code{ndata}}{}
+\item{\code{expdataAll}}{<slot description>}
 
-\item{\code{fdata}}{}
+\item{\code{ndata}}{<slot description>}
 
-\item{\code{distances}}{}
+\item{\code{fdata}}{<slot description>}
 
-\item{\code{tsne}}{}
+\item{\code{distances}}{<slot description>}
 
-\item{\code{background}}{}
+\item{\code{tsne}}{<slot description>}
 
-\item{\code{out}}{}
+\item{\code{background}}{<slot description>}
 
-\item{\code{cpart}}{}
+\item{\code{out}}{<slot description>}
 
-\item{\code{fcol}}{}
+\item{\code{cpart}}{<slot description>}
 
-\item{\code{filterpar}}{}
+\item{\code{fcol}}{<slot description>}
 
-\item{\code{clusterpar}}{}
+\item{\code{filterpar}}{<slot description>}
 
-\item{\code{outlierpar}}{}
+\item{\code{clusterpar}}{<slot description>}
 
-\item{\code{kmeans}}{}
+\item{\code{outlierpar}}{<slot description>}
 
-\item{\code{MBclusters}}{}
+\item{\code{kmeans}}{<slot description>}
 
-\item{\code{kordering}}{}
+\item{\code{MBclusters}}{<slot description>}
 
-\item{\code{MBordering}}{}
+\item{\code{kordering}}{<slot description>}
 
-\item{\code{MBtsne}}{}
+\item{\code{MBordering}}{<slot description>}
+
+\item{\code{MBtsne}}{<slot description>}
+
+\item{\code{noiseF}}{<slot description>}
+
+\item{\code{FinalGeneList}}{<slot description>}
 }}
 

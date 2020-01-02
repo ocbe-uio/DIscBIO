@@ -3,17 +3,17 @@
 \name{plottsneMB}
 \alias{plottsneMB}
 \alias{plottsneMB,PSCANseq-method}
-\title{title}
+\title{tSNE map for Model-based clustering}
 \usage{
 plottsneMB(object, K)
 
-\S4method{plottsneMB}{PSCANseq}(object)
+\S4method{plottsneMB}{PSCANseq}(object, K)
 }
 \arguments{
-\item{object}{object}
+\item{object}{\code{PSCANseq} class object.}
 
-\item{K}{K}
+\item{K}{A numeric value of the number of clusters}
 }
 \description{
-description
+Visualizing the Model-based clusters using tSNE maps
 }
