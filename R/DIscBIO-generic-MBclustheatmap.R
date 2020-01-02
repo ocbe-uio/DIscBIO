@@ -5,12 +5,13 @@
 #' This should be one of "ward.D", "ward.D2", "single", "complete", "average". Default is "single".
 #' @param plot if `TRUE`, plots the heatmap; otherwise, just prints cclmo
 #' @param quiet if `TRUE`, intermediary output is suppressed
-#' @importFrom stats hclust
-#' @export
-#' @rdname MBclustheatmap
-
+#' @importFrom stats hclust as.dist cor kmeans
+#' @importFrom cluster clusGap maxSE
+#' @importFrom fpc clusterboot
 setGeneric("MBclustheatmap", function(object,hmethod="single", plot = TRUE, quiet = FALSE) standardGeneric("MBclustheatmap"))
 
+#' @export
+#' @rdname MBclustheatmap
 setMethod("MBclustheatmap",
           signature = "PSCANseq",
           definition = function(object,hmethod, plot = TRUE, quiet = FALSE){
@@ -25,7 +26,7 @@ setMethod("MBclustheatmap",
 				gpr <- NULL
 				if ( do.gap ){
 					set.seed(rseed)
-					gpr <- clusGap(as.matrix(di), FUN = kmeans, K.max = clustnr, B = B.gap) 
+					gpr <- clusGap(as.matrix(di), FUNcluster = kmeans, K.max = clustnr, B = B.gap) 
 					if ( cln == 0 ) cln <- maxSE(gpr$Tab[,3],gpr$Tab[,4],method=SE.method,SE.factor)
 				}    
 				if ( cln <= 1 ) {

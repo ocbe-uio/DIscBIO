@@ -21,7 +21,7 @@
 #' @slot MBtsne <slot description>
 #' @slot noiseF <slot description>
 #' @slot FinalGeneList <slot description>
-#' @importFrom methods new
+#' @importFrom methods new validObject
 #' @name PSCANseq
 #' @rdname PSCANseq
 #' @aliases PSCANseq-class, PSCANseq-class

@@ -2,9 +2,12 @@
 % Please edit documentation in R/DIscBIO-generic-plottsneMB.R
 \name{plottsneMB}
 \alias{plottsneMB}
+\alias{plottsneMB,PSCANseq-method}
 \title{tSNE map for Model-based clustering}
 \usage{
 plottsneMB(object, K)
+
+\S4method{plottsneMB}{PSCANseq}(object, K)
 }
 \arguments{
 \item{object}{\code{PSCANseq} class object.}

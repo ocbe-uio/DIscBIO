@@ -15,20 +15,26 @@
 #' @param export A logical vector that allows writing the final gene list in excel file. Default is TRUE. 
 #' @param quiet if `TRUE`, suppresses printed output
 #' @importFrom matrixStats rowVars
-#' @importFrom stats quantile var fitted.values pchisq p.adjust
+#' @importFrom stats quantile var fitted.values pchisq p.adjust median aggregate
 #' @importFrom graphics plot axis abline points lines
 #' @importFrom statmod glmgam.fit
+setGeneric(
+    name = "NoiseFiltering",
+    def = function(
+        object, percentile=0.8, CV=0.3, geneCol="yellow", FgeneCol="black",
+        erccCol="blue", Val=TRUE, plot=TRUE, export=TRUE, quiet=FALSE
+    ) standardGeneric("NoiseFiltering")
+)
+
 #' @export
-
-setGeneric("NoiseFiltering", function(object, percentile=0.8, CV= 0.3, geneCol="yellow", FgeneCol="black",
-                           erccCol="blue", Val = TRUE, plot = TRUE, export = TRUE,
-                           quiet = FALSE) standardGeneric("NoiseFiltering"))
-
-setMethod("NoiseFiltering",
-          signature = "PSCANseq",
-          definition = function(object, percentile=0.8, CV= 0.3, geneCol="yellow", FgeneCol="black",
-                           erccCol="blue", Val = TRUE, plot = TRUE, export = TRUE,
-                           quiet = FALSE) {
+#' @rdname NoiseFiltering
+setMethod(
+    f = "NoiseFiltering",
+    signature = "PSCANseq",
+    definition = function(
+        object, percentile=0.8, CV= 0.3, geneCol="yellow", FgeneCol="black",
+        erccCol="blue", Val = TRUE, plot = TRUE, export = TRUE, quiet = FALSE
+    ) {
 	if ( ! is.numeric(percentile) ) stop( "percentile has to be a positive number" ) else if ( percentile <= 0 ) stop( "percentile has to be a positive number" )
 	if ( ! is.numeric(CV) ) stop( "CV has to be a positive number" ) else if ( CV <= 0 ) stop( "CV has to be a positive number" )
 

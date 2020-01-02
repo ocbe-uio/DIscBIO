@@ -2,9 +2,12 @@
 % Please edit documentation in R/DIscBIO-generic-MBclustheatmap.R
 \name{MBclustheatmap}
 \alias{MBclustheatmap}
+\alias{MBclustheatmap,PSCANseq-method}
 \title{Plotting the Model-based clusters in a heatmap representation of the cell-to-cell distances}
 \usage{
 MBclustheatmap(object, hmethod = "single", plot = TRUE, quiet = FALSE)
+
+\S4method{MBclustheatmap}{PSCANseq}(object, hmethod = "single", plot = TRUE, quiet = FALSE)
 }
 \arguments{
 \item{object}{\code{PSCANseq} class object.}

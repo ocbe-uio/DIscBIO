@@ -5,6 +5,7 @@
 #' @param num.folds A numeric value of the number of folds for the cross validation assessment. Default is 10.
 #' @param First A string vector showing the first target cluster.  Default is "CL1"
 #' @param Second A string vector showing the second target cluster.  Default is "CL2"
+#' @importFrom stats predict
 
 
 RpartEVAL<- function(data,num.folds=10,First="CL1",Second="CL2"){

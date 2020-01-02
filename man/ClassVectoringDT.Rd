@@ -2,9 +2,19 @@
 % Please edit documentation in R/DIscBIO-generic-ClassVectoringDT.R
 \name{ClassVectoringDT}
 \alias{ClassVectoringDT}
+\alias{ClassVectoringDT,PSCANseq-method}
 \title{Generating a class vector to be used for the decision tree analysis.}
 \usage{
 ClassVectoringDT(
+  object,
+  Clustering = "K-means",
+  K,
+  First = "CL1",
+  Second = "CL2",
+  sigDEG
+)
+
+\S4method{ClassVectoringDT}{PSCANseq}(
   object,
   Clustering = "K-means",
   K,

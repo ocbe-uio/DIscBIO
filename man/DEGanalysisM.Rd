@@ -2,9 +2,21 @@
 % Please edit documentation in R/DIscBIO-generic-DEGanalysisM.R
 \name{DEGanalysisM}
 \alias{DEGanalysisM}
+\alias{DEGanalysisM,PSCANseq-method}
 \title{Determining differentially expressed genes (DEGs) between two particular clusters.}
 \usage{
 DEGanalysisM(
+  object,
+  Clustering = "K-means",
+  K,
+  fdr = 0.05,
+  name = "Name",
+  First = "CL1",
+  Second = "CL2",
+  export = TRUE
+)
+
+\S4method{DEGanalysisM}{PSCANseq}(
   object,
   Clustering = "K-means",
   K,

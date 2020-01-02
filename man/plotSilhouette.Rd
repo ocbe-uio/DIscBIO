@@ -3,12 +3,15 @@
 %   R/DIscBIO-generic-plottSNE.R
 \name{plotSilhouette}
 \alias{plotSilhouette}
-\alias{plottSNE}
+\alias{plotSilhouette,PSCANseq-method}
+\alias{plottSNE,PSCANseq-method}
 \title{Silhouette Plot for K-means clustering}
 \usage{
 plotSilhouette(object, K)
 
-plottSNE(object)
+\S4method{plotSilhouette}{PSCANseq}(object, K)
+
+\S4method{plottSNE}{PSCANseq}(object)
 }
 \arguments{
 \item{object}{\code{PSCANseq} class object.}
@@ -21,6 +24,4 @@ closest neighboring cluster. It computes for each point the difference between t
 to all points in the same cluster and to all points in the closest neighboring cluster. This difference it 
 normalize such that it can take values between -1 and 1 with higher values reflecting better 
 representation of a point by its cluster.
-
-Visualizing the K-means clusters using tSNE maps
 }

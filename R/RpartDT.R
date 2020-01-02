@@ -1,5 +1,6 @@
 #' @title RPART Decision Tree
 #' @description The decision tree analysis is implemented over a training dataset, which consisted of the DEGs obtained by either SAMseq or the binomial differential expression.  
+#' @param data The exact output of the exprmclust function.
 #' @export
 #' @importFrom rpart rpart
 #' @importFrom rpart.plot rpart.plot

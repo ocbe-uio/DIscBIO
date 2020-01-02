@@ -1,7 +1,6 @@
 #' @title Performing Model-based clustering on expression values
 #' @description this function first uses principal component analysis (PCA) to reduce dimensionality of original data. It then performs model-based clustering 
 #' on the transformed expression values. 
-#' @export
 #' @param object \code{PSCANseq} class object.
 #' @param clusternum An integer vector specifying all possible cluster numbers. Default is 3.
 #' @param modelNames model to be used in model-based clustering. By default "ellipsoidal, varying volume, shape, and orientation" is used.
@@ -11,7 +10,17 @@
 #' @importFrom mclust Mclust mclustBIC
 #' @importFrom stats dist prcomp lm
 #' @importFrom igraph graph.adjacency minimum.spanning.tree
-ExprmclustMB <- function (object, clusternum = 3, modelNames = "VVV", reduce = T, cluster = NULL, quiet = FALSE) {
+setGeneric(
+      name = "ExprmclustMB", 
+      def = function(object, clusternum = 3, modelNames = "VVV", reduce = T, cluster = NULL, quiet = FALSE) standardGeneric("ExprmclustMB")
+)
+
+#' @export
+#' @rdname ExprmclustMB
+setMethod(
+      f = "ExprmclustMB",
+      signature = "PSCANseq",
+      definition = function(object, clusternum = 3, modelNames = "VVV", reduce = T, cluster = NULL, quiet = FALSE) {
       set.seed(12345)
 	  obj<-object@fdata
       if (reduce) {
@@ -56,3 +65,4 @@ ExprmclustMB <- function (object, clusternum = 3, modelNames = "VVV", reduce = T
 	  object@MBclusters<-full_List
     	return(object)
 }
+)

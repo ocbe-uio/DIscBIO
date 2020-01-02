@@ -5,10 +5,10 @@
 #' @param g  Individual gene name or vector with a group of gene names corresponding to a subset of valid row names of the \code{ndata} slot
 #' of the \code{PSCANseq} object.
 #' @param n String of characters representing the title of the plot. Default is NULL and the first element of \code{g} is chosen.
-#' @export
-#' @rdname plotExptSNE
 setGeneric("plotExptSNE", function(object,g,n=NULL) standardGeneric("plotExptSNE"))
 
+#' @export
+#' @rdname plotExptSNE
 setMethod("plotExptSNE",
           signature = "PSCANseq",
           definition = function(object,g,n=NULL){

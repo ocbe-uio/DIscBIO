@@ -6,6 +6,9 @@
 \usage{
 RpartDT(data)
 }
+\arguments{
+\item{data}{The exact output of the exprmclust function.}
+}
 \description{
 The decision tree analysis is implemented over a training dataset, which consisted of the DEGs obtained by either SAMseq or the binomial differential expression.
 }

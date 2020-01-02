@@ -2,9 +2,12 @@
 % Please edit documentation in R/DIscBIO-generic-KMclustheatmap.R
 \name{KMclustheatmap}
 \alias{KMclustheatmap}
+\alias{KMclustheatmap,PSCANseq-method}
 \title{Plotting the K-means clusters in a heatmap representation of the cell-to-cell distances}
 \usage{
 KMclustheatmap(object, hmethod = "single", plot = TRUE)
+
+\S4method{KMclustheatmap}{PSCANseq}(object, hmethod = "single", plot = TRUE)
 }
 \arguments{
 \item{object}{\code{PSCANseq} class object.}

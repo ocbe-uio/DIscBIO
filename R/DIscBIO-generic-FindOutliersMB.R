@@ -13,8 +13,6 @@
 #' @param quiet if `TRUE`, intermediary output is suppressed
 #' @importFrom stats coef pnbinom
 #' @importFrom amap K
-#' @export
-#' @rdname FindOutliersMB
 setGeneric(
   name = "FindOutliersMB",
   def = function(object, K, outminc = 5, outlg = 2, probthr = 1e-3, thr = 2**-(1:40),
@@ -23,6 +21,8 @@ setGeneric(
     }
 )
 
+#' @export
+#' @rdname FindOutliersMB
 setMethod(f="FindOutliersMB",
           signature = "PSCANseq",
           definition = function(object,K,outminc,outlg,probthr,thr,outdistquant,plot = TRUE, quiet = FALSE) {

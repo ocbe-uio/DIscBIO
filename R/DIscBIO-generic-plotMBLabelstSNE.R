@@ -2,10 +2,10 @@
 #' @description Visualizing the Model-based clusters using tSNE maps 
 #' @param object \code{PSCANseq} class object.
 #' @importFrom graphics text
-#' @rdname plotMBLabelstSNE
-#' @export
 setGeneric("plotMBLabelstSNE", function(object) standardGeneric("plotMBLabelstSNE"))
 
+#' @rdname plotMBLabelstSNE
+#' @export
 setMethod("plotMBLabelstSNE",
           signature = "PSCANseq",
           definition = function(object){

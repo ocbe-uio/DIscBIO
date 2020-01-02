@@ -3,10 +3,11 @@
 #' @param object \code{PSCANseq} class object.
 #' @param fdr A numeric value of the false discovery rate. Default is 0.01.
 #' @importFrom dplyr select
-#' @importFrom stats pbinom
+#' @importFrom stats pbinom median
 #' @rdname KMClustDiffGenes
 #' @export
 setGeneric("KMClustDiffGenes", function(object,fdr=.01) standardGeneric("KMClustDiffGenes"))
+
 #' @export
 #' @rdname KMClustDiffGenes
 setMethod("KMClustDiffGenes",

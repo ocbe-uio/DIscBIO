@@ -2,10 +2,10 @@
 #' @description Visualizing the K-means clusters using tSNE maps 
 #' @param object \code{PSCANseq} class object.
 #' @param types If types=NULL then the names of the cells will be grouped automatically. Default is NULL
-#' @export
-#' @rdname plotSymbolstSNE
 setGeneric("plotSymbolstSNE", function(object,types=NULL) standardGeneric("plotSymbolstSNE"))
 
+#' @export
+#' @rdname plotSymbolstSNE
 setMethod("plotSymbolstSNE",
           signature = "PSCANseq",
           definition = function(object,types){

@@ -1,13 +1,13 @@
 #' @title title
 #' @description description 
-#' @export
 #' @param object \code{PSCANseq} class object.
 #' @param types If types=NULL then the names of the cells will be grouped automatically. Default is NULL
 #' @importFrom grDevices rainbow
 #' @importFrom graphics legend
-
 setGeneric("PCAplotSymbols", function(object,types=NULL) standardGeneric("PCAplotSymbols"))
 
+#' @export
+#' @rdname PCAplotSymbols
 setMethod("PCAplotSymbols",
           signature = "PSCANseq",
           definition = function(object,types=NULL){

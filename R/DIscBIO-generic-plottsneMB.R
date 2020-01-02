@@ -3,10 +3,10 @@
 #' @param object \code{PSCANseq} class object.
 #' @param K A numeric value of the number of clusters
 #' @importFrom graphics text
-#' @export
-#' @rdname plottsneMB
 setGeneric("plottsneMB", function(object,K) standardGeneric("plottsneMB"))
 
+#' @export
+#' @rdname plottsneMB
 setMethod("plottsneMB",
           signature = "PSCANseq",
           definition = function(object,K){

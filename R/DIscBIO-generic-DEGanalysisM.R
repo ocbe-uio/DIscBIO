@@ -11,11 +11,10 @@
 #' @importFrom samr samr samr.compute.delta.table samr.plot samr.compute.siggenes.table
 #' @importFrom graphics title
 #' @importFrom utils write.csv
-#' @export
-#' @rdname DEGanalysisM
-
 setGeneric("DEGanalysisM", function(object,Clustering="K-means",K,fdr=0.05,name="Name",First="CL1",Second="CL2",export = TRUE) standardGeneric("DEGanalysisM"))
 
+#' @export
+#' @rdname DEGanalysisM
 setMethod("DEGanalysisM",
           signature = "PSCANseq",
           definition = function(object,Clustering="K-means",K,fdr=0.05,name="Name",First="CL1",Second="CL2",export = TRUE){

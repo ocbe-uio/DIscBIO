@@ -3,11 +3,10 @@
 #' @param object \code{PSCANseq} class object.
 #' @param GeneFlitering GeneFlitering has to be one of the followings: ["NoiseF","ExpF"]. Default is "NoiseF"
 #' @param export A logical vector that allows writing the final gene list in excel file. Default is TRUE. 
-#' @export
-#' @rdname FinalPreprocessing
-
 setGeneric("FinalPreprocessing", function(object,GeneFlitering="NoiseF",export = TRUE) standardGeneric("FinalPreprocessing"))
 
+#' @export
+#' @rdname FinalPreprocessing
 setMethod("FinalPreprocessing",
           signature = "PSCANseq",
           definition = function(object,GeneFlitering,export = TRUE){

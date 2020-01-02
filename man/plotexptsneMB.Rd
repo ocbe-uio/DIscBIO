@@ -2,9 +2,12 @@
 % Please edit documentation in R/DIscBIO-generic-plotexptsneMB.R
 \name{plotexptsneMB}
 \alias{plotexptsneMB}
+\alias{plotexptsneMB,PSCANseq-method}
 \title{Highlighting gene expression in Model-based clustering in the t-SNE map}
 \usage{
 plotexptsneMB(object, g, n = NULL)
+
+\S4method{plotexptsneMB}{PSCANseq}(object, g, n = NULL)
 }
 \arguments{
 \item{object}{\code{PSCANseq} class object.}

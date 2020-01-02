@@ -2,9 +2,12 @@
 % Please edit documentation in R/DIscBIO-generic-plotSymbolstSNE.R
 \name{plotSymbolstSNE}
 \alias{plotSymbolstSNE}
+\alias{plotSymbolstSNE,PSCANseq-method}
 \title{tSNE map for K-means clustering with symbols}
 \usage{
 plotSymbolstSNE(object, types = NULL)
+
+\S4method{plotSymbolstSNE}{PSCANseq}(object, types = NULL)
 }
 \arguments{
 \item{object}{\code{PSCANseq} class object.}

@@ -3,9 +3,24 @@
 \docType{methods}
 \name{Clustexp}
 \alias{Clustexp}
+\alias{Clustexp,PSCANseq-method}
 \title{Clustering of single-cell transcriptome data}
 \usage{
 Clustexp(
+  object,
+  clustnr = 20,
+  bootnr = 50,
+  metric = "pearson",
+  do.gap = TRUE,
+  SE.method = "Tibs2001SEmax",
+  SE.factor = 0.25,
+  B.gap = 50,
+  cln = 0,
+  rseed = 17000,
+  quiet = FALSE
+)
+
+\S4method{Clustexp}{PSCANseq}(
   object,
   clustnr = 20,
   bootnr = 50,

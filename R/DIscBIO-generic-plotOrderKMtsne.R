@@ -2,10 +2,10 @@
 #' @description The tSNE representation can also be used to show the pseudo-time ordering.
 #' @param object \code{PSCANseq} class object.
 #' of the \code{PSCANseq} object.
-#' @export
-#' @rdname plotOrderKMtsne
 setGeneric("plotOrderKMtsne", function(object) standardGeneric("plotOrderKMtsne"))
 
+#' @export
+#' @rdname plotOrderKMtsne
 setMethod("plotOrderKMtsne",
           signature = "PSCANseq",
           definition = function(object){

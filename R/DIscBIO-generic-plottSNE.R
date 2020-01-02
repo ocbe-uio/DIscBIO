@@ -2,10 +2,10 @@
 #' @description Visualizing the K-means clusters using tSNE maps
 #' @param object \code{PSCANseq} class object.
 #' @importFrom graphics text
-#' @rdname plotSilhouette
-#' @export
 setGeneric("plottSNE", function(object) standardGeneric("plottSNE"))
 
+#' @rdname plotSilhouette
+#' @export
 setMethod("plottSNE",
           signature = "PSCANseq",
           definition = function(object){

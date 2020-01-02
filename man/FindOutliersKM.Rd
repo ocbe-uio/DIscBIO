@@ -2,9 +2,22 @@
 % Please edit documentation in R/DIscBIO-generic-FindOutliersKM.R
 \name{FindOutliersKM}
 \alias{FindOutliersKM}
+\alias{FindOutliersKM,PSCANseq-method}
 \title{Inference of outlier cells in K-means clustering}
 \usage{
 FindOutliersKM(
+  object,
+  K,
+  outminc = 5,
+  outlg = 2,
+  probthr = 0.001,
+  thr = 2^-(1:40),
+  outdistquant = 0.75,
+  plot = TRUE,
+  quiet = FALSE
+)
+
+\S4method{FindOutliersKM}{PSCANseq}(
   object,
   K,
   outminc = 5,

@@ -2,9 +2,12 @@
 % Please edit documentation in R/DIscBIO-generic-plotsilhouetteMB.R
 \name{plotsilhouetteMB}
 \alias{plotsilhouetteMB}
+\alias{plotsilhouetteMB,PSCANseq-method}
 \title{Silhouette Plot for Model-based clustering}
 \usage{
 plotsilhouetteMB(object, K)
+
+\S4method{plotsilhouetteMB}{PSCANseq}(object, K)
 }
 \arguments{
 \item{object}{\code{PSCANseq} class object.}

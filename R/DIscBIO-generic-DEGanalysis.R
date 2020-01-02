@@ -9,14 +9,10 @@
 #' @importFrom samr samr samr.compute.delta.table samr.plot samr.compute.siggenes.table
 #' @importFrom graphics title
 #' @importFrom utils write.csv
-#' @export
-#' @rdname DEGanalysis
-
-
-
-
 setGeneric("DEGanalysis", function(object,Clustering="K-means",K,fdr=0.05,name="Name",export = TRUE) standardGeneric("DEGanalysis"))
 
+#' @export
+#' @rdname DEGanalysis
 setMethod("DEGanalysis",
           signature = "PSCANseq",
           definition = function(object,Clustering="K-means",K,fdr=0.05,name="Name",export = TRUE){
@@ -103,7 +99,7 @@ setMethod("DEGanalysis",
 				gname<-rownames(get(comNUM[i]))
 				x<-L
 				data=list(x=x,y=y, geneid=gname)
-				samr.obj<-samr(data, resp.type="Two class unpaired", assay.type="seq",nperms=100,nresamp=20,testStatistic="wilcoxon",random.seed=15)
+				samr.obj<-samr(data, resp.type="Two class unpaired", assay.type="seq",nperms=100,nresamp=20,testStatistic="wilcoxon",random.seed=15) #FIXME: hangs if CV>.4 for test data
 				delta.table <- samr.compute.delta.table(samr.obj)
         
 				wm<-which.min(delta.table[,5])

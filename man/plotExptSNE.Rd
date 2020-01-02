@@ -2,9 +2,12 @@
 % Please edit documentation in R/DIscBIO-generic-plotExptSNE.R
 \name{plotExptSNE}
 \alias{plotExptSNE}
+\alias{plotExptSNE,PSCANseq-method}
 \title{Highlighting gene expression in K-means clustering in the t-SNE map}
 \usage{
 plotExptSNE(object, g, n = NULL)
+
+\S4method{plotExptSNE}{PSCANseq}(object, g, n = NULL)
 }
 \arguments{
 \item{object}{\code{PSCANseq} class object.}

@@ -4,12 +4,11 @@
 #' @param hmethod  Agglomeration method used for determining the cluster order from hierarchical clustering of the cluster medoids. 
 #' This should be one of "ward.D", "ward.D2", "single", "complete", "average". Default is "single".
 #' @param plot if `TRUE`, plots the heatmap; otherwise, just prints cclmo
-#' @importFrom stats hclust
-#' @export
-#' @rdname KMclustheatmap
-
+#' @importFrom stats hclust as.dist cor
 setGeneric("KMclustheatmap", function(object,hmethod="single", plot = TRUE) standardGeneric("KMclustheatmap"))
 
+#' @export
+#' @rdname KMclustheatmap
 setMethod("KMclustheatmap",
           signature = "PSCANseq",
           definition = function(object,hmethod, plot = TRUE){

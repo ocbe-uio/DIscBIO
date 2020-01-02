@@ -2,9 +2,21 @@
 % Please edit documentation in R/DIscBIO-generic-Normalizedata.R
 \name{Normalizedata}
 \alias{Normalizedata}
+\alias{Normalizedata,PSCANseq-method}
 \title{Normalizing and filtering}
 \usage{
 Normalizedata(
+  object,
+  mintotal = 1000,
+  minexpr = 0,
+  minnumber = 0,
+  maxexpr = Inf,
+  downsample = FALSE,
+  dsn = 1,
+  rseed = 17000
+)
+
+\S4method{Normalizedata}{PSCANseq}(
   object,
   mintotal = 1000,
   minexpr = 0,

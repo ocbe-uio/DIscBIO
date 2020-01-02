@@ -4,15 +4,17 @@
 #' to all points in the same cluster and to all points in the closest neighboring cluster. This difference it 
 #' normalize such that it can take values between -1 and 1 with higher values reflecting better 
 #' representation of a point by its cluster.
-#' @export
-#' @rdname plotSilhouette
 #' @param object \code{PSCANseq} class object.
 #' @param K A numeric value of the number of clusters
+#' @importFrom stats as.dist cor
+#' @importFrom cluster silhouette
 setGeneric(
   name = "plotSilhouette",
   def = function(object,K) standardGeneric("plotSilhouette")
 )
 
+#' @export
+#' @rdname plotSilhouette
 setMethod(
   f = "plotSilhouette",
   signature = "PSCANseq",

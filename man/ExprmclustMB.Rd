@@ -2,9 +2,19 @@
 % Please edit documentation in R/Exprmclust.R
 \name{ExprmclustMB}
 \alias{ExprmclustMB}
+\alias{ExprmclustMB,PSCANseq-method}
 \title{Performing Model-based clustering on expression values}
 \usage{
 ExprmclustMB(
+  object,
+  clusternum = 3,
+  modelNames = "VVV",
+  reduce = T,
+  cluster = NULL,
+  quiet = FALSE
+)
+
+\S4method{ExprmclustMB}{PSCANseq}(
   object,
   clusternum = 3,
   modelNames = "VVV",

@@ -1,11 +1,10 @@
 #' @title Computing tSNE for Model-based clustering
 #' @description This function is used to compute the t-Distributed Stochastic Neighbor Embedding (t-SNE).
 #' @param object \code{PSCANseq} class object.
-#' @param Integer number. Random seed to to yield exactly reproducible maps across different runs. Default is 15555. 
+#' @param rseed Integer number. Random seed to to yield exactly reproducible maps across different runs. Default is 15555. 
 #' @param quiet if `TRUE`, suppresses intermediate output
 #' @importFrom tsne tsne
-#' @rdname comptsneMB
-#' @export
+#' @importFrom stats as.dist cor
 setGeneric(
   name = "comptsneMB",
   def = function(object, rseed = 15555, quiet = FALSE) {
@@ -13,6 +12,8 @@ setGeneric(
   }
 )
 
+#' @rdname comptsneMB
+#' @export
 setMethod(
   f = "comptsneMB",
   signature = "PSCANseq",

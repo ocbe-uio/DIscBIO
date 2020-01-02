@@ -1,7 +1,5 @@
 #' @title Clustering of single-cell transcriptome data
 #' @description This functions performs the initial clustering of the RaceID algorithm.
-#' @export
-#' @rdname Clustexp
 #' @docType methods
 #' @param object \code{PSCANseq} class object.
 #' @param clustnr Maximum number of clusters for the derivation of the cluster number by the saturation of mean within-cluster-dispersion. Default is 20.
@@ -17,6 +15,9 @@
 #' @param cln Number of clusters to be used. Default is \code{NULL} and the cluster number is inferred by the saturation criterion.
 #' @param rseed Integer number. Random seed to enforce reproducible clustering results. Default is 17000.
 #' @param quiet if `TRUE`, intermediate output is suppressed
+#' @importFrom stats as.dist cor kmeans
+#' @importFrom cluster clusGap maxSE
+#' @importFrom fpc clusterboot
 setGeneric("Clustexp", function(object, clustnr = 20, bootnr = 50,
                                 metric = "pearson", do.gap = TRUE,
                                 SE.method = "Tibs2001SEmax", SE.factor = .25,
@@ -24,6 +25,8 @@ setGeneric("Clustexp", function(object, clustnr = 20, bootnr = 50,
 								standardGeneric("Clustexp")
 })
 
+#' @export
+#' @rdname Clustexp
 setMethod(f="Clustexp",
           signature = "PSCANseq",
           definition = function(object,clustnr,bootnr,metric,do.gap,SE.method,SE.factor,B.gap,cln,rseed,quiet = FALSE) {
@@ -49,7 +52,7 @@ setMethod(f="Clustexp",
 				gpr <- NULL
 				if ( do.gap ){
 					set.seed(rseed)
-					gpr <- clusGap(as.matrix(di), FUN = kmeans, K.max = clustnr, B = B.gap) 
+					gpr <- clusGap(as.matrix(di), FUNcluster = kmeans, K.max = clustnr, B = B.gap) 
 					if ( cln == 0 ) cln <- maxSE(gpr$Tab[,3],gpr$Tab[,4],method=SE.method,SE.factor)
 				}    
 				if ( cln <= 1 ) {
