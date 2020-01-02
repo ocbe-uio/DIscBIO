@@ -1,18 +1,18 @@
 #' @title ClustDiffGenes
 #' @description description
 #' @param object \code{PSCANseq} class object.
+#' @param K A numeric value of the number of clusters.
 #' @param fdr A numeric value of the false discovery rate. Default is 0.01.
 #' @importFrom dplyr select
 #' @importFrom stats pbinom median
 #' @rdname KMClustDiffGenes
 #' @export
-setGeneric("KMClustDiffGenes", function(object,fdr=.01) standardGeneric("KMClustDiffGenes"))
-
+setGeneric("KMClustDiffGenes", function(object,K,fdr=.01) standardGeneric("KMClustDiffGenes"))
 #' @export
 #' @rdname KMClustDiffGenes
 setMethod("KMClustDiffGenes",
           signature = "PSCANseq",
-          definition = function(object,fdr){
+          definition = function(object,K,fdr){
             if ( ! is.numeric(fdr) ) stop("pvalue has to be a number between 0 and 1") else if (  fdr < 0 | fdr > 1 ) stop("fdr has to be a number between 0 and 1")
             cdiff <- list()
             x     <- object@ndata
