@@ -25,8 +25,8 @@ geneCol  <- "yellow"
 FgeneCol <- "black"
 erccCol  <- "blue"
 noiseF   <- NoiseFiltering(
-    Object, percentile, CV, geneCol, FgeneCol, erccCol, Val=T,
-    plot = FALSE, export = FALSE, quiet = TRUE
+    Object, percentile, CV, geneCol, FgeneCol, erccCol,
+    Val=TRUE, plot = FALSE, export = FALSE, quiet = TRUE
 )       # Val=F  will plot all the ERCC spike-ins
 
 # TODO: understand how PSCANseq can be called as a function (this could cause

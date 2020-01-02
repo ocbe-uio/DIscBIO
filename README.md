@@ -4,7 +4,7 @@ A user-friendly pipeline for biomarker discovery in single-cell transcriptomics.
 
 This is an R package based on the software available at https://github.com/SystemsBiologist/PSCAN.
 
-# Installing 
+# Installation
 
 The development version of the DIscBIO R package can be installed by running
 
@@ -24,6 +24,6 @@ DIscBIO is Open Source software licensed under the [MIT license](https://tldrleg
 
 # Reference
 
-*DIscBIO:a user-friendly pipeline for biomarker discovery in single-cell transcriptomics*<br>
+*DIscBIO: a user-friendly pipeline for biomarker discovery in single-cell transcriptomics*<br>
 Salim Ghannoum, Benjamin Ragan-Kelley, Emma Jonasson, Anders Ståhlberg, Alvaro Köhn-Luque<br>
 bioRxiv 700989; doi: https://doi.org/10.1101/700989
