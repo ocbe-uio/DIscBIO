@@ -11,14 +11,14 @@
 #' @importFrom stats dist prcomp lm
 #' @importFrom igraph graph.adjacency minimum.spanning.tree
 setGeneric(
-      name = "ExprmclustMB", 
-      def = function(object, clusternum = 3, modelNames = "VVV", reduce = T, cluster = NULL, quiet = FALSE) standardGeneric("ExprmclustMB")
+      name = "Exprmclust",
+      def = function(object, clusternum = 3, modelNames = "VVV", reduce = T, cluster = NULL, quiet = FALSE) standardGeneric("Exprmclust")
 )
 
 #' @export
-#' @rdname ExprmclustMB
+#' @rdname Exprmclust
 setMethod(
-      f = "ExprmclustMB",
+      f = "Exprmclust",
       signature = "PSCANseq",
       definition = function(object, clusternum = 3, modelNames = "VVV", reduce = T, cluster = NULL, quiet = FALSE) {
       set.seed(12345)
