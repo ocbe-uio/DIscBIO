@@ -56,3 +56,9 @@ git push origin
 ```
 
 If you are working on a fork, you should instead push to your fork and open a pull request from it to the upstream repository.
+
+## Style guide
+
+Writting functional code is essential, but writing code which is functional and pleasing to the eye goes a long way into making your contribution understandable and thus more useful for the scientific community. It can be quite a controversial topic, since aesthetics are very much a subjective matter. As Hadley Wickham puts it, "good coding style is like correct punctuation: you can manage without it, butitsuremakesthingseasiertoread".
+
+You are free to write code using the style you prefer, but we recommend reading and following [The tidyverse style guide](https://style.tidyverse.org/index.html), particularly [chapters 2](https://style.tidyverse.org/syntax.html) and [3](https://style.tidyverse.org/functions.html).
