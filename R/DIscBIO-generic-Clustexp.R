@@ -18,6 +18,9 @@
 #' @importFrom stats as.dist cor kmeans
 #' @importFrom cluster clusGap maxSE
 #' @importFrom fpc clusterboot
+#' @importFrom amap Kmeans
+#' @importFrom graphics pairs
+#' @importFrom fpc cluster.stats calinhara dudahart2
 setGeneric("Clustexp", function(object, clustnr = 20, bootnr = 50,
                                 metric = "pearson", do.gap = TRUE,
                                 SE.method = "Tibs2001SEmax", SE.factor = .25,

@@ -1,26 +1,26 @@
 #' PSCANseq
 #' @title The PSCANseq Class
 #' @description The PSCANseq class is the central object storing all information generated throughout the pipeline. 
-#' @slot expdata
-#' @slot expdataAll
-#' @slot ndata
-#' @slot fdata
-#' @slot distances
-#' @slot tsne
-#' @slot background
-#' @slot out
-#' @slot cpart
-#' @slot fcol
-#' @slot filterpar
-#' @slot clusterpar
-#' @slot outlierpar
-#' @slot kmeans
-#' @slot MBclusters
-#' @slot kordering
-#' @slot MBordering
-#' @slot MBtsne
-#' @slot noiseF
-#' @slot FinalGeneList
+#' @slot expdata The raw expression data matrix with cells as columns and genes as rows in sparse matrix format. It does not contain ERCC spik-ins.
+#' @slot expdataAll The raw expression data matrix with cells as columns and genes as rows in sparse matrix format. It can contain ERCC spik-ins.
+#' @slot ndata Data with expression normalized to one for each cell.     
+#' @slot fdata Filtered data with expression normalized to one for each cell.   
+#' @slot distances A distance matrix.
+#' @slot tsne A data.frame with coordinates of two-dimensional tsne layout for the K-means clustering.    
+#' @slot background A list storing the polynomial fit for the background model of gene expression variability. It is used for outlier identification. 
+#' @slot out A list storing information on outlier cells used for the prediction of rare cell types.  
+#' @slot cpart A vector containing the final clustering partition computed by K-means.   
+#' @slot fcol A vector contaning the colour scheme for the clusters.    
+#' @slot filterpar A list containing the parameters used for cell and gene filterung based on expression.
+#' @slot clusterpar A list containing the parameters used for the K-means clustering.
+#' @slot outlierpar A list containing the parameters used for outlier identification.
+#' @slot kmeans A list containing the results of running the Clustexp() function.    
+#' @slot MBclusters A vector containing the final clustering partition computed by Model-based clustering.
+#' @slot kordering  A vector containing the Pseudo-time ordering based on k-means clusters.
+#' @slot MBordering A vector containing the Pseudo-time ordering based on Model-based clusters.
+#' @slot MBtsne A data.frame with coordinates of two-dimensional tsne layout for the Model-based clustering. 
+#' @slot noiseF A vector containing the gene list resulted from running the noise filtering.
+#' @slot FinalGeneList  A vector containing the final gene list resulted from running the noise filtering or/and the expression filtering.
 #' @importFrom methods new validObject
 #' @name PSCANseq
 #' @rdname PSCANseq
