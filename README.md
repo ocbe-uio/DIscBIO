@@ -1,6 +1,7 @@
 # DIscBIO
 
 A user-friendly pipeline for biomarker discovery in single-cell transcriptomics.
+![DiscBIO](DiscBIOlogo.png)
 
 This is an R package based on the software available at https://github.com/SystemsBiologist/PSCAN.
 
