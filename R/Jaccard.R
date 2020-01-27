@@ -2,7 +2,7 @@
 #' @description Robustness of the clusters can be assessed by Jaccard’s similarity, which reflects the reproducibility of individual clusters across bootstrapping runs.
 #' Jaccard’s similarity is the intersect of two clusters divided by the union. 
 #' @export
-#' @param object \code{PSCANseq} class object.
+#' @param object \code{DISCBIO} class object.
 #' @param Clustering Clustering has to be one of the following: ["K-means","MB"]. Default is "K-means"
 #' @param K A numeric value of the number of clusters
 #' @param plot if `TRUE`, plots the mean Jaccard similarities

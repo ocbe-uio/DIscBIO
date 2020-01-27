@@ -1,6 +1,6 @@
 #' @title tSNE map for Model-based clustering
 #' @description Visualizing the Model-based clusters using tSNE maps
-#' @param object \code{PSCANseq} class object.
+#' @param object \code{DISCBIO} class object.
 #' @param K A numeric value of the number of clusters
 #' @importFrom graphics text
 setGeneric("plottsneMB", function(object,K) standardGeneric("plottsneMB"))
@@ -8,7 +8,7 @@ setGeneric("plottsneMB", function(object,K) standardGeneric("plottsneMB"))
 #' @export
 #' @rdname plottsneMB
 setMethod("plottsneMB",
-          signature = "PSCANseq",
+          signature = "DISCBIO",
           definition = function(object,K){
             if ( length(object@MBtsne) == 0 ) stop("run comptsneMB before plottsneMB")
 			col=c("black","blue","green","red","yellow","gray")

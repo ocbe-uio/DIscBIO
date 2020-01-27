@@ -1,13 +1,13 @@
 #' @title Plotting the pseudo-time ordering based on K-means clusters in the t-SNE map
 #' @description The tSNE representation can also be used to show the pseudo-time ordering.
-#' @param object \code{PSCANseq} class object.
-#' of the \code{PSCANseq} object.
+#' @param object \code{DISCBIO} class object.
+#' of the \code{DISCBIO} object.
 setGeneric("plotOrderKMtsne", function(object) standardGeneric("plotOrderKMtsne"))
 
 #' @export
 #' @rdname plotOrderKMtsne
 setMethod("plotOrderKMtsne",
-          signature = "PSCANseq",
+          signature = "DISCBIO",
           definition = function(object){
             if ( length(object@tsne) == 0 ) stop("run comptsne before plotOrderKMtsne")
 			total<-rbind(object@ndata,object@kordering)

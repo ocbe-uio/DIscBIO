@@ -1,6 +1,6 @@
 #' @title Inference of outlier cells in K-means clustering
 #' @description This functions performs the outlier identification
-#' @param object \code{PSCANseq} class object.
+#' @param object \code{DISCBIO} class object.
 #' @param outminc minimal transcript count of a gene in a clusters to be tested for being an outlier gene. Default is 5.
 #' @param outlg Minimum number of outlier genes required for being an outlier cell. Default is 2.
 #' @param probthr outlier probability threshold for a minimum of \code{outlg} genes to be an outlier cell. This probability is computed from a negative binomial 
@@ -18,7 +18,7 @@ setGeneric("FindOutliersKM", function(object, K, outminc=5,outlg=2,probthr=1e-3,
 #' @rdname FindOutliersKM
 #' @export
 setMethod("FindOutliersKM",
-          signature = "PSCANseq",
+          signature = "DISCBIO",
           definition = function(object, K, outminc,outlg,probthr,thr,outdistquant, plot = TRUE, quiet = FALSE) {
             if ( length(object@kmeans$kpart) == 0 ) stop("run clustexp before FindOutliersKM")
             if ( ! is.numeric(outminc) ) stop("outminc has to be a non-negative integer") else if ( round(outminc) != outminc | outminc < 0 ) stop("outminc has to be a non-negative integer")

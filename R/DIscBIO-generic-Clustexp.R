@@ -1,7 +1,7 @@
 #' @title Clustering of single-cell transcriptome data
 #' @description This functions performs the initial clustering of the RaceID algorithm.
 #' @docType methods
-#' @param object \code{PSCANseq} class object.
+#' @param object \code{DISCBIO} class object.
 #' @param clustnr Maximum number of clusters for the derivation of the cluster number by the saturation of mean within-cluster-dispersion. Default is 20.
 #' @param bootnr A numeric value of booststrapping runs for \code{clusterboot}. Default is 50.
 #' @param metric Is the method to transform the input data to a distance object. 
@@ -31,7 +31,7 @@ setGeneric("Clustexp", function(object, clustnr = 20, bootnr = 50,
 #' @export
 #' @rdname Clustexp
 setMethod(f="Clustexp",
-          signature = "PSCANseq",
+          signature = "DISCBIO",
           definition = function(object,clustnr,bootnr,metric,do.gap,SE.method,SE.factor,B.gap,cln,rseed,quiet = FALSE) {
             if ( ! is.numeric(clustnr) ) stop("clustnr has to be a positive integer") else if ( round(clustnr) != clustnr | clustnr <= 0 ) stop("clustnr has to be a positive integer")
             if ( ! is.numeric(bootnr) ) stop("bootnr has to be a positive integer") else if ( round(bootnr) != bootnr | bootnr <= 0 ) stop("bootnr has to be a positive integer")

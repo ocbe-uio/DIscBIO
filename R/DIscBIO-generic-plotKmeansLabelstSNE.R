@@ -1,12 +1,12 @@
 #' @title tSNE map for K-means clustering with labels
 #' @description Visualizing the K-means clusters using tSNE maps 
-#' @param object \code{PSCANseq} class object.
+#' @param object \code{DISCBIO} class object.
 #' @rdname plotKmeansLabelstSNE
 #' @importFrom graphics text
 setGeneric("plotKmeansLabelstSNE", function(object) standardGeneric("plotKmeansLabelstSNE"))
 
 setMethod("plotKmeansLabelstSNE",
-          signature = "PSCANseq",
+          signature = "DISCBIO",
           definition = function(object){
             if ( length(object@tsne) == 0 ) stop("run comptsne before plotKmeansLabelstSNE")
             Clusters<-object@kmeans$kpart

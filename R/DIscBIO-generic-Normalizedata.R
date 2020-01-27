@@ -1,6 +1,6 @@
 #' @title Normalizing and filtering
 #' @description This function allows filtering of genes and cells to be used in the downstream analysis.
-#' @param object \code{PSCANseq} class object.
+#' @param object \code{DISCBIO} class object.
 #' @param mintotal minimum total transcript number required. Cells with less than \code{mintotal} transcripts are filtered out. Default is 1000.
 #' @param minexpr minimum required transcript count of a gene in at least \code{minnumber} cells. All other genes are filtered out. Default is 0.
 #' @param minnumber minimum number of cells that are expressing each gene at minexpr transcripts. Default is 0.
@@ -16,7 +16,7 @@ setGeneric("Normalizedata", function(object, mintotal=1000, minexpr=0, minnumber
 #' @export
 #' @rdname Normalizedata
 setMethod("Normalizedata",
-          signature = "PSCANseq",
+          signature = "DISCBIO",
           definition = function(object,mintotal,minexpr,minnumber,maxexpr,downsample,dsn,rseed) {
             if ( ! is.numeric(mintotal) ) stop( "mintotal has to be a positive number" ) else if ( mintotal <= 0 ) stop( "mintotal has to be a positive number" )
             if ( ! is.numeric(minexpr) ) stop( "minexpr has to be a non-negative number" ) else if ( minexpr < 0 ) stop( "minexpr has to be a non-negative number" )

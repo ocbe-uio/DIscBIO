@@ -1,6 +1,6 @@
 #' @title Plotting pseudo-time ordering in Model-based clustering in PCA.
 #' @description The PCA representation can also be used to show the pseudo-time ordering.
-#' @param object \code{PSCANseq} class object.
+#' @param object \code{DISCBIO} class object.
 #' @importFrom RColorBrewer brewer.pal
 #' @importFrom grDevices colorRampPalette
 #' @importFrom graphics layout par image

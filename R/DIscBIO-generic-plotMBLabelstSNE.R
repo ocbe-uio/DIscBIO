@@ -1,13 +1,13 @@
 #' title tSNE map for Model-based clustering with labels
 #' @description Visualizing the Model-based clusters using tSNE maps 
-#' @param object \code{PSCANseq} class object.
+#' @param object \code{DISCBIO} class object.
 #' @importFrom graphics text
 setGeneric("plotMBLabelstSNE", function(object) standardGeneric("plotMBLabelstSNE"))
 
 #' @rdname plotMBLabelstSNE
 #' @export
 setMethod("plotMBLabelstSNE",
-          signature = "PSCANseq",
+          signature = "DISCBIO",
           definition = function(object){
             if ( length(object@MBtsne) == 0 ) stop("run comptsneMB before plotMBLabelstSNE")
             Clusters<-object@MBclusters$clusterid

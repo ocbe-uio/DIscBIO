@@ -4,7 +4,7 @@
 #' to all points in the same cluster and to all points in the closest neighboring cluster. This difference it 
 #' normalize such that it can take values between -1 and 1 with higher values reflecting better 
 #' representation of a point by its cluster.
-#' @param object \code{PSCANseq} class object.
+#' @param object \code{DISCBIO} class object.
 #' @param K A numeric value of the number of clusters
 #' @importFrom stats as.dist cor
 #' @importFrom cluster silhouette
@@ -17,7 +17,7 @@ setGeneric(
 #' @rdname plotSilhouette
 setMethod(
   f = "plotSilhouette",
-  signature = "PSCANseq",
+  signature = "DISCBIO",
   definition = function(object, K) {
     if (length(object@kmeans$kpart) == 0) {
       stop("run clustexp before plotsilhouette")

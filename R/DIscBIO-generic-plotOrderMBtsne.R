@@ -1,13 +1,13 @@
 #' @title Plotting the pseudo-time ordering based on Model-based clusters in the t-SNE map
 #' @description The tSNE representation can also be used to show the pseudo-time ordering.
-#' @param object \code{PSCANseq} class object.
-#' of the \code{PSCANseq} object.
+#' @param object \code{DISCBIO} class object.
+#' of the \code{DISCBIO} object.
 setGeneric("plotOrderMBtsne", function(object) standardGeneric("plotOrderMBtsne"))
 
 #' @export
 #' @rdname plotOrderMBtsne
 setMethod("plotOrderMBtsne",
-          signature = "PSCANseq",
+          signature = "DISCBIO",
           definition = function(object){
             if ( length(object@MBtsne) == 0 ) stop("run comptsneMB before plotOrderMBtsne")
 			total<-rbind(object@ndata,object@MBordering)

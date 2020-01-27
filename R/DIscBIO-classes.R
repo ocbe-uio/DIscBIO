@@ -1,6 +1,6 @@
-#' PSCANseq
-#' @title The PSCANseq Class
-#' @description The PSCANseq class is the central object storing all information generated throughout the pipeline. 
+#' DISCBIO
+#' @title The DISCBIO Class
+#' @description The DISCBIO class is the central object storing all information generated throughout the pipeline. 
 #' @slot expdata The raw expression data matrix with cells as columns and genes as rows in sparse matrix format. It does not contain ERCC spik-ins.
 #' @slot expdataAll The raw expression data matrix with cells as columns and genes as rows in sparse matrix format. It can contain ERCC spik-ins.
 #' @slot ndata Data with expression normalized to one for each cell.     
@@ -22,14 +22,14 @@
 #' @slot noiseF A vector containing the gene list resulted from running the noise filtering.
 #' @slot FinalGeneList  A vector containing the final gene list resulted from running the noise filtering or/and the expression filtering.
 #' @importFrom methods new validObject
-#' @name PSCANseq
-#' @rdname PSCANseq
-#' @aliases PSCANseq-class, PSCANseq-class
-#' @exportClass PSCANseq
+#' @name DISCBIO
+#' @rdname DISCBIO
+#' @aliases DISCBIO-class, DISCBIO-class
+#' @exportClass DISCBIO
 #' @export
 #TODO: describe slots
-PSCANseq <- setClass(
-    Class = "PSCANseq",
+DISCBIO <- setClass(
+    Class = "DISCBIO",
     slots = c(
         expdata    = "data.frame",
 		expdataAll    = "data.frame",
@@ -54,12 +54,12 @@ PSCANseq <- setClass(
     )
 )
 
-#' validity function for PSCANseq
+#' validity function for DISCBIO
 #'
-#' @param object An PSCANseq object.
-#' @name PSCANseq
+#' @param object An DISCBIO object.
+#' @name DISCBIO
 #' @export
-setValidity("PSCANseq",
+setValidity("DISCBIO",
             function(object) {
               msg <- NULL
               if ( ! is.data.frame(object@expdata) ){
@@ -79,7 +79,7 @@ setValidity("PSCANseq",
             )
 
 setMethod("initialize",
-          signature = "PSCANseq",
+          signature = "DISCBIO",
           definition = function(.Object, expdataAll ){
 		    .Object@expdataAll <- expdataAll
 			shortNames <- substr(rownames(expdataAll), 1, 4)

@@ -1,6 +1,6 @@
 #' @title Plotting the Model-based clusters in PCA.
 #' @description Plot the model-based clustering results 
-#' @param object \code{PSCANseq} class object.
+#' @param object \code{DISCBIO} class object.
 #' @importFrom ggplot2 ggplot aes geom_point aes_string scale_colour_manual geom_text geom_segment guides guide_legend xlab ylab theme element_blank element_line unit element_text element_rect
 #' @importFrom igraph get.edgelist degree get.shortest.paths
 setGeneric("PlotmclustMB", function(object) standardGeneric("PlotmclustMB"))
@@ -8,7 +8,7 @@ setGeneric("PlotmclustMB", function(object) standardGeneric("PlotmclustMB"))
 #' @export
 #' @rdname PlotmclustMB
 setMethod("PlotmclustMB",
-          signature = "PSCANseq",
+          signature = "DISCBIO",
           definition = function(object){
             if ( length(object@MBclusters) == 0 ) stop("run ExprmclustMB before PlotmclustMB")
 			total<-object@MBclusters

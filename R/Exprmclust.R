@@ -1,7 +1,7 @@
 #' @title Performing Model-based clustering on expression values
 #' @description this function first uses principal component analysis (PCA) to reduce dimensionality of original data. It then performs model-based clustering 
 #' on the transformed expression values. 
-#' @param object \code{PSCANseq} class object.
+#' @param object \code{DISCBIO} class object.
 #' @param clusternum An integer vector specifying all possible cluster numbers. Default is 3.
 #' @param modelNames model to be used in model-based clustering. By default "ellipsoidal, varying volume, shape, and orientation" is used.
 #' @param reduce A logical vector that allows performing the PCA on the expression data. Default is TRUE.
@@ -19,7 +19,7 @@ setGeneric(
 #' @rdname Exprmclust
 setMethod(
       f = "Exprmclust",
-      signature = "PSCANseq",
+      signature = "DISCBIO",
       definition = function(object, clusternum = 3, modelNames = "VVV", reduce = T, cluster = NULL, quiet = FALSE) {
       set.seed(12345)
 	  obj<-object@fdata

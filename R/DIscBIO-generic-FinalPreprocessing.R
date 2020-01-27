@@ -1,6 +1,6 @@
 #' @title Final Preprocessing
 #' @description This function generates the final filtered normalized dataset.
-#' @param object \code{PSCANseq} class object.
+#' @param object \code{DISCBIO} class object.
 #' @param GeneFlitering GeneFlitering has to be one of the followings: ["NoiseF","ExpF"]. Default is "NoiseF"
 #' @param export A logical vector that allows writing the final gene list in excel file. Default is TRUE. 
 setGeneric("FinalPreprocessing", function(object,GeneFlitering="NoiseF",export = TRUE) standardGeneric("FinalPreprocessing"))
@@ -8,7 +8,7 @@ setGeneric("FinalPreprocessing", function(object,GeneFlitering="NoiseF",export =
 #' @export
 #' @rdname FinalPreprocessing
 setMethod("FinalPreprocessing",
-          signature = "PSCANseq",
+          signature = "DISCBIO",
           definition = function(object,GeneFlitering,export = TRUE){
 			if (GeneFlitering == "NoiseF") {
 				if ( length(object@noiseF) < 1 ) stop("run NoiseFiltering before running FinalPreprocessing")

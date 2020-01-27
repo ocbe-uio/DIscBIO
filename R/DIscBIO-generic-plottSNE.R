@@ -1,13 +1,13 @@
 #' @title tSNE map for K-means clustering
 #' @description Visualizing the K-means clusters using tSNE maps
-#' @param object \code{PSCANseq} class object.
+#' @param object \code{DISCBIO} class object.
 #' @importFrom graphics text
 setGeneric("plottSNE", function(object) standardGeneric("plottSNE"))
 
 #' @rdname plotSilhouette
 #' @export
 setMethod("plottSNE",
-          signature = "PSCANseq",
+          signature = "DISCBIO",
           definition = function(object){
             if ( length(object@tsne) == 0 ) stop("run comptsne before plottsne")
 			col=c("black","blue","green","red","yellow","gray")

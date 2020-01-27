@@ -1,6 +1,6 @@
 #' @title title
 #' @description description 
-#' @param object \code{PSCANseq} class object.
+#' @param object \code{DISCBIO} class object.
 #' @param types If types=NULL then the names of the cells will be grouped automatically. Default is NULL
 #' @importFrom grDevices rainbow
 #' @importFrom graphics legend
@@ -9,7 +9,7 @@ setGeneric("PCAplotSymbols", function(object,types=NULL) standardGeneric("PCAplo
 #' @export
 #' @rdname PCAplotSymbols
 setMethod("PCAplotSymbols",
-          signature = "PSCANseq",
+          signature = "DISCBIO",
           definition = function(object,types=NULL){
             if ( length(object@MBclusters) == 0 ) stop("run ExprmclustMB before PCAplotSymbols")
 			total<-object@MBclusters

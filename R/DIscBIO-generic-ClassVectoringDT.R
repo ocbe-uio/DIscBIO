@@ -1,6 +1,6 @@
 #' @title Generating a class vector to be used for the decision tree analysis.
 #' @description This function generates a class vector for the input dataset so the decision tree analysis can be implemented afterwards.  
-#' @param object \code{PSCANseq} class object.
+#' @param object \code{DISCBIO} class object.
 #' @param Clustering Clustering has to be one of the following: ["K-means","MB"]. Default is "K-means"
 #' @param K A numeric value of the number of clusters.
 #' @param First A string vector showing the first target cluster.  Default is "CL1"
@@ -12,7 +12,7 @@ setGeneric("ClassVectoringDT", function(object,Clustering="K-means",K,First="CL1
 #' @rdname ClassVectoringDT
 #' @export
 setMethod("ClassVectoringDT",
-          signature = "PSCANseq",
+          signature = "DISCBIO",
           definition = function(object,Clustering="K-means",K,First="CL1",Second="CL2",sigDEG){
 		    if (!(Clustering %in% c( "K-means","MB"))) {
 				stop("Clustering has to be either K-means or MB")
@@ -27,7 +27,7 @@ setMethod("ClassVectoringDT",
 				Cluster_ID = object@MBclusters$clusterid 
 			}	
 			Obj<-object@expdata
-			SC<-PSCANseq(Obj)
+			SC<-DISCBIO(Obj)
 			SC<- Normalizedata(SC)
 			DatasetForDT<- SC@fdata
 			Nam <-colnames(DatasetForDT)

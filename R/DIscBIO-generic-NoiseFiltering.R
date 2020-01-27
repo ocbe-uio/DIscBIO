@@ -4,7 +4,7 @@
 #' geometric means of the rows. The median (or, if requested, another location
 #' estimator) of these ratios (skipping the genes with a # geometric mean of
 #' zero) is used as the size factor for this column. Source: DESeq package.
-#' @param object \code{PSCANseq} class object.
+#' @param object \code{DISCBIO} class object.
 #' @param percentile A numeric value of the percentile. It is used to validate the ERCC spik-ins. Default is 0.8.
 #' @param CV A numeric value of the coefficient of variation. It is used to validate the ERCC spik-ins. Default is 0.5.
 #' @param geneCol Color of the genes that did not pass the filtration.
@@ -30,7 +30,7 @@ setGeneric(
 #' @rdname NoiseFiltering
 setMethod(
     f = "NoiseFiltering",
-    signature = "PSCANseq",
+    signature = "DISCBIO",
     definition = function(
         object, percentile=0.8, CV= 0.3, geneCol="yellow", FgeneCol="black",
         erccCol="blue", Val = TRUE, plot = TRUE, export = TRUE, quiet = FALSE

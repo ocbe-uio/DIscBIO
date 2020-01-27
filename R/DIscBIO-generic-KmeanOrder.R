@@ -1,6 +1,6 @@
 #' @title Pseudo-time ordering based on k-means clusters
 #' @description This function takes the exact output of exprmclust function and construct Pseudo-time ordering by mapping all cells onto the path that connects cluster centers. 
-#' @param object \code{PSCANseq} class object.
+#' @param object \code{DISCBIO} class object.
 #' @param quiet if `TRUE`, suppresses intermediary output
 #' @param export if `TRUE`, exports order table to csv
 #' @importFrom TSCAN TSCANorder
@@ -9,7 +9,7 @@ setGeneric("KmeanOrder", function(object, quiet = FALSE, export = TRUE) standard
 #' @export
 #' @rdname KmeanOrder
 setMethod("KmeanOrder",
-          signature = "PSCANseq",
+          signature = "DISCBIO",
           definition = function(object, quiet = FALSE, export = TRUE) {
 			Obj<-object@fdata
 			Clusters<-object@cpart
