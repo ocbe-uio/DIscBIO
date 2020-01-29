@@ -20,8 +20,13 @@ setMethod("FinalPreprocessing",
 				filteredDataset<- object@fdata[gene_names2,]
 				object@fdata<-filteredDataset
 				object@FinalGeneList<-rownames(filteredDataset)
-				cat("The gene filtering method= Noise filtering","\n","\n") 
-				cat("The Filtered Normalized dataset contains:","\n","Genes:",length(filteredDataset[,1]),"\n","cells:",length(filteredDataset[1,]),"\n","\n")
+
+				if (!quiet) {
+					cat("The gene filtering method= Noise filtering\n\n",
+						"The Filtered Normalized dataset contains:\n",
+						"Genes:", length(filteredDataset[, 1]), "\n",
+						"cells:", length(filteredDataset[1,]),"\n\n")
+				}
 				if (export) {
 					cat("The Filtered Normalized dataset was saved as: filteredDataset.Rdata\n")
 					save(filteredDataset,file="filteredDataset.Rdata")
@@ -32,8 +37,13 @@ setMethod("FinalPreprocessing",
 				if ( nrow(object@fdata) < 1 ) stop("run Normalizedata before running FinalPreprocessing")
 				filteredDataset<-object@fdata
 				object@FinalGeneList<-rownames(filteredDataset)
-				cat("The gene filtering method= Expression filtering","\n","\n") 
-				cat("The Filtered Normalized dataset contains:","\n","Genes:",length(filteredDataset[,1]),"\n","cells:",length(filteredDataset[1,]),"\n","\n")
+
+				if (!quiet) {
+					cat("The gene filtering method= Expression filtering\n\n",
+						"The Filtered Normalized dataset contains:\n",
+						"Genes:", length(filteredDataset[, 1]), "\n",
+						"cells:", length(filteredDataset[1, ]), "\n\n")
+				}
 				if (export) {
 					cat("The Filtered Normalized dataset was saved as: filteredDataset.Rdata\n")
 					save(filteredDataset,file="filteredDataset.Rdata")
