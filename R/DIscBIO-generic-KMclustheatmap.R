@@ -5,6 +5,11 @@
 #' This should be one of "ward.D", "ward.D2", "single", "complete", "average". Default is "single".
 #' @param plot if `TRUE`, plots the heatmap; otherwise, just prints cclmo
 #' @importFrom stats hclust as.dist cor
+#' @examples
+#' sc <- DISCBIO(valuesG1ms)
+#' sc <- Clustexp(sc, cln=3, quiet=TRUE) # K-means clustering
+#' sc <- comptSNE(sc, rseed=15555, quiet=TRUE)
+#' KMclustheatmap(sc, hmethod="single")
 setGeneric("KMclustheatmap", function(object,hmethod="single", plot = TRUE) standardGeneric("KMclustheatmap"))
 
 #' @export

@@ -1,4 +1,9 @@
 rm(list = ls())#TEMP
+
+# ---------------------------------------------------------------------------- #
+#                              Data pre-processing                             #
+# ---------------------------------------------------------------------------- #
+
 context("Data pre-processing")
 
 # The "valuesG1ms" is the only needed dataset
@@ -32,6 +37,10 @@ test_that("Data is normalized", {
     expect_equal(dim(sc@fdata), c(5684, 94))
 })
 
+# ---------------------------------------------------------------------------- #
+#                              K-means clustering                              #
+# ---------------------------------------------------------------------------- #
+
 context("K-means clustering")
 
 sc <- Clustexp(sc, cln=3, quiet=TRUE) # K-means clustering
@@ -42,13 +51,22 @@ test_that("tSNE is computed", {
     expect_output(str(sc@tsne), "94 obs. of  2 variables")
 })
 
-# Jaccard Similarity
-test_that("Similarities are as expexted", {
+test_that("Cluster plots output is as expexted", {
     expect_equal(
         object = Jaccard(sc, Clustering="K-means", K=3, plot = FALSE),
         expected = c(.680, .766, .681)
     )
+    expect_equal(
+        object = KMclustheatmap(sc, hmethod = "single", plot = FALSE),
+        expected = c(3, 1, 2)
+    )
 })
+
+# ---------------------------------------------------------------------------- #
+#                                   Outliers                                   #
+# ---------------------------------------------------------------------------- #
+
+context("Outliers")
 
 Outliers <- FindOutliersKM(
     sc, K=3, outminc=5, outlg=2, probthr=.5*1e-3, thr=2**-(1:40),
@@ -61,31 +79,64 @@ Outliers2 <- FindOutliersKM(
     sc, K=3, outminc=5, outlg=outlg, probthr=.5*1e-3, thr=2**-(1:40),
     outdistquant=.75, plot = FALSE, quiet = TRUE
 )
+Order <- KmeanOrder(sc, quiet = TRUE, export = FALSE)
 
 test_that("Outliers are the expected", {
+    expect_equivalent(
+        object = Outliers,
+        expected = c(
+            1, 3:9, 11:15, 17:25, 27, 29, 35, 37, 40, 43, 45, 52, 58, 61:63, 66,
+            71:75, 78:79, 82, 85, 92
+        )
+    )
     expect_equivalent(Outliers2, c(1, 13, 22))
+    expect_equivalent(
+        object = Order@kordering, 
+        expected = c(
+            23, 72, 29, 11, 19, 26, 48, 77, 80, 83, 82, 16, 88, 5, 13, 24, 86, 
+            42, 34, 45, 87, 15, 65, 27, 10, 58, 89, 35, 71, 62, 32, 44, 38, 56, 
+            55, 50, 53, 2, 49, 59, 54, 61, 60, 1, 43, 9, 31, 6, 18, 64, 46, 41, 
+            22, 20, 33, 37, 63, 90, 52, 70, 66, 92, 39, 51, 30, 93, 12, 14, 75, 
+            78, 47, 28, 91, 68, 21, 73, 94, 25, 17, 8, 74, 57, 69, 4, 84, 7, 40,
+            81, 85, 79, 67, 3, 76, 36
+        )
+    )
 })
 
-Order <- KmeanOrder(sc, quiet = TRUE, export = FALSE)
-# plotOrderKMtsne(sc)
+# plotOrderKMtsne(sc) # FIXME: yields error even in the original ("increasing 'x' and 'y' values expected")
+# TODO: request MWE for plotOrderKMtsne
+
+# ---------------------------------------------------------------------------- #
+#                       Differential Expression Analysis                       #
+# ---------------------------------------------------------------------------- #
+
+context("Differential Expression Analysis")
+
+test_that("DEGs are calculated", {
+    # Binomial differential expression analysis
+    cdiff1 <- KMClustDiffGenes(sc, K=3, fdr=.1, export = FALSE, quiet = TRUE)
+
+    # differential expression analysis between all clusters
+    cdiff2 <- DEGanalysis(
+        sc, Clustering="K-means", K=3, fdr=.1, name="Name", export = FALSE,
+        quiet = TRUE
+    )
+    
+    # differential expression analysis between particular clusters.
+    cdiff3 <- DEGanalysisM(
+        sc, Clustering="K-means", K=3, fdr=.1, name="Name", First="CL1",
+        Second="CL2", export = FALSE, quiet=TRUE
+    )
+
+    # Test results
+    expect_identical(sapply(cdiff1, class), c("matrix", "data.frame"))
+    expect_identical(sapply(cdiff2, class), c("matrix", "data.frame"))
+    expect_identical(sapply(cdiff3, class), c("matrix", "data.frame"))
+})
 
 ###############################################################################
 ############################# ORIGINAL CODE BELOW #############################
 ###############################################################################
-
-# ####Cellular pseudo-time ordering based on k-means clusters 
-
-# ##### Plotting the expression of a particular gene in tSNE map
-# g='ENSG00000001460'
-# plotExptSNE(sc,g)
-
-# ######## Plotting the K-means clusters in heatmap
-# KMclustheatmap(sc,hmethod="single", plot = TRUE) 
-
-# cdiff<-KMClustDiffGenes(sc,K=3,fdr=.01)    ##########3 Binomial differential expression analysis
-
-# cdiff<-DEGanalysis(sc,Clustering="K-means",K=3,fdr=0.1,name="Name",export = TRUE)   ####### differential expression analysis between all clusters
-# cdiff<-DEGanalysisM(sc,Clustering="K-means",K=3,fdr=0.1,name="Name",First="CL1",Second="CL2",export = TRUE)     ####### differential expression analysis between particular clusters.
 
 # ############ Plotting the DEGs
 # name<-cdiff[[2]][1,6]     # From the table of the differential expression analysis between all pairs of clusters

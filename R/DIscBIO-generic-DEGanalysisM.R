@@ -8,16 +8,31 @@
 #' @param First A string vector showing the first target cluster.  Default is "CL1"
 #' @param Second A string vector showing the second target cluster.  Default is "CL2"
 #' @param export A logical vector that allows writing the final gene list in excel file. Default is TRUE. 
+#' @param quiet if `TRUE`, suppresses intermediate text output
 #' @importFrom samr samr samr.compute.delta.table samr.plot samr.compute.siggenes.table
 #' @importFrom graphics title
 #' @importFrom utils write.csv
-setGeneric("DEGanalysisM", function(object,Clustering="K-means",K,fdr=0.05,name="Name",First="CL1",Second="CL2",export = TRUE) standardGeneric("DEGanalysisM"))
+#' @examples 
+#' sc <- DISCBIO(valuesG1ms)
+#' sc <- NoiseFiltering(sc, plot=FALSE, export=FALSE, quiet=TRUE)
+#' sc <- Normalizedata(
+#'     sc, mintotal=1000, minexpr=0, minnumber=0, maxexpr=Inf, downsample=FALSE
+#'     dsn=1, rseed=17000
+#' )
+#' sc <- Clustexp(sc, cln=3, quiet=TRUE) # K-means clustering
+#' sc <- FinalPreprocessing(sc, GeneFlitering="NoiseF", export=FALSE, quiet=TRUE)
+#' sc <- Clustexp(sc, cln=3, quiet=TRUE) # K-means clustering
+#' sc <- comptSNE(sc, rseed=15555, quiet=TRUE)
+#' DEGanalysisM(
+#'     sc, Clustering="K-means", K=3, fdr=0.1, name="Name", export = FALSE
+#' )
+setGeneric("DEGanalysisM", function(object,Clustering="K-means",K,fdr=0.05,name="Name",First="CL1",Second="CL2",export=TRUE, quiet=FALSE) standardGeneric("DEGanalysisM"))
 
 #' @export
 #' @rdname DEGanalysisM
 setMethod("DEGanalysisM",
           signature = "DISCBIO",
-          definition = function(object,Clustering="K-means",K,fdr=0.05,name="Name",First="CL1",Second="CL2",export = TRUE){
+          definition = function(object,Clustering="K-means",K,fdr=0.05,name="Name",First="CL1",Second="CL2",export=TRUE, quiet=FALSE){
 			if (!(Clustering %in% c( "K-means","MB"))) {
 				stop("Clustering has to be either K-means or MB")
 			}
@@ -57,8 +72,23 @@ setMethod("DEGanalysisM",
 			gname<-rownames(sg)
 			x<-L
 			data=list(x=x,y=y, geneid=gname)
-			samr.obj<-samr(data, resp.type="Two class unpaired", assay.type="seq",nperms=100,nresamp=20,testStatistic="wilcoxon",random.seed=15)
-			delta.table <- samr.compute.delta.table(samr.obj)
+			if (quiet) {
+				invisible(capture.output({
+					samr.obj <- samr(
+						data, resp.type="Two class unpaired", assay.type="seq",
+						nperms=100, nresamp=20, testStatistic="wilcoxon",
+						random.seed=15
+					)
+					delta.table <- samr.compute.delta.table(samr.obj)
+				}))
+			} else {
+				samr.obj <- samr(
+					data, resp.type="Two class unpaired", assay.type="seq",
+					nperms=100, nresamp=20, testStatistic="wilcoxon",
+					random.seed=15
+				)
+				delta.table <- samr.compute.delta.table(samr.obj)
+			}
 			DEGsTable<-data.frame()
 			DEGsE<-c()
 			DEGsS<-c()
@@ -67,8 +97,12 @@ setMethod("DEGanalysisM",
 				w<-which(delta.table[,5]<= fdr)
 				delta<-delta.table[w[1],1]-0.001
     
-				samr.plot(samr.obj, delta)
-				title(paste0("DEGs in the ",Second," in ",First," VS ",Second))
+				if (!quiet) {
+					samr.plot(samr.obj, delta)
+					title(
+						paste0("DEGs in the ",Second," in ",First," VS ",Second)
+					)
+				}
     
 				siggenes.table<-samr.compute.siggenes.table(samr.obj,delta, data, delta.table)
         
@@ -95,7 +129,25 @@ setMethod("DEGanalysisM",
 				if (length(FDRl)>0){
 					mart <- useDataset("hsapiens_gene_ensembl", useMart("ensembl"))
 					genes <- siggenes.table$genes.lo[,3]
-					G_list <- getBM(filters= "ensembl_gene_id", attributes= c("ensembl_gene_id","hgnc_symbol"),values=genes,mart= mart)
+					if (quiet) {
+						suppressMessages(
+							G_list <- getBM(
+								filters="ensembl_gene_id",
+								attributes=c("ensembl_gene_id","hgnc_symbol"),
+								values=genes,
+								mart=mart,
+								verbose=!quiet
+							)
+						)
+					} else {
+						G_list <- getBM(
+							filters="ensembl_gene_id",
+							attributes=c("ensembl_gene_id","hgnc_symbol"),
+							values=genes,
+							mart=mart,
+							verbose=!quiet
+						)
+					}
 					FinalDEGsL<-cbind(genes,siggenes.table$genes.lo)
 					FinalDEGsL<-merge(FinalDEGsL,G_list,by.x="genes",by.y="ensembl_gene_id")
 					FinalDEGsL[,3]<-FinalDEGsL[,10]
@@ -114,7 +166,25 @@ setMethod("DEGanalysisM",
 				if (length(FDRu)>0){
 					mart <- useDataset("hsapiens_gene_ensembl", useMart("ensembl"))
 					genes <- siggenes.table$genes.up[,3]
-					G_list <- getBM(filters= "ensembl_gene_id", attributes= c("ensembl_gene_id","hgnc_symbol"),values=genes,mart= mart)
+					if (quiet) {
+						suppressMessages(
+							G_list <- getBM(
+								filters="ensembl_gene_id",
+								attributes=c("ensembl_gene_id","hgnc_symbol"),
+								values=genes,
+								mart=mart,
+								verbose=!quiet
+							)
+						)
+					} else {
+						G_list <- getBM(
+							filters="ensembl_gene_id",
+							attributes=c("ensembl_gene_id","hgnc_symbol"),
+							values=genes,
+							mart=mart,
+							verbose=!quiet
+						)
+					}
 					FinalDEGsU<-cbind(genes,siggenes.table$genes.up)
 					FinalDEGsU<-merge(FinalDEGsU,G_list,by.x="genes",by.y="ensembl_gene_id")
 					FinalDEGsU[,3]<-FinalDEGsU[,10]
@@ -148,7 +218,7 @@ setMethod("DEGanalysisM",
 			}
     
 			colnames(DEGsTable)<-c("Comparisons","Target cluster","Up-regulated genes","File name","Low-regulated genes","File name")
-			print(DEGsTable)
+			if (!quiet) print(DEGsTable)
 			sigDEG<-cbind(DEGsE,DEGsS)
 
 			if (export) {
