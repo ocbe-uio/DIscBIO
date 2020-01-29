@@ -17,3 +17,9 @@ plotSymbolstSNE(object, types = NULL)
 \description{
 Visualizing the K-means clusters using tSNE maps
 }
+\examples{
+sc <- PSCANseq(valuesG1ms) # changes signature of data
+sc <- Clustexp(sc, cln=3) # data must be clustered before plottin
+sc <- comptSNE(sc, rseed=15555, quiet=TRUE)
+plotSymbolstSNE(sc,types=sub("(\\\\_\\\\d+)$","", names(sc@ndata)))    
+}

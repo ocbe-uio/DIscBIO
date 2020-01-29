@@ -21,6 +21,9 @@
 #' @importFrom amap Kmeans
 #' @importFrom graphics pairs
 #' @importFrom fpc cluster.stats calinhara dudahart2
+#' @examples 
+#' sc <- DISCBIO(valuesG1ms) # changes signature of data
+#' sc <- Clustexp(sc, cln=3)
 setGeneric("Clustexp", function(object, clustnr = 20, bootnr = 50,
                                 metric = "pearson", do.gap = TRUE,
                                 SE.method = "Tibs2001SEmax", SE.factor = .25,

@@ -5,6 +5,11 @@
 #' @param quiet if `TRUE`, suppresses intermediate output
 #' @importFrom tsne tsne
 #' @importFrom stats as.dist cor
+#' @examples
+#' sc <- DISCBIO(valuesG1ms) # changes signature of data
+#' sc <- Clustexp(sc, cln=3) # data must be clustered before plottin
+#' sc <- comptSNE(sc, rseed=15555, quiet=TRUE)
+#' head(sc@tsne)
 setGeneric(
   name = "comptSNE",
   def = function(object, rseed = 15555, quiet = FALSE) {

@@ -11,7 +11,7 @@ setGeneric("KmeanOrder", function(object, quiet = FALSE, export = TRUE) standard
 setMethod("KmeanOrder",
           signature = "DISCBIO",
           definition = function(object, quiet = FALSE, export = TRUE) {
-			Obj<-object@fdata
+			Obj <- object@fdata
 			Clusters<-object@cpart
 			sampleNames<-colnames(object@fdata)
 			lpsmclust <- Exprmclust(Obj, clusternum = 4, reduce = F, cluster = Clusters)

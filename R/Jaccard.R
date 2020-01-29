@@ -9,6 +9,10 @@
 #' @importFrom philentropy distance
 #' @importFrom boot boot
 #' @importFrom graphics barplot box
+#' @examples 
+#' sc <- DISCBIO(valuesG1ms)
+#' sc <- Clustexp(sc, cln=3, quiet=TRUE) # K-means clustering
+#' Jaccard(sc, Clustering="K-means", K=3)
 Jaccard <- function(object, Clustering="K-means", K, plot = TRUE) {
     JACCARD <-c()
     if (!(Clustering %in% c( "K-means","MB"))) {

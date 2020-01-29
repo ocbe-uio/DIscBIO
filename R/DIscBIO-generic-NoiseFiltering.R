@@ -18,6 +18,11 @@
 #' @importFrom stats quantile var fitted.values pchisq p.adjust median aggregate
 #' @importFrom graphics plot axis abline points lines
 #' @importFrom statmod glmgam.fit
+#' @note This function should be used only if the dataset has ERCC.
+#' @examples
+#' sc <- DISCBIO(valuesG1ms) # changes signature of data
+#' sd_filtered <- NoiseFiltering(sc, export=FALSE)
+#' str(sd_filtered)
 setGeneric(
     name = "NoiseFiltering",
     def = function(
@@ -157,7 +162,7 @@ setMethod(
 
     # #Adjust for multiple testing with the Benjamini-Hochberg method, cut at 10%
     # padj <- p.adjust(p, "BH")
-	
+
     if (plot) {
         plot( NULL, xaxt="n", yaxt="n",log="xy", xlim = c( 1e-1, 3e5 ), ylim = c( .005, 100 ),main="Gene filtration by accounting for technical noise",
         xlab = "Average normalized read count", ylab = "Squared coefficient of variation (CV^2)" )

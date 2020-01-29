@@ -8,6 +8,11 @@
 #' @param K A numeric value of the number of clusters
 #' @importFrom stats as.dist cor
 #' @importFrom cluster silhouette
+#' @examples 
+#' sc <- PSCANseq(valuesG1ms) # changes signature of data
+#' sc <- Clustexp(sc, cln=3) # data must be clustered before plottin
+#' sc <- comptSNE(sc, rseed=15555)
+#' plotSilhouette(sc, K=3)
 setGeneric(
   name = "plotSilhouette",
   def = function(object,K) standardGeneric("plotSilhouette")

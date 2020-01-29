@@ -63,3 +63,7 @@ Default is 0.25.}
 \description{
 This functions performs the initial clustering of the RaceID algorithm.
 }
+\examples{
+sc <- DISCBIO(valuesG1ms) # changes signature of data
+sc <- Clustexp(sc, cln=3)
+}

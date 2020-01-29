@@ -19,3 +19,9 @@ comptSNE(object, rseed = 15555, quiet = FALSE)
 \description{
 This function is used to compute the t-Distributed Stochastic Neighbor Embedding (t-SNE).
 }
+\examples{
+sc <- DISCBIO(valuesG1ms) # changes signature of data
+sc <- Clustexp(sc, cln=3) # data must be clustered before plottin
+sc <- comptSNE(sc, rseed=15555, quiet=TRUE)
+head(sc@tsne)
+}

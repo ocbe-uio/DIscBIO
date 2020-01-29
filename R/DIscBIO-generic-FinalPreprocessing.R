@@ -3,7 +3,10 @@
 #' @param object \code{DISCBIO} class object.
 #' @param GeneFlitering GeneFlitering has to be one of the followings: ["NoiseF","ExpF"]. Default is "NoiseF"
 #' @param export A logical vector that allows writing the final gene list in excel file. Default is TRUE. 
-setGeneric("FinalPreprocessing", function(object,GeneFlitering="NoiseF",export = TRUE) standardGeneric("FinalPreprocessing"))
+#' @examples 
+#' sc <- DISCBIO(valuesG1ms)
+#' sc <- NoiseFiltering(sc, plot=FALSE, export=FALSE)
+#' sc <- FinalPreprocessing(sc, GeneFlitering="NoiseF", export=FALSE)
 
 #' @export
 #' @rdname FinalPreprocessing

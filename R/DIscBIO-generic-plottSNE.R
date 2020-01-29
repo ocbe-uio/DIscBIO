@@ -2,6 +2,11 @@
 #' @description Visualizing the K-means clusters using tSNE maps
 #' @param object \code{DISCBIO} class object.
 #' @importFrom graphics text
+#' @examples 
+#' sc <- PSCANseq(valuesG1ms) # changes signature of data
+#' sc <- Clustexp(sc, cln=3) # data must be clustered before plotting
+#' sc <- comptSNE(sc, rseed=15555, quiet=TRUE)
+#' plottSNE(sc)
 setGeneric("plottSNE", function(object) standardGeneric("plottSNE"))
 
 #' @rdname plotSilhouette

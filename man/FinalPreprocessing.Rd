@@ -5,9 +5,19 @@
 \alias{FinalPreprocessing,DISCBIO-method}
 \title{Final Preprocessing}
 \usage{
-FinalPreprocessing(object, GeneFlitering = "NoiseF", export = TRUE)
+FinalPreprocessing(
+  object,
+  GeneFlitering = "NoiseF",
+  export = TRUE,
+  quiet = FALSE
+)
 
-\S4method{FinalPreprocessing}{DISCBIO}(object, GeneFlitering = "NoiseF", export = TRUE)
+\S4method{FinalPreprocessing}{DISCBIO}(
+  object,
+  GeneFlitering = "NoiseF",
+  export = TRUE,
+  quiet = FALSE
+)
 }
 \arguments{
 \item{object}{\code{DISCBIO} class object.}
@@ -15,7 +25,14 @@ FinalPreprocessing(object, GeneFlitering = "NoiseF", export = TRUE)
 \item{GeneFlitering}{GeneFlitering has to be one of the followings: ["NoiseF","ExpF"]. Default is "NoiseF"}
 
 \item{export}{A logical vector that allows writing the final gene list in excel file. Default is TRUE.}
+
+\item{quiet}{if `TRUE`, intermediary output is suppressed}
 }
 \description{
 This function generates the final filtered normalized dataset.
+}
+\examples{
+sc <- DISCBIO(valuesG1ms)
+sc <- NoiseFiltering(sc, plot=FALSE, export=FALSE)
+sc <- FinalPreprocessing(sc, GeneFlitering="NoiseF", export=FALSE)
 }
