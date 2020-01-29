@@ -13,6 +13,19 @@
 #' @importFrom graphics title
 #' @importFrom utils write.csv
 #' @examples 
+#' sc <- DISCBIO(valuesG1ms)
+#' sc <- NoiseFiltering(sc, plot=FALSE, export=FALSE, quiet=TRUE)
+#' sc <- Normalizedata(
+#'     sc, mintotal=1000, minexpr=0, minnumber=0, maxexpr=Inf, downsample=FALSE
+#'     dsn=1, rseed=17000
+#' )
+#' sc <- Clustexp(sc, cln=3, quiet=TRUE) # K-means clustering
+#' sc <- FinalPreprocessing(sc, GeneFlitering="NoiseF", export=FALSE, quiet=TRUE)
+#' sc <- Clustexp(sc, cln=3, quiet=TRUE) # K-means clustering
+#' sc <- comptSNE(sc, rseed=15555, quiet=TRUE)
+#' DEGanalysisM(
+#'     sc, Clustering="K-means", K=3, fdr=0.1, name="Name", export = FALSE
+#' )
 setGeneric("DEGanalysisM", function(object,Clustering="K-means",K,fdr=0.05,name="Name",First="CL1",Second="CL2",export=TRUE, quiet=FALSE) standardGeneric("DEGanalysisM"))
 
 #' @export
@@ -66,7 +79,7 @@ setMethod("DEGanalysisM",
 						nperms=100, nresamp=20, testStatistic="wilcoxon",
 						random.seed=15
 					)
-			delta.table <- samr.compute.delta.table(samr.obj)
+					delta.table <- samr.compute.delta.table(samr.obj)
 				}))
 			} else {
 				samr.obj <- samr(
@@ -85,7 +98,7 @@ setMethod("DEGanalysisM",
 				delta<-delta.table[w[1],1]-0.001
     
 				if (!quiet) {
-				samr.plot(samr.obj, delta)
+					samr.plot(samr.obj, delta)
 					title(
 						paste0("DEGs in the ",Second," in ",First," VS ",Second)
 					)

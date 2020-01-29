@@ -5,9 +5,9 @@
 \alias{KMClustDiffGenes,DISCBIO-method}
 \title{ClustDiffGenes}
 \usage{
-KMClustDiffGenes(object, K, fdr = 0.01)
+KMClustDiffGenes(object, K, fdr = 0.01, export = TRUE, quiet = FALSE)
 
-\S4method{KMClustDiffGenes}{DISCBIO}(object, K, fdr = 0.01)
+\S4method{KMClustDiffGenes}{DISCBIO}(object, K, fdr = 0.01, export = TRUE, quiet = FALSE)
 }
 \arguments{
 \item{object}{\code{DISCBIO} class object.}
@@ -15,6 +15,10 @@ KMClustDiffGenes(object, K, fdr = 0.01)
 \item{K}{A numeric value of the number of clusters.}
 
 \item{fdr}{A numeric value of the false discovery rate. Default is 0.01.}
+
+\item{export}{A logical vector that allows writing the final gene list in excel file. Default is TRUE.}
+
+\item{quiet}{if `TRUE`, suppresses intermediate text output}
 }
 \description{
 description
@@ -22,6 +26,5 @@ description
 \examples{
 sc <- DISCBIO(valuesG1ms)
 sc <- Clustexp(sc, cln=3, quiet=TRUE) # K-means clustering
-sc <- comptSNE(sc, rseed=15555, quiet=TRUE)
- KMClustDiffGenes(sc, K=3, fdr=.3)
+KMClustDiffGenes(sc, K=3, fdr=.3)
 }
