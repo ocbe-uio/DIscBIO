@@ -55,7 +55,7 @@ setMethod(f="Clustexp",
 				gpr <- NULL
 				if ( do.gap ){
 					set.seed(rseed)
-					gpr <- clusGap(as.matrix(di), FUNcluster = kmeans, K.max = clustnr, B = B.gap) 
+					gpr <- clusGap(as.matrix(di), FUNcluster = kmeans, K.max = clustnr, B = B.gap, verbose = !quiet) 
 					if ( cln == 0 ) cln <- maxSE(gpr$Tab[,3],gpr$Tab[,4],method=SE.method,SE.factor)
 				}    
 				if ( cln <= 1 ) {
@@ -128,8 +128,7 @@ setMethod(f="Clustexp",
 						out
 					}
 				
-				
-				clb <- clusterboot(di,B=bootnr,distances=FALSE,bootmethod="boot",clustermethod=KmeansCBI,krange=cln,scaling=FALSE,multipleboot=FALSE,bscompare=TRUE,seed=rseed)
+				clb <- clusterboot(di,B=bootnr,distances=FALSE,bootmethod="boot",clustermethod=KmeansCBI,krange=cln,scaling=FALSE,multipleboot=FALSE,bscompare=TRUE,seed=rseed, count=!quiet)
 				return(list(x=x,clb=clb,gpr=gpr,di=di))
 			}
 		}
