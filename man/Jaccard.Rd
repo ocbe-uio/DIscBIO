@@ -7,7 +7,7 @@
 Jaccard(object, Clustering = "K-means", K, plot = TRUE)
 }
 \arguments{
-\item{object}{\code{PSCANseq} class object.}
+\item{object}{\code{DISCBIO} class object.}
 
 \item{Clustering}{Clustering has to be one of the following: ["K-means","MB"]. Default is "K-means"}
 

@@ -2,15 +2,15 @@
 % Please edit documentation in R/DIscBIO-generic-KMclustheatmap.R
 \name{KMclustheatmap}
 \alias{KMclustheatmap}
-\alias{KMclustheatmap,PSCANseq-method}
+\alias{KMclustheatmap,DISCBIO-method}
 \title{Plotting the K-means clusters in a heatmap representation of the cell-to-cell distances}
 \usage{
 KMclustheatmap(object, hmethod = "single", plot = TRUE)
 
-\S4method{KMclustheatmap}{PSCANseq}(object, hmethod = "single", plot = TRUE)
+\S4method{KMclustheatmap}{DISCBIO}(object, hmethod = "single", plot = TRUE)
 }
 \arguments{
-\item{object}{\code{PSCANseq} class object.}
+\item{object}{\code{DISCBIO} class object.}
 
 \item{hmethod}{Agglomeration method used for determining the cluster order from hierarchical clustering of the cluster medoids. 
 This should be one of "ward.D", "ward.D2", "single", "complete", "average". Default is "single".}

@@ -2,15 +2,15 @@
 % Please edit documentation in R/DIscBIO-generic-KmeanOrder.R
 \name{KmeanOrder}
 \alias{KmeanOrder}
-\alias{KmeanOrder,PSCANseq-method}
+\alias{KmeanOrder,DISCBIO-method}
 \title{Pseudo-time ordering based on k-means clusters}
 \usage{
 KmeanOrder(object, quiet = FALSE, export = TRUE)
 
-\S4method{KmeanOrder}{PSCANseq}(object, quiet = FALSE, export = TRUE)
+\S4method{KmeanOrder}{DISCBIO}(object, quiet = FALSE, export = TRUE)
 }
 \arguments{
-\item{object}{\code{PSCANseq} class object.}
+\item{object}{\code{DISCBIO} class object.}
 
 \item{quiet}{if `TRUE`, suppresses intermediary output}
 

@@ -2,7 +2,7 @@
 % Please edit documentation in R/DIscBIO-generic-DEGanalysis.R
 \name{DEGanalysis}
 \alias{DEGanalysis}
-\alias{DEGanalysis,PSCANseq-method}
+\alias{DEGanalysis,DISCBIO-method}
 \title{Determining differentially expressed genes (DEGs) between all individual clusters.}
 \usage{
 DEGanalysis(
@@ -14,7 +14,7 @@ DEGanalysis(
   export = TRUE
 )
 
-\S4method{DEGanalysis}{PSCANseq}(
+\S4method{DEGanalysis}{DISCBIO}(
   object,
   Clustering = "K-means",
   K,
@@ -24,7 +24,7 @@ DEGanalysis(
 )
 }
 \arguments{
-\item{object}{\code{PSCANseq} class object.}
+\item{object}{\code{DISCBIO} class object.}
 
 \item{Clustering}{Clustering has to be one of the following: ["K-means","MB"]. Default is "K-means"}
 

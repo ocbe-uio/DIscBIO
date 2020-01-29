@@ -2,15 +2,15 @@
 % Please edit documentation in R/DIscBIO-generic-comptSNE.R
 \name{comptSNE}
 \alias{comptSNE}
-\alias{comptSNE,PSCANseq-method}
+\alias{comptSNE,DISCBIO-method}
 \title{Computing tSNE for K-means clustering}
 \usage{
 comptSNE(object, rseed = 15555, quiet = FALSE)
 
-\S4method{comptSNE}{PSCANseq}(object, rseed = 15555, quiet = FALSE)
+\S4method{comptSNE}{DISCBIO}(object, rseed = 15555, quiet = FALSE)
 }
 \arguments{
-\item{object}{\code{PSCANseq} class object.}
+\item{object}{\code{DISCBIO} class object.}
 
 \item{rseed}{Integer number. Random seed to to yield exactly reproducible maps across different runs. Default is 15555.}
 

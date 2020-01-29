@@ -3,18 +3,18 @@
 %   R/DIscBIO-generic-plottSNE.R
 \name{plotSilhouette}
 \alias{plotSilhouette}
-\alias{plotSilhouette,PSCANseq-method}
-\alias{plottSNE,PSCANseq-method}
+\alias{plotSilhouette,DISCBIO-method}
+\alias{plottSNE,DISCBIO-method}
 \title{Silhouette Plot for K-means clustering}
 \usage{
 plotSilhouette(object, K)
 
-\S4method{plotSilhouette}{PSCANseq}(object, K)
+\S4method{plotSilhouette}{DISCBIO}(object, K)
 
-\S4method{plottSNE}{PSCANseq}(object)
+\S4method{plottSNE}{DISCBIO}(object)
 }
 \arguments{
-\item{object}{\code{PSCANseq} class object.}
+\item{object}{\code{DISCBIO} class object.}
 
 \item{K}{A numeric value of the number of clusters}
 }

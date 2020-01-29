@@ -2,7 +2,7 @@
 % Please edit documentation in R/DIscBIO-generic-Normalizedata.R
 \name{Normalizedata}
 \alias{Normalizedata}
-\alias{Normalizedata,PSCANseq-method}
+\alias{Normalizedata,DISCBIO-method}
 \title{Normalizing and filtering}
 \usage{
 Normalizedata(
@@ -16,7 +16,7 @@ Normalizedata(
   rseed = 17000
 )
 
-\S4method{Normalizedata}{PSCANseq}(
+\S4method{Normalizedata}{DISCBIO}(
   object,
   mintotal = 1000,
   minexpr = 0,
@@ -28,7 +28,7 @@ Normalizedata(
 )
 }
 \arguments{
-\item{object}{\code{PSCANseq} class object.}
+\item{object}{\code{DISCBIO} class object.}
 
 \item{mintotal}{minimum total transcript number required. Cells with less than \code{mintotal} transcripts are filtered out. Default is 1000.}
 

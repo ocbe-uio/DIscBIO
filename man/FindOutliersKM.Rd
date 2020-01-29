@@ -2,7 +2,7 @@
 % Please edit documentation in R/DIscBIO-generic-FindOutliersKM.R
 \name{FindOutliersKM}
 \alias{FindOutliersKM}
-\alias{FindOutliersKM,PSCANseq-method}
+\alias{FindOutliersKM,DISCBIO-method}
 \title{Inference of outlier cells in K-means clustering}
 \usage{
 FindOutliersKM(
@@ -17,7 +17,7 @@ FindOutliersKM(
   quiet = FALSE
 )
 
-\S4method{FindOutliersKM}{PSCANseq}(
+\S4method{FindOutliersKM}{DISCBIO}(
   object,
   K,
   outminc = 5,
@@ -30,7 +30,7 @@ FindOutliersKM(
 )
 }
 \arguments{
-\item{object}{\code{PSCANseq} class object.}
+\item{object}{\code{DISCBIO} class object.}
 
 \item{K}{Number of clusters to be used.}
 

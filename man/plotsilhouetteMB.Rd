@@ -2,15 +2,15 @@
 % Please edit documentation in R/DIscBIO-generic-plotsilhouetteMB.R
 \name{plotsilhouetteMB}
 \alias{plotsilhouetteMB}
-\alias{plotsilhouetteMB,PSCANseq-method}
+\alias{plotsilhouetteMB,DISCBIO-method}
 \title{Silhouette Plot for Model-based clustering}
 \usage{
 plotsilhouetteMB(object, K)
 
-\S4method{plotsilhouetteMB}{PSCANseq}(object, K)
+\S4method{plotsilhouetteMB}{DISCBIO}(object, K)
 }
 \arguments{
-\item{object}{\code{PSCANseq} class object.}
+\item{object}{\code{DISCBIO} class object.}
 
 \item{K}{A numeric value of the number of clusters}
 }

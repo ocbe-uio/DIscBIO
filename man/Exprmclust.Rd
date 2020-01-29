@@ -2,7 +2,7 @@
 % Please edit documentation in R/Exprmclust.R
 \name{Exprmclust}
 \alias{Exprmclust}
-\alias{Exprmclust,PSCANseq-method}
+\alias{Exprmclust,DISCBIO-method}
 \title{Performing Model-based clustering on expression values}
 \usage{
 Exprmclust(
@@ -14,7 +14,7 @@ Exprmclust(
   quiet = FALSE
 )
 
-\S4method{Exprmclust}{PSCANseq}(
+\S4method{Exprmclust}{DISCBIO}(
   object,
   clusternum = 3,
   modelNames = "VVV",
@@ -24,7 +24,7 @@ Exprmclust(
 )
 }
 \arguments{
-\item{object}{\code{PSCANseq} class object.}
+\item{object}{\code{DISCBIO} class object.}
 
 \item{clusternum}{An integer vector specifying all possible cluster numbers. Default is 3.}
 

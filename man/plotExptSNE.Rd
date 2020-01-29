@@ -2,18 +2,18 @@
 % Please edit documentation in R/DIscBIO-generic-plotExptSNE.R
 \name{plotExptSNE}
 \alias{plotExptSNE}
-\alias{plotExptSNE,PSCANseq-method}
+\alias{plotExptSNE,DISCBIO-method}
 \title{Highlighting gene expression in K-means clustering in the t-SNE map}
 \usage{
 plotExptSNE(object, g, n = NULL)
 
-\S4method{plotExptSNE}{PSCANseq}(object, g, n = NULL)
+\S4method{plotExptSNE}{DISCBIO}(object, g, n = NULL)
 }
 \arguments{
-\item{object}{\code{PSCANseq} class object.}
+\item{object}{\code{DISCBIO} class object.}
 
 \item{g}{Individual gene name or vector with a group of gene names corresponding to a subset of valid row names of the \code{ndata} slot
-of the \code{PSCANseq} object.}
+of the \code{DISCBIO} object.}
 
 \item{n}{String of characters representing the title of the plot. Default is NULL and the first element of \code{g} is chosen.}
 }

@@ -2,16 +2,16 @@
 % Please edit documentation in R/DIscBIO-generic-plotOrderMBtsne.R
 \name{plotOrderMBtsne}
 \alias{plotOrderMBtsne}
-\alias{plotOrderMBtsne,PSCANseq-method}
+\alias{plotOrderMBtsne,DISCBIO-method}
 \title{Plotting the pseudo-time ordering based on Model-based clusters in the t-SNE map}
 \usage{
 plotOrderMBtsne(object)
 
-\S4method{plotOrderMBtsne}{PSCANseq}(object)
+\S4method{plotOrderMBtsne}{DISCBIO}(object)
 }
 \arguments{
-\item{object}{\code{PSCANseq} class object.
-of the \code{PSCANseq} object.}
+\item{object}{\code{DISCBIO} class object.
+of the \code{DISCBIO} object.}
 }
 \description{
 The tSNE representation can also be used to show the pseudo-time ordering.

@@ -2,15 +2,15 @@
 % Please edit documentation in R/DIscBIO-generic-plotGap.R
 \name{plotGap}
 \alias{plotGap}
-\alias{plotGap,PSCANseq-method}
+\alias{plotGap,DISCBIO-method}
 \title{Plotting Gap Statistics}
 \usage{
 plotGap(object)
 
-\S4method{plotGap}{PSCANseq}(object)
+\S4method{plotGap}{DISCBIO}(object)
 }
 \arguments{
-\item{object}{\code{PSCANseq} class object.}
+\item{object}{\code{DISCBIO} class object.}
 }
 \description{
 Plotting Gap Statistics

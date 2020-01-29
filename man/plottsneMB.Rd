@@ -2,15 +2,15 @@
 % Please edit documentation in R/DIscBIO-generic-plottsneMB.R
 \name{plottsneMB}
 \alias{plottsneMB}
-\alias{plottsneMB,PSCANseq-method}
+\alias{plottsneMB,DISCBIO-method}
 \title{tSNE map for Model-based clustering}
 \usage{
 plottsneMB(object, K)
 
-\S4method{plottsneMB}{PSCANseq}(object, K)
+\S4method{plottsneMB}{DISCBIO}(object, K)
 }
 \arguments{
-\item{object}{\code{PSCANseq} class object.}
+\item{object}{\code{DISCBIO} class object.}
 
 \item{K}{A numeric value of the number of clusters}
 }

@@ -2,16 +2,16 @@
 % Please edit documentation in R/DIscBIO-generic-plotOrderKMtsne.R
 \name{plotOrderKMtsne}
 \alias{plotOrderKMtsne}
-\alias{plotOrderKMtsne,PSCANseq-method}
+\alias{plotOrderKMtsne,DISCBIO-method}
 \title{Plotting the pseudo-time ordering based on K-means clusters in the t-SNE map}
 \usage{
 plotOrderKMtsne(object)
 
-\S4method{plotOrderKMtsne}{PSCANseq}(object)
+\S4method{plotOrderKMtsne}{DISCBIO}(object)
 }
 \arguments{
-\item{object}{\code{PSCANseq} class object.
-of the \code{PSCANseq} object.}
+\item{object}{\code{DISCBIO} class object.
+of the \code{DISCBIO} object.}
 }
 \description{
 The tSNE representation can also be used to show the pseudo-time ordering.

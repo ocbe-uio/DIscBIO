@@ -2,15 +2,15 @@
 % Please edit documentation in R/DIscBIO-generic-MBClustDiffGenes.R
 \name{MBClustDiffGenes}
 \alias{MBClustDiffGenes}
-\alias{MBClustDiffGenes,PSCANseq-method}
+\alias{MBClustDiffGenes,DISCBIO-method}
 \title{ClustDiffGenes}
 \usage{
 MBClustDiffGenes(object, K, fdr = 0.01)
 
-\S4method{MBClustDiffGenes}{PSCANseq}(object, K, fdr = 0.01)
+\S4method{MBClustDiffGenes}{DISCBIO}(object, K, fdr = 0.01)
 }
 \arguments{
-\item{object}{\code{PSCANseq} class object.}
+\item{object}{\code{DISCBIO} class object.}
 
 \item{K}{A numeric value of the number of clusters.}
 

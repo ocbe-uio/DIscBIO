@@ -2,15 +2,15 @@
 % Please edit documentation in R/DIscBIO-generic-comptsneMB.R
 \name{comptsneMB}
 \alias{comptsneMB}
-\alias{comptsneMB,PSCANseq-method}
+\alias{comptsneMB,DISCBIO-method}
 \title{Computing tSNE for Model-based clustering}
 \usage{
 comptsneMB(object, rseed = 15555, quiet = FALSE)
 
-\S4method{comptsneMB}{PSCANseq}(object, rseed = 15555, quiet = FALSE)
+\S4method{comptsneMB}{DISCBIO}(object, rseed = 15555, quiet = FALSE)
 }
 \arguments{
-\item{object}{\code{PSCANseq} class object.}
+\item{object}{\code{DISCBIO} class object.}
 
 \item{rseed}{Integer number. Random seed to to yield exactly reproducible maps across different runs. Default is 15555.}
 

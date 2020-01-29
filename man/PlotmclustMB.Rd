@@ -2,15 +2,15 @@
 % Please edit documentation in R/DIscBIO-generic-PlotmclustMB.R
 \name{PlotmclustMB}
 \alias{PlotmclustMB}
-\alias{PlotmclustMB,PSCANseq-method}
+\alias{PlotmclustMB,DISCBIO-method}
 \title{Plotting the Model-based clusters in PCA.}
 \usage{
 PlotmclustMB(object)
 
-\S4method{PlotmclustMB}{PSCANseq}(object)
+\S4method{PlotmclustMB}{DISCBIO}(object)
 }
 \arguments{
-\item{object}{\code{PSCANseq} class object.}
+\item{object}{\code{DISCBIO} class object.}
 }
 \description{
 Plot the model-based clustering results

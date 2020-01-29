@@ -2,7 +2,7 @@
 % Please edit documentation in R/DIscBIO-generic-ClassVectoringDT.R
 \name{ClassVectoringDT}
 \alias{ClassVectoringDT}
-\alias{ClassVectoringDT,PSCANseq-method}
+\alias{ClassVectoringDT,DISCBIO-method}
 \title{Generating a class vector to be used for the decision tree analysis.}
 \usage{
 ClassVectoringDT(
@@ -14,7 +14,7 @@ ClassVectoringDT(
   sigDEG
 )
 
-\S4method{ClassVectoringDT}{PSCANseq}(
+\S4method{ClassVectoringDT}{DISCBIO}(
   object,
   Clustering = "K-means",
   K,
@@ -24,7 +24,7 @@ ClassVectoringDT(
 )
 }
 \arguments{
-\item{object}{\code{PSCANseq} class object.}
+\item{object}{\code{DISCBIO} class object.}
 
 \item{Clustering}{Clustering has to be one of the following: ["K-means","MB"]. Default is "K-means"}
 

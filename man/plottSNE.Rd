@@ -7,7 +7,7 @@
 plottSNE(object)
 }
 \arguments{
-\item{object}{\code{PSCANseq} class object.}
+\item{object}{\code{DISCBIO} class object.}
 }
 \description{
 Visualizing the K-means clusters using tSNE maps

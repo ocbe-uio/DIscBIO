@@ -2,15 +2,15 @@
 % Please edit documentation in R/DIscBIO-generic-FinalPreprocessing.R
 \name{FinalPreprocessing}
 \alias{FinalPreprocessing}
-\alias{FinalPreprocessing,PSCANseq-method}
+\alias{FinalPreprocessing,DISCBIO-method}
 \title{Final Preprocessing}
 \usage{
 FinalPreprocessing(object, GeneFlitering = "NoiseF", export = TRUE)
 
-\S4method{FinalPreprocessing}{PSCANseq}(object, GeneFlitering = "NoiseF", export = TRUE)
+\S4method{FinalPreprocessing}{DISCBIO}(object, GeneFlitering = "NoiseF", export = TRUE)
 }
 \arguments{
-\item{object}{\code{PSCANseq} class object.}
+\item{object}{\code{DISCBIO} class object.}
 
 \item{GeneFlitering}{GeneFlitering has to be one of the followings: ["NoiseF","ExpF"]. Default is "NoiseF"}
 

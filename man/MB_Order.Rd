@@ -7,7 +7,7 @@
 MB_Order(object, quiet = FALSE, export = TRUE)
 }
 \arguments{
-\item{object}{\code{PSCANseq} class object.}
+\item{object}{\code{DISCBIO} class object.}
 
 \item{quiet}{if `TRUE`, intermediary output is suppressed}
 

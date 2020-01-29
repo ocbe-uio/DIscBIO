@@ -7,7 +7,7 @@
 PlotMBorderPCA(object)
 }
 \arguments{
-\item{object}{\code{PSCANseq} class object.}
+\item{object}{\code{DISCBIO} class object.}
 }
 \description{
 The PCA representation can also be used to show the pseudo-time ordering.

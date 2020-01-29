@@ -2,7 +2,7 @@
 % Please edit documentation in R/DIscBIO-generic-NoiseFiltering.R
 \name{NoiseFiltering}
 \alias{NoiseFiltering}
-\alias{NoiseFiltering,PSCANseq-method}
+\alias{NoiseFiltering,DISCBIO-method}
 \title{Noise Filtering}
 \usage{
 NoiseFiltering(
@@ -18,7 +18,7 @@ NoiseFiltering(
   quiet = FALSE
 )
 
-\S4method{NoiseFiltering}{PSCANseq}(
+\S4method{NoiseFiltering}{DISCBIO}(
   object,
   percentile = 0.8,
   CV = 0.3,
@@ -32,7 +32,7 @@ NoiseFiltering(
 )
 }
 \arguments{
-\item{object}{\code{PSCANseq} class object.}
+\item{object}{\code{DISCBIO} class object.}
 
 \item{percentile}{A numeric value of the percentile. It is used to validate the ERCC spik-ins. Default is 0.8.}
 

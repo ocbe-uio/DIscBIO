@@ -3,7 +3,7 @@
 \docType{methods}
 \name{Clustexp}
 \alias{Clustexp}
-\alias{Clustexp,PSCANseq-method}
+\alias{Clustexp,DISCBIO-method}
 \title{Clustering of single-cell transcriptome data}
 \usage{
 Clustexp(
@@ -20,7 +20,7 @@ Clustexp(
   quiet = FALSE
 )
 
-\S4method{Clustexp}{PSCANseq}(
+\S4method{Clustexp}{DISCBIO}(
   object,
   clustnr = 20,
   bootnr = 50,
@@ -35,7 +35,7 @@ Clustexp(
 )
 }
 \arguments{
-\item{object}{\code{PSCANseq} class object.}
+\item{object}{\code{DISCBIO} class object.}
 
 \item{clustnr}{Maximum number of clusters for the derivation of the cluster number by the saturation of mean within-cluster-dispersion. Default is 20.}
 

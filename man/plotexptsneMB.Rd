@@ -2,18 +2,18 @@
 % Please edit documentation in R/DIscBIO-generic-plotexptsneMB.R
 \name{plotexptsneMB}
 \alias{plotexptsneMB}
-\alias{plotexptsneMB,PSCANseq-method}
+\alias{plotexptsneMB,DISCBIO-method}
 \title{Highlighting gene expression in Model-based clustering in the t-SNE map}
 \usage{
 plotexptsneMB(object, g, n = NULL)
 
-\S4method{plotexptsneMB}{PSCANseq}(object, g, n = NULL)
+\S4method{plotexptsneMB}{DISCBIO}(object, g, n = NULL)
 }
 \arguments{
-\item{object}{\code{PSCANseq} class object.}
+\item{object}{\code{DISCBIO} class object.}
 
 \item{g}{Individual gene name or vector with a group of gene names corresponding to a subset of valid row names of the \code{ndata} slot
-of the \code{PSCANseq} object.}
+of the \code{DISCBIO} object.}
 
 \item{n}{String of characters representing the title of the plot. Default is NULL and the first element of \code{g} is chosen.}
 }
