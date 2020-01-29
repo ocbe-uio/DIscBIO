@@ -9,10 +9,24 @@
 #' @importFrom samr samr samr.compute.delta.table samr.plot samr.compute.siggenes.table
 #' @importFrom graphics title
 #' @importFrom utils write.csv
+#' @rdname DEGanalysis
+#' @examples 
+#' sc <- DISCBIO(valuesG1ms)
+#' sc <- NoiseFiltering(sc, plot=FALSE, export=FALSE, quiet=TRUE)
+#' sc <- Normalizedata(
+#'     sc, mintotal=1000, minexpr=0, minnumber=0, maxexpr=Inf, downsample=FALSE
+#'     dsn=1, rseed=17000
+#' )
+#' sc <- Clustexp(sc, cln=3, quiet=TRUE) # K-means clustering
+#' sc <- FinalPreprocessing(sc, GeneFlitering="NoiseF", export=FALSE, quiet=TRUE)
+#' sc <- Clustexp(sc, cln=3, quiet=TRUE) # K-means clustering
+#' sc <- comptSNE(sc, rseed=15555, quiet=TRUE)
+#' DEGanalysis(
+#'     sc, Clustering="K-means", K=3, fdr=0.1, name="Name", export = FALSE
+#' )
 setGeneric("DEGanalysis", function(object,Clustering="K-means",K,fdr=0.05,name="Name",export = TRUE) standardGeneric("DEGanalysis"))
 
 #' @export
-#' @rdname DEGanalysis
 setMethod("DEGanalysis",
           signature = "DISCBIO",
           definition = function(object,Clustering="K-means",K,fdr=0.05,name="Name",export = TRUE){
@@ -28,7 +42,7 @@ setMethod("DEGanalysis",
 			if (Clustering == "K-means") {
 				Cluster_ID = object@cpart
 				if ( length(object@cpart) < 1 ) stop("run Clustexp before running DEGanalysisM")
-			}	
+			}
 
 			if (Clustering == "MB") {
 				Cluster_ID = object@MBclusters$clusterid

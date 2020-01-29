@@ -19,3 +19,9 @@ KMClustDiffGenes(object, K, fdr = 0.01)
 \description{
 description
 }
+\examples{
+sc <- DISCBIO(valuesG1ms)
+sc <- Clustexp(sc, cln=3, quiet=TRUE) # K-means clustering
+sc <- comptSNE(sc, rseed=15555, quiet=TRUE)
+ KMClustDiffGenes(sc, K=3, fdr=.3)
+}

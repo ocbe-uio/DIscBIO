@@ -21,3 +21,10 @@ of the \code{DISCBIO} object.}
 The t-SNE map representation can also be used to analyze expression of a gene or a group of genes, 
 to investigate cluster specific gene expression patterns
 }
+\examples{
+sc <- DISCBIO(valuesG1ms)
+sc <- Clustexp(sc, cln=3, quiet=TRUE) # K-means clustering
+sc <- comptSNE(sc, rseed=15555, quiet=TRUE)
+g <- 'ENSG00000001460'
+plotExptSNE(sc, g)
+}

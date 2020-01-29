@@ -5,6 +5,13 @@
 #' @param g  Individual gene name or vector with a group of gene names corresponding to a subset of valid row names of the \code{ndata} slot
 #' of the \code{DISCBIO} object.
 #' @param n String of characters representing the title of the plot. Default is NULL and the first element of \code{g} is chosen.
+#' @examples 
+#' sc <- DISCBIO(valuesG1ms)
+#' sc <- Clustexp(sc, cln=3, quiet=TRUE) # K-means clustering
+#' sc <- comptSNE(sc, rseed=15555, quiet=TRUE)
+#' g <- 'ENSG00000001460'
+#' plotExptSNE(sc, g)
+
 setGeneric("plotExptSNE", function(object,g,n=NULL) standardGeneric("plotExptSNE"))
 
 #' @export
