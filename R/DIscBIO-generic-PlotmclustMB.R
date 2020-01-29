@@ -24,7 +24,7 @@ setMethod("PlotmclustMB",
 				edge_df <- merge(pca_space_df, lib_info_with_pseudo, by.x = "sample_name", by.y = "sample_name")     
 				edge_df$Marker <- markerexpr[edge_df$sample_name]
 				if (!is.null(markerexpr)) {
-					g <- ggplot(data = edge_df, aes(x = pca_dim_1, y = pca_dim_2, size = Marker))
+					g <- ggplot(data = edge_df, aes(x = pca_space_df$pca_dim_1, y = pca_space_df$pca_dim_2, size = edge_df$Marker))
 					if (showcluster) {
 						g <- g + geom_point(aes_string(color = color_by), na.rm = TRUE) 
 						g <- g +scale_colour_manual(values = c("1"="black","2"="blue","3"="green","4"="red","5"="yellow","6"="gray"))
@@ -32,7 +32,7 @@ setMethod("PlotmclustMB",
 						g <- g + geom_point(na.rm = TRUE,color="green")
 					}
 				} else {
-					g <- ggplot(data = edge_df, aes(x = pca_dim_1, y = pca_dim_2))
+					g <- ggplot(data = edge_df, aes(x = pca_space_df$pca_dim_1, y = pca_space_df$pca_dim_2))
 					if (showcluster) {
 						g <- g + geom_point(aes_string(color = color_by), na.rm = TRUE, size = 3)
 						g <- g +scale_colour_manual(values = c("1"="black","2"="blue","3"="green","4"="red","5"="yellow","6"="gray"))
@@ -42,7 +42,7 @@ setMethod("PlotmclustMB",
 					}
 				}
 				if (show_cell_names) {
-					g <- g + geom_text(aes(label = sample_name), size = cell_name_size)
+					g <- g + geom_text(aes(label = names(mclustobj$clusterid)), size = cell_name_size)
 				}
       
 				if (show_tree) {

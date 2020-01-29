@@ -5,15 +5,23 @@
 \alias{MBclustheatmap,DISCBIO-method}
 \title{Plotting the Model-based clusters in a heatmap representation of the cell-to-cell distances}
 \usage{
-MBclustheatmap(object, hmethod = "single", plot = TRUE, quiet = FALSE)
+MBclustheatmap(
+  object,
+  hmethod = "single",
+  KmeansCBI,
+  plot = TRUE,
+  quiet = FALSE
+)
 
-\S4method{MBclustheatmap}{DISCBIO}(object, hmethod = "single", plot = TRUE, quiet = FALSE)
+\S4method{MBclustheatmap}{DISCBIO}(object, hmethod, plot = TRUE, quiet = FALSE)
 }
 \arguments{
 \item{object}{\code{DISCBIO} class object.}
 
 \item{hmethod}{Agglomeration method used for determining the cluster order from hierarchical clustering of the cluster medoids. 
 This should be one of "ward.D", "ward.D2", "single", "complete", "average". Default is "single".}
+
+\item{KmeansCBI}{string with the clustering method}
 
 \item{plot}{if `TRUE`, plots the heatmap; otherwise, just prints cclmo}
 

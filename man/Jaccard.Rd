@@ -19,3 +19,8 @@ Jaccard(object, Clustering = "K-means", K, plot = TRUE)
 Robustness of the clusters can be assessed by Jaccard’s similarity, which reflects the reproducibility of individual clusters across bootstrapping runs.
 Jaccard’s similarity is the intersect of two clusters divided by the union.
 }
+\examples{
+sc <- DISCBIO(valuesG1ms)
+sc <- Clustexp(sc, cln=3, quiet=TRUE) # K-means clustering
+Jaccard(sc, Clustering="K-means", K=3)
+}

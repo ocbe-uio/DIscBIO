@@ -19,3 +19,9 @@ KmeanOrder(object, quiet = FALSE, export = TRUE)
 \description{
 This function takes the exact output of exprmclust function and construct Pseudo-time ordering by mapping all cells onto the path that connects cluster centers.
 }
+\examples{
+sc <- DISCBIO(valuesG1ms)
+sc <- Clustexp(sc, cln=3) # K-means clustering
+Order <- KmeanOrder(sc, export = FALSE)
+Order@kordering
+}

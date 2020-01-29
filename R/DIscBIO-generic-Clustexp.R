@@ -21,6 +21,9 @@
 #' @importFrom amap Kmeans
 #' @importFrom graphics pairs
 #' @importFrom fpc cluster.stats calinhara dudahart2
+#' @examples 
+#' sc <- DISCBIO(valuesG1ms) # changes signature of data
+#' sc <- Clustexp(sc, cln=3)
 setGeneric("Clustexp", function(object, clustnr = 20, bootnr = 50,
                                 metric = "pearson", do.gap = TRUE,
                                 SE.method = "Tibs2001SEmax", SE.factor = .25,
@@ -55,7 +58,7 @@ setMethod(f="Clustexp",
 				gpr <- NULL
 				if ( do.gap ){
 					set.seed(rseed)
-					gpr <- clusGap(as.matrix(di), FUNcluster = kmeans, K.max = clustnr, B = B.gap) 
+					gpr <- clusGap(as.matrix(di), FUNcluster = kmeans, K.max = clustnr, B = B.gap, verbose = !quiet) 
 					if ( cln == 0 ) cln <- maxSE(gpr$Tab[,3],gpr$Tab[,4],method=SE.method,SE.factor)
 				}    
 				if ( cln <= 1 ) {
@@ -128,15 +131,14 @@ setMethod(f="Clustexp",
 						out
 					}
 				
-				
-				clb <- clusterboot(di,B=bootnr,distances=FALSE,bootmethod="boot",clustermethod=KmeansCBI,krange=cln,scaling=FALSE,multipleboot=FALSE,bscompare=TRUE,seed=rseed)
+				clb <- clusterboot(di,B=bootnr,distances=FALSE,bootmethod="boot",clustermethod=KmeansCBI,krange=cln,scaling=FALSE,multipleboot=FALSE,bscompare=TRUE,seed=rseed, count=!quiet)
 				return(list(x=x,clb=clb,gpr=gpr,di=di))
 			}
 		}
         y <- clustfun(object@fdata,clustnr,bootnr,metric,do.gap,SE.method,SE.factor,B.gap,cln,rseed, quiet = quiet)
         object@kmeans    <- list(kpart=y$clb$result$partition, jaccard=y$clb$bootmean, gap=y$gpr)
         object@distances <- as.matrix( y$di )
-        set.seed(111111)  # ASK: why fix?
+        set.seed(111111) # fixed seed to keep the same colors
         object@fcol <- sample(rainbow(max(y$clb$result$partition)))
 		object@cpart<-object@kmeans$kpart
         return(object)

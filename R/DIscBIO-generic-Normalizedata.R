@@ -11,6 +11,15 @@
 #' noise should be comparable across cells. For high numbers of dsn the data will become similar to the median normalization.
 #' @param rseed Integer number. Random seed to enforce reproducible clustering results. Default is 17000.
 #' @include DIscBIO-classes.R
+#' @examples
+#' sc <- DISCBIO(valuesG1ms) # changes signature of data
+#' 
+#' # In this case this function is used to normalize the reads
+#' sc_normal <- Normalizedata(
+#'     sc, mintotal=1000, minexpr=0, minnumber=0, maxexpr=Inf, downsample=FALSE,
+#'     dsn=1, rseed=17000
+#' )
+#' summary(sc_normal@fdata)
 setGeneric("Normalizedata", function(object, mintotal=1000, minexpr=0, minnumber=0, maxexpr=Inf, downsample=FALSE, dsn=1, rseed=17000) standardGeneric("Normalizedata"))
 
 #' @export

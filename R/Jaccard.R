@@ -9,11 +9,21 @@
 #' @importFrom philentropy distance
 #' @importFrom boot boot
 #' @importFrom graphics barplot box
+#' @examples 
+#' sc <- DISCBIO(valuesG1ms)
+#' sc <- Clustexp(sc, cln=3, quiet=TRUE) # K-means clustering
+#' Jaccard(sc, Clustering="K-means", K=3)
 Jaccard <- function(object, Clustering="K-means", K, plot = TRUE) {
     JACCARD <-c()
+    
+    # Validation
+    if (length(object@kmeans$kpart) == 0) {
+        stop("run Clustexp before Jaccard")
+    }
     if (!(Clustering %in% c( "K-means","MB"))) {
         stop("Clustering has to be either K-means or MB")
     }
+
     JS <- function(data, indices) {
       d <- data[indices, ] # allows boot to select sample 
       jac <- suppressMessages(distance(t(d), method = "jaccard"))

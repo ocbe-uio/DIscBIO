@@ -4,6 +4,11 @@
 #' @param quiet if `TRUE`, suppresses intermediary output
 #' @param export if `TRUE`, exports order table to csv
 #' @importFrom TSCAN TSCANorder
+#' @examples 
+#' sc <- DISCBIO(valuesG1ms)
+#' sc <- Clustexp(sc, cln=3) # K-means clustering
+#' Order <- KmeanOrder(sc, export = FALSE)
+#' Order@kordering
 setGeneric("KmeanOrder", function(object, quiet = FALSE, export = TRUE) standardGeneric("KmeanOrder"))
 
 #' @export
@@ -11,7 +16,12 @@ setGeneric("KmeanOrder", function(object, quiet = FALSE, export = TRUE) standard
 setMethod("KmeanOrder",
           signature = "DISCBIO",
           definition = function(object, quiet = FALSE, export = TRUE) {
-			Obj<-object@fdata
+			# Validation
+			if (length(object@kmeans$kpart) == 0) {
+				stop("run Clustexp before KmeanOrder")
+			}
+			
+			Obj <- object@fdata
 			Clusters<-object@cpart
 			sampleNames<-colnames(object@fdata)
 			lpsmclust <- Exprmclust(Obj, clusternum = 4, reduce = F, cluster = Clusters)

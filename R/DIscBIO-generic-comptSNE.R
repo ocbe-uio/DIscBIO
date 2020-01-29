@@ -5,6 +5,11 @@
 #' @param quiet if `TRUE`, suppresses intermediate output
 #' @importFrom tsne tsne
 #' @importFrom stats as.dist cor
+#' @examples
+#' sc <- DISCBIO(valuesG1ms) # changes signature of data
+#' sc <- Clustexp(sc, cln=3) # data must be clustered before plottin
+#' sc <- comptSNE(sc, rseed=15555, quiet=TRUE)
+#' head(sc@tsne)
 setGeneric(
   name = "comptSNE",
   def = function(object, rseed = 15555, quiet = FALSE) {
@@ -18,7 +23,7 @@ setMethod(
   "comptSNE",
   signature = "DISCBIO",
   definition = function(object, rseed, quiet = FALSE) {
-    if (length(object@kmeans$kpart) == 0) stop("run clustexp before comptsne")
+    if (length(object@kmeans$kpart) == 0) stop("run Clustexp before comptSNE")
     set.seed(rseed)
 	dist.gen <- function(x,method="euclidean", ...) if ( method %in% c("spearman","pearson","kendall") ) as.dist( 1 - cor(t(x),method=method,...) ) else dist(x,method=method,...)
     di <- dist.gen(as.matrix(object@distances))

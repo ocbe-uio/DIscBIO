@@ -15,3 +15,8 @@ plotGap(object)
 \description{
 Plotting Gap Statistics
 }
+\examples{
+sc <- PSCANseq(valuesG1ms) # changes signature of data
+sc <- Clustexp(sc, cln=3) # data must be clustered before plotting
+plotGap(sc)
+}

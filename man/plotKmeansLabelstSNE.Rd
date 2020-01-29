@@ -2,13 +2,22 @@
 % Please edit documentation in R/DIscBIO-generic-plotKmeansLabelstSNE.R
 \name{plotKmeansLabelstSNE}
 \alias{plotKmeansLabelstSNE}
+\alias{plotKmeansLabelstSNE,DISCBIO-method}
 \title{tSNE map for K-means clustering with labels}
 \usage{
 plotKmeansLabelstSNE(object)
+
+\S4method{plotKmeansLabelstSNE}{DISCBIO}(object)
 }
 \arguments{
 \item{object}{\code{DISCBIO} class object.}
 }
 \description{
 Visualizing the K-means clusters using tSNE maps
+}
+\examples{
+sc <- PSCANseq(valuesG1ms) # changes signature of data
+sc <- Clustexp(sc, cln=3) # data must be clustered before plottin
+sc <- comptSNE(sc, rseed=15555, quiet=TRUE)
+plotKmeansLabelstSNE(sc) # Plots the the ID of the cells in each cluster
 }

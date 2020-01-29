@@ -2,6 +2,10 @@
 #' @export
 #' @rdname plotGap
 #' @param object \code{DISCBIO} class object.
+#' @examples
+#' sc <- PSCANseq(valuesG1ms) # changes signature of data
+#' sc <- Clustexp(sc, cln=3) # data must be clustered before plotting
+#' plotGap(sc)
 setGeneric("plotGap", function(object) standardGeneric("plotGap"))
 
 #' @rdname plotGap

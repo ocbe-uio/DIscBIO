@@ -25,3 +25,9 @@ to all points in the same cluster and to all points in the closest neighboring c
 normalize such that it can take values between -1 and 1 with higher values reflecting better 
 representation of a point by its cluster.
 }
+\examples{
+sc <- PSCANseq(valuesG1ms) # changes signature of data
+sc <- Clustexp(sc, cln=3) # data must be clustered before plottin
+sc <- comptSNE(sc, rseed=15555)
+plotSilhouette(sc, K=3)
+}

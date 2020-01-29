@@ -2,6 +2,11 @@
 #' @description Visualizing the K-means clusters using tSNE maps 
 #' @param object \code{DISCBIO} class object.
 #' @param types If types=NULL then the names of the cells will be grouped automatically. Default is NULL
+#' @examples 
+#' sc <- PSCANseq(valuesG1ms) # changes signature of data
+#' sc <- Clustexp(sc, cln=3) # data must be clustered before plottin
+#' sc <- comptSNE(sc, rseed=15555, quiet=TRUE)
+#' plotSymbolstSNE(sc,types=sub("(\\_\\d+)$","", names(sc@ndata)))    
 setGeneric("plotSymbolstSNE", function(object,types=NULL) standardGeneric("plotSymbolstSNE"))
 
 #' @export

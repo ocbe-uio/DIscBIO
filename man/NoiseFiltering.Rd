@@ -59,3 +59,11 @@ geometric means of the rows. The median (or, if requested, another location
 estimator) of these ratios (skipping the genes with a # geometric mean of
 zero) is used as the size factor for this column. Source: DESeq package.
 }
+\note{
+This function should be used only if the dataset has ERCC.
+}
+\examples{
+sc <- DISCBIO(valuesG1ms) # changes signature of data
+sd_filtered <- NoiseFiltering(sc, export=FALSE)
+str(sd_filtered)
+}
