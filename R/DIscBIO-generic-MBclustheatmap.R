@@ -3,12 +3,13 @@
 #' @param object \code{DISCBIO} class object.
 #' @param hmethod  Agglomeration method used for determining the cluster order from hierarchical clustering of the cluster medoids. 
 #' This should be one of "ward.D", "ward.D2", "single", "complete", "average". Default is "single".
+#' @param KmeansCBI string with the clustering method
 #' @param plot if `TRUE`, plots the heatmap; otherwise, just prints cclmo
 #' @param quiet if `TRUE`, intermediary output is suppressed
 #' @importFrom stats hclust as.dist cor kmeans
 #' @importFrom cluster clusGap maxSE
 #' @importFrom fpc clusterboot
-setGeneric("MBclustheatmap", function(object,hmethod="single", plot = TRUE, quiet = FALSE) standardGeneric("MBclustheatmap"))
+setGeneric("MBclustheatmap", function(object,hmethod="single", KmeansCBI, plot = TRUE, quiet = FALSE) standardGeneric("MBclustheatmap"))
 
 #' @export
 #' @rdname MBclustheatmap
