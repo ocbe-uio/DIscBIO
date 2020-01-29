@@ -45,7 +45,6 @@ setMethod(
     geneTypes <- factor(c(ENSG = "ENSG", ERCC = "ERCC" )[shortNames])
 
     # calculate normalisation for counts\n",
-    # TODO: "valuesG1ms" is the demo data. Transform into data argument
     countsG1ms <- data[which(geneTypes == "ENSG"), ]
     countsERCC <- data[which(geneTypes == "ERCC" ), ]
 	
@@ -92,7 +91,6 @@ setMethod(
     if (!quiet) {
         cat("Coefficients of the fit:", "\n")
         print(fit$coefficients)
-        table(useForFit)  # ASK: not printed. Remove?
     }
 
     #To get the actual noise coefficients, we need to subtract Xi
@@ -100,8 +98,6 @@ setMethod(
     a0 <- unname(fit$coefficients["a0"])
     a1 <- unname(fit$coefficients["a1tilde"] - xi)
 
-    # ASK: add switch to print these? Otherwise, remove
-    #cat("\n","The actual noise coefficients: ",c( a0, a1 ),"\n")
     #how much variance does the fit explain?
     residual <- var(log(fitted.values(fit)) - log(cv2ERCC[useForFit]))
     total <- var(log(cv2ERCC[useForFit]))
@@ -120,7 +116,6 @@ setMethod(
     idx_test <- cv2G1ms > (xi + a1) / meansG1ms + a0
 
     # pick out genes that fulfill statement
-    # TODO: gene_names2 is test data. Generalize?
     genes_test <- GeneList[idx_test] #pick out genes
     genes_test <- genes_test[!is.na(genes_test)] #remove na entries
     meansG1ms_test <- meansG1ms[idx_test] #take out mean values for fulfilled genes
@@ -143,27 +138,25 @@ setMethod(
         cat("The filtered gene list was saved as: Noise_filtering_genes_test\n")
     }
 
-    # ASK: Where is this (below and before plot) used?
+    # TODO: remove commented out code if it didn't break anything
     
-    ## test genes for variance, the following is the term Psi + a0 * Theta, that appears in the formula for Omega.
-    psia1theta <- mean(1 / sfG1ms, na.rm = TRUE) + a1 *
-        mean(sfERCC / sfG1ms, na.rm = TRUE)
+    # ## test genes for variance, the following is the term Psi + a0 * Theta, that appears in the formula for Omega.
+    # psia1theta <- mean(1 / sfG1ms, na.rm = TRUE) + a1 *
+    #     mean(sfERCC / sfG1ms, na.rm = TRUE)
 
-    # Now, we perform a one-sided test against the null hypothesis that the true variance is at most the technical variation plus biological variation.
-    minBiolDisp <- 0.5 ^ 2
+    # # Now, we perform a one-sided test against the null hypothesis that the true variance is at most the technical variation plus biological variation.
+    # minBiolDisp <- 0.5 ^ 2
 
-    #Calculate Omega, then perform the test, using the formula given in the Online methods and in Supplementary Note 6.
-    m <- ncol(countsG1ms)
-    cv2th <- a0 + minBiolDisp + a0 * minBiolDisp
-    testDenom <- (meansG1ms * psia1theta + meansG1ms ^ 2 * cv2th) /
-        (1 + cv2th/m)
-    p <- 1 - pchisq(varsG1ms * (m - 1) / testDenom, m - 1)
-    p <- subset(p, !is.nan(p))
+    # #Calculate Omega, then perform the test, using the formula given in the Online methods and in Supplementary Note 6.
+    # m <- ncol(countsG1ms)
+    # cv2th <- a0 + minBiolDisp + a0 * minBiolDisp
+    # testDenom <- (meansG1ms * psia1theta + meansG1ms ^ 2 * cv2th) /
+    #     (1 + cv2th/m)
+    # p <- 1 - pchisq(varsG1ms * (m - 1) / testDenom, m - 1)
+    # p <- subset(p, !is.nan(p))
 
-    #Adjust for multiple testing with the Benjamini-Hochberg method, cut at 10%
-    padj <- p.adjust(p, "BH")
-
-    # TODO: plotting of the results should be a different function
+    # #Adjust for multiple testing with the Benjamini-Hochberg method, cut at 10%
+    # padj <- p.adjust(p, "BH")
 	
     if (plot) {
         plot( NULL, xaxt="n", yaxt="n",log="xy", xlim = c( 1e-1, 3e5 ), ylim = c( .005, 100 ),main="Gene filtration by accounting for technical noise",

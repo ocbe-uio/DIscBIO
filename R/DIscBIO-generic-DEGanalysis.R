@@ -99,7 +99,7 @@ setMethod("DEGanalysis",
 				gname<-rownames(get(comNUM[i]))
 				x<-L
 				data=list(x=x,y=y, geneid=gname)
-				samr.obj<-samr(data, resp.type="Two class unpaired", assay.type="seq",nperms=100,nresamp=20,testStatistic="wilcoxon",random.seed=15) #FIXME: hangs if CV>.4 for test data
+				samr.obj<-samr(data, resp.type="Two class unpaired", assay.type="seq",nperms=100,nresamp=20,testStatistic="wilcoxon",random.seed=15) #TODO: check if hangs for CV>.4 on test data?
 				delta.table <- samr.compute.delta.table(samr.obj)
         
 				wm<-which.min(delta.table[,5])

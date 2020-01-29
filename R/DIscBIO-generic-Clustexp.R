@@ -136,7 +136,7 @@ setMethod(f="Clustexp",
         y <- clustfun(object@fdata,clustnr,bootnr,metric,do.gap,SE.method,SE.factor,B.gap,cln,rseed, quiet = quiet)
         object@kmeans    <- list(kpart=y$clb$result$partition, jaccard=y$clb$bootmean, gap=y$gpr)
         object@distances <- as.matrix( y$di )
-        set.seed(111111)  # ASK: why fix?
+        set.seed(111111) # fixed seed to keep the same colors
         object@fcol <- sample(rainbow(max(y$clb$result$partition)))
 		object@cpart<-object@kmeans$kpart
         return(object)

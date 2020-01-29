@@ -106,7 +106,7 @@ network<-Networking(data,FileName)
 ##########################################################################################################################
 ##########################################################################################################################
 
-sc <- ExprmclustMB(sc,clusternum =3,reduce = T,quiet = FALSE)    ########## Maybe here it is better to change the "clusternum" into "K"
+sc <- ExprmclustMB(sc,clusternum =3,reduce = T,quiet = FALSE)    ########## #TODO: Maybe here it is better to change the "clusternum" into "K"
 
 ########## plotting the clusters in PCA
 PlotmclustMB(sc)
