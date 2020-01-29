@@ -17,7 +17,16 @@ setGeneric("KMClustDiffGenes", function(object,K,fdr=.01) standardGeneric("KMClu
 setMethod("KMClustDiffGenes",
           signature = "DISCBIO",
           definition = function(object,K,fdr){
-            if ( ! is.numeric(fdr) ) stop("pvalue has to be a number between 0 and 1") else if (  fdr < 0 | fdr > 1 ) stop("fdr has to be a number between 0 and 1")
+            # Validation
+            if (!is.numeric(fdr)) {
+                stop("pvalue has to be a number between 0 and 1")
+            } else if (fdr < 0 | fdr > 1) {
+                stop("fdr has to be a number between 0 and 1")
+            }
+            if (length(object@kmeans$kpart) == 0) {
+				stop("run Clustexp before KMClustDiffGenes")
+			}
+
             cdiff <- list()
             x     <- object@ndata
             y     <- object@expdata[,names(object@ndata)]
@@ -62,7 +71,8 @@ setMethod("KMClustDiffGenes",
                 Final<-cbind(genes,out)
                 Final<-merge(Final,G_list,by.x="genes",by.y="ensembl_gene_id")
                 Final<-Final[!duplicated(Final[,8]), ]
-                rownames(Final)<-Final[,1]
+
+                rownames(Final) <- Final[, 1] # FIXME: contains duplicate values
                 Final[,1]<-Final[,8]
                 Final<-Final[,-8]
     
