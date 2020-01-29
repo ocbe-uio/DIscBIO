@@ -3,7 +3,8 @@
 Before reaching the first stable release of DIscBIO, the following tasks must be addressed:
 
 - [ ] Create satisfactory unit test script
-- [x] Resolve variable scope problems
+- [x] Resolve variable scope errors
+- [ ] Resolve variable scope warnings
 - [x] Complete function documentation
 
 # Wishlist for the next stable release
