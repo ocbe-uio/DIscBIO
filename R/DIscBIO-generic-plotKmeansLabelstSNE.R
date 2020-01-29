@@ -5,6 +5,7 @@
 #' @importFrom graphics text
 setGeneric("plotKmeansLabelstSNE", function(object) standardGeneric("plotKmeansLabelstSNE"))
 
+#' @export
 setMethod("plotKmeansLabelstSNE",
           signature = "DISCBIO",
           definition = function(object){
