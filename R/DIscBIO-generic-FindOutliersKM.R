@@ -28,7 +28,7 @@ setGeneric("FindOutliersKM", function(object, K, outminc=5,outlg=2,probthr=1e-3,
 setMethod("FindOutliersKM",
           signature = "DISCBIO",
           definition = function(object, K, outminc,outlg,probthr,thr,outdistquant, plot = TRUE, quiet = FALSE) {
-            if ( length(object@kmeans$kpart) == 0 ) stop("run clustexp before FindOutliersKM")
+            if (length(object@kmeans$kpart) == 0) stop("run Clustexp before FindOutliersKM")
             if ( ! is.numeric(outminc) ) stop("outminc has to be a non-negative integer") else if ( round(outminc) != outminc | outminc < 0 ) stop("outminc has to be a non-negative integer")
             if ( ! is.numeric(outlg) ) stop("outlg has to be a non-negative integer") else if ( round(outlg) != outlg | outlg < 0 ) stop("outlg has to be a non-negative integer")
             if ( ! is.numeric(probthr) ) stop("probthr has to be a number between 0 and 1") else if (  probthr < 0 | probthr > 1 ) stop("probthr has to be a number between 0 and 1")
