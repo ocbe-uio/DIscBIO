@@ -4,6 +4,11 @@
 #' @param quiet if `TRUE`, suppresses intermediary output
 #' @param export if `TRUE`, exports order table to csv
 #' @importFrom TSCAN TSCANorder
+#' @examples 
+#' sc <- DISCBIO(valuesG1ms)
+#' sc <- Clustexp(sc, cln=3) # K-means clustering
+#' Order <- KmeanOrder(sc, export = FALSE)
+#' Order@kordering
 setGeneric("KmeanOrder", function(object, quiet = FALSE, export = TRUE) standardGeneric("KmeanOrder"))
 
 #' @export
