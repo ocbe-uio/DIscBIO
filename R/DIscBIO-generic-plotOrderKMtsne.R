@@ -11,7 +11,7 @@ setMethod("plotOrderKMtsne",
           definition = function(object){
             if ( length(object@tsne) == 0 ) stop("run comptsne before plotOrderKMtsne")
 			total<-rbind(object@ndata,object@kordering)
-			rownames(total)[nrow(total)]<-"Pseudo-time ordering of MBclustering" 
+			rownames(total)[nrow(total)]<-"Pseudo-time ordering of K-means clustering" 
 			g<-rownames(total)[nrow(total)]
             n <- g[1]
             l <- apply(total[g,] - .1,2,sum) + .1
