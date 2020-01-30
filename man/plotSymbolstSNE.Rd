@@ -5,14 +5,16 @@
 \alias{plotSymbolstSNE,DISCBIO-method}
 \title{tSNE map for K-means clustering with symbols}
 \usage{
-plotSymbolstSNE(object, types = NULL)
+plotSymbolstSNE(object, types = NULL, legloc = "bottomright")
 
-\S4method{plotSymbolstSNE}{DISCBIO}(object, types = NULL)
+\S4method{plotSymbolstSNE}{DISCBIO}(object, types = NULL, legloc = "bottomright")
 }
 \arguments{
 \item{object}{\code{DISCBIO} class object.}
 
 \item{types}{If types=NULL then the names of the cells will be grouped automatically. Default is NULL}
+
+\item{legloc}{A keyword from the list "bottomright", "bottom", "bottomleft", "left", "topleft", "top", "topright", "right" and "center". Default is "bottomright"}
 }
 \description{
 Visualizing the K-means clusters using tSNE maps
