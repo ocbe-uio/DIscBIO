@@ -123,7 +123,7 @@ test_that("DEGs are calculated", {
     )
     
     # differential expression analysis between particular clusters.
-    cdiff3 <- DEGanalysisM(
+    cdiff3 <- DEGanalysis2clust(
         sc, Clustering="K-means", K=3, fdr=.1, name="Name", First="CL1",
         Second="CL2", export = FALSE, quiet=TRUE
     )
@@ -221,7 +221,7 @@ test_that("DEGs are calculated", {
 # cdiff<-MBClustDiffGenes(sc,K=3,fdr=.01)    ##########3 Binomial differential expression analysis
 
 # cdiff<-DEGanalysis(sc,Clustering="MB",K=3,fdr=0.1,name="Name",export = TRUE)   ####### differential expression analysis between all clusters
-# cdiff<-DEGanalysisM(sc,Clustering="MB",K=3,fdr=0.1,name="Name",First="CL1",Second="CL2",export = TRUE)     ####### differential expression analysis between particular clusters.
+# cdiff<-DEGanalysis2clust(sc,Clustering="MB",K=3,fdr=0.1,name="Name",First="CL1",Second="CL2",export = TRUE)     ####### differential expression analysis between particular clusters.
 
 # ############ Plotting the DEGs
 # name<-cdiff[[2]][1,6]     # From the table of the differential expression analysis between all pairs of clusters

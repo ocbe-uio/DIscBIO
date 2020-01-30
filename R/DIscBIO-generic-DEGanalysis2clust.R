@@ -23,14 +23,14 @@
 #' sc <- FinalPreprocessing(sc, GeneFlitering="NoiseF", export=FALSE, quiet=TRUE)
 #' sc <- Clustexp(sc, cln=3, quiet=TRUE) # K-means clustering
 #' sc <- comptSNE(sc, rseed=15555, quiet=TRUE)
-#' DEGanalysisM(
+#' DEGanalysis2clust(
 #'     sc, Clustering="K-means", K=3, fdr=0.1, name="Name", export = FALSE
 #' )
-setGeneric("DEGanalysisM", function(object,Clustering="K-means",K,fdr=0.05,name="Name",First="CL1",Second="CL2",export=TRUE, quiet=FALSE) standardGeneric("DEGanalysisM"))
+setGeneric("DEGanalysis2clust", function(object,Clustering="K-means",K,fdr=0.05,name="Name",First="CL1",Second="CL2",export=TRUE, quiet=FALSE) standardGeneric("DEGanalysis2clust"))
 
 #' @export
-#' @rdname DEGanalysisM
-setMethod("DEGanalysisM",
+#' @rdname DEGanalysis2clust
+setMethod("DEGanalysis2clust",
           signature = "DISCBIO",
           definition = function(object,Clustering="K-means",K,fdr=0.05,name="Name",First="CL1",Second="CL2",export=TRUE, quiet=FALSE){
 			if (!(Clustering %in% c( "K-means","MB"))) {
@@ -44,12 +44,12 @@ setMethod("DEGanalysisM",
 			Nam <-colnames(dataset)
 			if (Clustering == "K-means") {
 				Cluster_ID = object@cpart
-				if ( length(object@cpart) < 1 ) stop("run Clustexp before running DEGanalysisM")
+				if ( length(object@cpart) < 1 ) stop("run Clustexp before running DEGanalysis2clust")
 			}	
 
 			if (Clustering == "MB") {
 				Cluster_ID = object@MBclusters$clusterid
-				if ( length(object@MBclusters$clusterid) < 1 ) stop("run ExprmclustMB before running DEGanalysisM")
+				if ( length(object@MBclusters$clusterid) < 1 ) stop("run ExprmclustMB before running DEGanalysis2clust")
 				
 			}	
 			num<-c(1:K)
