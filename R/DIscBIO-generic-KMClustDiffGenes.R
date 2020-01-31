@@ -75,8 +75,7 @@ setMethod("KMClustDiffGenes",
                             filters="ensembl_gene_id",
                             attributes=c("ensembl_gene_id","hgnc_symbol"),
                             values=genes,
-                            mart= mart,
-                            verbose=!quiet
+                            mart= mart
                         )
                     )
                 } else {
@@ -84,8 +83,7 @@ setMethod("KMClustDiffGenes",
                         filters="ensembl_gene_id",
                         attributes=c("ensembl_gene_id","hgnc_symbol"),
                         values=genes,
-                        mart= mart,
-                        verbose=!quiet
+                        mart= mart
                     )
                 }
                 Final<-cbind(genes,out)

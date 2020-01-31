@@ -245,8 +245,7 @@ setMethod(
 								filters="ensembl_gene_id", 
 								attributes=c("ensembl_gene_id","hgnc_symbol"),
 								values=genes,
-								mart= mart,
-								verbose=!quiet
+								mart= mart
 							)
 						)
 					} else {
@@ -254,8 +253,7 @@ setMethod(
 							filters="ensembl_gene_id", 
 							attributes=c("ensembl_gene_id","hgnc_symbol"),
 							values=genes,
-							mart= mart,
-							verbose=!quiet
+							mart= mart
 						)
 					}
 					FinalDEGsL <- cbind(genes, siggenes.table$genes.lo)
@@ -300,8 +298,7 @@ setMethod(
 								filters="ensembl_gene_id", 
 								attributes=c("ensembl_gene_id","hgnc_symbol"),
 								values=genes,
-								mart= mart,
-								verbose=!quiet
+								mart= mart
 							)
 						)
 					} else {
@@ -309,8 +306,7 @@ setMethod(
 							filters="ensembl_gene_id", 
 							attributes=c("ensembl_gene_id","hgnc_symbol"),
 							values=genes,
-							mart= mart,
-							verbose=!quiet
+							mart= mart
 						)
 					}
 					FinalDEGsU <- cbind(genes, siggenes.table$genes.up)
