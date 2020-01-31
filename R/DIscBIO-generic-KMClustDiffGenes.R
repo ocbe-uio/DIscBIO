@@ -67,7 +67,13 @@ setMethod("KMClustDiffGenes",
                     }
                 }
                 out<-cbind(out,Regulation)
-                mart <- useDataset("hsapiens_gene_ensembl", useMart("ensembl"))
+                mart <- useDataset(
+                    dataset = "hsapiens_gene_ensembl",
+                    mart = useMart(
+                        biomart = "ensembl",
+                        host = "www.ensembl.org"
+                    )
+                )
                 genes <- rownames(out)
                 if (quiet) {
                     suppressMessages(
@@ -75,7 +81,8 @@ setMethod("KMClustDiffGenes",
                             filters="ensembl_gene_id",
                             attributes=c("ensembl_gene_id","hgnc_symbol"),
                             values=genes,
-                            mart= mart
+                            mart=mart,
+                            useCache=FALSE
                         )
                     )
                 } else {
@@ -83,7 +90,8 @@ setMethod("KMClustDiffGenes",
                         filters="ensembl_gene_id",
                         attributes=c("ensembl_gene_id","hgnc_symbol"),
                         values=genes,
-                        mart= mart
+                        mart=mart,
+                        useCache=FALSE
                     )
                 }
                 Final<-cbind(genes,out)
