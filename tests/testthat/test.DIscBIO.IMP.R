@@ -103,9 +103,6 @@ test_that("Outliers are the expected", {
     )
 })
 
-# plotOrderKMtsne(sc) # FIXME: yields error even in the original ("increasing 'x' and 'y' values expected")
-# TODO: request MWE for plotOrderKMtsne
-
 # ---------------------------------------------------------------------------- #
 #                       Differential Expression Analysis                       #
 # ---------------------------------------------------------------------------- #

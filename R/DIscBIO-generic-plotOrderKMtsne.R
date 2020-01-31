@@ -2,6 +2,11 @@
 #' @description The tSNE representation can also be used to show the pseudo-time ordering.
 #' @param object \code{DISCBIO} class object.
 #' of the \code{DISCBIO} object.
+#' @examples 
+#' sc <- DISCBIO(valuesG1ms)
+#' sc <- Clustexp(sc, cln=3, quiet=TRUE) # K-means clustering
+#' sc <- comptSNE(sc, rseed=15555, quiet=TRUE)
+#' plotOrderKMtsne(Order)
 setGeneric("plotOrderKMtsne", function(object) standardGeneric("plotOrderKMtsne"))
 
 #' @export
