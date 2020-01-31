@@ -9,6 +9,7 @@
 #' @param Second A string vector showing the second target cluster.  Default is "CL2"
 #' @param export A logical vector that allows writing the final gene list in excel file. Default is TRUE. 
 #' @param quiet if `TRUE`, suppresses intermediate text output
+#' @param plot if `TRUE`, plots are generated
 #' @importFrom samr samr samr.compute.delta.table samr.plot samr.compute.siggenes.table
 #' @importFrom graphics title
 #' @importFrom utils write.csv
@@ -26,13 +27,13 @@
 #' DEGanalysis2clust(
 #'     sc, Clustering="K-means", K=3, fdr=0.1, name="Name", export = FALSE
 #' )
-setGeneric("DEGanalysis2clust", function(object,Clustering="K-means",K,fdr=0.05,name="Name",First="CL1",Second="CL2",export=TRUE, quiet=FALSE) standardGeneric("DEGanalysis2clust"))
+setGeneric("DEGanalysis2clust", function(object,Clustering="K-means",K,fdr=0.05,name="Name",First="CL1",Second="CL2",export=TRUE, quiet=FALSE, plot=TRUE) standardGeneric("DEGanalysis2clust"))
 
 #' @export
 #' @rdname DEGanalysis2clust
 setMethod("DEGanalysis2clust",
           signature = "DISCBIO",
-          definition = function(object,Clustering="K-means",K,fdr=0.05,name="Name",First="CL1",Second="CL2",export=TRUE, quiet=FALSE){
+          definition = function(object,Clustering="K-means",K,fdr=0.05,name="Name",First="CL1",Second="CL2",export=TRUE, quiet=FALSE, plot=TRUE){
 			if (!(Clustering %in% c( "K-means","MB"))) {
 				stop("Clustering has to be either K-means or MB")
 			}
@@ -97,7 +98,7 @@ setMethod("DEGanalysis2clust",
 				w<-which(delta.table[,5]<= fdr)
 				delta<-delta.table[w[1],1]-0.001
     
-				if (!quiet) {
+				if (plot) {
 					samr.plot(samr.obj, delta)
 					title(
 						paste0("DEGs in the ",Second," in ",First," VS ",Second)

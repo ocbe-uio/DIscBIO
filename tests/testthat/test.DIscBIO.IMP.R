@@ -114,18 +114,18 @@ context("Differential Expression Analysis")
 
 test_that("DEGs are calculated", {
     # Binomial differential expression analysis
-    cdiff1 <- KMClustDiffGenes(sc, K=3, fdr=.1, export = FALSE, quiet = TRUE)
+    cdiff1 <- KMClustDiffGenes(sc, K=3, fdr=.2, export = FALSE, quiet = TRUE)
 
     # differential expression analysis between all clusters
     cdiff2 <- DEGanalysis(
-        sc, Clustering="K-means", K=3, fdr=.1, name="Name", export = FALSE,
-        quiet = TRUE
+        sc, Clustering="K-means", K=3, fdr=.2, name="Name", export = FALSE,
+        quiet = TRUE, plot = FALSE
     )
     
-    # differential expression analysis between particular clusters.
+    # differential expression analysis between two particular clusters.
     cdiff3 <- DEGanalysis2clust(
-        sc, Clustering="K-means", K=3, fdr=.1, name="Name", First="CL1",
-        Second="CL2", export = FALSE, quiet=TRUE
+        sc, Clustering="K-means", K=3, fdr=.2, name="Name", First="CL1",
+        Second="CL2", export = FALSE, quiet=TRUE, plot=FALSE
     )
 
     # Test results
