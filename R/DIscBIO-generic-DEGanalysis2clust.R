@@ -136,7 +136,8 @@ setMethod("DEGanalysis2clust",
 								filters="ensembl_gene_id",
 								attributes=c("ensembl_gene_id","hgnc_symbol"),
 								values=genes,
-								mart=mart
+								mart=mart,
+                            	useCache=FALSE
 							)
 						)
 					} else {
@@ -144,7 +145,8 @@ setMethod("DEGanalysis2clust",
 							filters="ensembl_gene_id",
 							attributes=c("ensembl_gene_id","hgnc_symbol"),
 							values=genes,
-							mart=mart
+							mart=mart,
+                            useCache=FALSE
 						)
 					}
 					FinalDEGsL<-cbind(genes,siggenes.table$genes.lo)
@@ -171,7 +173,8 @@ setMethod("DEGanalysis2clust",
 								filters="ensembl_gene_id",
 								attributes=c("ensembl_gene_id","hgnc_symbol"),
 								values=genes,
-								mart=mart
+								mart=mart,
+                      	      useCache=FALSE
 							)
 						)
 					} else {
@@ -179,7 +182,8 @@ setMethod("DEGanalysis2clust",
 							filters="ensembl_gene_id",
 							attributes=c("ensembl_gene_id","hgnc_symbol"),
 							values=genes,
-							mart=mart
+							mart=mart,
+                            useCache=FALSE
 						)
 					}
 					FinalDEGsU<-cbind(genes,siggenes.table$genes.up)
