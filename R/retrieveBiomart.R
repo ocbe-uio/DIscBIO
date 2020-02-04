@@ -8,7 +8,31 @@
 retrieveBiomart <- function(gene_name, quiet = FALSE, max_tries = 3) {
     # Generates a Mart object
     if (!quiet) message("Retrieving mart object. Please wait.")
-    mart <- useDataset("hsapiens_gene_ensembl", useMart("ensembl"))
+    mart <- tryCatch({
+            useDataset("hsapiens_gene_ensembl", useMart("ensembl"))
+        },
+        error = function(err) {
+            message("The Mart object could not be retrieved.")
+            message("Will try again using a different function.")
+            message("Here is the original error message:")
+            message(err)
+            return(NULL)
+        }
+    )
+    if (is.null(mart)) {
+        mart <- tryCatch( {
+                useDataset("hsapiens_gene_ensembl", useEnsembl("ensembl"))
+            },
+            error = function(err) {
+                message(err)
+                stop(
+                    "The Mart object still could not be retrieved. ",
+                    "The server may be down. Please try again later."
+                )
+                return(NULL)
+            }
+        )
+    }
 
     # Retrieve BioMart dataframe
     if (!quiet) {
@@ -46,7 +70,7 @@ retrieveBiomart <- function(gene_name, quiet = FALSE, max_tries = 3) {
                 # TODO: check if this should really be wrapped around quiet. 
                 # Warnings and errors should be visible no matter what!?
                 if (!quiet) {
-                    warning("The BioMart database could not be reached.")
+                    message("The BioMart database could not be reached.")
                     message("Retrying (", tries, "/", max_tries, ")")
                     message("Here is the original error message:")
                     message(err)
@@ -56,7 +80,7 @@ retrieveBiomart <- function(gene_name, quiet = FALSE, max_tries = 3) {
             },
             warning = function(warn) {
                 if (!quiet) {
-                    warning("The BioMart database could not be reached.")
+                    message("The BioMart database could not be reached.")
                     message("Retrying (", tries, "/", max_tries, ")")
                     message("Here is the original warning:")
                     message(warn)
