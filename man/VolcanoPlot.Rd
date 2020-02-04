@@ -4,7 +4,7 @@
 \alias{VolcanoPlot}
 \title{Volcano Plot}
 \usage{
-VolcanoPlot(object, value = 0.05, name, fc = 0.5, adj = TRUE, FS = 0.4)
+VolcanoPlot(object, value = 0.05, name, fc = 0.5, FS = 0.4)
 }
 \arguments{
 \item{object}{A data frame showing the differentially expressed genes (DEGs) in a particular cluster}
@@ -14,8 +14,6 @@ VolcanoPlot(object, value = 0.05, name, fc = 0.5, adj = TRUE, FS = 0.4)
 \item{name}{A string vector showing the name to be used to save the resulted tables.}
 
 \item{fc}{A numeric value of the fold change. Default is 0.5.}
-
-\item{adj}{A logical vector that allows adjusting the y axis by adding a very smal value (0.00000000001) to logFDR. Default is TRUE.}
 
 \item{FS}{A numeric value of the font size. Default is 0.4.}
 }

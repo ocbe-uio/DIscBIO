@@ -9,7 +9,7 @@
 #' @importFrom samr samr samr.compute.delta.table samr.plot samr.compute.siggenes.table
 #' @importFrom graphics title
 #' @importFrom utils write.csv
-#' @importFrom textxy calibrate
+#' @importFrom calibrate textxy
 #' @export
 VolcanoPlot<-function(object,value=0.05,name,fc=0.5,FS=.4){
     if (length(object[1,])>8) {object<-object[,-1]}
