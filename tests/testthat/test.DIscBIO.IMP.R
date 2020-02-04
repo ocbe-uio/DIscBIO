@@ -106,17 +106,17 @@ test_that("Outliers are the expected", {
 context("Differential Expression Analysis")
 
 # Binomial differential expression analysis
-cdiff1 <- KMClustDiffGenes(sc, K=3, fdr=.2, export=FALSE, quiet=TRUE)
+cdiff1 <- KMClustDiffGenes(sc, K=3, fdr=.15, export=FALSE, quiet=TRUE)
 
 # differential expression analysis between all clusters
 cdiff2 <- DEGanalysis(
-    sc, Clustering="K-means", K=3, fdr=.2, name="Name", export=FALSE,
+    sc, Clustering="K-means", K=3, fdr=.15, name="Name", export=FALSE,
     quiet=TRUE, plot=FALSE
 )
 
 # differential expression analysis between two particular clusters.
 cdiff3 <- DEGanalysis2clust(
-    sc, Clustering="K-means", K=3, fdr=.2, name="Name", First="CL1",
+    sc, Clustering="K-means", K=3, fdr=.15, name="Name", First="CL1",
     Second="CL2", export=FALSE, quiet=TRUE, plot=FALSE
 )
 
