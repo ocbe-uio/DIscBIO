@@ -77,7 +77,7 @@ Outliers2 <- FindOutliersKM(
     sc, K=3, outminc=5, outlg=outlg, probthr=.5*1e-3, thr=2**-(1:40),
     outdistquant=.75, plot = FALSE, quiet = TRUE
 )
-Order <- KmeanOrder(sc, quiet = TRUE, export = FALSE) # TODO: replace with sc (might solve issues)?
+Order <- KmeanOrder(sc, quiet = TRUE, export = FALSE)
 
 test_that("Outliers are the expected", {
     expect_equivalent(
