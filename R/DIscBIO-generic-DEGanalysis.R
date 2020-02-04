@@ -10,8 +10,7 @@
 #' @param plot if `TRUE`, plots are generated
 #' @importFrom samr samr samr.compute.delta.table samr.plot samr.compute.siggenes.table
 #' @importFrom graphics title
-#' @importFrom utils write.csv
-#' @rdname DEGanalysis
+#' @importFrom utils write.csv capture.output
 #' @examples 
 #' sc <- DISCBIO(valuesG1ms)
 #' sc <- NoiseFiltering(sc, plot=FALSE, export=FALSE, quiet=TRUE)
@@ -33,6 +32,7 @@ setGeneric(
 	)
 
 #' @export
+#' @rdname DEGanalysis
 setMethod(
 	f = "DEGanalysis",
 	signature = "DISCBIO",

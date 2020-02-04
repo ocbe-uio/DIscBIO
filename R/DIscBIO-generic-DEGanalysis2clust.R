@@ -12,7 +12,7 @@
 #' @param plot if `TRUE`, plots are generated
 #' @importFrom samr samr samr.compute.delta.table samr.plot samr.compute.siggenes.table
 #' @importFrom graphics title
-#' @importFrom utils write.csv
+#' @importFrom utils write.csv capture.output
 #' @examples 
 #' sc <- DISCBIO(valuesG1ms)
 #' sc <- NoiseFiltering(sc, plot=FALSE, export=FALSE, quiet=TRUE)

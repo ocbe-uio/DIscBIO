@@ -13,7 +13,13 @@ MBclustheatmap(
   quiet = FALSE
 )
 
-\S4method{MBclustheatmap}{DISCBIO}(object, hmethod, plot = TRUE, quiet = FALSE)
+\S4method{MBclustheatmap}{DISCBIO}(
+  object,
+  hmethod = "single",
+  KmeansCBI,
+  plot = TRUE,
+  quiet = FALSE
+)
 }
 \arguments{
 \item{object}{\code{DISCBIO} class object.}
