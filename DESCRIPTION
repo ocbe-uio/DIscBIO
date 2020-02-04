@@ -83,3 +83,4 @@ Collate:
     'RpartEVAL.R'
     'VolcanoPlot.R'
     'datasets.R'
+    'retrieveBiomart.R'

@@ -17,7 +17,7 @@
 #' sc <- DISCBIO(valuesG1ms)
 #' sc <- NoiseFiltering(sc, plot=FALSE, export=FALSE, quiet=TRUE)
 #' sc <- Normalizedata(
-#'     sc, mintotal=1000, minexpr=0, minnumber=0, maxexpr=Inf, downsample=FALSE
+#'     sc, mintotal=1000, minexpr=0, minnumber=0, maxexpr=Inf, downsample=FALSE,
 #'     dsn=1, rseed=17000
 #' )
 #' sc <- Clustexp(sc, cln=3, quiet=TRUE) # K-means clustering
