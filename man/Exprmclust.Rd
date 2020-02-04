@@ -7,7 +7,7 @@
 \usage{
 Exprmclust(
   object,
-  clusternum = 3,
+  K = 3,
   modelNames = "VVV",
   reduce = T,
   cluster = NULL,
@@ -16,7 +16,7 @@ Exprmclust(
 
 \S4method{Exprmclust}{DISCBIO}(
   object,
-  clusternum = 3,
+  K = 3,
   modelNames = "VVV",
   reduce = T,
   cluster = NULL,
@@ -26,7 +26,7 @@ Exprmclust(
 \arguments{
 \item{object}{\code{DISCBIO} class object.}
 
-\item{clusternum}{An integer vector specifying all possible cluster numbers. Default is 3.}
+\item{K}{An integer vector specifying all possible cluster numbers. Default is 3.}
 
 \item{modelNames}{model to be used in model-based clustering. By default "ellipsoidal, varying volume, shape, and orientation" is used.}
 
