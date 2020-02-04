@@ -11,7 +11,8 @@
 #' @importFrom samr samr samr.compute.delta.table samr.plot samr.compute.siggenes.table
 #' @importFrom graphics title
 #' @importFrom utils write.csv capture.output
-#' @examples 
+#' @examples
+#' \dontrun{
 #' sc <- DISCBIO(valuesG1ms)
 #' sc <- NoiseFiltering(sc, export=FALSE)
 #' sc <- Normalizedata(
@@ -25,6 +26,7 @@
 #' DEGanalysis(
 #'     sc, Clustering="K-means", K=3, fdr=0.1, name="Name", export = FALSE
 #' )
+#' }
 setGeneric(
 	name = "DEGanalysis",
 	def = function(object, Clustering="K-means", K, fdr=0.05, name="Name",

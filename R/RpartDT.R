@@ -6,7 +6,8 @@
 #' @export
 #' @importFrom rpart rpart
 #' @importFrom rpart.plot rpart.plot
-#' @examples 
+#' @examples
+#' \dontrun{
 #' sc <- DISCBIO(valuesG1ms)
 #' sc <- NoiseFiltering(sc, export=FALSE)
 #' sc <- Normalizedata(
@@ -25,6 +26,7 @@
 #'     sc, Clustering="K-means", K=3, First="CL1", Second="CL2", sigDEG,
 #' )
 #' RpartDT(DATAforDT)
+#' }
 RpartDT<-function(data, quiet = FALSE, plot = TRUE){
 	exp.df<-as.data.frame(t(data))
 	classVector<- factor(colnames(data))

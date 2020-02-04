@@ -17,6 +17,7 @@ RpartDT(data, quiet = FALSE, plot = TRUE)
 The decision tree analysis is implemented over a training dataset, which consisted of the DEGs obtained by either SAMseq or the binomial differential expression.
 }
 \examples{
+\dontrun{
 sc <- DISCBIO(valuesG1ms)
 sc <- NoiseFiltering(sc, export=FALSE)
 sc <- Normalizedata(
@@ -35,4 +36,5 @@ DATAforDT <- ClassVectoringDT(
     sc, Clustering="K-means", K=3, First="CL1", Second="CL2", sigDEG,
 )
 RpartDT(DATAforDT)
+}
 }

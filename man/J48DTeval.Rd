@@ -21,6 +21,7 @@ J48DTeval(data, num.folds = 10, First = "CL1", Second = "CL2", quiet = FALSE)
 This function evaluates the performance of the generated trees for error estimation by ten-fold cross validation assessment.
 }
 \examples{
+\dontrun{
 sc <- DISCBIO(valuesG1ms)
 sc <- NoiseFiltering(sc, export=FALSE)
 sc <- Normalizedata(
@@ -39,4 +40,5 @@ DATAforDT <- ClassVectoringDT(
     sc, Clustering="K-means", K=3, First="CL1", Second="CL2", sigDEG
 )
 J48DTeval(DATAforDT, num.folds=10, First="CL1", Second="CL2")
+}
 }

@@ -9,10 +9,12 @@
 #' @importFrom stats pbinom median
 #' @rdname KMClustDiffGenes
 #' @export
-#' @examples 
+#' @examples
+#' \dontrun{
 #' sc <- DISCBIO(valuesG1ms)
 #' sc <- Clustexp(sc, cln=3, quiet=TRUE) # K-means clustering
 #' KMClustDiffGenes(sc, K=3, fdr=.3)
+#' }
 setGeneric("KMClustDiffGenes", function(object,K,fdr=.01, export=TRUE, quiet=FALSE) standardGeneric("KMClustDiffGenes"))
 #' @export
 #' @rdname KMClustDiffGenes

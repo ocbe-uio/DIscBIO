@@ -9,6 +9,7 @@
 #' @param quiet If `TRUE`, suppresses intermediary output
 #' @importFrom biomaRt useDataset useMart getBM
 #' @examples
+#' \dontrun{
 #' sc <- DISCBIO(valuesG1ms)
 #' sc <- NoiseFiltering(sc, export=FALSE)
 #' sc <- Normalizedata(
@@ -26,6 +27,7 @@
 #'     sc, Clustering="K-means", K=3, First="CL1", Second="CL2", cdiff[[1]]
 #' )
 #' str(DATAforDT)
+#' }
 setGeneric("ClassVectoringDT", function(object,Clustering="K-means",K,First="CL1",Second="CL2",sigDEG, quiet = FALSE) standardGeneric("ClassVectoringDT"))
 
 #' @rdname ClassVectoringDT

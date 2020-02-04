@@ -7,7 +7,8 @@
 #' @param Second A string vector showing the second target cluster.  Default is "CL2"
 #' @param quiet If `TRUE`, suppresses intermediary output
 #' @importFrom stats predict
-#' @examples 
+#' @examples
+#' \dontrun{
 #' sc <- DISCBIO(valuesG1ms)
 #' sc <- NoiseFiltering(sc, export=FALSE)
 #' sc <- Normalizedata(
@@ -26,6 +27,7 @@
 #'     sc, Clustering="K-means", K=3, First="CL1", Second="CL2", sigDEG,
 #' )
 #' RpartEVAL(DATAforDT,num.folds=10,First="CL1",Second="CL2")
+#' }
 
 RpartEVAL<- function(data,num.folds=10,First="CL1",Second="CL2", quiet = FALSE){
 	exp.imput.df<-as.data.frame(t(data))

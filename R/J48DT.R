@@ -8,7 +8,8 @@
 #' @importFrom graphics plot
 #' @importFrom partykit as.party
 #' @importFrom grid gpar
-#' @examples 
+#' @examples
+#' \dontrun{
 #' sc <- DISCBIO(valuesG1ms)
 #' sc <- NoiseFiltering(sc, export=FALSE)
 #' sc <- Normalizedata(
@@ -27,6 +28,7 @@
 #'     sc, Clustering="K-means", K=3, First="CL1", Second="CL2", sigDEG,
 #' )
 #' J48DT(DATAforDT)
+#' }
 J48DT<-function(data, quiet = FALSE, plot = TRUE){
 		msg <- NULL
 		if ( ! is.data.frame(data) ){
