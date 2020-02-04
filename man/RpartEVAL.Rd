@@ -4,7 +4,7 @@
 \alias{RpartEVAL}
 \title{Evaluating the performance of the RPART Decision Tree.}
 \usage{
-RpartEVAL(data, num.folds = 10, First = "CL1", Second = "CL2")
+RpartEVAL(data, num.folds = 10, First = "CL1", Second = "CL2", quiet = FALSE)
 }
 \arguments{
 \item{data}{The resulted data from running the function J48DT.}
@@ -14,7 +14,29 @@ RpartEVAL(data, num.folds = 10, First = "CL1", Second = "CL2")
 \item{First}{A string vector showing the first target cluster.  Default is "CL1"}
 
 \item{Second}{A string vector showing the second target cluster.  Default is "CL2"}
+
+\item{quiet}{If `TRUE`, suppresses intermediary output}
 }
 \description{
 This function evaluates the performance of the generated trees for error estimation by ten-fold cross validation assessment.
+}
+\examples{
+sc <- DISCBIO(valuesG1ms)
+sc <- NoiseFiltering(sc, export=FALSE)
+sc <- Normalizedata(
+    sc, mintotal=1000, minexpr=0, minnumber=0, maxexpr=Inf, downsample=FALSE,
+    dsn=1, rseed=17000
+)
+sc <- FinalPreprocessing(sc, GeneFlitering="NoiseF", export=FALSE)
+sc <- Clustexp(sc, cln=3) # K-means clustering
+sc <- comptSNE(sc, rseed=15555)
+cdiff <- DEGanalysis2clust(
+    sc, Clustering="K-means", K=3, fdr=.2, name="Name", First="CL1",
+    Second="CL2", export=FALSE
+)
+sigDEG <- cdiff[[1]]
+DATAforDT <- ClassVectoringDT(
+    sc, Clustering="K-means", K=3, First="CL1", Second="CL2", sigDEG,
+)
+RpartEVAL(DATAforDT,num.folds=10,First="CL1",Second="CL2")
 }

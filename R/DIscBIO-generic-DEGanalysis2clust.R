@@ -20,7 +20,6 @@
 #'     sc, mintotal=1000, minexpr=0, minnumber=0, maxexpr=Inf, downsample=FALSE,
 #'     dsn=1, rseed=17000
 #' )
-#' sc <- Clustexp(sc, cln=3, quiet=TRUE) # K-means clustering
 #' sc <- FinalPreprocessing(sc, GeneFlitering="NoiseF", export=FALSE, quiet=TRUE)
 #' sc <- Clustexp(sc, cln=3, quiet=TRUE) # K-means clustering
 #' sc <- comptSNE(sc, rseed=15555, quiet=TRUE)

@@ -5,9 +5,29 @@
 #' @param num.folds A numeric value of the number of folds for the cross validation assessment. Default is 10.
 #' @param First A string vector showing the first target cluster.  Default is "CL1"
 #' @param Second A string vector showing the second target cluster.  Default is "CL2"
+#' @param quiet If `TRUE`, suppresses intermediary output
 #' @importFrom stats predict
+#' @examples 
+#' sc <- DISCBIO(valuesG1ms)
+#' sc <- NoiseFiltering(sc, export=FALSE)
+#' sc <- Normalizedata(
+#'     sc, mintotal=1000, minexpr=0, minnumber=0, maxexpr=Inf, downsample=FALSE,
+#'     dsn=1, rseed=17000
+#' )
+#' sc <- FinalPreprocessing(sc, GeneFlitering="NoiseF", export=FALSE)
+#' sc <- Clustexp(sc, cln=3) # K-means clustering
+#' sc <- comptSNE(sc, rseed=15555)
+#' cdiff <- DEGanalysis2clust(
+#'     sc, Clustering="K-means", K=3, fdr=.2, name="Name", First="CL1",
+#'     Second="CL2", export=FALSE
+#' )
+#' sigDEG <- cdiff[[1]]
+#' DATAforDT <- ClassVectoringDT(
+#'     sc, Clustering="K-means", K=3, First="CL1", Second="CL2", sigDEG
+#' )
+#' J48DTeval(DATAforDT, num.folds=10, First="CL1", Second="CL2")
 
-J48DTeval<- function(data,num.folds=10,First="CL1",Second="CL2"){
+J48DTeval<- function(data,num.folds=10,First="CL1",Second="CL2", quiet=FALSE){
 	exp.imput.df<-as.data.frame(t(data))
 	num.instances<-nrow(exp.imput.df)
 	indices<-1:num.instances
@@ -17,7 +37,7 @@ J48DTeval<- function(data,num.folds=10,First="CL1",Second="CL2"){
 		#Start cross validation loop
 		class1 <- levels(class.vec)[1]
 		for(fold in 1:length(segments)){
-			cat("Fold", fold, "of", length(segments), "\n")
+			if (!quiet) cat("Fold", fold, "of", length(segments), "\n")
 			#Define training and test set
 			test.ind <- segments[[fold]]
 			training.set <- exp.df[-test.ind,]
@@ -61,12 +81,12 @@ J48DTeval<- function(data,num.folds=10,First="CL1",Second="CL2"){
 	cv.segments<-split(sample(indices),rep(1:num.folds,length=num.instances))
 	j48.performance<-c("TP"=0,"FN"=0,"FP"=0,"TN"=0)
 	j48.performance<-cross.val(exp.imput.df,classVector,cv.segments,j48.performance,"J48")
-	print(j48.performance)
+	if (!quiet) print(j48.performance)
 
 	j48.confusion.matrix<-matrix(j48.performance,nrow=2)
 	rownames(j48.confusion.matrix)<-c(paste0("Predicted",First), paste0("Predicted",Second))
 	colnames(j48.confusion.matrix)<-c(First,Second)
-	print(j48.confusion.matrix)
+	if (!quiet) print(j48.confusion.matrix)
 	
 	SN <- function(con.mat){
 		TP <- con.mat[1,1]
@@ -99,9 +119,11 @@ J48DTeval<- function(data,num.folds=10,First="CL1",Second="CL2"){
 	j48.acc<-ACC(j48.confusion.matrix)
 	j48.mcc<-MCC(j48.confusion.matrix)
 
-	cat("J48 SN: ", j48.sn, "\n",
-		"J48 SP: ", j48.sp, "\n",
-		"J48 ACC: ", j48.acc, "\n",
-		"J48 MCC: ", j48.mcc, "\n",sep="")
+	if (!quiet) {
+		cat("J48 SN: ", j48.sn, "\n",
+			"J48 SP: ", j48.sp, "\n",
+			"J48 ACC: ", j48.acc, "\n",
+			"J48 MCC: ", j48.mcc, "\n",sep="")
+	}
 	return(j48.performance)
 }
