@@ -75,25 +75,7 @@ setMethod("KMClustDiffGenes",
                     )
                 )
                 genes <- rownames(out)
-                if (quiet) {
-                    suppressMessages(
-                        G_list <- getBM(
-                            filters="ensembl_gene_id",
-                            attributes=c("ensembl_gene_id","hgnc_symbol"),
-                            values=genes,
-                            mart=mart,
-                            useCache=FALSE
-                        )
-                    )
-                } else {
-                    G_list <- getBM(
-                        filters="ensembl_gene_id",
-                        attributes=c("ensembl_gene_id","hgnc_symbol"),
-                        values=genes,
-                        mart=mart,
-                        useCache=FALSE
-                    )
-                }
+                G_list <- retrieveBiomart(genes, quiet)
                 Final<-cbind(genes,out)
                 Final<-merge(Final,G_list,by.x="genes",by.y="ensembl_gene_id")
                 Final<-Final[!duplicated(Final[,8]), ]
