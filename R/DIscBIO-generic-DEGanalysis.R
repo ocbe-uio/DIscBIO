@@ -235,29 +235,8 @@ setMethod(
 				)
 
 				if (length(FDRl) > 0) {
-					mart <- useDataset(
-						"hsapiens_gene_ensembl", useMart("ensembl")
-					)
 					genes <- siggenes.table$genes.lo[, 3]
-					if (quiet) {
-						suppressMessages(
-							G_list <- getBM(
-								filters="ensembl_gene_id", 
-								attributes=c("ensembl_gene_id","hgnc_symbol"),
-								values=genes,
-								mart= mart,
-                       		    useCache=FALSE
-							)
-						)
-					} else {
-						G_list <- getBM(
-							filters="ensembl_gene_id", 
-							attributes=c("ensembl_gene_id","hgnc_symbol"),
-							values=genes,
-							mart= mart,
-                            useCache=FALSE
-						)
-					}
+					G_list <- retrieveBiomart(genes, quiet)
 					FinalDEGsL <- cbind(genes, siggenes.table$genes.lo)
 					FinalDEGsL <- merge(
 						FinalDEGsL, G_list, by.x="genes", by.y="ensembl_gene_id"
@@ -290,29 +269,8 @@ setMethod(
 				}
 
 				if (length(FDRu) > 0) {
-					mart <- useDataset(
-						"hsapiens_gene_ensembl", useMart("ensembl")
-					)
 					genes <- siggenes.table$genes.up[, 3]
-					if (quiet) {
-						suppressMessages(
-							G_list <- getBM(
-								filters="ensembl_gene_id", 
-								attributes=c("ensembl_gene_id","hgnc_symbol"),
-								values=genes,
-								mart= mart,
-                      	        useCache=FALSE
-							)
-						)
-					} else {
-						G_list <- getBM(
-							filters="ensembl_gene_id", 
-							attributes=c("ensembl_gene_id","hgnc_symbol"),
-							values=genes,
-							mart= mart,
-                            useCache=FALSE
-						)
-					}
+					G_list <- retrieveBiomart(genes, quiet)
 					FinalDEGsU <- cbind(genes, siggenes.table$genes.up)
 					FinalDEGsU <- merge(
 						FinalDEGsU, G_list, by.x="genes", 

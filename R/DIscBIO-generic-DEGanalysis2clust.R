@@ -17,7 +17,7 @@
 #' sc <- DISCBIO(valuesG1ms)
 #' sc <- NoiseFiltering(sc, plot=FALSE, export=FALSE, quiet=TRUE)
 #' sc <- Normalizedata(
-#'     sc, mintotal=1000, minexpr=0, minnumber=0, maxexpr=Inf, downsample=FALSE
+#'     sc, mintotal=1000, minexpr=0, minnumber=0, maxexpr=Inf, downsample=FALSE,
 #'     dsn=1, rseed=17000
 #' )
 #' sc <- Clustexp(sc, cln=3, quiet=TRUE) # K-means clustering
@@ -128,27 +128,8 @@ setMethod("DEGanalysis2clust",
 				DEGsTable[2,6]<-paste0("Up-regulated-",name,First,"in",First,"VS",Second,".csv")
     
 				if (length(FDRl)>0){
-					mart <- useDataset("hsapiens_gene_ensembl", useMart("ensembl"))
-					genes <- siggenes.table$genes.lo[,3]
-					if (quiet) {
-						suppressMessages(
-							G_list <- getBM(
-								filters="ensembl_gene_id",
-								attributes=c("ensembl_gene_id","hgnc_symbol"),
-								values=genes,
-								mart=mart,
-                            	useCache=FALSE
-							)
-						)
-					} else {
-						G_list <- getBM(
-							filters="ensembl_gene_id",
-							attributes=c("ensembl_gene_id","hgnc_symbol"),
-							values=genes,
-							mart=mart,
-                            useCache=FALSE
-						)
-					}
+					genes <- siggenes.table$genes.lo[, 3]
+					G_list <- retrieveBiomart(genes, quiet)
 					FinalDEGsL<-cbind(genes,siggenes.table$genes.lo)
 					FinalDEGsL<-merge(FinalDEGsL,G_list,by.x="genes",by.y="ensembl_gene_id")
 					FinalDEGsL[,3]<-FinalDEGsL[,10]
@@ -165,27 +146,8 @@ setMethod("DEGanalysis2clust",
 				}
     
 				if (length(FDRu)>0){
-					mart <- useDataset("hsapiens_gene_ensembl", useMart("ensembl"))
-					genes <- siggenes.table$genes.up[,3]
-					if (quiet) {
-						suppressMessages(
-							G_list <- getBM(
-								filters="ensembl_gene_id",
-								attributes=c("ensembl_gene_id","hgnc_symbol"),
-								values=genes,
-								mart=mart,
-                      	      useCache=FALSE
-							)
-						)
-					} else {
-						G_list <- getBM(
-							filters="ensembl_gene_id",
-							attributes=c("ensembl_gene_id","hgnc_symbol"),
-							values=genes,
-							mart=mart,
-                            useCache=FALSE
-						)
-					}
+					genes <- siggenes.table$genes.up[, 3]
+					G_list <- retrieveBiomart(genes, quiet)
 					FinalDEGsU<-cbind(genes,siggenes.table$genes.up)
 					FinalDEGsU<-merge(FinalDEGsU,G_list,by.x="genes",by.y="ensembl_gene_id")
 					FinalDEGsU[,3]<-FinalDEGsU[,10]
