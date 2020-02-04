@@ -68,6 +68,8 @@ setMethod(
 }
 )
 
+#' @export
+#' @rdname Exprmclust
 setMethod(
       f = "Exprmclust",
       signature = "data.frame",

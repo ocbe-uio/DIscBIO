@@ -26,7 +26,7 @@ normalize such that it can take values between -1 and 1 with higher values refle
 representation of a point by its cluster.
 }
 \examples{
-sc <- PSCANseq(valuesG1ms) # changes signature of data
+sc <- DISCBIO(valuesG1ms) # changes signature of data
 sc <- Clustexp(sc, cln=3) # data must be clustered before plottin
 sc <- comptSNE(sc, rseed=15555)
 plotSilhouette(sc, K=3)

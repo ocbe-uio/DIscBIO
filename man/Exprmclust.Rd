@@ -3,6 +3,7 @@
 \name{Exprmclust}
 \alias{Exprmclust}
 \alias{Exprmclust,DISCBIO-method}
+\alias{Exprmclust,data.frame-method}
 \title{Performing Model-based clustering on expression values}
 \usage{
 Exprmclust(
@@ -19,6 +20,15 @@ Exprmclust(
   K = 3,
   modelNames = "VVV",
   reduce = T,
+  cluster = NULL,
+  quiet = FALSE
+)
+
+\S4method{Exprmclust}{data.frame}(
+  object,
+  K = 3,
+  modelNames = "VVV",
+  reduce = TRUE,
   cluster = NULL,
   quiet = FALSE
 )
