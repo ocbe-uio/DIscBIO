@@ -27,7 +27,6 @@
 #' @aliases DISCBIO-class, DISCBIO-class
 #' @exportClass DISCBIO
 #' @export
-#TODO: describe slots
 DISCBIO <- setClass(
     Class = "DISCBIO",
     slots = c(

@@ -21,7 +21,6 @@ retrieveBiomart <- function(gene_name, quiet = FALSE, max_tries = 3) {
     G_list <- NULL
     tries <- 1
     while (is.null(G_list) & tries <= max_tries) {
-        # browser()#TEMP
         G_list <- tryCatch({
                 if (quiet) {
                     suppressMessages(
@@ -62,7 +61,6 @@ retrieveBiomart <- function(gene_name, quiet = FALSE, max_tries = 3) {
                     message("Here is the original warning:")
                     message(warn)
                 }
-                # browser()#TEMP
                 tries <- tries + 1
                 return(NULL)
             }

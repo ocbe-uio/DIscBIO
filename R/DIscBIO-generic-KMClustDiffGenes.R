@@ -80,7 +80,7 @@ setMethod("KMClustDiffGenes",
                 Final<-merge(Final,G_list,by.x="genes",by.y="ensembl_gene_id")
                 Final<-Final[!duplicated(Final[,8]), ]
 
-                rownames(Final) <- Final[, 1] # FIXME: contains duplicate values
+                rownames(Final) <- Final[, 1]
                 Final[,1]<-Final[,8]
                 Final<-Final[,-8]
     

@@ -166,7 +166,6 @@ setMethod(
 			gname <- rownames(get(comNUM[i]))
 			x <- L
 			data <- list(x=x, y=y, geneid=gname)
-			#TODO: check if samr call below hangs for CV>.4 on test data?
 			if (quiet) {
 				invisible(capture.output(
 					samr.obj <- samr(

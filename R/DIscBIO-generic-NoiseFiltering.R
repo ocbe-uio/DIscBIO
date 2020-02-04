@@ -143,26 +143,6 @@ setMethod(
         cat("The filtered gene list was saved as: Noise_filtering_genes_test\n")
     }
 
-    # TODO: remove commented out code if it didn't break anything
-    
-    # ## test genes for variance, the following is the term Psi + a0 * Theta, that appears in the formula for Omega.
-    # psia1theta <- mean(1 / sfG1ms, na.rm = TRUE) + a1 *
-    #     mean(sfERCC / sfG1ms, na.rm = TRUE)
-
-    # # Now, we perform a one-sided test against the null hypothesis that the true variance is at most the technical variation plus biological variation.
-    # minBiolDisp <- 0.5 ^ 2
-
-    # #Calculate Omega, then perform the test, using the formula given in the Online methods and in Supplementary Note 6.
-    # m <- ncol(countsG1ms)
-    # cv2th <- a0 + minBiolDisp + a0 * minBiolDisp
-    # testDenom <- (meansG1ms * psia1theta + meansG1ms ^ 2 * cv2th) /
-    #     (1 + cv2th/m)
-    # p <- 1 - pchisq(varsG1ms * (m - 1) / testDenom, m - 1)
-    # p <- subset(p, !is.nan(p))
-
-    # #Adjust for multiple testing with the Benjamini-Hochberg method, cut at 10%
-    # padj <- p.adjust(p, "BH")
-
     if (plot) {
         plot( NULL, xaxt="n", yaxt="n",log="xy", xlim = c( 1e-1, 3e5 ), ylim = c( .005, 100 ),main="Gene filtration by accounting for technical noise",
         xlab = "Average normalized read count", ylab = "Squared coefficient of variation (CV^2)" )

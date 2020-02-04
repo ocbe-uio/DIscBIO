@@ -9,7 +9,7 @@ context("Data pre-processing")
 # The "valuesG1ms" is the only needed dataset
 sc <- DISCBIO(valuesG1ms)
 test_that("Data signature changes", {
-    expect_equal(class(sc)[1], "DISCBIO") # TODO: change to DIscBIO
+    expect_equal(class(sc)[1], "DISCBIO")
     expect_equal(attr(class(sc), "package"), "DIscBIO")
 })
 

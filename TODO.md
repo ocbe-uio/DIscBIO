@@ -17,3 +17,4 @@ Ideally, the non-critical tasks below would also be addressed before release:
 - [ ] Uniformize capitalization of function names and arguments
 - [x] Remove unessential variable assignments from [test.reproduceNotebook.R](tests/testthat/test.reproduceNotebook.R)
 - [ ] Shorten examples with CPU or elapsed time > 5s
+- [ ] Reduce unit test length
