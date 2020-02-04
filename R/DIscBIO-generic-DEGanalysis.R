@@ -13,15 +13,15 @@
 #' @importFrom utils write.csv capture.output
 #' @examples 
 #' sc <- DISCBIO(valuesG1ms)
-#' sc <- NoiseFiltering(sc, plot=FALSE, export=FALSE, quiet=TRUE)
+#' sc <- NoiseFiltering(sc, export=FALSE)
 #' sc <- Normalizedata(
-#'     sc, mintotal=1000, minexpr=0, minnumber=0, maxexpr=Inf, downsample=FALSE
+#'     sc, mintotal=1000, minexpr=0, minnumber=0, maxexpr=Inf, downsample=FALSE,
 #'     dsn=1, rseed=17000
 #' )
-#' sc <- Clustexp(sc, cln=3, quiet=TRUE) # K-means clustering
-#' sc <- FinalPreprocessing(sc, GeneFlitering="NoiseF", export=FALSE, quiet=TRUE)
-#' sc <- Clustexp(sc, cln=3, quiet=TRUE) # K-means clustering
-#' sc <- comptSNE(sc, rseed=15555, quiet=TRUE)
+#' sc <- Clustexp(sc, cln=3) # K-means clustering
+#' sc <- FinalPreprocessing(sc, GeneFlitering="NoiseF", export=FALSE)
+#' sc <- Clustexp(sc, cln=3) # K-means clustering
+#' sc <- comptSNE(sc, rseed=15555)
 #' DEGanalysis(
 #'     sc, Clustering="K-means", K=3, fdr=0.1, name="Name", export = FALSE
 #' )
