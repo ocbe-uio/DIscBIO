@@ -6,20 +6,24 @@
 #' @param fc A numeric value of the fold change. Default is 0.5.
 #' @param FS A numeric value of the font size. Default is 0.4.
 #' @param name A string vector showing the name to be used to save the resulted tables.
-#' @param adj A logical vector that allows adjusting the y axis by adding a very smal value (0.00000000001) to logFDR. Default is TRUE. 
 #' @importFrom samr samr samr.compute.delta.table samr.plot samr.compute.siggenes.table
 #' @importFrom graphics title
 #' @importFrom utils write.csv
+#' @importFrom textxy calibrate
 #' @export
-VolcanoPlot<-function(object,value=0.05,name,fc=0.5,adj=TRUE,FS=.4){
+VolcanoPlot<-function(object,value=0.05,name,fc=0.5,FS=.4){
     if (length(object[1,])>8) {object<-object[,-1]}
-    object[,8] <- if ( adj ) object[,8]+0.00000000001 else object[,8]
-    with(object, plot(object[,7], -log10(object[,8]), pch=20,cex=2, las=1,xlab="log2 Fold Change",ylab="-log10 FDR",sub=paste0("Volcano plot ",name),font.sub=4,col.sub="black"))
+    NO0<- object[,8]
+    NO0<- NO0[-which(NO0==0)]
+    w<-which.min(NO0)
+    adjV<-NO0[w]/100
+    object[,8] <- ifelse(object[,8]==0,adjV,object[,8]) 
+    with(object, plot(abs(object[,7]), -log10(object[,8]), pch=20,cex=2, las=1,xlab="log2 Fold Change",ylab="-log10 FDR",sub=paste0("Volcano plot ",name),font.sub=4,col.sub="black"))
     FC<-subset(object, abs(object[,7])>fc)    # Fold Change
     sigFC<-subset(object, object[,8]<value & abs(object[,7])>fc) # Significant genes
-    with(FC, points(FC[,7], -log10(FC[,8]), pch=20,cex=2, col="red"))
-    with(sigFC, points(sigFC[,7], -log10(sigFC[,8]), pch=20,cex=2, col="blue"))
-    with(sigFC, textxy(sigFC[,7], -log10(sigFC[,8]), labs=sigFC[,2], cex=FS,col="blue"))
+    with(FC, points(abs(FC[,7]), -log10(FC[,8]), pch=20,cex=2, col="red"))
+    with(sigFC, points(abs(sigFC[,7]), -log10(sigFC[,8]), pch=20,cex=2, col="blue"))
+    with(sigFC, textxy(abs(sigFC[,7]), -log10(sigFC[,8]), labs=sigFC[,2], cex=FS,col="blue"))
 	add_legend <- function(...) {
 		opar <- par(fig=c(0, 1, 0, 1), oma=c(0, 0, 0, 0), 
 		mar=c(0, 0, 0, 0), new=TRUE)
