@@ -109,71 +109,79 @@ test_that("Outliers are the expected", {
 
 context("Differential Expression Analysis")
 
+# Binomial differential expression analysis
+cdiff1 <- KMClustDiffGenes(sc, K=3, fdr=.2, export=FALSE, quiet=TRUE)
+
+# differential expression analysis between all clusters
+cdiff2 <- DEGanalysis(
+    sc, Clustering="K-means", K=3, fdr=.2, name="Name", export=FALSE,
+    quiet=TRUE, plot=FALSE
+)
+
+# differential expression analysis between two particular clusters.
+cdiff3 <- DEGanalysis2clust(
+    sc, Clustering="K-means", K=3, fdr=.2, name="Name", First="CL1",
+    Second="CL2", export=FALSE, quiet=TRUE, plot=FALSE
+)
+
 test_that("DEGs are calculated", {
-    # Binomial differential expression analysis
-    cdiff1 <- KMClustDiffGenes(sc, K=3, fdr=.2, export=FALSE, quiet=TRUE)
-
-    # differential expression analysis between all clusters
-    cdiff2 <- DEGanalysis(
-        sc, Clustering="K-means", K=3, fdr=.2, name="Name", export=FALSE,
-        quiet=TRUE, plot=FALSE
-    )
-    
-    # differential expression analysis between two particular clusters.
-    cdiff3 <- DEGanalysis2clust(
-        sc, Clustering="K-means", K=3, fdr=.2, name="Name", First="CL1",
-        Second="CL2", export=FALSE, quiet=TRUE, plot=FALSE
-    )
-
-    # Test results
     expect_identical(sapply(cdiff1, class), c("matrix", "data.frame"))
     expect_identical(sapply(cdiff2, class), c("matrix", "data.frame"))
     expect_identical(sapply(cdiff3, class), c("matrix", "data.frame"))
 })
 
+# Plotting the DEGs
+cdiff <- cdiff3
+name <- cdiff[[2]][1, 6] # From the DE analysis table between all cluster pairs
+# U <- read.csv(file = paste0(name), head=TRUE, sep=",")
+# Vplot <- VolcanoPlot(U, value=0.05, name=name, adj=FALSE, FS=.4)
+# TODO: get an example for VolcanoPlot which doesn't involve importing files
+
+# Decision tree
+sigDEG <- cdiff[[1]]
+
+DATAforDT <- ClassVectoringDT(
+    sc, Clustering="K-means", K=3, First="CL1", Second="CL2", sigDEG,
+    quiet = TRUE
+)
+
+j48dt <- J48DT(DATAforDT, quiet = TRUE, plot = FALSE)
+j48dt_eval <- J48DTeval(
+    DATAforDT, num.folds=10, First="CL1", Second="CL2", quiet=TRUE
+)
+rpartDT <- RpartDT(DATAforDT, quiet = TRUE, plot = FALSE)
+rpartEVAL <- RpartEVAL(
+    DATAforDT, num.folds=10, First="CL1", Second="CL2", quiet = TRUE
+)
+
+test_that("Decision tree elements are defined", {
+    expect_output(str(DATAforDT), "31 obs. of  79 variables")
+    expect_s3_class(j48dt, "J48")
+    expect_s3_class(summary(j48dt), "Weka_classifier_evaluation")
+    expect_identical(j48dt_eval, c(TP = 20, FN = 9, FP = 7, TN = 43))
+    expect_s3_class(rpartDT, "rpart")
+    expect_identical(rpartEVAL, c(TP = 15, FN = 14, FP = 6, TN = 44))
+})
+
+context("Network analysis")
+DEGs <- cdiff[[2]][1, 6] # From the DE analysis table between all cluster pairs
+# data<-read.csv(file=paste0(DEGs),head=TRUE,sep=",")
+# data<-data[,3]
+# FileName <- paste0(DEGs)
+# ppi <- PPI(data, FileName)
+# ppi
+# networking<-NetAnalysis(ppi)
+# FileName="Up.DownDEG" 
+# network<-Networking(data,FileName)
+# TODO: find reproducible example that doesn't depend on importing data
+
+# sc <- ExprmclustMB(sc,clusternum =3,reduce = T,quiet = FALSE)    ########## #TODO: Maybe here it is better to change the "clusternum" into "K"
+# FIXME: function does not exist
+
 ###############################################################################
 ############################# ORIGINAL CODE BELOW #############################
 ###############################################################################
 
-# ############ Plotting the DEGs
-# name<-cdiff[[2]][1,6]     # From the table of the differential expression analysis between all pairs of clusters
-# U<-read.csv(file=paste0(name),head=TRUE,sep=",")
-# Vplot<-VolcanoPlot(U,value=0.05,name=name,adj=FALSE,FS=.4)
-
-
-# ### Decision tree
-# sigDEG<-cdiff[[1]]     
-# DATAforDT<-ClassVectoringDT(sc,Clustering="K-means",K=3,First="CL1",Second="CL2",sigDEG)
-# j48dt<-J48DT(DATAforDT)
-# summary(j48dt) 
-# j48dt<-J48DTeval(DATAforDT,num.folds=10,First="CL1",Second="CL2")
-# rpartDT<-RpartDT(DATAforDT)
-# rpartEVAL<-RpartEVAL(DATAforDT,num.folds=10,First="CL1",Second="CL2")
-
-# ########## Networking analysis
-# DEGs<-cdiff[[2]][1,6]     # From the table of the differential expression analysis between all pairs of clusters
-# data<-read.csv(file=paste0(DEGs),head=TRUE,sep=",")
-# data<-data[,3]
-
-# FileName=paste0(DEGs)
-
-# ppi<-PPI(data,FileName)
-# ppi
-
-# networking<-NetAnalysis(ppi)
-# networking                
-
-# FileName="Up.DownDEG" 
-# network<-Networking(data,FileName)
-
-
-# ##########################################################################################################################
-# ##########################################################################################################################
-# #################################################        Model-Based Clustering     ##########################################
-# ##########################################################################################################################
-# ##########################################################################################################################
-
-# sc <- ExprmclustMB(sc,clusternum =3,reduce = T,quiet = FALSE)    ########## #TODO: Maybe here it is better to change the "clusternum" into "K"
 
 # ########## plotting the clusters in PCA
 # PlotmclustMB(sc)  # TODO: check if this works after scope change
