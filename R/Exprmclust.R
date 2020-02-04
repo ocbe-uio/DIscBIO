@@ -2,7 +2,7 @@
 #' @description this function first uses principal component analysis (PCA) to reduce dimensionality of original data. It then performs model-based clustering 
 #' on the transformed expression values. 
 #' @param object \code{DISCBIO} class object.
-#' @param clusternum An integer vector specifying all possible cluster numbers. Default is 3.
+#' @param K An integer vector specifying all possible cluster numbers. Default is 3.
 #' @param modelNames model to be used in model-based clustering. By default "ellipsoidal, varying volume, shape, and orientation" is used.
 #' @param reduce A logical vector that allows performing the PCA on the expression data. Default is TRUE.
 #' @param cluster A vector showing the ID of cells in the clusters.
@@ -10,9 +10,10 @@
 #' @importFrom mclust Mclust mclustBIC
 #' @importFrom stats dist prcomp lm
 #' @importFrom igraph graph.adjacency minimum.spanning.tree
+# TODO: add example
 setGeneric(
       name = "Exprmclust",
-      def = function(object, clusternum = 3, modelNames = "VVV", reduce = T, cluster = NULL, quiet = FALSE) standardGeneric("Exprmclust")
+      def = function(object, K = 3, modelNames = "VVV", reduce = T, cluster = NULL, quiet = FALSE) standardGeneric("Exprmclust")
 )
 
 #' @export
@@ -20,7 +21,7 @@ setGeneric(
 setMethod(
       f = "Exprmclust",
       signature = "DISCBIO",
-      definition = function(object, clusternum = 3, modelNames = "VVV", reduce = T, cluster = NULL, quiet = FALSE) {
+      definition = function(object, K = 3, modelNames = "VVV", reduce = T, cluster = NULL, quiet = FALSE) {
       set.seed(12345)
 	  obj<-object@fdata
       if (reduce) {
@@ -40,10 +41,10 @@ setMethod(
             pcareduceres <- t(obj)
       }
       if (is.null(cluster)) {   
-            clusternum <- clusternum[clusternum > 1]
+            K <- K[K > 1]
             res <- Mclust(
                   data = pcareduceres,
-                  G = clusternum,
+                  G = K,
                   modelNames = modelNames,
                   warn = FALSE,
                   verbose = !quiet
@@ -67,10 +68,12 @@ setMethod(
 }
 )
 
+#' @export
+#' @rdname Exprmclust
 setMethod(
       f = "Exprmclust",
       signature = "data.frame",
-      definition = function(object, clusternum = 3, modelNames = "VVV",
+      definition = function(object, K = 3, modelNames = "VVV",
             reduce = TRUE, cluster = NULL, quiet = FALSE) {
             set.seed(12345)
             obj <- object
@@ -90,10 +93,10 @@ setMethod(
                   pcareduceres <- t(obj)
             }
             if (is.null(cluster)) {   
-                  clusternum <- clusternum[clusternum > 1]
+                  K <- K[K > 1]
                   res <- Mclust(
                         data = pcareduceres,
-                        G = clusternum,
+                        G = K,
                         modelNames = modelNames,
                         warn = FALSE,
                         verbose = !quiet

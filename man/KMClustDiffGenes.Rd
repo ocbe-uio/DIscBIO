@@ -24,7 +24,9 @@ KMClustDiffGenes(object, K, fdr = 0.01, export = TRUE, quiet = FALSE)
 description
 }
 \examples{
+\dontrun{
 sc <- DISCBIO(valuesG1ms)
 sc <- Clustexp(sc, cln=3, quiet=TRUE) # K-means clustering
 KMClustDiffGenes(sc, K=3, fdr=.3)
+}
 }

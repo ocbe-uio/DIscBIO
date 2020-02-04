@@ -12,21 +12,22 @@
 #' @param plot if `TRUE`, plots are generated
 #' @importFrom samr samr samr.compute.delta.table samr.plot samr.compute.siggenes.table
 #' @importFrom graphics title
-#' @importFrom utils write.csv
-#' @examples 
+#' @importFrom utils write.csv capture.output
+#' @examples
+#' \dontrun{
 #' sc <- DISCBIO(valuesG1ms)
-#' sc <- NoiseFiltering(sc, plot=FALSE, export=FALSE, quiet=TRUE)
+#' sc <- NoiseFiltering(sc, export=FALSE)
 #' sc <- Normalizedata(
 #'     sc, mintotal=1000, minexpr=0, minnumber=0, maxexpr=Inf, downsample=FALSE,
 #'     dsn=1, rseed=17000
 #' )
-#' sc <- Clustexp(sc, cln=3, quiet=TRUE) # K-means clustering
-#' sc <- FinalPreprocessing(sc, GeneFlitering="NoiseF", export=FALSE, quiet=TRUE)
-#' sc <- Clustexp(sc, cln=3, quiet=TRUE) # K-means clustering
-#' sc <- comptSNE(sc, rseed=15555, quiet=TRUE)
+#' sc <- FinalPreprocessing(sc, GeneFlitering="NoiseF", export=FALSE)
+#' sc <- Clustexp(sc, cln=3) # K-means clustering
+#' sc <- comptSNE(sc, rseed=15555)
 #' DEGanalysis2clust(
 #'     sc, Clustering="K-means", K=3, fdr=0.1, name="Name", export = FALSE
 #' )
+#' }
 setGeneric("DEGanalysis2clust", function(object,Clustering="K-means",K,fdr=0.05,name="Name",First="CL1",Second="CL2",export=TRUE, quiet=FALSE, plot=TRUE) standardGeneric("DEGanalysis2clust"))
 
 #' @export

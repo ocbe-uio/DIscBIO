@@ -24,7 +24,7 @@ setMethod("KmeanOrder",
 			Obj <- object@fdata
 			Clusters<-object@cpart
 			sampleNames<-colnames(object@fdata)
-			lpsmclust <- Exprmclust(Obj, clusternum = 4, reduce = F, cluster = Clusters)
+			lpsmclust <- Exprmclust(Obj, K = 4, reduce = F, cluster = Clusters)
 			lpsorder <- TSCANorder(lpsmclust)
 			orderID <- lpsorder
 			order <- c(1:length(lpsorder))

@@ -3,11 +3,12 @@
 \name{Exprmclust}
 \alias{Exprmclust}
 \alias{Exprmclust,DISCBIO-method}
+\alias{Exprmclust,data.frame-method}
 \title{Performing Model-based clustering on expression values}
 \usage{
 Exprmclust(
   object,
-  clusternum = 3,
+  K = 3,
   modelNames = "VVV",
   reduce = T,
   cluster = NULL,
@@ -16,9 +17,18 @@ Exprmclust(
 
 \S4method{Exprmclust}{DISCBIO}(
   object,
-  clusternum = 3,
+  K = 3,
   modelNames = "VVV",
   reduce = T,
+  cluster = NULL,
+  quiet = FALSE
+)
+
+\S4method{Exprmclust}{data.frame}(
+  object,
+  K = 3,
+  modelNames = "VVV",
+  reduce = TRUE,
   cluster = NULL,
   quiet = FALSE
 )
@@ -26,7 +36,7 @@ Exprmclust(
 \arguments{
 \item{object}{\code{DISCBIO} class object.}
 
-\item{clusternum}{An integer vector specifying all possible cluster numbers. Default is 3.}
+\item{K}{An integer vector specifying all possible cluster numbers. Default is 3.}
 
 \item{modelNames}{model to be used in model-based clustering. By default "ellipsoidal, varying volume, shape, and orientation" is used.}
 

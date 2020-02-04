@@ -5,10 +5,31 @@
 #' @param num.folds A numeric value of the number of folds for the cross validation assessment. Default is 10.
 #' @param First A string vector showing the first target cluster.  Default is "CL1"
 #' @param Second A string vector showing the second target cluster.  Default is "CL2"
+#' @param quiet If `TRUE`, suppresses intermediary output
 #' @importFrom stats predict
+#' @examples
+#' \dontrun{
+#' sc <- DISCBIO(valuesG1ms)
+#' sc <- NoiseFiltering(sc, export=FALSE)
+#' sc <- Normalizedata(
+#'     sc, mintotal=1000, minexpr=0, minnumber=0, maxexpr=Inf, downsample=FALSE,
+#'     dsn=1, rseed=17000
+#' )
+#' sc <- FinalPreprocessing(sc, GeneFlitering="NoiseF", export=FALSE)
+#' sc <- Clustexp(sc, cln=3) # K-means clustering
+#' sc <- comptSNE(sc, rseed=15555)
+#' cdiff <- DEGanalysis2clust(
+#'     sc, Clustering="K-means", K=3, fdr=.2, name="Name", First="CL1",
+#'     Second="CL2", export=FALSE
+#' )
+#' sigDEG <- cdiff[[1]]
+#' DATAforDT <- ClassVectoringDT(
+#'     sc, Clustering="K-means", K=3, First="CL1", Second="CL2", sigDEG,
+#' )
+#' RpartEVAL(DATAforDT,num.folds=10,First="CL1",Second="CL2")
+#' }
 
-
-RpartEVAL<- function(data,num.folds=10,First="CL1",Second="CL2"){
+RpartEVAL<- function(data,num.folds=10,First="CL1",Second="CL2", quiet = FALSE){
 	exp.imput.df<-as.data.frame(t(data))
 	num.instances<-nrow(exp.imput.df)
 	indices<-1:num.instances
@@ -18,7 +39,7 @@ RpartEVAL<- function(data,num.folds=10,First="CL1",Second="CL2"){
 		#Start cross validation loop
 		class1 <- levels(class.vec)[1]
 		for(fold in 1:length(segments)){
-			cat("Fold", fold, "of", length(segments), "\n")
+			if (!quiet) cat("Fold", fold, "of", length(segments), "\n")
 			#Define training and test set
 			test.ind <- segments[[fold]]
 			training.set <- exp.df[-test.ind,]
@@ -61,11 +82,11 @@ RpartEVAL<- function(data,num.folds=10,First="CL1",Second="CL2"){
 	cv.segments<-split(sample(indices),rep(1:num.folds,length=num.instances))
 	Rpart.performance<-c("TP"=0,"FN"=0,"FP"=0,"TN"=0)
 	Rpart.performance<-cross.val(exp.imput.df,classVector,cv.segments,Rpart.performance,"rpart")
-	print(Rpart.performance)
+	if (!quiet) print(Rpart.performance)
 	Rpart.confusion.matrix<-matrix(Rpart.performance,nrow=2)
 	rownames(Rpart.confusion.matrix)<-c(paste0("Predicted",First), paste0("Predicted",Second))
 	colnames(Rpart.confusion.matrix)<-c(First,Second)
-	print(Rpart.confusion.matrix)
+	if (!quiet) print(Rpart.confusion.matrix)
 
 	SN <- function(con.mat){
 		TP <- con.mat[1,1]
@@ -99,10 +120,12 @@ RpartEVAL<- function(data,num.folds=10,First="CL1",Second="CL2"){
 	Rpart.acc<-ACC(Rpart.confusion.matrix)
 	Rpart.mcc<-MCC(Rpart.confusion.matrix)
 
-	cat("Rpart SN: ", Rpart.sn, "\n",
-	"Rpart SP: ", Rpart.sp, "\n",
-	"Rpart ACC: ", Rpart.acc, "\n",
-	"Rpart MCC: ", Rpart.mcc, "\n",sep="")
+	if (!quiet) {
+		cat("Rpart SN: ", Rpart.sn, "\n",
+		"Rpart SP: ", Rpart.sp, "\n",
+		"Rpart ACC: ", Rpart.acc, "\n",
+		"Rpart MCC: ", Rpart.mcc, "\n",sep="")
+	}
 
 	return(Rpart.performance)
 }

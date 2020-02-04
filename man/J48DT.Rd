@@ -4,11 +4,37 @@
 \alias{J48DT}
 \title{J48 Decision Tree}
 \usage{
-J48DT(data)
+J48DT(data, quiet = FALSE, plot = TRUE)
 }
 \arguments{
 \item{data}{A data frame resulted from running the function ClassVectoringDT.}
+
+\item{quiet}{If `TRUE`, suppresses intermediary output}
+
+\item{plot}{If `FALSE`, suppresses plot output}
 }
 \description{
 The decision tree analysis is implemented over a training dataset, which consisted of the DEGs obtained by either SAMseq or the binomial differential expression.
+}
+\examples{
+\dontrun{
+sc <- DISCBIO(valuesG1ms)
+sc <- NoiseFiltering(sc, export=FALSE)
+sc <- Normalizedata(
+    sc, mintotal=1000, minexpr=0, minnumber=0, maxexpr=Inf, downsample=FALSE,
+    dsn=1, rseed=17000
+)
+sc <- FinalPreprocessing(sc, GeneFlitering="NoiseF", export=FALSE)
+sc <- Clustexp(sc, cln=3) # K-means clustering
+sc <- comptSNE(sc, rseed=15555)
+cdiff <- DEGanalysis2clust(
+    sc, Clustering="K-means", K=3, fdr=.2, name="Name", First="CL1",
+    Second="CL2", export=FALSE
+)
+sigDEG <- cdiff[[1]]
+DATAforDT <- ClassVectoringDT(
+    sc, Clustering="K-means", K=3, First="CL1", Second="CL2", sigDEG,
+)
+J48DT(DATAforDT)
+}
 }

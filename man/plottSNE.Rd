@@ -13,7 +13,7 @@ plottSNE(object)
 Visualizing the K-means clusters using tSNE maps
 }
 \examples{
-sc <- PSCANseq(valuesG1ms) # changes signature of data
+sc <- DISCBIO(valuesG1ms) # changes signature of data
 sc <- Clustexp(sc, cln=3) # data must be clustered before plotting
 sc <- comptSNE(sc, rseed=15555, quiet=TRUE)
 plottSNE(sc)

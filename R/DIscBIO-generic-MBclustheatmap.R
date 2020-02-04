@@ -15,7 +15,7 @@ setGeneric("MBclustheatmap", function(object,hmethod="single", KmeansCBI, plot =
 #' @rdname MBclustheatmap
 setMethod("MBclustheatmap",
           signature = "DISCBIO",
-          definition = function(object,hmethod, plot = TRUE, quiet = FALSE){
+          definition = function(object,hmethod, KmeansCBI, plot = TRUE, quiet = FALSE){
             x <- object@fdata  
 		object@clusterpar$metric <- "pearson"
 		dist.gen <- function(x,method="euclidean", ...) if ( method %in% c("spearman","pearson","kendall") ) as.dist( 1 - cor(t(x),method=method,...) ) else dist(x,method=method,...)
