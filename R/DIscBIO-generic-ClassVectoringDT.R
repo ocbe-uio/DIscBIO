@@ -10,22 +10,20 @@
 #' @importFrom biomaRt useDataset useMart getBM
 #' @examples
 #' sc <- DISCBIO(valuesG1ms)
-#' sc <- NoiseFiltering(sc, plot=FALSE, export=FALSE, quiet=TRUE)
+#' sc <- NoiseFiltering(sc, export=FALSE)
 #' sc <- Normalizedata(
 #'     sc, mintotal=1000, minexpr=0, minnumber=0, maxexpr=Inf, downsample=FALSE,
 #'     dsn=1, rseed=17000
 #' )
-#' sc <- FinalPreprocessing(sc, GeneFlitering="NoiseF", export=FALSE, quiet=TRUE)
-#' sc <- Clustexp(sc, cln=3, quiet=TRUE) # K-means clustering
-#' sc <- comptSNE(sc, rseed=15555, quiet=TRUE)
+#' sc <- FinalPreprocessing(sc, GeneFlitering="NoiseF", export=FALSE)
+#' sc <- Clustexp(sc, cln=3) # K-means clustering
+#' sc <- comptSNE(sc, rseed=15555)
 #' cdiff <- DEGanalysis2clust(
 #'     sc, Clustering="K-means", K=3, fdr=.2, name="Name", First="CL1",
-#'     Second="CL2", export=FALSE, quiet=TRUE, plot=FALSE
+#'     Second="CL2", export=FALSE
 #' )
-#' sigDEG <- cdiff[[1]]
 #' DATAforDT <- ClassVectoringDT(
-#'     sc, Clustering="K-means", K=3, First="CL1", Second="CL2", sigDEG,
-#'     quiet = FALSE
+#'     sc, Clustering="K-means", K=3, First="CL1", Second="CL2", cdiff[[1]]
 #' )
 #' str(DATAforDT)
 setGeneric("ClassVectoringDT", function(object,Clustering="K-means",K,First="CL1",Second="CL2",sigDEG, quiet = FALSE) standardGeneric("ClassVectoringDT"))

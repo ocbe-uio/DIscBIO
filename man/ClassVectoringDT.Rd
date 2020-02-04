@@ -57,9 +57,8 @@ cdiff <- DEGanalysis2clust(
     sc, Clustering="K-means", K=3, fdr=.2, name="Name", First="CL1",
     Second="CL2", export=FALSE
 )
-sigDEG <- cdiff[[1]]
 DATAforDT <- ClassVectoringDT(
-    sc, Clustering="K-means", K=3, First="CL1", Second="CL2", sigDEG
+    sc, Clustering="K-means", K=3, First="CL1", Second="CL2", cdiff[[1]]
 )
 str(DATAforDT)
 }

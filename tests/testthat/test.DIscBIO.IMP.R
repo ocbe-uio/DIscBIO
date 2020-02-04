@@ -62,9 +62,7 @@ test_that("Cluster plots output is as expexted", {
     )
 })
 
-# ---------------------------------------------------------------------------- #
-#                                   Outliers                                   #
-# ---------------------------------------------------------------------------- #
+# --------------------------------- Outliers --------------------------------- #
 
 context("Outliers")
 
@@ -103,9 +101,7 @@ test_that("Outliers are the expected", {
     )
 })
 
-# ---------------------------------------------------------------------------- #
-#                       Differential Expression Analysis                       #
-# ---------------------------------------------------------------------------- #
+# --------------------- Differential Expression Analysis --------------------- #
 
 context("Differential Expression Analysis")
 
@@ -163,6 +159,8 @@ test_that("Decision tree elements are defined", {
     expect_identical(rpartEVAL, c(TP = 15, FN = 14, FP = 6, TN = 44))
 })
 
+# ----------------------------- Network analysis ----------------------------- #
+
 context("Network analysis")
 DEGs <- cdiff[[2]][1, 6] # From the DE analysis table between all cluster pairs
 # data<-read.csv(file=paste0(DEGs),head=TRUE,sep=",")
@@ -175,9 +173,16 @@ DEGs <- cdiff[[2]][1, 6] # From the DE analysis table between all cluster pairs
 # network<-Networking(data,FileName)
 # TODO: find reproducible example that doesn't depend on importing data
 
-# sc <- ExprmclustMB(sc,clusternum =3,reduce = T,quiet = FALSE)    ########## #TODO: Maybe here it is better to change the "clusternum" into "K"
-# FIXME: function does not exist
+# ---------------------------------------------------------------------------- #
+#                            Model-based clustering                            #
+# ---------------------------------------------------------------------------- #
 
+context("Model-based clustering")
+sc <- Exprmclust(sc, K = 3,reduce = T, quiet = TRUE) # ASK: shouldn't this be done before Clustexp?
+
+test_that("Model-based clustering elements are OK", {
+    # TODO: add test for Exprmclust
+})
 ###############################################################################
 ############################# ORIGINAL CODE BELOW #############################
 ###############################################################################
