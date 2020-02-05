@@ -11,6 +11,8 @@
 #' @importFrom samr samr samr.compute.delta.table samr.plot samr.compute.siggenes.table
 #' @importFrom graphics title
 #' @importFrom utils write.csv capture.output
+#' @importFrom AnnotationDbi select
+#' @import org.Hs.eg.db
 #' @examples
 #' \dontrun{
 #' sc <- DISCBIO(valuesG1ms)
@@ -236,15 +238,25 @@ setMethod(
 				)
 
 				if (length(FDRl) > 0) {
-					genes <- siggenes.table$genes.lo[, 3]
-					G_list <- retrieveBiomart(genes, quiet)
-					FinalDEGsL <- cbind(genes, siggenes.table$genes.lo)
-					FinalDEGsL <- merge(
-						FinalDEGsL, G_list, by.x="genes", by.y="ensembl_gene_id"
-					)
-					FinalDEGsL[, 3] <- FinalDEGsL[, 10]
-					FinalDEGsL <- FinalDEGsL[, c(-1, -10)]
-					FinalDEGsL <- FinalDEGsL[order(FinalDEGsL[, 8]), ]
+					genes <- siggenes.table$genes.lo[,3]
+					if (quiet) {
+						suppressMessages(geneList <-  AnnotationDbi::select(org.Hs.eg.db,keys = keys(org.Hs.eg.db), columns = c("SYMBOL","ENSEMBL")))
+                        GL <-c(1,"MTRNR2","ENSG00000210082")
+                        geneList <-rbind(geneList,GL)
+					} else {
+						geneList <-  AnnotationDbi::select(org.Hs.eg.db,keys = keys(org.Hs.eg.db), columns = c("SYMBOL","ENSEMBL")) 
+                        GL<-c(1,"MTRNR2","ENSG00000210082")
+                        geneList <-rbind(geneList,GL)
+                    }
+					FinalDEGsL<-cbind(genes,siggenes.table$genes.lo)
+					gene_list<-geneList[,3]
+					idx_genes <- is.element(gene_list,genes)
+					genes2 <- geneList[idx_genes,]
+                    FinalDEGsL<-merge(FinalDEGsL,genes2,by.x="genes",by.y="ENSEMBL",all.x=TRUE)
+                    FinalDEGsL[,3]<-FinalDEGsL[,11]
+                    FinalDEGsL<-FinalDEGsL[,c(-1,-10,-11)]
+                    FinalDEGsL<-FinalDEGsL[order(FinalDEGsL[,8]),]
+                    FinalDEGsL[is.na(FinalDEGsL[,2]),c(2,3)]<-FinalDEGsL[is.na(FinalDEGsL[,2]),3]                                               
 					if (!quiet) {
 						cat(paste0(
 							"Low-regulated genes in the ", second[i], " in ",
@@ -269,17 +281,29 @@ setMethod(
 					DEGsE <- c(DEGsE, as.character(FinalDEGsL[, 3]))
 				}
 
+
 				if (length(FDRu) > 0) {
-					genes <- siggenes.table$genes.up[, 3]
-					G_list <- retrieveBiomart(genes, quiet)
-					FinalDEGsU <- cbind(genes, siggenes.table$genes.up)
-					FinalDEGsU <- merge(
-						FinalDEGsU, G_list, by.x="genes", 
-						by.y="ensembl_gene_id"
-					)
-					FinalDEGsU[, 3] <- FinalDEGsU[, 10]
-					FinalDEGsU <- FinalDEGsU[, c(-1, -10)]
-					FinalDEGsU <- FinalDEGsU[order(FinalDEGsU[, 8]), ]
+					genes <- siggenes.table$genes.up[,3]
+					if (quiet) {
+						suppressMessages(geneList <-  AnnotationDbi::select(org.Hs.eg.db,keys = keys(org.Hs.eg.db), columns = c("SYMBOL","ENSEMBL")))
+                        GL <-c(1,"MTRNR2","ENSG00000210082")
+						GL1<-c(1,"MTRNR1","ENSG00000211459")
+                        geneList <-rbind(geneList,GL,GL1)
+					} else {
+						geneList <-  AnnotationDbi::select(org.Hs.eg.db,keys = keys(org.Hs.eg.db), columns = c("SYMBOL","ENSEMBL")) 
+                        GL<-c(1,"MTRNR2","ENSG00000210082")
+                        GL1<-c(1,"MTRNR1","ENSG00000211459")
+                        geneList <-rbind(geneList,GL,GL1)
+                    }
+					FinalDEGsU<-cbind(genes,siggenes.table$genes.up)
+					gene_list<-geneList[,3]
+					idx_genes <- is.element(gene_list,genes)
+					genes2 <- geneList[idx_genes,]
+                    FinalDEGsU<-merge(FinalDEGsU,genes2,by.x="genes",by.y="ENSEMBL",all.x=TRUE)
+                    FinalDEGsU[,3]<-FinalDEGsU[,11]
+                    FinalDEGsU<-FinalDEGsU[,c(-1,-10,-11)]
+                    FinalDEGsU<-FinalDEGsU[order(FinalDEGsU[,8]),]
+                    FinalDEGsU[is.na(FinalDEGsU[,2]),c(2,3)]<-FinalDEGsU[is.na(FinalDEGsU[,2]),3]                                               
 					if (!quiet) {
 						cat(paste0(
 							"Up-regulated genes in the ", second[i], " in ",
@@ -325,8 +349,8 @@ setMethod(
 			cat("The results of DEGs are saved in your directory", "\n")
 		}
 		colnames(DEGsTable) <- c(
-			"Comparisons", "Target cluster", "Up-regulated genes", "File name",
-			"Low-regulated genes", "File name"
+			"Comparisons", "Target cluster", "Gene number", "File name",
+			"Gene number", "File name"
 		)
 		if (export) write.csv(DEGsTable, file = "DEGsTable.csv")
 		if (!quiet) print(DEGsTable)
