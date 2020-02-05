@@ -13,6 +13,8 @@
 #' @importFrom samr samr samr.compute.delta.table samr.plot samr.compute.siggenes.table
 #' @importFrom graphics title
 #' @importFrom utils write.csv capture.output
+#' @importFrom AnnotationDbi select
+#' @import org.Hs.eg.db
 #' @examples
 #' \dontrun{
 #' sc <- DISCBIO(valuesG1ms)
@@ -129,42 +131,66 @@ setMethod("DEGanalysis2clust",
 				DEGsTable[2,6]<-paste0("Up-regulated-",name,First,"in",First,"VS",Second,".csv")
     
 				if (length(FDRl)>0){
-					genes <- siggenes.table$genes.lo[, 3]
-					G_list <- retrieveBiomart(genes, quiet)
+					genes <- siggenes.table$genes.lo[,3]
+					if (quiet) {
+						suppressMessages(geneList <-  AnnotationDbi::select(org.Hs.eg.db,keys = keys(org.Hs.eg.db), columns = c("SYMBOL","ENSEMBL")))
+                        GL <-c(1,"MTRNR2","ENSG00000210082")
+                        GL1<-c(1,"MTRNR1","ENSG00000211459")
+                        geneList <-rbind(geneList,GL,GL1)
+					} else {
+						geneList <-  AnnotationDbi::select(org.Hs.eg.db,keys = keys(org.Hs.eg.db), columns = c("SYMBOL","ENSEMBL")) 
+                        GL<-c(1,"MTRNR2","ENSG00000210082")
+                        GL1<-c(1,"MTRNR1","ENSG00000211459")
+                        geneList <-rbind(geneList,GL,GL1)
+                    }
 					FinalDEGsL<-cbind(genes,siggenes.table$genes.lo)
-					FinalDEGsL<-merge(FinalDEGsL,G_list,by.x="genes",by.y="ensembl_gene_id")
-					FinalDEGsL[,3]<-FinalDEGsL[,10]
-					FinalDEGsL<-FinalDEGsL[,c(-1,-10)]
-					FinalDEGsL<-FinalDEGsL[order(FinalDEGsL[,8]),]
+					gene_list<-geneList[,3]
+					idx_genes <- is.element(gene_list,genes)
+					genes2 <- geneList[idx_genes,]
+                    FinalDEGsL<-merge(FinalDEGsL,genes2,by.x="genes",by.y="ENSEMBL",all.x=TRUE)
+                    FinalDEGsL[,3]<-FinalDEGsL[,11]
+                    FinalDEGsL<-FinalDEGsL[,c(-1,-10,-11)]
+                    FinalDEGsL<-FinalDEGsL[order(FinalDEGsL[,8]),]
+                    FinalDEGsL[is.na(FinalDEGsL[,2]),c(2,3)]<-FinalDEGsL[is.na(FinalDEGsL[,2]),3]                                               
 					if (export) {
 						cat("The results of DEGs are saved in your directory","\n")
 						cat(paste0("Low-regulated genes in the ",Second," in ",First," VS ",Second,"\n"))
 						write.csv(FinalDEGsL, file = paste0("Low-regulated-",name,Second,"in",First,"VS",Second,".csv"))
 						write.csv(FinalDEGsL, file = paste0("Up-regulated-",name,First,"in",First,"VS",Second,".csv"))
-					}
+					}                                                  
 					DEGsS<-c(DEGsS,FinalDEGsL[,2])
 					DEGsE<-c(DEGsE,as.character(FinalDEGsL[,3]))
 				}
     
 				if (length(FDRu)>0){
-					genes <- siggenes.table$genes.up[, 3]
-					G_list <- retrieveBiomart(genes, quiet)
+					genes <- siggenes.table$genes.up[,3]
+					if (quiet) {
+						suppressMessages(geneList <-  AnnotationDbi::select(org.Hs.eg.db,keys = keys(org.Hs.eg.db), columns = c("SYMBOL","ENSEMBL")))
+                        GL <-c(1,"MTRNR2","ENSG00000210082")
+                        geneList <-rbind(geneList,GL)
+					} else {
+						geneList <-  AnnotationDbi::select(org.Hs.eg.db,keys = keys(org.Hs.eg.db), columns = c("SYMBOL","ENSEMBL")) 
+                        GL<-c(1,"MTRNR2","ENSG00000210082")
+                        geneList <-rbind(geneList,GL)
+                    }
 					FinalDEGsU<-cbind(genes,siggenes.table$genes.up)
-					FinalDEGsU<-merge(FinalDEGsU,G_list,by.x="genes",by.y="ensembl_gene_id")
-					FinalDEGsU[,3]<-FinalDEGsU[,10]
-					FinalDEGsU<-FinalDEGsU[,c(-1,-10)]
-					FinalDEGsU<-FinalDEGsU[order(FinalDEGsU[,8]),]
+					gene_list<-geneList[,3]
+					idx_genes <- is.element(gene_list,genes)
+					genes2 <- geneList[idx_genes,]
+                    FinalDEGsU<-merge(FinalDEGsU,genes2,by.x="genes",by.y="ENSEMBL",all.x=TRUE)
+                    FinalDEGsU[,3]<-FinalDEGsU[,11]
+                    FinalDEGsU<-FinalDEGsU[,c(-1,-10,-11)]
+                    FinalDEGsU<-FinalDEGsU[order(FinalDEGsU[,8]),]
+                    FinalDEGsU[is.na(FinalDEGsU[,2]),c(2,3)]<-FinalDEGsU[is.na(FinalDEGsU[,2]),3]                                               
 					if (export) {
 						cat("The results of DEGs are saved in your directory","\n")
 						cat(paste0("Up-regulated genes in the ",Second," in ",First," VS ",Second,"\n"))
 						write.csv(FinalDEGsU, file = paste0("Up-regulated-",name,Second,"in",First,"VS",Second,".csv"))
 						write.csv(FinalDEGsU, file = paste0("Low-regulated-",name,First,"in",First,"VS",Second,".csv"))
 					}
-        
 					DEGsS<-c(DEGsS,FinalDEGsU[,2])
 					DEGsE<-c(DEGsE,as.character(FinalDEGsU[,3]))
 				}
-
 			}else{
 				DEGsTable[1,1]<-paste0(First," VS ",Second)
 				DEGsTable[1,2]<-Second
@@ -181,7 +207,7 @@ setMethod("DEGanalysis2clust",
 				DEGsTable[2,6]<-NA
 			}
     
-			colnames(DEGsTable)<-c("Comparisons","Target cluster","Up-regulated genes","File name","Low-regulated genes","File name")
+			colnames(DEGsTable)<-c("Comparisons","Target cluster","Gene number","File name","Gene number","File name")
 			if (!quiet) print(DEGsTable)
 			sigDEG<-cbind(DEGsE,DEGsS)
 
