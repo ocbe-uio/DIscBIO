@@ -14,7 +14,7 @@ Networking<-function(data,FileName,species="9606"){
 			
 	}else{
 		string_api_url <- "https://string-db.org/api/"
-		output_format <- "image"
+		output_format <- "highres_image"
 		method <- "network"
 		your_identifiers <- ""
 		optional_parameters <- ""
@@ -27,7 +27,15 @@ Networking<-function(data,FileName,species="9606"){
 		y = repos$request$ url
 		download.file(y,paste0("network",FileName,".png"), mode = 'wb')
 		Network<- readPNG(paste0("network",FileName,".png"), native = TRUE)
+        set_plot_dimensions <- function(width_choice, height_choice) {
+            options(repr.plot.width=width_choice, repr.plot.height=height_choice)
+        }
+        set_plot_dimensions(25,15)
+
 		plot(0:1,0:1,type="n",ann=FALSE,axes=FALSE)
-		rasterImage(Network,0,0,1,1)	
+		rasterImage(Network,0,0,1,1)
+		cat("\n","You can see the network with high resolution by clicking on the following link:","\n",paste0(y))
+        set_plot_dimensions(8,8)
 	}
 }
+network<-Networking(data,FileName)
