@@ -6,6 +6,7 @@
 #' @importFrom tsne tsne
 #' @importFrom stats as.dist cor
 #' @examples
+#' \dontrun{
 #' sc <- DISCBIO(valuesG1ms)
 #' sc <- NoiseFiltering(sc, export=FALSE)
 #' sc <- Normalizedata(
@@ -16,6 +17,7 @@
 #' sc <- Exprmclust(sc)
 #' sc <- comptsneMB(sc, rseed=15555, quiet = TRUE)
 #' print(sc@MBtsne)
+#' }
 setGeneric(
   name = "comptsneMB",
   def = function(object, rseed = 15555, quiet = FALSE) {

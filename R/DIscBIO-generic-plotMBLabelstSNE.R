@@ -3,6 +3,7 @@
 #' @param object \code{DISCBIO} class object.
 #' @importFrom graphics text
 #' @examples
+#' \dontrun{
 #' sc <- DISCBIO(valuesG1ms)
 #' sc <- NoiseFiltering(sc, export=FALSE)
 #' sc <- Normalizedata(
@@ -13,6 +14,7 @@
 #' sc <- Exprmclust(sc)
 #' sc <- comptsneMB(sc, rseed=15555, quiet = TRUE)
 #' plotMBLabelstSNE(sc)
+#' }
 setGeneric("plotMBLabelstSNE", function(object) standardGeneric("plotMBLabelstSNE"))
 
 #' @rdname plotMBLabelstSNE
