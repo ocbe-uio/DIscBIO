@@ -13,6 +13,7 @@ PlotMBorderPCA(object)
 The PCA representation can also be used to show the pseudo-time ordering.
 }
 \examples{
+\dontrun{
 sc <- DISCBIO(valuesG1ms)
 sc <- NoiseFiltering(sc, export=FALSE)
 sc <- Normalizedata(
@@ -25,4 +26,5 @@ sc <- comptsneMB(sc, rseed=15555)
 sc <- Clustexp(sc, cln=3)
 sc <- MB_Order(sc, export = FALSE)
 PlotMBorderPCA(sc)
+}
 }

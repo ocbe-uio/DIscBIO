@@ -9,7 +9,8 @@
 #' @importFrom AnnotationDbi select
 #' @import org.Hs.eg.db
 #' @export
-#' @examples 
+#' @examples
+#' \dontrun{
 #' sc <- DISCBIO(valuesG1ms)
 #' sc <- NoiseFiltering(sc, export=FALSE)
 #' sc <- Normalizedata(
@@ -23,6 +24,7 @@
 #' sc <- MB_Order(sc, export = FALSE)
 #' cdiff <- MBClustDiffGenes(sc, K=3, fdr=.1)
 #' str(cdiff)
+#' }
 setGeneric("MBClustDiffGenes", function(object,K,fdr=.01,export=TRUE, quiet=FALSE) standardGeneric("MBClustDiffGenes"))
 #' @export
 #' @rdname MBClustDiffGenes

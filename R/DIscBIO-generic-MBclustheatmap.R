@@ -10,6 +10,7 @@
 #' @importFrom cluster clusGap maxSE
 #' @importFrom fpc clusterboot
 #' @examples 
+#' \dontrun{
 #' sc <- DISCBIO(valuesG1ms)
 #' sc <- NoiseFiltering(sc, export=FALSE)
 #' sc <- Normalizedata(
@@ -22,6 +23,7 @@
 #' sc <- Clustexp(sc, cln=3)
 #' sc <- MB_Order(sc, export = FALSE)
 #' MBclustheatmap(sc, hmethod="single")
+#' }
 setGeneric("MBclustheatmap", function(object,hmethod="single", KmeansCBI, plot = TRUE, quiet = FALSE) standardGeneric("MBclustheatmap"))
 
 #' @export
