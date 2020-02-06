@@ -53,8 +53,8 @@ test_that("tSNE is computed", {
 
 test_that("Cluster plots output is as expexted", {
     expect_equal(
-        object = Jaccard(sc, Clustering="K-means", K=3, plot = FALSE),
-        expected = c(.680, .766, .681)
+        object = Jaccard(sc, Clustering="K-means", K=1, plot = FALSE),
+        expected = .68
     )
     expect_equal(
         object = KMclustheatmap(sc, hmethod = "single", plot = FALSE),
@@ -106,12 +106,12 @@ test_that("Outliers are the expected", {
 context("Differential Expression Analysis")
 
 # Binomial differential expression analysis
-cdiff1 <- KMClustDiffGenes(sc, K=3, fdr=.15, export=FALSE, quiet=TRUE)
+cdiff1 <- KMClustDiffGenes(sc, K=1, fdr=.2, export=FALSE, quiet=TRUE)
 
 # differential expression analysis between all clusters
 cdiff2 <- DEGanalysis(
-    sc, Clustering="K-means", K=3, fdr=.15, name="Name", export=FALSE,
-    quiet=TRUE, plot=FALSE
+    sc, Clustering="K-means", K=2, fdr=.2, name="Name", export=FALSE,
+    quiet=TRUE, plot=FALSE, nperms=5, nresamp=2
 )
 
 # differential expression analysis between two particular clusters.
