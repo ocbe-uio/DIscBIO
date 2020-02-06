@@ -28,7 +28,7 @@ LazyData: true
 Imports: methods, TSCAN, boot, httr, mclust, statmod, biomaRt, samr, igraph,
 	RWeka, partykit, grid, philentropy, NetIndices, png, matrixStats, grDevices,
 	readr, RColorBrewer, ggplot2, rpart, fpc, cluster, rpart.plot, amap, dplyr,
-	tsne
+	tsne, AnnotationDbi, org.Hs.eg.db
 Depends:
     R (>= 3.5),
 Suggests: 
@@ -43,6 +43,7 @@ Collate:
     'DIscBIO-generic-Clustexp.R'
     'DIscBIO-generic-DEGanalysis.R'
     'DIscBIO-generic-DEGanalysis2clust.R'
+    'DIscBIO-generic-Exprmclust.R'
     'DIscBIO-generic-FinalPreprocessing.R'
     'DIscBIO-generic-FindOutliersKM.R'
     'DIscBIO-generic-FindOutliersMB.R'
@@ -69,10 +70,11 @@ Collate:
     'DIscBIO-generic-plotsilhouetteMB.R'
     'DIscBIO-generic-plottSNE.R'
     'DIscBIO-generic-plottsneMB.R'
-    'Exprmclust.R'
     'J48DT.R'
     'J48DTeval.R'
     'Jaccard.R'
+    'KMClustDiffGenes.R'
+    'MBClustDiffGenes.R'
     'MB_Order.R'
     'NetAnalysis.R'
     'Networking.R'
