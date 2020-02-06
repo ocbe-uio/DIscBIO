@@ -34,7 +34,7 @@ BiocManager::install(
         "matrixStats", "robustbase", "philentropy", "igraph", "boot",
         "biomaRt", "tidyr", "calibrate", "partykit", "RWeka", "rpart",
         "rpart.plot", "imager", "png", "NetIndices", "httr", "jsonlite",
-        "tidyverse", "samr", "tidyverse", "enrichR"
+        "tidyverse", "samr", "tidyverse",”org.Hs.eg.db”,”AnnotationDbi”, "enrichR"
     )
 )
 ```
