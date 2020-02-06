@@ -1,5 +1,3 @@
-rm(list = ls())#TEMP
-
 # ---------------------------------------------------------------------------- #
 #                              Data pre-processing                             #
 # ---------------------------------------------------------------------------- #
@@ -127,14 +125,13 @@ test_that("DEGs are calculated", {
 })
 
 # Plotting the DEGs
-cdiff <- cdiff3
-name <- cdiff[[2]][1, 6] # From the DE analysis table between all cluster pairs
+name <- cdiff3[[2]][1, 6] # From the DE analysis table between all cluster pairs
 # U <- read.csv(file = paste0(name), head=TRUE, sep=",")
 # Vplot <- VolcanoPlot(U, value=0.05, name=name, adj=FALSE, FS=.4)
 # TODO: get an example for VolcanoPlot which doesn't involve importing files
 
 # Decision tree
-sigDEG <- cdiff[[1]]
+sigDEG <- cdiff3[[1]]
 
 DATAforDT <- ClassVectoringDT(
     sc, Clustering="K-means", K=3, First="CL1", Second="CL2", sigDEG,
@@ -151,20 +148,18 @@ rpartEVAL <- RpartEVAL(
 )
 
 test_that("Decision tree elements are defined", {
-    expect_output(str(DATAforDT), "5 obs. of  79 variables") # used to be 31
+    expect_output(str(DATAforDT), "5 obs. of  79 variables")
     expect_s3_class(j48dt, "J48")
     expect_s3_class(summary(j48dt), "Weka_classifier_evaluation")
     expect_identical(j48dt_eval, c(TP = 18, FN = 11, FP = 6, TN = 44))
-    # expect_identical(j48dt_eval, c(TP = 20, FN = 9, FP = 7, TN = 43))
     expect_s3_class(rpartDT, "rpart")
     expect_identical(rpartEVAL, c(TP = 19, FN = 10, FP = 7, TN = 43))
-    # expect_identical(rpartEVAL, c(TP = 15, FN = 14, FP = 6, TN = 44))
 })
 
 # ----------------------------- Network analysis ----------------------------- #
 
 context("Network analysis")
-DEGs <- cdiff[[2]][1, 6] # From the DE analysis table between all cluster pairs
+DEGs <- cdiff3[[2]][1, 6] # From the DE analysis table between all cluster pairs
 # data<-read.csv(file=paste0(DEGs),head=TRUE,sep=",")
 # data<-data[,3]
 # FileName <- paste0(DEGs)
@@ -183,88 +178,116 @@ context("Model-based clustering")
 
 # Technically, this should be done before Clustexp, but it's ok in practice to 
 # apply it after K-means because it uses different slots.
-sc <- Exprmclust(sc, K = 3,reduce = T, quiet = TRUE) 
+sc <- Exprmclust(sc, K = 3,reduce = T, quiet = TRUE)
 
 test_that("Model-based clustering elements are OK", {
-    # TODO: add test for Exprmclust
+    expect_identical(
+        object = names(sc@MBclusters),
+        expected = c("pcareduceres", "MSTtree", "clusterid", "clucenter")
+    )
 })
-###############################################################################
-############################# ORIGINAL CODE BELOW #############################
-###############################################################################
 
+sc <- comptsneMB(sc, rseed=15555, quiet = TRUE)
 
-# ########## plotting the clusters in PCA
-# PlotmclustMB(sc)  # TODO: check if this works after scope change
-# PCAplotSymbols(sc)
+test_that("tSNE clustering works fine", {
+    expect_equal(dim(sc@MBtsne), c(94, 2))
+})
 
-# # Plotting the model-based clusters in tSNE maps
-# sc<- comptsneMB(sc,rseed=15555)
-# plottsneMB(sc)
-# plotMBLabelstSNE(sc)
+# --------------------------------- Outliers --------------------------------- #
 
-# # Silhouette of Model-based clusters
-# par(mar=c(6,2,4,2))
-# plotsilhouetteMB(sc,K=3)
+context("MB outliers")
 
+sc <- Clustexp(sc, cln=3, quiet=TRUE)
 
-# # Jaccard Similarity
-# Jaccard(sc,Clustering="MB", K=3, plot = TRUE) 
+Outliers <- FindOutliersMB(
+    sc, K=3, outminc=5, outlg=2, probthr=.5*1e-3, thr=2**-(1:40),
+    outdistquant=.75, plot = FALSE, quiet = TRUE
+)
+outlg <- round(length(sc@fdata[, 1]) / 200) # The cell will be considered as an outlier if it has a minimum of 0.5% of the number of filtered genes as outlier genes. 
+Outliers2 <- FindOutliersMB(
+    sc, K=3, outminc=5, outlg=outlg, probthr=.5*1e-3, thr=2**-(1:40),
+    outdistquant=.75, plot = FALSE, quiet = TRUE
+)
 
+test_that("MB clustering and outliers work as expected", {
+    expect_equal(
+        object = Jaccard(sc, Clustering="MB", K=1, plot = FALSE),
+        expected = .66
+    )
+    expect_equivalent(
+        object = Outliers,
+        expected = c(
+            1, 3, 4, 5, 7, 9, 11, 12, 13, 14, 15, 16, 17, 18, 19, 21, 22, 23, 
+            24, 25, 27, 29, 35, 40, 43, 49, 54, 58, 61, 63, 68, 72, 73, 75, 78, 
+            79, 82, 85, 94
+        )
+    )
+    expect_equal(outlg, 28)
+    expect_equal(Outliers2, c("G1" = 1, "G1.12" = 13, "G1.21" = 22))
+})
 
-# #################Defining outliers in Model-based clustering
+sc <- MB_Order(sc, quiet = TRUE, export = FALSE)
+mb_heat <- MBclustheatmap(sc, hmethod="single", plot = FALSE, quiet = TRUE)
 
-# Outliers<- FindOutliersMB(sc, K=3, outminc=5,outlg=2,probthr=.5*1e-3,thr=2**-(1:40),outdistquant=.75, plot = TRUE, quiet = FALSE)
+test_that("More MB things are OK", {
+    expect_equal(
+        object = sc@MBordering,
+        expected = c(
+            39, 29, 56, 35, 25, 52, 54, 23, 37, 26, 48, 46, 40, 38, 49, 33, 18, 
+            44, 47, 70, 32, 36, 57, 42, 53, 6, 27, 71, 41, 34, 88, 64, 94, 86, 
+            76, 72, 51, 59, 68, 60, 84, 78, 89, 79, 61, 63, 81, 58, 92, 80, 93, 
+            85, 83, 62, 69, 77, 67, 75, 90, 82, 65, 73, 19, 17, 50, 91, 7, 11, 
+            15, 12, 28, 66, 20, 87, 21, 4, 3, 45, 43, 2, 8, 5, 1, 55, 9, 10, 24,
+            14, 74, 16, 13, 22, 30, 31
+        )
+    )
+    expect_equal(mb_heat, c(2, 1, 3))
+})
 
-# ########## In case the user would like to adjust the outlg
-# outlg<-round(length(sc@fdata[,1])/200)     # The cell will be considered as an outlier if it has a minimum of 0.5% of the number of filtered genes as outlier genes. 
-# Outliers<- FindOutliersMB(sc, K=3, outminc=5,outlg=outlg,probthr=.5*1e-3,thr=2**-(1:40),outdistquant=.75, plot = TRUE, quiet = FALSE)
+# ----------------------------------- DEGs ----------------------------------- #
 
+context("MB DEGs")
 
-# ###############Cellular pseudo-time ordering based on Model-based clusters
-# sc<-MB_Order(sc,quiet = FALSE, export = TRUE)
-# PlotMBorderPCA(sc)
+# Binomial DE analysis
+cdiff1 <- MBClustDiffGenes(sc, K=1, fdr=.2, export=FALSE, quiet=TRUE)
 
-# ##### Plotting the expression of a particular gene in tSNE map
-# sc<-comptsneMB(sc)
-# g='ENSG00000001460'
-# plotexptsneMB(sc,g)
+# DE analysis between all clusters
+cdiff2 <- DEGanalysis(
+    sc, Clustering="MB", K=2, fdr=.2, name="Name", export=FALSE, quiet=TRUE,
+    plot = FALSE
+)
 
-# ######## Plotting the Model-based clusters in heatmap
-# MBclustheatmap(sc,hmethod="single", plot = TRUE) # TODO: check if scope changes didn't break this 
+# differential expression analysis between particular clusters.
+cdiff3 <- DEGanalysis2clust(
+    sc, Clustering="MB", K=2, fdr=.15, name="Name", First="CL1", Second="CL2",
+    export = FALSE, plot = FALSE, quiet = TRUE
+)
 
-# ###################
-# cdiff<-MBClustDiffGenes(sc,K=3,fdr=.01)    ##########3 Binomial differential expression analysis
+test_that("DEGs are calculated", {
+    expect_identical(sapply(cdiff1, class), c("matrix", "data.frame"))
+    expect_identical(sapply(cdiff2, class), c("matrix", "data.frame"))
+    expect_identical(sapply(cdiff3, class), c("matrix", "data.frame"))
+})
 
-# cdiff<-DEGanalysis(sc,Clustering="MB",K=3,fdr=0.1,name="Name",export = TRUE)   ####### differential expression analysis between all clusters
-# cdiff<-DEGanalysis2clust(sc,Clustering="MB",K=3,fdr=0.1,name="Name",First="CL1",Second="CL2",export = TRUE)     ####### differential expression analysis between particular clusters.
+# Decision tree   
+sigDEG <- cdiff3[[1]]
+DATAforDT <- ClassVectoringDT(
+    sc, Clustering="MB", K=3, First="CL1", Second="CL2", sigDEG, quiet = TRUE
+)
+j48dt <- J48DT(DATAforDT, quiet = TRUE, plot = FALSE)
+j48dt_eval <- J48DTeval(
+    DATAforDT, num.folds=10, First="CL1", Second="CL2", quiet = TRUE
+)
+rpartDT <- RpartDT(DATAforDT, quiet = TRUE, plot = FALSE)
+rpartEVAL <- RpartEVAL(
+    DATAforDT, num.folds=10, First="CL1", Second="CL2", quiet = TRUE
+)
 
-# ############ Plotting the DEGs
-# name<-cdiff[[2]][1,6]     # From the table of the differential expression analysis between all pairs of clusters
-# U<-read.csv(file=paste0(name),head=TRUE,sep=",")
-# Vplot<-VolcanoPlot(U,value=0.05,name=name,adj=FALSE,FS=.4)
-
-
-# ### Decision tree
-# sigDEG<-cdiff[[1]]     
-# DATAforDT<-ClassVectoringDT(sc,Clustering="MB",K=3,First="CL1",Second="CL2",sigDEG)
-# j48dt<-J48DT(DATAforDT)
-# summary(j48dt) 
-# j48dt<-J48DTeval(DATAforDT,num.folds=10,First="CL1",Second="CL2")
-# rpartDT<-RpartDT(DATAforDT)
-# rpartEVAL<-RpartEVAL(DATAforDT,num.folds=10,First="CL1",Second="CL2")
-
-# ########## Networking analysis
-# DEGs<-cdiff[[2]][1,6]     # From the table of the differential expression analysis between all pairs of clusters
-# data<-read.csv(file=paste0(DEGs),head=TRUE,sep=",")
-# data<-data[,3]
-
-# FileName=paste0(DEGs)
-
-# ppi<-PPI(data,FileName)
-# ppi
-
-# networking<-NetAnalysis(ppi)
-# networking                
-
-# FileName="Up.DownDEG" 
-# network<-Networking(data,FileName)
+test_that("Decision tree elements are defined", {
+    expect_output(str(DATAforDT), "340 obs. of  65 variables") # used to be 31
+    expect_s3_class(j48dt, "J48")
+    expect_s3_class(summary(j48dt), "Weka_classifier_evaluation")
+    expect_identical(j48dt_eval, c(TP = 40, FN = 8, FP = 10, TN = 7))
+    expect_s3_class(rpartDT, "rpart")
+    expect_identical(rpartEVAL, c(TP = 38, FN = 10, FP = 14, TN = 3))
+})
