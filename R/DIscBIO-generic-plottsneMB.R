@@ -3,6 +3,17 @@
 #' @param object \code{DISCBIO} class object.
 #' @param K A numeric value of the number of clusters
 #' @importFrom graphics text
+#' @examples
+#' sc <- DISCBIO(valuesG1ms)
+#' sc <- NoiseFiltering(sc, export=FALSE)
+#' sc <- Normalizedata(
+#'     sc, mintotal=1000, minexpr=0, minnumber=0, maxexpr=Inf, downsample=FALSE,
+#'     dsn=1, rseed=17000
+#' )
+#' sc <- FinalPreprocessing(sc, GeneFlitering="NoiseF", export=FALSE)
+#' sc <- Exprmclust(sc, K = 3,reduce = T)
+#' sc <- comptsneMB(sc, rseed=15555, quiet = TRUE)
+#' plottsneMB(sc)
 setGeneric(
 	name = "plottsneMB",
 	def = function(object, K = length(table(sc@MBclusters$clusterid))) {

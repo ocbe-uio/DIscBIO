@@ -5,6 +5,20 @@
 #' @param g  Individual gene name or vector with a group of gene names corresponding to a subset of valid row names of the \code{ndata} slot
 #' of the \code{DISCBIO} object.
 #' @param n String of characters representing the title of the plot. Default is NULL and the first element of \code{g} is chosen.
+#' @examples 
+#' sc <- DISCBIO(valuesG1ms)
+#' sc <- NoiseFiltering(sc, export=FALSE)
+#' sc <- Normalizedata(
+#'     sc, mintotal=1000, minexpr=0, minnumber=0, maxexpr=Inf, downsample=FALSE,
+#'     dsn=1, rseed=17000
+#' )
+#' sc <- FinalPreprocessing(sc, GeneFlitering="NoiseF", export=FALSE)
+#' sc <- Exprmclust(sc, K = 3,reduce = T)
+#' sc <- comptsneMB(sc, rseed=15555)
+#' sc <- Clustexp(sc, cln=3)
+#' sc <- MB_Order(sc, export = FALSE)
+#' g <- 'ENSG00000001460'
+#' plotexptsneMB(sc, g)
 setGeneric("plotexptsneMB", function(object,g,n=NULL) standardGeneric("plotexptsneMB"))
 
 #' @export
