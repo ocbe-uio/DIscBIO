@@ -5,6 +5,7 @@
 #' @importFrom grDevices colorRampPalette
 #' @importFrom graphics layout par image
 #' @export
+#' @examples 
 #' sc <- DISCBIO(valuesG1ms)
 #' sc <- NoiseFiltering(sc, export=FALSE)
 #' sc <- Normalizedata(

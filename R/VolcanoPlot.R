@@ -11,6 +11,22 @@
 #' @importFrom utils write.csv
 #' @importFrom calibrate textxy
 #' @export
+#' @examples 
+#' \dontrun{
+#' sc <- DISCBIO(valuesG1ms)
+#' sc <- NoiseFiltering(sc)
+#' sc <- Normalizedata(
+#'     sc, mintotal=1000, minexpr=0, minnumber=0, maxexpr=Inf, downsample=FALSE,
+#'     dsn=1, rseed=17000
+#' )
+#' sc <- FinalPreprocessing(sc, GeneFlitering="NoiseF")
+#' sc <- Clustexp(sc, cln=3) # K-means clustering
+#' sc <- comptSNE(sc, rseed=15555)
+#' dff <- DEGanalysis2clust(sc, Clustering="K-means", K=3, fdr=0.1, name="Name")
+#' name <- dff[[2]][1, 6]
+#' U <- read.csv(file = paste0(name), head=TRUE, sep=",")
+#  VolcanoPlot(U, value=0.05, name=name, adj=FALSE, FS=.4)
+#' }
 VolcanoPlot<-function(object,value=0.05,name,fc=0.5,FS=.4){
     if (length(object[1,])>8) {object<-object[,-1]}
     NO0<- object[,8]
