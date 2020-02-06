@@ -15,10 +15,10 @@
 #' @importFrom amap K
 #' @examples
 #' sc <- DISCBIO(valuesG1ms)
-#' sc <- Clustexp(sc, cln=3, quiet=TRUE) # K-means clustering
+#' sc <- Clustexp(sc, cln=3) # K-means clustering
 #' Outliers <- FindOutliersKM(
 #'     sc, K=3, outminc=5, outlg=2, probthr=.5*1e-3, thr=2**-(1:40),
-#'     outdistquant=.75, plot = FALSE, quiet = TRUE
+#'     outdistquant=.75, plot = FALSE
 #' )
 #' 
 setGeneric("FindOutliersKM", function(object, K, outminc=5,outlg=2,probthr=1e-3,thr=2**-(1:40),outdistquant=.75, plot = TRUE, quiet = FALSE) standardGeneric("FindOutliersKM"))

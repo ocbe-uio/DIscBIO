@@ -19,3 +19,15 @@ comptsneMB(object, rseed = 15555, quiet = FALSE)
 \description{
 This function is used to compute the t-Distributed Stochastic Neighbor Embedding (t-SNE).
 }
+\examples{
+sc <- DISCBIO(valuesG1ms)
+sc <- NoiseFiltering(sc, export=FALSE)
+sc <- Normalizedata(
+    sc, mintotal=1000, minexpr=0, minnumber=0, maxexpr=Inf, downsample=FALSE,
+    dsn=1, rseed=17000
+)
+sc <- FinalPreprocessing(sc, GeneFlitering="NoiseF", export=FALSE)
+sc <- Exprmclust(sc, K = 3,reduce = T)
+sc <- comptsneMB(sc, rseed=15555, quiet = TRUE)
+print(sc@MBtsne)
+}

@@ -13,6 +13,21 @@
 #' @param quiet if `TRUE`, intermediary output is suppressed
 #' @importFrom stats coef pnbinom
 #' @importFrom amap K
+#' @examples
+#' sc <- DISCBIO(valuesG1ms)
+#' sc <- NoiseFiltering(sc, export=FALSE)
+#' sc <- Normalizedata(
+#'     sc, mintotal=1000, minexpr=0, minnumber=0, maxexpr=Inf, downsample=FALSE,
+#'     dsn=1, rseed=17000
+#' )
+#' sc <- FinalPreprocessing(sc, GeneFlitering="NoiseF", export=FALSE)
+#' sc <- Exprmclust(sc, K = 3,reduce = T)
+#' sc <- comptsneMB(sc, rseed=15555)
+#' sc <- Clustexp(sc, cln=3)
+#' FindOutliersMB(
+#'     sc, K=3, outminc=5, outlg=2, probthr=.5*1e-3, thr=2**-(1:40),
+#'     outdistquant=.75, plot = FALSE, quiet = TRUE
+#' )
 setGeneric(
   name = "FindOutliersMB",
   def = function(object, K, outminc = 5, outlg = 2, probthr = 1e-3, thr = 2**-(1:40),
@@ -32,8 +47,14 @@ setMethod(f="FindOutliersMB",
             if ( ! is.numeric(probthr) ) stop("probthr has to be a number between 0 and 1") else if (  probthr < 0 | probthr > 1 ) stop("probthr has to be a number between 0 and 1")
             if ( ! is.numeric(thr) ) stop("thr hast to be a vector of numbers between 0 and 1") else if ( min(thr) < 0 | max(thr) > 1 ) stop("thr hast to be a vector of numbers between 0 and 1")
             if ( ! is.numeric(outdistquant) ) stop("outdistquant has to be a number between 0 and 1") else if (  outdistquant < 0 | outdistquant > 1 ) stop("outdistquant has to be a number between 0 and 1")
-            object<- Clustexp(object, clustnr=20,bootnr=50,metric="pearson",do.gap=T,SE.method="Tibs2001SEmax",SE.factor=.25,B.gap=50,cln=K,rseed=17000)
-			object@outlierpar <- list( outminc=outminc,outlg=outlg,probthr=probthr,thr=thr,outdistquant=outdistquant )
+            
+    object <- Clustexp(
+      object, clustnr=20, bootnr=50, metric="pearson", do.gap=T,
+      SE.method="Tibs2001SEmax", SE.factor=.25, B.gap=50, cln=K, rseed=17000,
+      quiet=quiet
+    )
+          
+    object@outlierpar <- list( outminc=outminc,outlg=outlg,probthr=probthr,thr=thr,outdistquant=outdistquant )
             
     ### calibrate background model
     m <- log2(apply(object@fdata,1,mean))

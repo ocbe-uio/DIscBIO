@@ -9,6 +9,19 @@
 #' @importFrom stats hclust as.dist cor kmeans
 #' @importFrom cluster clusGap maxSE
 #' @importFrom fpc clusterboot
+#' @examples 
+#' sc <- DISCBIO(valuesG1ms)
+#' sc <- NoiseFiltering(sc, export=FALSE)
+#' sc <- Normalizedata(
+#'     sc, mintotal=1000, minexpr=0, minnumber=0, maxexpr=Inf, downsample=FALSE,
+#'     dsn=1, rseed=17000
+#' )
+#' sc <- FinalPreprocessing(sc, GeneFlitering="NoiseF", export=FALSE)
+#' sc <- Exprmclust(sc, K = 3,reduce = T)
+#' sc <- comptsneMB(sc, rseed=15555)
+#' sc <- Clustexp(sc, cln=3)
+#' sc <- MB_Order(sc, export = FALSE)
+#' MBclustheatmap(sc, hmethod="single")
 setGeneric("MBclustheatmap", function(object,hmethod="single", KmeansCBI, plot = TRUE, quiet = FALSE) standardGeneric("MBclustheatmap"))
 
 #' @export
@@ -27,7 +40,10 @@ setMethod("MBclustheatmap",
 				gpr <- NULL
 				if ( do.gap ){
 					set.seed(rseed)
-					gpr <- clusGap(as.matrix(di), FUNcluster = kmeans, K.max = clustnr, B = B.gap) 
+					gpr <- clusGap(
+            as.matrix(di), FUNcluster = kmeans, K.max = clustnr, B = B.gap,
+            verbose = !quiet
+          ) 
 					if ( cln == 0 ) cln <- maxSE(gpr$Tab[,3],gpr$Tab[,4],method=SE.method,SE.factor)
 				}    
 				if ( cln <= 1 ) {
@@ -35,7 +51,11 @@ setMethod("MBclustheatmap",
 					names(clb$result$partition) <- names(x)
 					return(list(x=x,clb=clb,gpr=gpr,di=di))
 				}
-				clb <- clusterboot(di,B=bootnr,distances=FALSE,bootmethod="boot",clustermethod=KmeansCBI,krange=cln,scaling=FALSE,multipleboot=FALSE,bscompare=TRUE,seed=rseed)
+				clb <- clusterboot(
+          di, B=bootnr, distances=FALSE, bootmethod="boot",
+          clustermethod=KmeansCBI, krange=cln, scaling=FALSE, 
+          multipleboot=FALSE, bscompare=TRUE, seed=rseed, count = !quiet
+        )
 				return(list(x=x,clb=clb,gpr=gpr,di=di))
 			}
 		}

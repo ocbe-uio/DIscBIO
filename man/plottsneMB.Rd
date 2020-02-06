@@ -5,9 +5,9 @@
 \alias{plottsneMB,DISCBIO-method}
 \title{tSNE map for Model-based clustering}
 \usage{
-plottsneMB(object, K)
+plottsneMB(object, K = length(table(sc@MBclusters$clusterid)))
 
-\S4method{plottsneMB}{DISCBIO}(object, K)
+\S4method{plottsneMB}{DISCBIO}(object, K = length(table(sc@MBclusters$clusterid)))
 }
 \arguments{
 \item{object}{\code{DISCBIO} class object.}
