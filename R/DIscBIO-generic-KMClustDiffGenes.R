@@ -5,7 +5,7 @@
 #' @param fdr A numeric value of the false discovery rate. Default is 0.01.
 #' @param export A logical vector that allows writing the final gene list in excel file. Default is TRUE.
 #' @param quiet if `TRUE`, suppresses intermediate text output
-#' @importFrom dplyr select
+#' @importFrom dplyr summarize
 #' @importFrom stats pbinom median
 #' @rdname KMClustDiffGenes
 #' @export
@@ -90,7 +90,7 @@ setMethod("KMClustDiffGenes",
                 DEGsE<-c(DEGsE,as.character(rownames(Final)))
                 
                 Up<-subset(Final,Final[,7]=="Up")
-                Up<-select(Up, "Regulation","genes","pv","mean.all", "mean.cl","fc","p.adj")
+                Up<- dplyr::select(Up, "Regulation","genes","pv","mean.all", "mean.cl","fc","p.adj")
                 Up[,3]<-rownames(Up)
                 Up[,6]<-log2(Up[,6])
                 Up[,1]<-Up[,2]
@@ -100,7 +100,7 @@ setMethod("KMClustDiffGenes",
                 }
 
                 Down<-subset(Final,Final[,7]=="Down")
-                Down<-select(Down, "Regulation","genes","pv","mean.all", "mean.cl","fc","p.adj")
+                Down<-dplyr::select(Down, "Regulation","genes","pv","mean.all", "mean.cl","fc","p.adj")
                 Down[,3]<-rownames(Down)
                 Down[,6]<-log2(Down[,6])
                 Down[,1]<- Down[,2]

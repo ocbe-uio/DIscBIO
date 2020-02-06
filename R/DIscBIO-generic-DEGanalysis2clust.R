@@ -13,8 +13,7 @@
 #' @importFrom samr samr samr.compute.delta.table samr.plot samr.compute.siggenes.table
 #' @importFrom graphics title
 #' @importFrom utils write.csv capture.output
-#' @importFrom AnnotationDbi select
-#' @import org.Hs.eg.db
+#' @importFrom AnnotationDbi keys
 #' @examples
 #' \dontrun{
 #' sc <- DISCBIO(valuesG1ms)

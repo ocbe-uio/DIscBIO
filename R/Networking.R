@@ -38,4 +38,3 @@ Networking<-function(data,FileName,species="9606"){
         set_plot_dimensions(8,8)
 	}
 }
-network<-Networking(data,FileName)

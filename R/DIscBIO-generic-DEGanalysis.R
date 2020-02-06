@@ -11,8 +11,7 @@
 #' @importFrom samr samr samr.compute.delta.table samr.plot samr.compute.siggenes.table
 #' @importFrom graphics title
 #' @importFrom utils write.csv capture.output
-#' @importFrom AnnotationDbi select
-#' @import org.Hs.eg.db
+#' @param ... additional parameters to be passed to samr()
 #' @examples
 #' \dontrun{
 #' sc <- DISCBIO(valuesG1ms)
@@ -32,7 +31,7 @@
 setGeneric(
 	name = "DEGanalysis",
 	def = function(object, Clustering="K-means", K, fdr=0.05, name="Name",
-		export=TRUE, quiet=FALSE, plot=TRUE) standardGeneric("DEGanalysis")
+		export=TRUE, quiet=FALSE, plot=TRUE, ...) standardGeneric("DEGanalysis")
 	)
 
 #' @export
@@ -41,7 +40,7 @@ setMethod(
 	f = "DEGanalysis",
 	signature = "DISCBIO",
 	definition = function(object, Clustering="K-means", K, fdr=0.05,
-		name="Name", export=TRUE, quiet=FALSE, plot=TRUE) {
+		name="Name", export=TRUE, quiet=FALSE, plot=TRUE, ...) {
 		# Validation
 		if (!(Clustering %in% c("K-means", "MB"))) {
 				stop("Clustering has to be either K-means or MB")
@@ -174,14 +173,14 @@ setMethod(
 				invisible(capture.output(
 					samr.obj <- samr(
 						data, resp.type="Two class unpaired", assay.type="seq",
-						nperms=100, nresamp=20, testStatistic="wilcoxon", 
-						random.seed=15
+						testStatistic="wilcoxon", 
+						random.seed=15, ...
 					)
 				))
 			} else {
 				samr.obj <- samr(
 					data, resp.type="Two class unpaired", assay.type="seq",
-					nperms=100, nresamp=20, testStatistic="wilcoxon", random.seed=15
+					testStatistic="wilcoxon", random.seed=15, ...
 				)
 			}
 			if (quiet) {
