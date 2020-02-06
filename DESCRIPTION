@@ -1,7 +1,7 @@
 Package: DIscBIO
 Date: 2020-01-29
 Title: DIscBIO: a user-friendly pipeline for biomarker discovery in single-cell transcriptomics
-Version: 0.0.0.9000
+Version: 0.0.0.9001
 Authors@R: 
     c(
         person(given = "Salim",
