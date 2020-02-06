@@ -53,8 +53,8 @@ test_that("tSNE is computed", {
 
 test_that("Cluster plots output is as expexted", {
     expect_equal(
-        object = Jaccard(sc, Clustering="K-means", K=3, plot = FALSE),
-        expected = c(.680, .766, .681)
+        object = Jaccard(sc, Clustering="K-means", K=1, plot = FALSE),
+        expected = .68
     )
     expect_equal(
         object = KMclustheatmap(sc, hmethod = "single", plot = FALSE),
@@ -106,12 +106,12 @@ test_that("Outliers are the expected", {
 context("Differential Expression Analysis")
 
 # Binomial differential expression analysis
-cdiff1 <- KMClustDiffGenes(sc, K=3, fdr=.15, export=FALSE, quiet=TRUE)
+cdiff1 <- KMClustDiffGenes(sc, K=1, fdr=.2, export=FALSE, quiet=TRUE)
 
 # differential expression analysis between all clusters
 cdiff2 <- DEGanalysis(
-    sc, Clustering="K-means", K=3, fdr=.15, name="Name", export=FALSE,
-    quiet=TRUE, plot=FALSE
+    sc, Clustering="K-means", K=2, fdr=.2, name="Name", export=FALSE,
+    quiet=TRUE, plot=FALSE, nperms=5, nresamp=2
 )
 
 # differential expression analysis between two particular clusters.
@@ -151,12 +151,14 @@ rpartEVAL <- RpartEVAL(
 )
 
 test_that("Decision tree elements are defined", {
-    expect_output(str(DATAforDT), "31 obs. of  79 variables")
+    expect_output(str(DATAforDT), "5 obs. of  79 variables") # used to be 31
     expect_s3_class(j48dt, "J48")
     expect_s3_class(summary(j48dt), "Weka_classifier_evaluation")
-    expect_identical(j48dt_eval, c(TP = 20, FN = 9, FP = 7, TN = 43))
+    expect_identical(j48dt_eval, c(TP = 18, FN = 11, FP = 6, TN = 44))
+    # expect_identical(j48dt_eval, c(TP = 20, FN = 9, FP = 7, TN = 43))
     expect_s3_class(rpartDT, "rpart")
-    expect_identical(rpartEVAL, c(TP = 15, FN = 14, FP = 6, TN = 44))
+    expect_identical(rpartEVAL, c(TP = 19, FN = 10, FP = 7, TN = 43))
+    # expect_identical(rpartEVAL, c(TP = 15, FN = 14, FP = 6, TN = 44))
 })
 
 # ----------------------------- Network analysis ----------------------------- #
@@ -178,7 +180,10 @@ DEGs <- cdiff[[2]][1, 6] # From the DE analysis table between all cluster pairs
 # ---------------------------------------------------------------------------- #
 
 context("Model-based clustering")
-sc <- Exprmclust(sc, K = 3,reduce = T, quiet = TRUE) # ASK: shouldn't this be done before Clustexp?
+
+# Technically, this should be done before Clustexp, but it's ok in practice to 
+# apply it after K-means because it uses different slots.
+sc <- Exprmclust(sc, K = 3,reduce = T, quiet = TRUE) 
 
 test_that("Model-based clustering elements are OK", {
     # TODO: add test for Exprmclust
