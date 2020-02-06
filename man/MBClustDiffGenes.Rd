@@ -31,6 +31,7 @@ ClustDiffGenes
 ClustDiffGenes
 }
 \examples{
+\dontrun{
 sc <- DISCBIO(valuesG1ms)
 sc <- NoiseFiltering(sc, export=FALSE)
 sc <- Normalizedata(
@@ -44,4 +45,5 @@ sc <- Clustexp(sc, cln=3)
 sc <- MB_Order(sc, export = FALSE)
 cdiff <- MBClustDiffGenes(sc, K=3, fdr=.1)
 str(cdiff)
+}
 }

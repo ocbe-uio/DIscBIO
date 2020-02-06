@@ -5,7 +5,8 @@
 #' @importFrom grDevices colorRampPalette
 #' @importFrom graphics layout par image
 #' @export
-#' @examples 
+#' @examples
+#' \dontrun{
 #' sc <- DISCBIO(valuesG1ms)
 #' sc <- NoiseFiltering(sc, export=FALSE)
 #' sc <- Normalizedata(
@@ -18,6 +19,7 @@
 #' sc <- Clustexp(sc, cln=3)
 #' sc <- MB_Order(sc, export = FALSE)
 #' PlotMBorderPCA(sc)
+#' }
 
 PlotMBorderPCA<- function(object) {
 	data=object@MBclusters
