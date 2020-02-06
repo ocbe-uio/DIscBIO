@@ -5,9 +5,9 @@
 \alias{plottsneMB,DISCBIO-method}
 \title{tSNE map for Model-based clustering}
 \usage{
-plottsneMB(object, K = length(table(sc@MBclusters$clusterid)))
+plottsneMB(object, K = length(table(object@MBclusters$clusterid)))
 
-\S4method{plottsneMB}{DISCBIO}(object, K = length(table(sc@MBclusters$clusterid)))
+\S4method{plottsneMB}{DISCBIO}(object, K = length(table(object@MBclusters$clusterid)))
 }
 \arguments{
 \item{object}{\code{DISCBIO} class object.}
@@ -25,7 +25,7 @@ sc <- Normalizedata(
     dsn=1, rseed=17000
 )
 sc <- FinalPreprocessing(sc, GeneFlitering="NoiseF", export=FALSE)
-sc <- Exprmclust(sc, K = 3,reduce = T)
+sc <- Exprmclust(sc)
 sc <- comptsneMB(sc, rseed=15555, quiet = TRUE)
 plottsneMB(sc)
 }

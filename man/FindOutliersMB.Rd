@@ -54,6 +54,7 @@ the distance distribution of  pairs of cells in the orginal clusters after outli
 This functions performs the outlier identification
 }
 \examples{
+\dontrun{
 sc <- DISCBIO(valuesG1ms)
 sc <- NoiseFiltering(sc, export=FALSE)
 sc <- Normalizedata(
@@ -61,11 +62,12 @@ sc <- Normalizedata(
     dsn=1, rseed=17000
 )
 sc <- FinalPreprocessing(sc, GeneFlitering="NoiseF", export=FALSE)
-sc <- Exprmclust(sc, K = 3,reduce = T)
+sc <- Exprmclust(sc)
 sc <- comptsneMB(sc, rseed=15555)
 sc <- Clustexp(sc, cln=3)
 FindOutliersMB(
     sc, K=3, outminc=5, outlg=2, probthr=.5*1e-3, thr=2**-(1:40),
     outdistquant=.75, plot = FALSE, quiet = TRUE
 )
+}
 }

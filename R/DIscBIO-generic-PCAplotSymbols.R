@@ -12,7 +12,7 @@
 #'     dsn=1, rseed=17000
 #' )
 #' sc <- FinalPreprocessing(sc, GeneFlitering="NoiseF", export=FALSE)
-#' sc <- Exprmclust(sc, K = 3,reduce = T)
+#' sc <- Exprmclust(sc)
 #' PCAplotSymbols(sc)
 setGeneric("PCAplotSymbols", function(object,types=NULL) standardGeneric("PCAplotSymbols"))
 

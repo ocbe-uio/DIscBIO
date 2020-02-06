@@ -1,7 +1,7 @@
 Package: DIscBIO
-Date: 2020-01-29
+Date: 2020-02-06
 Title: DIscBIO: a user-friendly pipeline for biomarker discovery in single-cell transcriptomics
-Version: 0.0.0.9001
+Version: 0.0.0.9002
 Authors@R: 
     c(
         person(given = "Salim",
@@ -17,11 +17,12 @@ Authors@R:
                role = c("cre"),
                email = "w.l.netto@medisin.uio.no")
     )
-Description: An open, multi-algorithmic pipeline for easy, fast and efficient analysis 
-    of cellular sub-populations and the molecular signatures that characterize them.
-    The pipeline consists of four successive steps: data pre-processing,
-    cellular clustering with pseudo-temporal ordering, defining differential expressed genes
-    and biomarker identification <https://doi.org/10.1101/700989>.
+Description: An open, multi-algorithmic pipeline for easy, fast and efficient
+    analysis of cellular sub-populations and the molecular signatures that 
+    characterize them. The pipeline consists of four successive steps: data 
+    pre-processing, cellular clustering with pseudo-temporal ordering, defining 
+    differential expressed genes and biomarker identification
+    <https://doi.org/10.1101/700989>.
 License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true

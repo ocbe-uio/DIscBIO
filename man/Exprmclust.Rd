@@ -58,6 +58,6 @@ sc <- Normalizedata(
     dsn=1, rseed=17000
 )
 sc <- FinalPreprocessing(sc, GeneFlitering="NoiseF", export=FALSE)
-sc <- Exprmclust(sc, K = 3,reduce = T)
+sc <- Exprmclust(sc)
 print(sc@MBclusters)
 }
