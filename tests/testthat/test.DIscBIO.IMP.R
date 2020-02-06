@@ -158,7 +158,7 @@ context("Model-based clustering")
 
 # Technically, this should be done before Clustexp, but it's ok in practice to 
 # apply it after K-means because it uses different slots.
-sc <- Exprmclust(sc, K = 3,reduce = T, quiet = TRUE)
+sc <- Exprmclust(sc, quiet = TRUE)
 
 test_that("Model-based clustering elements are OK", {
     expect_identical(
