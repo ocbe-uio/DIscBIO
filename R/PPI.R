@@ -6,6 +6,24 @@
 #' @param species The taxonomy name/id. Default is "9606" for Homo sapiens.
 #' @importFrom httr content
 #' @importFrom readr read_tsv
+#' @examples 
+#' \dontrun{
+#' sc <- DISCBIO(valuesG1ms)
+#' sc <- NoiseFiltering(sc)
+#' sc <- Normalizedata(
+#'     sc, mintotal=1000, minexpr=0, minnumber=0, maxexpr=Inf, downsample=FALSE,
+#'     dsn=1, rseed=17000
+#' )
+#' sc <- FinalPreprocessing(sc, GeneFlitering="NoiseF")
+#' sc <- Clustexp(sc, cln=3) # K-means clustering
+#' sc <- comptSNE(sc, rseed=15555)
+#' dff <- DEGanalysis2clust(sc, Clustering="K-means", K=3, fdr=0.1, name="Name")
+#' DEGs <- dff[[2]][1, 6]
+#' data <- read.csv(file=paste0(DEGs),head=TRUE,sep=",")
+#' data <- data[,3]
+#' FileName <- paste0(DEGs)
+#' PPI(data, FileName)
+#' }
 PPI<-function(data,FileName,species="9606"){
 	# Save base enpoint as variable
 	string_api_url <- "https://string-db.org/api/"

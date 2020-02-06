@@ -16,3 +16,17 @@ MB_Order(object, quiet = FALSE, export = TRUE)
 \description{
 This function takes the exact output of exprmclust function and construct Pseudo-time ordering by mapping all cells onto the path that connects cluster centers.
 }
+\examples{
+sc <- DISCBIO(valuesG1ms)
+sc <- NoiseFiltering(sc, export=FALSE)
+sc <- Normalizedata(
+    sc, mintotal=1000, minexpr=0, minnumber=0, maxexpr=Inf, downsample=FALSE,
+    dsn=1, rseed=17000
+)
+sc <- FinalPreprocessing(sc, GeneFlitering="NoiseF", export=FALSE)
+sc <- Exprmclust(sc, K = 3,reduce = T)
+sc <- comptsneMB(sc, rseed=15555)
+sc <- Clustexp(sc, cln=3)
+sc <- MB_Order(sc, export = FALSE)
+sc@MBordering
+}
