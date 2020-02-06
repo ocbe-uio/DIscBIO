@@ -4,7 +4,7 @@
 \alias{Networking}
 \title{Plotting the network.}
 \usage{
-Networking(data, FileName, species = "9606")
+Networking(data, FileName, species = "9606", plot_width = 25, plot_height = 15)
 }
 \arguments{
 \item{data}{A gene list.}
@@ -12,6 +12,10 @@ Networking(data, FileName, species = "9606")
 \item{FileName}{A string vector showing the name to be used to save the resulted network.}
 
 \item{species}{The taxonomy name/id. Default is "9606" for Homo sapiens.}
+
+\item{plot_width}{Plot width}
+
+\item{plot_height}{Plot height}
 }
 \description{
 This function uses STRING-api to plot the network.
