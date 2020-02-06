@@ -37,5 +37,8 @@ NetAnalysis<-function(data, export=TRUE, FileName="1"){
     cat("The connectance of the graph: ",test.graph.properties$C,"\n")
     cat("Mean Distences",mean_distance(gg),"\n")
     cat("Average Path Length",average.path.length(gg),"\n","\n")
+	AnalysisTable<-AnalysisTable[order(AnalysisTable[,2],decreasing=T),]
     return(AnalysisTable)    
 }
+
+
