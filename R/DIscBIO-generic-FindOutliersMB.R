@@ -47,8 +47,14 @@ setMethod(f="FindOutliersMB",
             if ( ! is.numeric(probthr) ) stop("probthr has to be a number between 0 and 1") else if (  probthr < 0 | probthr > 1 ) stop("probthr has to be a number between 0 and 1")
             if ( ! is.numeric(thr) ) stop("thr hast to be a vector of numbers between 0 and 1") else if ( min(thr) < 0 | max(thr) > 1 ) stop("thr hast to be a vector of numbers between 0 and 1")
             if ( ! is.numeric(outdistquant) ) stop("outdistquant has to be a number between 0 and 1") else if (  outdistquant < 0 | outdistquant > 1 ) stop("outdistquant has to be a number between 0 and 1")
-            object<- Clustexp(object, clustnr=20,bootnr=50,metric="pearson",do.gap=T,SE.method="Tibs2001SEmax",SE.factor=.25,B.gap=50,cln=K,rseed=17000)
-			object@outlierpar <- list( outminc=outminc,outlg=outlg,probthr=probthr,thr=thr,outdistquant=outdistquant )
+            
+    object <- Clustexp(
+      object, clustnr=20, bootnr=50, metric="pearson", do.gap=T,
+      SE.method="Tibs2001SEmax", SE.factor=.25, B.gap=50, cln=K, rseed=17000,
+      quiet=quiet
+    )
+          
+    object@outlierpar <- list( outminc=outminc,outlg=outlg,probthr=probthr,thr=thr,outdistquant=outdistquant )
             
     ### calibrate background model
     m <- log2(apply(object@fdata,1,mean))
