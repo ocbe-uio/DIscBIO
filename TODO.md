@@ -2,7 +2,7 @@
 
 Before reaching the first stable release of DIscBIO, the following tasks must be addressed:
 
-- [ ] Create unit test script based on notebook pipeline
+- [x] Create unit test script based on notebook pipeline
 - [x] Resolve variable scope errors
 - [x] Resolve variable scope warnings
 - [x] Complete function documentation
