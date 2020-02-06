@@ -10,6 +10,7 @@
 #' @param export A logical vector that allows writing the final gene list in excel file. Default is TRUE. 
 #' @param quiet if `TRUE`, suppresses intermediate text output
 #' @param plot if `TRUE`, plots are generated
+#' @param ... additional parameters to be passed to samr()
 #' @importFrom samr samr samr.compute.delta.table samr.plot samr.compute.siggenes.table
 #' @importFrom graphics title
 #' @importFrom utils write.csv capture.output
@@ -29,13 +30,13 @@
 #'     sc, Clustering="K-means", K=3, fdr=0.1, name="Name", export = FALSE
 #' )
 #' }
-setGeneric("DEGanalysis2clust", function(object,Clustering="K-means",K,fdr=0.05,name="Name",First="CL1",Second="CL2",export=TRUE, quiet=FALSE, plot=TRUE) standardGeneric("DEGanalysis2clust"))
+setGeneric("DEGanalysis2clust", function(object,Clustering="K-means",K,fdr=0.05,name="Name",First="CL1",Second="CL2",export=TRUE, quiet=FALSE, plot=TRUE, ...) standardGeneric("DEGanalysis2clust"))
 
 #' @export
 #' @rdname DEGanalysis2clust
 setMethod("DEGanalysis2clust",
           signature = "DISCBIO",
-          definition = function(object,Clustering="K-means",K,fdr=0.05,name="Name",First="CL1",Second="CL2",export=TRUE, quiet=FALSE, plot=TRUE){
+          definition = function(object,Clustering="K-means",K,fdr=0.05,name="Name",First="CL1",Second="CL2",export=TRUE, quiet=FALSE, plot=TRUE, ...){
 			if (!(Clustering %in% c( "K-means","MB"))) {
 				stop("Clustering has to be either K-means or MB")
 			}
@@ -79,16 +80,14 @@ setMethod("DEGanalysis2clust",
 				invisible(capture.output({
 					samr.obj <- samr(
 						data, resp.type="Two class unpaired", assay.type="seq",
-						nperms=100, nresamp=20, testStatistic="wilcoxon",
-						random.seed=15
+						testStatistic="wilcoxon", random.seed=15, ...
 					)
 					delta.table <- samr.compute.delta.table(samr.obj)
 				}))
 			} else {
 				samr.obj <- samr(
 					data, resp.type="Two class unpaired", assay.type="seq",
-					nperms=100, nresamp=20, testStatistic="wilcoxon",
-					random.seed=15
+					testStatistic="wilcoxon", random.seed=15, ...
 				)
 				delta.table <- samr.compute.delta.table(samr.obj)
 			}

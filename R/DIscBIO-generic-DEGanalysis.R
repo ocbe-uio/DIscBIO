@@ -173,8 +173,7 @@ setMethod(
 				invisible(capture.output(
 					samr.obj <- samr(
 						data, resp.type="Two class unpaired", assay.type="seq",
-						testStatistic="wilcoxon", 
-						random.seed=15, ...
+						testStatistic="wilcoxon", random.seed=15, ...
 					)
 				))
 			} else {
