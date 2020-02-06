@@ -70,8 +70,6 @@ retrieveBiomart <- function(gene_name, quiet = FALSE, max_tries = 3) {
                 }
             },
             error = function(err) {
-                # TODO: check if this should really be wrapped around quiet. 
-                # Warnings and errors should be visible no matter what!?
                 if (!quiet) {
                     message(
                         "The BioMart database could not be reached. ",
