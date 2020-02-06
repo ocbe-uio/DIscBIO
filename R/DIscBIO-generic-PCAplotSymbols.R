@@ -4,6 +4,16 @@
 #' @param types If types=NULL then the names of the cells will be grouped automatically. Default is NULL
 #' @importFrom grDevices rainbow
 #' @importFrom graphics legend
+#' @examples 
+#' sc <- DISCBIO(valuesG1ms)
+#' sc <- NoiseFiltering(sc, export=FALSE)
+#' sc <- Normalizedata(
+#'     sc, mintotal=1000, minexpr=0, minnumber=0, maxexpr=Inf, downsample=FALSE,
+#'     dsn=1, rseed=17000
+#' )
+#' sc <- FinalPreprocessing(sc, GeneFlitering="NoiseF", export=FALSE)
+#' sc <- Exprmclust(sc, K = 3,reduce = T)
+#' PCAplotSymbols(sc)
 setGeneric("PCAplotSymbols", function(object,types=NULL) standardGeneric("PCAplotSymbols"))
 
 #' @export

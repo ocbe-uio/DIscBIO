@@ -5,6 +5,17 @@
 #' @param quiet if `TRUE`, suppresses intermediate output
 #' @importFrom tsne tsne
 #' @importFrom stats as.dist cor
+#' @examples
+#' sc <- DISCBIO(valuesG1ms)
+#' sc <- NoiseFiltering(sc, export=FALSE)
+#' sc <- Normalizedata(
+#'     sc, mintotal=1000, minexpr=0, minnumber=0, maxexpr=Inf, downsample=FALSE,
+#'     dsn=1, rseed=17000
+#' )
+#' sc <- FinalPreprocessing(sc, GeneFlitering="NoiseF", export=FALSE)
+#' sc <- Exprmclust(sc, K = 3,reduce = T)
+#' sc <- comptsneMB(sc, rseed=15555, quiet = TRUE)
+#' print(sc@MBtsne)
 setGeneric(
   name = "comptsneMB",
   def = function(object, rseed = 15555, quiet = FALSE) {
