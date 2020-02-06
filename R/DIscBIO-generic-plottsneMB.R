@@ -3,7 +3,12 @@
 #' @param object \code{DISCBIO} class object.
 #' @param K A numeric value of the number of clusters
 #' @importFrom graphics text
-setGeneric("plottsneMB", function(object, K) standardGeneric("plottsneMB"))
+setGeneric(
+	name = "plottsneMB",
+	def = function(object, K = length(table(sc@MBclusters$clusterid))) {
+		standardGeneric("plottsneMB")		
+	}
+)
 
 #' @export
 #' @rdname plottsneMB
