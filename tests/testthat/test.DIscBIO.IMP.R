@@ -124,12 +124,6 @@ test_that("DEGs are calculated", {
     expect_identical(sapply(cdiff3, class), c("matrix", "data.frame"))
 })
 
-# Plotting the DEGs
-name <- cdiff3[[2]][1, 6] # From the DE analysis table between all cluster pairs
-# U <- read.csv(file = paste0(name), head=TRUE, sep=",")
-# Vplot <- VolcanoPlot(U, value=0.05, name=name, adj=FALSE, FS=.4)
-# TODO: get an example for VolcanoPlot which doesn't involve importing files
-
 # Decision tree
 sigDEG <- cdiff3[[1]]
 
@@ -155,20 +149,6 @@ test_that("Decision tree elements are defined", {
     expect_s3_class(rpartDT, "rpart")
     expect_identical(rpartEVAL, c(TP = 19, FN = 10, FP = 7, TN = 43))
 })
-
-# ----------------------------- Network analysis ----------------------------- #
-
-context("Network analysis")
-DEGs <- cdiff3[[2]][1, 6] # From the DE analysis table between all cluster pairs
-# data<-read.csv(file=paste0(DEGs),head=TRUE,sep=",")
-# data<-data[,3]
-# FileName <- paste0(DEGs)
-# ppi <- PPI(data, FileName)
-# ppi
-# networking<-NetAnalysis(ppi)
-# FileName="Up.DownDEG" 
-# network<-Networking(data,FileName)
-# TODO: find reproducible example that doesn't depend on importing data
 
 # ---------------------------------------------------------------------------- #
 #                            Model-based clustering                            #
