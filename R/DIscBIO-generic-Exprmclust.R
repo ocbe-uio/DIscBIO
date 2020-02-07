@@ -22,7 +22,7 @@
 #' print(sc@MBclusters)
 setGeneric(
       name = "Exprmclust",
-      def = function(object, K = 3, modelNames = "VVV", reduce = T, cluster = NULL, quiet = FALSE) standardGeneric("Exprmclust")
+      def = function(object, K = 3, modelNames = "VVV", reduce = TRUE, cluster = NULL, quiet = FALSE) standardGeneric("Exprmclust")
 )
 
 #' @export
@@ -30,7 +30,7 @@ setGeneric(
 setMethod(
       f = "Exprmclust",
       signature = "DISCBIO",
-      definition = function(object, K = 3, modelNames = "VVV", reduce = T, cluster = NULL, quiet = FALSE) {
+      definition = function(object, K = 3, modelNames = "VVV", reduce = TRUE, cluster = NULL, quiet = FALSE) {
       set.seed(12345)
 	  obj<-object@fdata
       if (reduce) {
