@@ -3,7 +3,7 @@
 #' @param object \code{DISCBIO} class object.
 #' of the \code{DISCBIO} object.
 #' @examples 
-#' sc <- DISCBIO(valuesG1ms)
+#' sc <- DISCBIO(valuesG1msReduced)
 #' sc <- Clustexp(sc, cln=3) # K-means clustering
 #' sc <- comptSNE(sc)
 #' sc <- KmeanOrder(sc, export = FALSE)

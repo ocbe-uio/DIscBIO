@@ -12,7 +12,7 @@
 #' @param rseed Integer number. Random seed to enforce reproducible clustering results. Default is 17000.
 #' @include DIscBIO-classes.R
 #' @examples
-#' sc <- DISCBIO(valuesG1ms) # changes signature of data
+#' sc <- DISCBIO(valuesG1msReduced) # changes signature of data
 #' 
 #' # In this case this function is used to normalize the reads
 #' sc_normal <- Normalizedata(

@@ -5,7 +5,7 @@
 #' @param export if `TRUE`, exports order table to csv
 #' @importFrom TSCAN TSCANorder
 #' @examples 
-#' sc <- DISCBIO(valuesG1ms)
+#' sc <- DISCBIO(valuesG1msReduced)
 #' sc <- Clustexp(sc, cln=3) # K-means clustering
 #' Order <- KmeanOrder(sc, export = FALSE)
 #' Order@kordering

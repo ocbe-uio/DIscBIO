@@ -5,29 +5,15 @@
 \alias{MBclustheatmap,DISCBIO-method}
 \title{Plotting the Model-based clusters in a heatmap representation of the cell-to-cell distances}
 \usage{
-MBclustheatmap(
-  object,
-  hmethod = "single",
-  KmeansCBI,
-  plot = TRUE,
-  quiet = FALSE
-)
+MBclustheatmap(object, hmethod = "single", plot = TRUE, quiet = FALSE)
 
-\S4method{MBclustheatmap}{DISCBIO}(
-  object,
-  hmethod = "single",
-  KmeansCBI,
-  plot = TRUE,
-  quiet = FALSE
-)
+\S4method{MBclustheatmap}{DISCBIO}(object, hmethod = "single", plot = TRUE, quiet = FALSE)
 }
 \arguments{
 \item{object}{\code{DISCBIO} class object.}
 
 \item{hmethod}{Agglomeration method used for determining the cluster order from hierarchical clustering of the cluster medoids. 
 This should be one of "ward.D", "ward.D2", "single", "complete", "average". Default is "single".}
-
-\item{KmeansCBI}{string with the clustering method}
 
 \item{plot}{if `TRUE`, plots the heatmap; otherwise, just prints cclmo}
 
@@ -38,14 +24,14 @@ This functions plots a heatmap of the distance matrix grouped by clusters. Indiv
 }
 \examples{
 \dontrun{
-sc <- DISCBIO(valuesG1ms)
+sc <- DISCBIO(valuesG1msReduced)
 sc <- NoiseFiltering(sc, export=FALSE)
 sc <- Normalizedata(
     sc, mintotal=1000, minexpr=0, minnumber=0, maxexpr=Inf, downsample=FALSE,
     dsn=1, rseed=17000
 )
 sc <- FinalPreprocessing(sc, GeneFlitering="NoiseF", export=FALSE)
-sc <- Exprmclust(sc)
+sc <- Exprmclust(sc,K = 2)
 sc <- comptsneMB(sc, rseed=15555)
 sc <- Clustexp(sc, cln=3)
 sc <- MB_Order(sc, export = FALSE)

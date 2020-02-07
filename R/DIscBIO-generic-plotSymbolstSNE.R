@@ -4,7 +4,7 @@
 #' @param types If types=NULL then the names of the cells will be grouped automatically. Default is NULL
 #' @param legloc A keyword from the list "bottomright", "bottom", "bottomleft", "left", "topleft", "top", "topright", "right" and "center". Default is "bottomright"
 #' @examples 
-#' sc <- DISCBIO(valuesG1ms) # changes signature of data
+#' sc <- DISCBIO(valuesG1msReduced) # changes signature of data
 #' sc <- Clustexp(sc, cln=3) # data must be clustered before plottin
 #' sc <- comptSNE(sc, rseed=15555, quiet=TRUE)
 #' plotSymbolstSNE(sc,types=sub("(\\_\\d+)$","", names(sc@ndata)))    

@@ -6,7 +6,7 @@
 #' @importFrom tsne tsne
 #' @importFrom stats as.dist cor
 #' @examples
-#' sc <- DISCBIO(valuesG1ms) # changes signature of data
+#' sc <- DISCBIO(valuesG1msReduced) # changes signature of data
 #' sc <- Clustexp(sc, cln=3) # data must be clustered before plottin
 #' sc <- comptSNE(sc, rseed=15555, quiet=TRUE)
 #' head(sc@tsne)

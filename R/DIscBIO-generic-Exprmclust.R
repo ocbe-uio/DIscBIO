@@ -11,18 +11,18 @@
 #' @importFrom stats dist prcomp lm
 #' @importFrom igraph graph.adjacency minimum.spanning.tree
 #' @examples
-#' sc <- DISCBIO(valuesG1ms)
-#' sc <- NoiseFiltering(sc, export=FALSE)
+#' sc <- DISCBIO(valuesG1msReduced)
+#' sc <- NoiseFiltering(sc, percentile=0.9, CV=0.2, export=FALSE)
 #' sc <- Normalizedata(
 #'     sc, mintotal=1000, minexpr=0, minnumber=0, maxexpr=Inf, downsample=FALSE,
 #'     dsn=1, rseed=17000
 #' )
 #' sc <- FinalPreprocessing(sc, GeneFlitering="NoiseF", export=FALSE)
-#' sc <- Exprmclust(sc)
+#' sc <- Exprmclust(sc,K = 2)
 #' print(sc@MBclusters)
 setGeneric(
       name = "Exprmclust",
-      def = function(object, K = 3, modelNames = "VVV", reduce = T, cluster = NULL, quiet = FALSE) standardGeneric("Exprmclust")
+      def = function(object, K = 3, modelNames = "VVV", reduce = TRUE, cluster = NULL, quiet = FALSE) standardGeneric("Exprmclust")
 )
 
 #' @export
@@ -30,7 +30,7 @@ setGeneric(
 setMethod(
       f = "Exprmclust",
       signature = "DISCBIO",
-      definition = function(object, K = 3, modelNames = "VVV", reduce = T, cluster = NULL, quiet = FALSE) {
+      definition = function(object, K = 3, modelNames = "VVV", reduce = TRUE, cluster = NULL, quiet = FALSE) {
       set.seed(12345)
 	  obj<-object@fdata
       if (reduce) {

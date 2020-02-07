@@ -13,7 +13,7 @@
 #' @export
 #' @examples 
 #' \dontrun{
-#' sc <- DISCBIO(valuesG1ms)
+#' sc <- DISCBIO(valuesG1msReduced)
 #' sc <- NoiseFiltering(sc)
 #' sc <- Normalizedata(
 #'     sc, mintotal=1000, minexpr=0, minnumber=0, maxexpr=Inf, downsample=FALSE,

@@ -32,12 +32,12 @@ description
 }
 \examples{
 \dontrun{
-sc <- DISCBIO(valuesG1ms)
+sc <- DISCBIO(valuesG1msReduced)
 sc <- Clustexp(sc, cln=3, quiet=TRUE) # K-means clustering
 KMClustDiffGenes(sc, K=3, fdr=.3)
 }
 \dontrun{
-sc <- DISCBIO(valuesG1ms)
+sc <- DISCBIO(valuesG1msReduced)
 sc <- Clustexp(sc, cln=3, quiet=TRUE) # K-means clustering
 KMClustDiffGenes(sc, K=3, fdr=.3)
 }

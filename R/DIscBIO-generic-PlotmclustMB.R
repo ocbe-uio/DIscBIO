@@ -4,14 +4,14 @@
 #' @importFrom ggplot2 ggplot aes geom_point aes_string scale_colour_manual geom_text geom_segment guides guide_legend xlab ylab theme element_blank element_line unit element_text element_rect
 #' @importFrom igraph get.edgelist degree get.shortest.paths
 #' @examples
-#' sc <- DISCBIO(valuesG1ms)
-#' sc <- NoiseFiltering(sc, export=FALSE)
+#' sc <- DISCBIO(valuesG1msReduced)
+#' sc <- NoiseFiltering(sc, percentile=0.9, CV=0.2, export=FALSE)
 #' sc <- Normalizedata(
 #'     sc, mintotal=1000, minexpr=0, minnumber=0, maxexpr=Inf, downsample=FALSE,
 #'     dsn=1, rseed=17000
 #' )
 #' sc <- FinalPreprocessing(sc, GeneFlitering="NoiseF", export=FALSE)
-#' sc <- Exprmclust(sc)
+#' sc <- Exprmclust(sc, K=2)
 #' PlotmclustMB(sc)
 setGeneric("PlotmclustMB", function(object) standardGeneric("PlotmclustMB"))
 
