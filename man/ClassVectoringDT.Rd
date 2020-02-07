@@ -62,4 +62,3 @@ DATAforDT <- ClassVectoringDT(
 )
 str(DATAforDT)
 }
-}
