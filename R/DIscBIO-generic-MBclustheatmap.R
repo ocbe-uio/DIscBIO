@@ -3,14 +3,12 @@
 #' @param object \code{DISCBIO} class object.
 #' @param hmethod  Agglomeration method used for determining the cluster order from hierarchical clustering of the cluster medoids. 
 #' This should be one of "ward.D", "ward.D2", "single", "complete", "average". Default is "single".
-#' @param KmeansCBI string with the clustering method
 #' @param plot if `TRUE`, plots the heatmap; otherwise, just prints cclmo
 #' @param quiet if `TRUE`, intermediary output is suppressed
 #' @importFrom stats hclust as.dist cor kmeans
 #' @importFrom cluster clusGap maxSE
-#' @importFrom fpc clusterboot
+#' @importFrom fpc clusterboot kmeansCBI
 #' @examples 
-#' \dontrun{
 #' sc <- DISCBIO(valuesG1msReduced)
 #' sc <- NoiseFiltering(sc, export=FALSE)
 #' sc <- Normalizedata(
@@ -18,19 +16,18 @@
 #'     dsn=1, rseed=17000
 #' )
 #' sc <- FinalPreprocessing(sc, GeneFlitering="NoiseF", export=FALSE)
-#' sc <- Exprmclust(sc)
+#' sc <- Exprmclust(sc,K = 2)
 #' sc <- comptsneMB(sc, rseed=15555)
 #' sc <- Clustexp(sc, cln=3)
 #' sc <- MB_Order(sc, export = FALSE)
 #' MBclustheatmap(sc, hmethod="single")
-#' }
-setGeneric("MBclustheatmap", function(object,hmethod="single", KmeansCBI, plot = TRUE, quiet = FALSE) standardGeneric("MBclustheatmap"))
+setGeneric("MBclustheatmap", function(object,hmethod="single", plot = TRUE, quiet = FALSE) standardGeneric("MBclustheatmap"))
 
 #' @export
 #' @rdname MBclustheatmap
 setMethod("MBclustheatmap",
           signature = "DISCBIO",
-          definition = function(object,hmethod, KmeansCBI, plot = TRUE, quiet = FALSE){
+          definition = function(object,hmethod, plot = TRUE, quiet = FALSE){
             x <- object@fdata  
 		object@clusterpar$metric <- "pearson"
 		dist.gen <- function(x,method="euclidean", ...) if ( method %in% c("spearman","pearson","kendall") ) as.dist( 1 - cor(t(x),method=method,...) ) else dist(x,method=method,...)
@@ -53,9 +50,10 @@ setMethod("MBclustheatmap",
 					names(clb$result$partition) <- names(x)
 					return(list(x=x,clb=clb,gpr=gpr,di=di))
 				}
+        # FUN <- match.fun(clustermethod)
 				clb <- clusterboot(
           di, B=bootnr, distances=FALSE, bootmethod="boot",
-          clustermethod=KmeansCBI, krange=cln, scaling=FALSE, 
+          clustermethod=fpc::kmeansCBI, krange=cln, scaling=FALSE, 
           multipleboot=FALSE, bscompare=TRUE, seed=rseed, count = !quiet
         )
 				return(list(x=x,clb=clb,gpr=gpr,di=di))
