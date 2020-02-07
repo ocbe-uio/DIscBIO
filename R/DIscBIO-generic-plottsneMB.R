@@ -4,6 +4,7 @@
 #' @param K A numeric value of the number of clusters
 #' @importFrom graphics text
 #' @examples
+#' \dontrun{
 #' sc <- DISCBIO(valuesG1msReduced)
 #' sc <- NoiseFiltering(sc, percentile=0.9, CV=0.2, export=FALSE)
 #' sc <- Normalizedata(
@@ -14,6 +15,7 @@
 #' sc <- Exprmclust(sc, K=2)
 #' sc <- comptsneMB(sc, rseed=15555, quiet = TRUE)
 #' plottsneMB(sc)
+#' }
 setGeneric(
 	name = "plottsneMB",
 	def = function(object, K = length(table(object@MBclusters$clusterid))) {
