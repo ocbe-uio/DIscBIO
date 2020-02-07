@@ -18,7 +18,6 @@
 #' sc <- Clustexp(sc, cln=3)
 #' sc <- MB_Order(sc, export = FALSE)
 #' sc@MBordering
-#' }
 MB_Order<-function(object, quiet = FALSE, export = TRUE){
 	data=object@MBclusters
 	lpsorderMB <- TSCANorder(data)
