@@ -39,11 +39,49 @@ BiocManager::install(
 )
 ```
 
+# Usage
+
+After installing DIscBIO, you can load it into an R session by running the following code:
+
+```R
+library(DIscBIO)
+```
+
+A step-by-step tutorial of DIscBIO is under construction as a standalone R vignette. In the meantime, you can use the interactive Jupyter notebook available [here](notebook/DIscBIO.ipynb).
+
 # Development
 
 DIscBIO is Open Source software licensed under the [MIT license](https://tldrlegal.com/license/mit-license), so all contributions are welcome. Please read the [TODO](TODO.md) document for a list of issues we are currently working on for the next stable release of the package and [CONTRIBUTING.md](CONTRIBUTING.md) for some guidelines on how to contribute to the package.
 
+# Citation
+
+In order to cite the DIscBIO R package, install and load the package as instructed above. Then, run
+
+```R
+citation("DIscBIO")
+```
+
+in R and you should get a pure text and a BibTeX entry similar to the one below (please prefer the output you see in your R session to the one below, as the former will reflect the latest version of the package code and documentation):
+
+```
+To cite package ‘DIscBIO’ in publications use:
+
+  Salim Ghannoum, Alvaro Köhn-Luque and Waldir Leoncio (2020). DIscBIO: A User-Friendly Pipeline for Biomarker Discovery in Single-Cell Transcriptomics. R package version 0.0.0.9004.
+
+A BibTeX entry for LaTeX users is
+
+  @Manual{,
+    title = {DIscBIO: A User-Friendly Pipeline for Biomarker Discovery in Single-Cell
+Transcriptomics},
+    author = {Salim Ghannoum and Alvaro Köhn-Luque and Waldir Leoncio},
+    year = {2020},
+    note = {R package version 0.0.0.9004},
+  }
+```
+
 # Reference
+
+The DIscBIO package is an extension of the work of Ghannoum et.al. (full citation below).
 
 *DIscBIO: a user-friendly pipeline for biomarker discovery in single-cell transcriptomics*<br>
 Salim Ghannoum, Benjamin Ragan-Kelley, Emma Jonasson, Anders Ståhlberg, Alvaro Köhn-Luque<br>
