@@ -36,9 +36,11 @@ Depends:
 Suggests: 
     knitr,
     rmarkdown,
-	testthat
+	testthat,
+    enrichR
 VignetteBuilder: knitr
 RoxygenNote: 7.0.2
+BugReports: https://github.com/ocbe-uio/DIscBIO/issues
 Collate: 
     'DIscBIO-classes.R'
     'DIscBIO-generic-ClassVectoringDT.R'
