@@ -26,7 +26,6 @@
 #'     sc, Clustering="K-means", K=2, First="CL1", Second="CL2", cdiff[[1]]
 #' )
 #' str(DATAforDT)
-#' }
 setGeneric("ClassVectoringDT", function(object,Clustering="K-means",K,First="CL1",Second="CL2",sigDEG, quiet = FALSE) standardGeneric("ClassVectoringDT"))
 
 #' @rdname ClassVectoringDT
