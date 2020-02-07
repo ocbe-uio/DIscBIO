@@ -5,12 +5,14 @@
 \alias{plotGap,DISCBIO-method}
 \title{Plotting Gap Statistics}
 \usage{
-plotGap(object)
+plotGap(object, y_limits = NULL)
 
-\S4method{plotGap}{DISCBIO}(object)
+\S4method{plotGap}{DISCBIO}(object, y_limits = NULL)
 }
 \arguments{
 \item{object}{\code{DISCBIO} class object.}
+
+\item{y_limits}{2-length numeric vector with the limits for the gap plot}
 }
 \description{
 Plotting Gap Statistics
