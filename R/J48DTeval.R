@@ -8,9 +8,8 @@
 #' @param quiet If `TRUE`, suppresses intermediary output
 #' @importFrom stats predict
 #' @examples
-#' \dontrun{
 #' sc <- DISCBIO(valuesG1msReduced)
-#' sc <- NoiseFiltering(sc, export=FALSE)
+#' sc <- NoiseFiltering(sc, percentile=0.9, CV=0.2, export=FALSE)
 #' sc <- Normalizedata(
 #'     sc, mintotal=1000, minexpr=0, minnumber=0, maxexpr=Inf, downsample=FALSE,
 #'     dsn=1, rseed=17000
@@ -27,7 +26,6 @@
 #'     sc, Clustering="K-means", K=3, First="CL1", Second="CL2", sigDEG
 #' )
 #' J48DTeval(DATAforDT, num.folds=10, First="CL1", Second="CL2")
-#' }
 
 J48DTeval<- function(data,num.folds=10,First="CL1",Second="CL2", quiet=FALSE){
 	exp.imput.df<-as.data.frame(t(data))

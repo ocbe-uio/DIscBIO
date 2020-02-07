@@ -18,7 +18,6 @@ plottsneMB(object, K = length(table(object@MBclusters$clusterid)))
 Visualizing the Model-based clusters using tSNE maps
 }
 \examples{
-\dontrun{
 sc <- DISCBIO(valuesG1msReduced)
 sc <- NoiseFiltering(sc, percentile=0.9, CV=0.2, export=FALSE)
 sc <- Normalizedata(
@@ -29,5 +28,4 @@ sc <- FinalPreprocessing(sc, GeneFlitering="NoiseF", export=FALSE)
 sc <- Exprmclust(sc, K=2)
 sc <- comptsneMB(sc, rseed=15555, quiet = TRUE)
 plottsneMB(sc)
-}
 }

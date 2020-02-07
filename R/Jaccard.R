@@ -10,11 +10,9 @@
 #' @importFrom boot boot
 #' @importFrom graphics barplot box
 #' @examples
-#' \dontrun{
 #' sc <- DISCBIO(valuesG1msReduced)
 #' sc <- Clustexp(sc, cln=3, quiet=TRUE) # K-means clustering
 #' Jaccard(sc, Clustering="K-means", K=3)
-#' }
 Jaccard <- function(object, Clustering="K-means", K, plot = TRUE) {
     JACCARD <-c()
     

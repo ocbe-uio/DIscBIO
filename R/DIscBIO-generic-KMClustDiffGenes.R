@@ -10,11 +10,9 @@
 #' @rdname KMClustDiffGenes
 #' @export
 #' @examples
-#' \dontrun{
 #' sc <- DISCBIO(valuesG1msReduced)
 #' sc <- Clustexp(sc, cln=3, quiet=TRUE) # K-means clustering
 #' KMClustDiffGenes(sc, K=3, fdr=.3)
-#' }
 setGeneric("KMClustDiffGenes", function(object,K,fdr=.01, export=TRUE, quiet=FALSE) standardGeneric("KMClustDiffGenes"))
 #' @export
 #' @rdname KMClustDiffGenes
@@ -68,29 +66,35 @@ setMethod("KMClustDiffGenes",
                         Regulation[i]="Up"
                     }
                 }
-                out<-cbind(out,Regulation)
-                mart <- useDataset(
-                    dataset = "hsapiens_gene_ensembl",
-                    mart = useMart(
-                        biomart = "ensembl",
-                        host = "www.ensembl.org"
-                    )
-                )
-                genes <- rownames(out)
-                G_list <- retrieveBiomart(genes, quiet)
-                Final<-cbind(genes,out)
-                Final<-merge(Final,G_list,by.x="genes",by.y="ensembl_gene_id")
-                Final<-Final[!duplicated(Final[,8]), ]
+				out<-cbind(out,Regulation)
+				if (quiet) {
+					suppressMessages(geneList <-  AnnotationDbi::select(org.Hs.eg.db,keys = keys(org.Hs.eg.db), columns = c("SYMBOL","ENSEMBL")))
+                    GL <-c(1,"MTRNR2","ENSG00000210082")
+                    GL1<-c(1,"MTRNR1","ENSG00000211459")
+                    geneList <-rbind(geneList,GL,GL1)
+				} else {
+					geneList <-  AnnotationDbi::select(org.Hs.eg.db,keys = keys(org.Hs.eg.db), columns = c("SYMBOL","ENSEMBL")) 
+                    GL<-c(1,"MTRNR2","ENSG00000210082")
+                    GL1<-c(1,"MTRNR1","ENSG00000211459")
+                    geneList <-rbind(geneList,GL,GL1)
+                }
+				genes <- rownames(out)
+				gene_list<-geneList[,3]
+				idx_genes <- is.element(gene_list,genes)
+				genes2 <- geneList[idx_genes,]
+				Final<-cbind(genes,out)
+				
+				Final<-merge(Final,genes2,by.x="genes",by.y="ENSEMBL",all.x=TRUE)
+				Final<-Final[!duplicated(Final[,1]), ]
+				Final[is.na(Final[,9]),c(1,9)]<-Final[is.na(Final[,9]),1]                                               
 
-                rownames(Final) <- Final[, 1]
-                Final[,1]<-Final[,8]
-                Final<-Final[,-8]
-    
+				rownames(Final) <- Final[, 1]
+                Final[,1]<-Final[,9]
+                Final<-Final[,-9]
                 DEGsS<-c(DEGsS,Final[,1])
                 DEGsE<-c(DEGsE,as.character(rownames(Final)))
-                
-                Up<-subset(Final,Final[,7]=="Up")
-                Up<- dplyr::select(Up, "Regulation","genes","pv","mean.all", "mean.cl","fc","p.adj")
+				                Up<-subset(Final,Final[,7]=="Up")
+                Up<-dplyr::select(Up, "Regulation","genes","pv","mean.all", "mean.cl","fc","p.adj")
                 Up[,3]<-rownames(Up)
                 Up[,6]<-log2(Up[,6])
                 Up[,1]<-Up[,2]
@@ -121,7 +125,7 @@ setMethod("KMClustDiffGenes",
                 DEGsTable[n,5]<-length(Down[,1])
                 DEGsTable[n,6]<- paste0("Down-DEG-cluster",n,".csv")
             }
-            colnames(DEGsTable)<-c("Target Cluster","VS","Up-regulated genes","File name","Low-regulated genes","File name")
+            colnames(DEGsTable)<-c("Target Cluster","VS","Gene number","File name","Gene number","File name")
             if (export) {
                 write.csv(DEGsTable, file = "binomial-DEGsTable.csv")
             }

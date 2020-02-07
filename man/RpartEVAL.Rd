@@ -21,9 +21,8 @@ RpartEVAL(data, num.folds = 10, First = "CL1", Second = "CL2", quiet = FALSE)
 This function evaluates the performance of the generated trees for error estimation by ten-fold cross validation assessment.
 }
 \examples{
-\dontrun{
 sc <- DISCBIO(valuesG1msReduced)
-sc <- NoiseFiltering(sc, export=FALSE)
+sc <- NoiseFiltering(sc, percentile=0.9, CV=0.2, export=FALSE)
 sc <- Normalizedata(
     sc, mintotal=1000, minexpr=0, minnumber=0, maxexpr=Inf, downsample=FALSE,
     dsn=1, rseed=17000
@@ -40,5 +39,4 @@ DATAforDT <- ClassVectoringDT(
     sc, Clustering="K-means", K=3, First="CL1", Second="CL2", sigDEG,
 )
 RpartEVAL(DATAforDT,num.folds=10,First="CL1",Second="CL2")
-}
 }
