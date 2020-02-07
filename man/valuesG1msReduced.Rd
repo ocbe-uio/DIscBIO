@@ -3,9 +3,7 @@
 \docType{data}
 \name{valuesG1msReduced}
 \alias{valuesG1msReduced}
-\title{valuesG1msReduced A dataset of 30 single cells from a myxoid liposarcoma cell line.
-Columns refer to samples and rows refer to genes. The last 92 rows refer to external RNA controls consortium (ERCC) spike-ins.}
+\title{Single-cells data from a myxoid liposarcoma cell line}
 \description{
-valuesG1msReduced A dataset of 30 single cells from a myxoid liposarcoma cell line.
-Columns refer to samples and rows refer to genes. The last 92 rows refer to external RNA controls consortium (ERCC) spike-ins.
+A dataset of 30 single cells from a myxoid liposarcoma cell line. Columns refer to samples and rows refer to genes. The last 92 rows refer to external RNA controls consortium (ERCC) spike-ins. This dataset is part of a larger dataset containing 94 single cells. The complete dataset is fully compatible with this package and an rda file can be obtained on https://github.com/ocbe-uio/DIscBIO/blob/dev/data/valuesG1ms.rda
 }
