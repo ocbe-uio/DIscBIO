@@ -11,7 +11,7 @@
 #' @importFrom graphics barplot box
 #' @examples
 #' \dontrun{
-#' sc <- DISCBIO(valuesG1ms)
+#' sc <- DISCBIO(valuesG1msReduced)
 #' sc <- Clustexp(sc, cln=3, quiet=TRUE) # K-means clustering
 #' Jaccard(sc, Clustering="K-means", K=3)
 #' }

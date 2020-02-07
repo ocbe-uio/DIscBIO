@@ -50,7 +50,7 @@ noise should be comparable across cells. For high numbers of dsn the data will b
 This function allows filtering of genes and cells to be used in the downstream analysis.
 }
 \examples{
-sc <- DISCBIO(valuesG1ms) # changes signature of data
+sc <- DISCBIO(valuesG1msReduced) # changes signature of data
 
 # In this case this function is used to normalize the reads
 sc_normal <- Normalizedata(

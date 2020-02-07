@@ -20,7 +20,7 @@
 #' @importFrom statmod glmgam.fit
 #' @note This function should be used only if the dataset has ERCC.
 #' @examples
-#' sc <- DISCBIO(valuesG1ms) # changes signature of data
+#' sc <- DISCBIO(valuesG1msReduced) # changes signature of data
 #' sd_filtered <- NoiseFiltering(sc, export=FALSE)
 #' str(sd_filtered)
 setGeneric(

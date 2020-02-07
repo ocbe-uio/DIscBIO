@@ -32,7 +32,7 @@ FinalPreprocessing(
 This function generates the final filtered normalized dataset.
 }
 \examples{
-sc <- DISCBIO(valuesG1ms)
+sc <- DISCBIO(valuesG1msReduced)
 sc <- NoiseFiltering(sc, plot=FALSE, export=FALSE)
 sc <- FinalPreprocessing(sc, GeneFlitering="NoiseF", export=FALSE)
 }

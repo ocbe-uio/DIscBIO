@@ -51,7 +51,7 @@ this function first uses principal component analysis (PCA) to reduce dimensiona
 on the transformed expression values.
 }
 \examples{
-sc <- DISCBIO(valuesG1ms)
+sc <- DISCBIO(valuesG1msReduced)
 sc <- NoiseFiltering(sc, export=FALSE)
 sc <- Normalizedata(
     sc, mintotal=1000, minexpr=0, minnumber=0, maxexpr=Inf, downsample=FALSE,

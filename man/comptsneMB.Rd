@@ -21,7 +21,7 @@ This function is used to compute the t-Distributed Stochastic Neighbor Embedding
 }
 \examples{
 \dontrun{
-sc <- DISCBIO(valuesG1ms)
+sc <- DISCBIO(valuesG1msReduced)
 sc <- NoiseFiltering(sc, export=FALSE)
 sc <- Normalizedata(
     sc, mintotal=1000, minexpr=0, minnumber=0, maxexpr=Inf, downsample=FALSE,
