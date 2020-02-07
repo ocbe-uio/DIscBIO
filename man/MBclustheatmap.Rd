@@ -23,6 +23,7 @@ This should be one of "ward.D", "ward.D2", "single", "complete", "average". Defa
 This functions plots a heatmap of the distance matrix grouped by clusters. Individual clusters are highlighted with rainbow colors along the x and y-axes.
 }
 \examples{
+\dontrun{
 sc <- DISCBIO(valuesG1msReduced)
 sc <- NoiseFiltering(sc, export=FALSE)
 sc <- Normalizedata(
@@ -35,4 +36,5 @@ sc <- comptsneMB(sc, rseed=15555)
 sc <- Clustexp(sc, cln=3)
 sc <- MB_Order(sc, export = FALSE)
 MBclustheatmap(sc, hmethod="single")
+}
 }
