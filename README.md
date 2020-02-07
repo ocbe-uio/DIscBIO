@@ -66,7 +66,9 @@ in R and you should get a pure text and a BibTeX entry similar to the one below 
 ```
 To cite package ‘DIscBIO’ in publications use:
 
-  Salim Ghannoum, Alvaro Köhn-Luque and Waldir Leoncio (2020). DIscBIO: A User-Friendly Pipeline for Biomarker Discovery in Single-Cell Transcriptomics. R package version 0.0.0.9004.
+  Salim Ghannoum, Alvaro Köhn-Luque and Waldir Leoncio (2020)
+  DIscBIO: A User-Friendly Pipeline for Biomarker Discovery in Single-Cell Transcriptomics.
+  R package version 0.0.0.9004.
 
 A BibTeX entry for LaTeX users is
 
