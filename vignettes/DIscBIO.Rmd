@@ -1,5 +1,11 @@
-
-# ** DIscBIO: a user-friendly pipeline for biomarker discovery in single-cell transcriptomics**
+---
+title: "DIscBIO: a user-friendly pipeline for biomarker discovery in single-cell transcriptomics"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{note}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
 
 The pipeline consists of four successive steps: data pre-processing, cellular clustering and pseudo-temporal ordering, determining differential expressed genes and identifying biomarkers.
 
@@ -10,14 +16,8 @@ The pipeline consists of four successive steps: data pre-processing, cellular cl
 
 ```R
 library(DIscBIO)
-library(enrichR)
+library(enrichR, quietly=TRUE)
 ```
-
-    
-    Warning message:
-    "package 'enrichR' was built under R version 3.6.2"Welcome to enrichR
-    Checking connection ... Connection is Live!
-    
 
 ## Loading dataset
 
