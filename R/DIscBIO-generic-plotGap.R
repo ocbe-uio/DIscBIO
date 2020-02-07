@@ -19,13 +19,14 @@ setMethod(
 		if (length(object@kmeans$kpart) == 0) {
 			stop("run clustexp before plotgap")
 		}
+		gap <- object@kmeans$gap
 		if (is.null(y_limits)) {
-			y_lo <- min(x$Tab[, "gap"]) - 1 * max(x$Tab[, "SE.sim"])
-			y_up <- max(x$Tab[, "gap"]) + 1 * max(x$Tab[, "SE.sim"])
+			y_lo <- min(gap$Tab[, "gap"]) - 1 * max(gap$Tab[, "SE.sim"])
+			y_up <- max(gap$Tab[, "gap"]) + 1 * max(gap$Tab[, "SE.sim"])
 			y_limits <- c(y_lo, y_up)
 		}
 		plot(
-			object@kmeans$gap, las=1, ylim = y_limits, main="Gap Statistics"
+			gap, las=1, ylim = y_limits, main="Gap Statistics"
 		)
 	}
 )		 
