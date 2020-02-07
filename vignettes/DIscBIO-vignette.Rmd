@@ -9,7 +9,7 @@ vignette: >
   %\VignetteEncoding{UTF-8}
 ---
 
-![DIscBIO](DiscBIO.png){width=75%}
+![DIscBIO](DiscBIO.png){width=80%}
 
 The pipeline consists of four successive steps: data pre-processing, cellular clustering and pseudo-temporal ordering, determining differential expressed genes and identifying biomarkers.
 
@@ -47,7 +47,7 @@ The key idea in filtering genes is to appoint the genes that manifest abundant v
 In case the raw data does not include ERCC spike-ins, genes will be only filtered based on minimum expression in certain number of cells.
 
 
-![DataPre-processing](Data-Preprocessing.png){width=75%}
+![DataPre-processing](Data-Preprocessing.png){width=80%}
 
 ```{r}
 sc <- DISCBIO(DataSet)    
@@ -120,7 +120,7 @@ if (OnlyExpressionFiltering==TRUE){
 
 Cellular clustering is performed according to the gene expression profiles to detect cellular sub-population with unique properties. After clustering, pseudo-temporal ordering is generated to indicate the cellular differentiation degree. 
 
-![PSCAN](Clustering.png){width=75%}
+![PSCAN](Clustering.png){width=80%}
 
 ## 2.1. K-means Clustering
 
@@ -141,7 +141,7 @@ The Clustexp() functions has several parameters:
 - rseed Integer number. Random seed to enforce reproducible clustering results. Default is 17000.
 - quiet if `TRUE`, intermediate output is suppressed
 
-![DIsccBIO](KM1.png){width=75%}
+![DIsccBIO](KM1.png){width=80%}
 
 
 ```{r}
@@ -237,7 +237,7 @@ plotExptSNE(sc,g)
 
 Differentially expressed genes between individual clusters are identified using the significance analysis of sequencing data (SAMseq), which is a new function in significance analysis of microarrays (Li and Tibshirani 2011) in the samr package v2.0 (Tibshirani et all., 2015). SAMseq is a non-parametric statistical function dependent on Wilcoxon rank statistic that equalizes the sizes of the library by a resampling method accounting for the various sequencing depths. The analysis is implemented over the pure raw dataset that has the unnormalized expression read counts after excluding the ERCCs. Furthermore, DEGs in each cluster comparing to all the remaining clusters are determined using binomial differential expression, which is based on binomial counting statistics.
 
-![DIsccBIO](KM2.png){width=75%}
+![DIsccBIO](KM2.png){width=80%}
 
 ## 3.1 Identifying DEGs using SAMseq
 
