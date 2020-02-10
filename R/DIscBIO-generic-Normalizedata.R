@@ -27,6 +27,7 @@ setGeneric("Normalizedata", function(object, mintotal=1000, minexpr=0, minnumber
 setMethod("Normalizedata",
           signature = "DISCBIO",
           definition = function(object,mintotal,minexpr,minnumber,maxexpr,downsample,dsn,rseed) {
+            # Validation
             if ( ! is.numeric(mintotal) ) stop( "mintotal has to be a positive number" ) else if ( mintotal <= 0 ) stop( "mintotal has to be a positive number" )
             if ( ! is.numeric(minexpr) ) stop( "minexpr has to be a non-negative number" ) else if ( minexpr < 0 ) stop( "minexpr has to be a non-negative number" )
             if ( ! is.numeric(minnumber) ) stop( "minnumber has to be a non-negative integer number" ) else if ( round(minnumber) != minnumber | minnumber < 0 ) stop( "minnumber has to be a non-negative integer number" )
