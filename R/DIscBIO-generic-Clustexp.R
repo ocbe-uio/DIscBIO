@@ -84,7 +84,7 @@ setMethod(f="Clustexp",
 								repeat {
 									kmm <- try(Kmeans(data, k, iter.max = iter.max, method=method,
 										...))
-									if (class(kmm) != "try-error") 
+									if (!is(kmm, "try-error"))
 										break
 								}
 								options(show.error.messages = TRUE)
