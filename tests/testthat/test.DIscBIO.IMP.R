@@ -2,10 +2,15 @@
 #                              Data pre-processing                             #
 # ---------------------------------------------------------------------------- #
 
-context("Data pre-processing")
+context("Data loading and pre-processing")
 
 # The "valuesG1ms" is the only needed dataset
 sc <- DISCBIO(valuesG1ms)
+
+test_that("Loading datasets generate the expected output", {
+    expect_equal(dim(valuesG1ms), c(59838, 94))
+})
+
 test_that("Data signature changes", {
     expect_equal(class(sc)[1], "DISCBIO")
     expect_equal(attr(class(sc), "package"), "DIscBIO")
