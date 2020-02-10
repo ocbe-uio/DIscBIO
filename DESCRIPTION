@@ -1,7 +1,7 @@
 Package: DIscBIO
 Date: 2020-02-06
 Title: A User-Friendly Pipeline for Biomarker Discovery in Single-Cell Transcriptomics
-Version: 0.0.0.9004
+Version: 0.99.0
 Authors@R: 
     c(
         person(given = "Salim",
@@ -24,15 +24,15 @@ Description: An open, multi-algorithmic pipeline for easy, fast and efficient
     differential expressed genes and biomarker identification. This package 
     implements extensions of the work published by Ghannoum et. al. 
     <doi:10.1101/700989>.
+biocViews: SingleCell, Transcriptomics, Clustering, DecisionTree
 License: MIT + file LICENSE
 Encoding: UTF-8
-LazyData: true
 Imports: methods, TSCAN, boot, httr, mclust, statmod, biomaRt, samr, igraph,
 	RWeka, partykit, grid, philentropy, NetIndices, png, matrixStats, grDevices,
 	readr, RColorBrewer, ggplot2, rpart, fpc, cluster, rpart.plot, amap, dplyr,
-	tsne, AnnotationDbi, org.Hs.eg.db, calibrate
+	tsne, AnnotationDbi, org.Hs.eg.db, calibrate, graphics, stats, utils
 Depends:
-    R (>= 3.5),
+    R (>= 3.6),
 Suggests: 
     knitr,
     rmarkdown,
