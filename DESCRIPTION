@@ -39,6 +39,7 @@ Suggests:
 	testthat,
     enrichR
 VignetteBuilder: knitr
+LazyData: true
 RoxygenNote: 7.0.2
 BugReports: https://github.com/ocbe-uio/DIscBIO/issues
 Collate: 
