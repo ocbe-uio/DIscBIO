@@ -1,8 +1,8 @@
 #' DISCBIO
 #' @title The DISCBIO Class
 #' @description The DISCBIO class is the central object storing all information generated throughout the pipeline. 
-#' @slot expdata The raw expression data matrix with cells as columns and genes as rows in sparse matrix format. It does not contain ERCC spik-ins.
-#' @slot expdataAll The raw expression data matrix with cells as columns and genes as rows in sparse matrix format. It can contain ERCC spik-ins.
+#' @slot expdata The raw expression data matrix with cells as columns and genes as rows in sparse matrix format. It does not contain ERCC spike-ins.
+#' @slot expdataAll The raw expression data matrix with cells as columns and genes as rows in sparse matrix format. It can contain ERCC spike-ins.
 #' @slot ndata Data with expression normalized to one for each cell.     
 #' @slot fdata Filtered data with expression normalized to one for each cell.   
 #' @slot distances A distance matrix.

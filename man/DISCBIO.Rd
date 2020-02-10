@@ -18,9 +18,9 @@ DISCBIO
 \section{Slots}{
 
 \describe{
-\item{\code{expdata}}{The raw expression data matrix with cells as columns and genes as rows in sparse matrix format. It does not contain ERCC spik-ins.}
+\item{\code{expdata}}{The raw expression data matrix with cells as columns and genes as rows in sparse matrix format. It does not contain ERCC spike-ins.}
 
-\item{\code{expdataAll}}{The raw expression data matrix with cells as columns and genes as rows in sparse matrix format. It can contain ERCC spik-ins.}
+\item{\code{expdataAll}}{The raw expression data matrix with cells as columns and genes as rows in sparse matrix format. It can contain ERCC spike-ins.}
 
 \item{\code{ndata}}{Data with expression normalized to one for each cell.}
 
