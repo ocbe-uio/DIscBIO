@@ -10,6 +10,8 @@ plotOrderMBtsne(object)
 \S4method{plotOrderMBtsne}{DISCBIO}(object)
 }
 \arguments{
+\item{object}{\code{DISCBIO} class object.}
+}
 \value{
 A plot of the pseudo-time ordering.
 }

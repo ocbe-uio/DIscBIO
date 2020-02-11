@@ -1,5 +1,5 @@
-#' @title title
-#' @description description 
+#' @title Plot PCA symbols
+#' @description Generates a plot of grouped PCA components
 #' @param object \code{DISCBIO} class object.
 #' @param types If types=NULL then the names of the cells will be grouped automatically. Default is NULL
 #' @importFrom grDevices rainbow
@@ -22,7 +22,7 @@ setGeneric("PCAplotSymbols", function(object,types=NULL) standardGeneric("PCAplo
 setMethod("PCAplotSymbols",
           signature = "DISCBIO",
           definition = function(object,types=NULL){
-            if ( length(object@MBclusters) == 0 ) stop("run ExprmclustMB before PCAplotSymbols")
+            if ( length(object@MBclusters) == 0 ) stop("run Exprmclust before PCAplotSymbols")
 			total<-object@MBclusters
 			types <- names(object@fdata)
 			types<- gsub("_[0-9]+","",types)

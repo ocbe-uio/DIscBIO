@@ -22,5 +22,5 @@ Visualizing the K-means clusters using tSNE maps
 sc <- DISCBIO(valuesG1msReduced) # changes signature of data
 sc <- Clustexp(sc, cln=3) # data must be clustered before plottin
 sc <- comptSNE(sc, rseed=15555, quiet=TRUE)
-plotKmeansLabelstSNE(sc) # Plots the the ID of the cells in each cluster
+plotKmeansLabelstSNE(sc) # Plots the ID of the cells in each cluster
 }

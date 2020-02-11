@@ -14,7 +14,7 @@
 #' @examples
 #' sc <- DISCBIO(valuesG1msReduced)
 #' sc <- Clustexp(sc, cln=3, quiet=TRUE) # K-means clustering
-#' KMClustDiffGenes(sc, K=3, fdr=.3)
+#' KMClustDiffGenes(sc, K=3, fdr=.3, export=FALSE)
 setGeneric("KMClustDiffGenes", function(object,K,pValue=0.05,fdr=.01, export=TRUE, quiet=FALSE) standardGeneric("KMClustDiffGenes"))
 #' @export
 #' @rdname KMClustDiffGenes

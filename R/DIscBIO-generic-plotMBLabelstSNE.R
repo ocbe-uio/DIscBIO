@@ -1,4 +1,4 @@
-#' title tSNE map for Model-based clustering with labels
+#' @title tSNE map for Model-based clustering with labels
 #' @description Visualizing the Model-based clusters using tSNE maps 
 #' @param object \code{DISCBIO} class object.
 #' @importFrom graphics text

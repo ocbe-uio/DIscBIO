@@ -3,7 +3,7 @@
 \name{plotMBLabelstSNE}
 \alias{plotMBLabelstSNE}
 \alias{plotMBLabelstSNE,DISCBIO-method}
-\title{title tSNE map for Model-based clustering with labels}
+\title{tSNE map for Model-based clustering with labels}
 \usage{
 plotMBLabelstSNE(object)
 

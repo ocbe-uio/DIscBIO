@@ -5,14 +5,30 @@
 \alias{MBClustDiffGenes,DISCBIO-method}
 \title{ClustDiffGenes}
 \usage{
-MBClustDiffGenes(object, K, fdr = 0.01, export = TRUE, quiet = FALSE)
+MBClustDiffGenes(
+  object,
+  K,
+  pValue = 0.05,
+  fdr = 0.01,
+  export = TRUE,
+  quiet = FALSE
+)
 
-\S4method{MBClustDiffGenes}{DISCBIO}(object, K, fdr = 0.01, export = TRUE, quiet = FALSE)
+\S4method{MBClustDiffGenes}{DISCBIO}(
+  object,
+  K,
+  pValue = 0.05,
+  fdr = 0.01,
+  export = TRUE,
+  quiet = FALSE
+)
 }
 \arguments{
 \item{object}{\code{DISCBIO} class object.}
 
 \item{K}{A numeric value of the number of clusters.}
+
+\item{pValue}{A numeric value of the p-value. Default is 0.05.}
 
 \item{fdr}{A numeric value of the false discovery rate. Default is 0.01.}
 
