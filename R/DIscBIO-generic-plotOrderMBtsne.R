@@ -10,9 +10,9 @@ setMethod("plotOrderMBtsne",
           signature = "DISCBIO",
           definition = function(object){
             if ( length(object@MBtsne) == 0 ) stop("run comptsneMB before plotOrderMBtsne")
-			total<-rbind(object@ndata,object@MBordering)
-			rownames(total)[nrow(total)]<-"Pseudo-time ordering of MBclustering" 
-			g<-rownames(total)[nrow(total)]
+      total<-rbind(object@ndata,object@MBordering)
+      rownames(total)[nrow(total)]<-"Pseudo-time ordering of MBclustering" 
+      g<-rownames(total)[nrow(total)]
             n <- g[1]
             l <- apply(total[g,] - .1,2,sum) + .1
             

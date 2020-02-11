@@ -29,8 +29,8 @@
 #' )
 #' J48DT(DATAforDT)
 J48DT<-function(data, quiet = FALSE, plot = TRUE){
-		msg <- NULL
-		if ( ! is.data.frame(data) ){
+        msg <- NULL
+        if ( ! is.data.frame(data) ){
             msg <- c(msg, "input data must be data.frame")
         }else if ( nrow(data) < 2 ){
             msg <- c(msg, "input data must have more than one row")
@@ -43,12 +43,12 @@ J48DT<-function(data, quiet = FALSE, plot = TRUE){
         }
         if (is.null(msg)) TRUE
         else msg
-		
-		exp.df<-as.data.frame(t(data))
-		classVector<- factor(colnames(data))
-		j48.model<-J48(classVector~.,exp.df)
-		if (!quiet) print(j48.model)
-		if (plot) {
+        
+        exp.df<-as.data.frame(t(data))
+        classVector<- factor(colnames(data))
+        j48.model<-J48(classVector~.,exp.df)
+        if (!quiet) print(j48.model)
+        if (plot) {
             plot(
                 as.party(j48.model),
                 gp = gpar(
@@ -57,5 +57,5 @@ J48DT<-function(data, quiet = FALSE, plot = TRUE){
                 )
             )
         }
-		return(j48.model)
+        return(j48.model)
 }

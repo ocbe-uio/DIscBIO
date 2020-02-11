@@ -33,7 +33,7 @@ setMethod(
       signature = "DISCBIO",
       definition = function(object, K = 3, modelNames = "VVV", reduce = TRUE, cluster = NULL, quiet = FALSE) {
       set.seed(12345)
-	  obj<-object@fdata
+        obj<-object@fdata
       if (reduce) {
             sdev <- prcomp(t(obj), scale = T)$sdev[1:20]
             x <- 1:20
@@ -73,8 +73,8 @@ setMethod(
       gp <- graph.adjacency(dp, mode = "undirected", weighted = TRUE)
       dp_mst <- minimum.spanning.tree(gp)
       full_List<-list(pcareduceres = pcareduceres, MSTtree = dp_mst, clusterid = clusterid, clucenter = clucenter)
-	  object@MBclusters<-full_List
-    	return(object)
+        object@MBclusters<-full_List
+          return(object)
 }
 )
 

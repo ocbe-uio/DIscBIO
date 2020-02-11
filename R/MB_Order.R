@@ -20,25 +20,25 @@
 #' sc <- MB_Order(sc, export = FALSE)
 #' sc@MBordering
 MB_Order<-function(object, quiet = FALSE, export = TRUE){
-	data=object@MBclusters
-	lpsorderMB <- TSCANorder(data)
-	Names<-names(object@MBclusters$clusterid)
-	sampleNames<-colnames(object@fdata)
-	orderID<-lpsorderMB
-	order<-c(1:length(lpsorderMB))
-	orderTableMB<-data.frame(order,orderID)
-	if (export) {
-		write.csv(
-			orderTableMB,
-			file = "Cellular_pseudo-time_ordering_based_on_Model-based_clusters.csv"
-		)
-	}
-	if (!quiet) {
-		print(orderTableMB)
-	}
-	FinalOrder<-orderTableMB[match(sampleNames, orderTableMB$orderID),]
-	MBordering<-FinalOrder[,1]
-	names(MBordering)<-names(Names)
-	object@MBordering<-MBordering
-	return(object)
+    data=object@MBclusters
+    lpsorderMB <- TSCANorder(data)
+    Names<-names(object@MBclusters$clusterid)
+    sampleNames<-colnames(object@fdata)
+    orderID<-lpsorderMB
+    order<-c(1:length(lpsorderMB))
+    orderTableMB<-data.frame(order,orderID)
+    if (export) {
+        write.csv(
+            orderTableMB,
+            file = "Cellular_pseudo-time_ordering_based_on_Model-based_clusters.csv"
+        )
+    }
+    if (!quiet) {
+        print(orderTableMB)
+    }
+    FinalOrder<-orderTableMB[match(sampleNames, orderTableMB$orderID),]
+    MBordering<-FinalOrder[,1]
+    names(MBordering)<-names(Names)
+    object@MBordering<-MBordering
+    return(object)
 }

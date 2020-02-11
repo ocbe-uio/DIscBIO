@@ -30,38 +30,38 @@ setMethod("MBclustheatmap",
           signature = "DISCBIO",
           definition = function(object,hmethod, plot = TRUE, quiet = FALSE){
             x <- object@fdata  
-		object@clusterpar$metric <- "pearson"
-		dist.gen <- function(x,method="euclidean", ...) if ( method %in% c("spearman","pearson","kendall") ) as.dist( 1 - cor(t(x),method=method,...) ) else dist(x,method=method,...)
-		dist.gen.pairs <- function(x,y,...) dist.gen(t(cbind(x,y)),...)
-		clustfun <- function(x,clustnr=20,bootnr=50,metric="pearson",do.gap=TRUE,SE.method="Tibs2001SEmax",SE.factor=.25,B.gap=50,cln=0,rseed=17000,quiet = FALSE){
-			if ( clustnr < 2) stop("Choose clustnr > 1")
-			di <- dist.gen(t(x),method=metric)
-			if ( do.gap | cln > 0 ){
-				gpr <- NULL
-				if ( do.gap ){
-					set.seed(rseed)
-					gpr <- clusGap(
+    object@clusterpar$metric <- "pearson"
+    dist.gen <- function(x,method="euclidean", ...) if ( method %in% c("spearman","pearson","kendall") ) as.dist( 1 - cor(t(x),method=method,...) ) else dist(x,method=method,...)
+    dist.gen.pairs <- function(x,y,...) dist.gen(t(cbind(x,y)),...)
+    clustfun <- function(x,clustnr=20,bootnr=50,metric="pearson",do.gap=TRUE,SE.method="Tibs2001SEmax",SE.factor=.25,B.gap=50,cln=0,rseed=17000,quiet = FALSE){
+      if ( clustnr < 2) stop("Choose clustnr > 1")
+      di <- dist.gen(t(x),method=metric)
+      if ( do.gap | cln > 0 ){
+        gpr <- NULL
+        if ( do.gap ){
+          set.seed(rseed)
+          gpr <- clusGap(
             as.matrix(di), FUNcluster = kmeans, K.max = clustnr, B = B.gap,
             verbose = !quiet
           ) 
-					if ( cln == 0 ) cln <- maxSE(gpr$Tab[,3],gpr$Tab[,4],method=SE.method,SE.factor)
-				}    
-				if ( cln <= 1 ) {
-					clb <- list(result=list(partition=rep(1,dim(x)[2])),bootmean=1)
-					names(clb$result$partition) <- names(x)
-					return(list(x=x,clb=clb,gpr=gpr,di=di))
-				}
+          if ( cln == 0 ) cln <- maxSE(gpr$Tab[,3],gpr$Tab[,4],method=SE.method,SE.factor)
+        }    
+        if ( cln <= 1 ) {
+          clb <- list(result=list(partition=rep(1,dim(x)[2])),bootmean=1)
+          names(clb$result$partition) <- names(x)
+          return(list(x=x,clb=clb,gpr=gpr,di=di))
+        }
         # FUN <- match.fun(clustermethod)
-				clb <- clusterboot(
+        clb <- clusterboot(
           di, B=bootnr, distances=FALSE, bootmethod="boot",
           clustermethod=fpc::kmeansCBI, krange=cln, scaling=FALSE, 
           multipleboot=FALSE, bscompare=TRUE, seed=rseed, count = !quiet
         )
-				return(list(x=x,clb=clb,gpr=gpr,di=di))
-			}
-		}
- 		y <- clustfun(object@fdata,clustnr=20,bootnr=50,metric="pearson",do.gap=TRUE,SE.method="Tibs2001SEmax",SE.factor=.25,B.gap=50,cln=0,rseed=17000, quiet = quiet) 
-		object@distances <- as.matrix( y$di )
+        return(list(x=x,clb=clb,gpr=gpr,di=di))
+      }
+    }
+     y <- clustfun(object@fdata,clustnr=20,bootnr=50,metric="pearson",do.gap=TRUE,SE.method="Tibs2001SEmax",SE.factor=.25,B.gap=50,cln=0,rseed=17000, quiet = quiet) 
+    object@distances <- as.matrix( y$di )
             part <- object@MBclusters$clusterid
             na <- c()
             j <- 0

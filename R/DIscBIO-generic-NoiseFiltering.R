@@ -41,24 +41,24 @@ setMethod(
         object, percentile=0.8, CV= 0.3, geneCol="yellow", FgeneCol="black",
         erccCol="blue", Val = TRUE, plot = TRUE, export = TRUE, quiet = FALSE
     ) {
-	if ( ! is.numeric(percentile) ) stop( "percentile has to be a positive number" ) else if ( percentile <= 0 ) stop( "percentile has to be a positive number" )
-	if ( ! is.numeric(CV) ) stop( "CV has to be a positive number" ) else if ( CV <= 0 ) stop( "CV has to be a positive number" )
+    if ( ! is.numeric(percentile) ) stop( "percentile has to be a positive number" ) else if ( percentile <= 0 ) stop( "percentile has to be a positive number" )
+    if ( ! is.numeric(CV) ) stop( "CV has to be a positive number" ) else if ( CV <= 0 ) stop( "CV has to be a positive number" )
 
     # Split data into sub tables based on the factor data geneTypes
-	GeneList = rownames(object@expdata)
-	data = object@expdataAll
+    GeneList = rownames(object@expdata)
+    data = object@expdataAll
     shortNames <- substr(rownames(data), 1, 4)
     geneTypes <- factor(c(ENSG = "ENSG", ERCC = "ERCC" )[shortNames])
 
     # calculate normalisation for counts\n",
     countsG1ms <- data[which(geneTypes == "ENSG"), ]
     countsERCC <- data[which(geneTypes == "ERCC" ), ]
-	
-	estimateSizeFactorsForMatrix = function (counts, locfunc = median){
-		loggeomeans <- rowMeans(log(counts))
-		apply(counts, 2, function(cnts) exp(locfunc((log(cnts) - loggeomeans)[is.finite(loggeomeans)])))
-	}
-	
+    
+    estimateSizeFactorsForMatrix = function (counts, locfunc = median){
+        loggeomeans <- rowMeans(log(counts))
+        apply(counts, 2, function(cnts) exp(locfunc((log(cnts) - loggeomeans)[is.finite(loggeomeans)])))
+    }
+    
     sfERCC <- estimateSizeFactorsForMatrix(countsERCC)
     sfG1ms <- estimateSizeFactorsForMatrix(countsG1ms)
 
@@ -166,16 +166,16 @@ setMethod(
         }else{
             points( meansERCC, cv2ERCC, pch=20, cex=2, col=erccCol) # Showing all the valied ERCCs
         }
-		add_legend <- function(...) {
-		opar <- par(fig=c(0, 1, 0, 1), oma=c(0, 0, 0, 0), 
-		mar=c(0, 0, 0, 0), new=TRUE)
-		on.exit(par(opar))
-		plot(0, 0, type='n', bty='n', xaxt='n', yaxt='n')
-		legend(...)
-		}
+        add_legend <- function(...) {
+        opar <- par(fig=c(0, 1, 0, 1), oma=c(0, 0, 0, 0), 
+        mar=c(0, 0, 0, 0), new=TRUE)
+        on.exit(par(opar))
+        plot(0, 0, type='n', bty='n', xaxt='n', yaxt='n')
+        legend(...)
+        }
         add_legend("topleft", legend=c("Noise curve","ERCC spike-ins","Genes above the noise line"), pch=c(15,20,20), 
         col=c("red",erccCol,FgeneCol),horiz=TRUE, bty='n', cex=0.85)
     }
-	object@noiseF<-genes_test
+    object@noiseF<-genes_test
     return(object)
 })

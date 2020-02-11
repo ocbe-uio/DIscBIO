@@ -17,28 +17,28 @@ setGeneric("KmeanOrder", function(object, quiet = FALSE, export = TRUE) standard
 setMethod("KmeanOrder",
           signature = "DISCBIO",
           definition = function(object, quiet = FALSE, export = TRUE) {
-			# Validation
-			if (length(object@kmeans$kpart) == 0) {
-				stop("run Clustexp before KmeanOrder")
-			}
-			
-			Obj <- object@fdata
-			Clusters<-object@cpart
-			sampleNames<-colnames(object@fdata)
-			lpsmclust <- Exprmclust(Obj, K = 4, reduce = F, cluster = Clusters)
-			lpsorder <- TSCANorder(lpsmclust)
-			orderID <- lpsorder
-			order <- c(1:length(lpsorder))
-			orderTable <- data.frame(order, orderID)
-			if (export) {
-				write.csv(orderTable,file = "Cellular_pseudo-time_ordering_based_on_k-meansc-lusters.csv")
-			}
-			if (!quiet) {
-				print(orderTable)
-			}
-			FinalOrder <- orderTable[match(sampleNames, orderTable$orderID), ]
-			out_order <- FinalOrder[, 1]
-			names(out_order) <- names(Clusters)
-			object@kordering<-out_order
-			return(object)
+            # Validation
+            if (length(object@kmeans$kpart) == 0) {
+                stop("run Clustexp before KmeanOrder")
+            }
+            
+            Obj <- object@fdata
+            Clusters<-object@cpart
+            sampleNames<-colnames(object@fdata)
+            lpsmclust <- Exprmclust(Obj, K = 4, reduce = F, cluster = Clusters)
+            lpsorder <- TSCANorder(lpsmclust)
+            orderID <- lpsorder
+            order <- c(1:length(lpsorder))
+            orderTable <- data.frame(order, orderID)
+            if (export) {
+                write.csv(orderTable,file = "Cellular_pseudo-time_ordering_based_on_k-meansc-lusters.csv")
+            }
+            if (!quiet) {
+                print(orderTable)
+            }
+            FinalOrder <- orderTable[match(sampleNames, orderTable$orderID), ]
+            out_order <- FinalOrder[, 1]
+            names(out_order) <- names(Clusters)
+            object@kordering<-out_order
+            return(object)
 })

@@ -30,4 +30,4 @@ setMethod("plotKmeansLabelstSNE",
             plot(object@tsne,xlab="Dim 1",ylab="Dim 2",pch=20,cex=.5,col="lightgrey")
             text(object@tsne[,1],object@tsne[,2],labels,cex=.7,col=COL)
           }
-          )		  
+          )

@@ -21,8 +21,8 @@
 #' PlotMBorderPCA(sc)
 
 PlotMBorderPCA<- function(object) {
-	data=object@MBclusters
-	MBordertable<-cbind(data$pcareduceres,object@MBordering)
+    data=object@MBclusters
+    MBordertable<-cbind(data$pcareduceres,object@MBordering)
     l <- MBordertable[,3]
     mi <- min(l,na.rm=TRUE)
     ma <- max(l,na.rm=TRUE)
