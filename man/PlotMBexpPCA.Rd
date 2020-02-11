@@ -9,22 +9,25 @@ PlotMBexpPCA(object, g, n = NULL)
 \arguments{
 \item{object}{\code{DISCBIO} class object.}
 
-\item{g}{Individual gene name or vector with a group of gene names corresponding to a subset of valid row names of the \code{ndata} slot
-of the \code{DISCBIO} object.}
+\item{g}{Individual gene name or vector with a group of gene names
+corresponding to a subset of valid row names of the \code{ndata} slot of
+the \code{DISCBIO} object.}
 
-\item{n}{String of characters representing the title of the plot. Default is NULL and the first element of \code{g} is chosen.}
+\item{n}{String of characters representing the title of the plot. Default is
+NULL and the first element of \code{g} is chosen.}
 }
 \value{
 A plot of the PCA.
 }
 \description{
-The PCA representation can also be used to show the gene expression of a particular gene.
+The PCA representation can also be used to show the gene
+  expression of a particular gene.
 }
 \examples{
 sc<- DISCBIO(valuesG1msReduced)
 sc<-NoiseFiltering(sc,percentile=0.9, CV=0.2)
 sc<-Normalizedata(sc, mintotal=1000, minexpr=0, minnumber=0, maxexpr=Inf, downsample=FALSE, dsn=1, rseed=17000)
-sc<-FinalPreprocessing(sc,GeneFlitering="NoiseF",export = TRUE)
+sc<-FinalPreprocessing(sc,GeneFlitering="NoiseF",export = FALSE)
 sc <- Exprmclust(sc,K =2,reduce = TRUE,quiet = TRUE)
 g <- "ENSG00000010244" #### Plotting the expression of MT-RNR2
 PlotMBexpPCA(sc,g)

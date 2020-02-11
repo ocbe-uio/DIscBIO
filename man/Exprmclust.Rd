@@ -36,22 +36,29 @@ Exprmclust(
 \arguments{
 \item{object}{\code{DISCBIO} class object.}
 
-\item{K}{An integer vector specifying all possible cluster numbers. Default is 3.}
+\item{K}{An integer vector specifying all possible cluster numbers. Default
+is 3.}
 
-\item{modelNames}{model to be used in model-based clustering. By default "ellipsoidal, varying volume, shape, and orientation" is used.}
+\item{modelNames}{model to be used in model-based clustering. By default
+"ellipsoidal, varying volume, shape, and orientation" is used.}
 
-\item{reduce}{A logical vector that allows performing the PCA on the expression data. Default is TRUE.}
+\item{reduce}{A logical vector that allows performing the PCA on the
+expression data. Default is TRUE.}
 
 \item{cluster}{A vector showing the ID of cells in the clusters.}
 
 \item{quiet}{if `TRUE`, suppresses intermediary output}
 }
 \value{
-If `object` is of class DISCBIO, the output is the same object  with the MBclusters slot filled. If the `object` is a data frame, the function returns a named list containing the four objects that together correspond to the contents of the MBclusters slot.
+If `object` is of class DISCBIO, the output is the same object  with
+  the MBclusters slot filled. If the `object` is a data frame, the function
+  returns a named list containing the four objects that together correspond
+  to the contents of the MBclusters slot.
 }
 \description{
-this function first uses principal component analysis (PCA) to reduce dimensionality of original data. It then performs model-based clustering 
-on the transformed expression values.
+this function first uses principal component analysis (PCA) to
+  reduce dimensionality of original data. It then performs model-based
+  clustering on the transformed expression values.
 }
 \examples{
 sc <- DISCBIO(valuesG1msReduced)

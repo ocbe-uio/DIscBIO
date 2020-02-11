@@ -1,8 +1,9 @@
 #' @title Plotting the network.
-#' @description This function uses STRING-api to plot the network. 
+#' @description This function uses STRING-api to plot the network.
 #' @export
 #' @param data A gene list.
-#' @param FileName A string vector showing the name to be used to save the resulted network.
+#' @param FileName A string vector showing the name to be used to save the
+#'   resulted network.
 #' @param species The taxonomy name/id. Default is "9606" for Homo sapiens.
 #' @param plot_width Plot width
 #' @param plot_height Plot height
@@ -11,7 +12,7 @@
 #' @importFrom png readPNG
 #' @importFrom graphics plot rasterImage
 #' @return A plot of the network
-#' @examples 
+#' @examples
 #' \dontrun{
 #' sc <- DISCBIO(valuesG1msReduced)
 #' sc <- NoiseFiltering(sc)
@@ -29,38 +30,72 @@
 #' FileName <- paste0(DEGs)
 #' ppi <- PPI(data, FileName)
 #' networking <- NetAnalysis(ppi)
-#' FileName <- "Up.DownDEG" 
+#' FileName <- "Up.DownDEG"
 #' Networking(data, FileName)
 #' }
-Networking<-function(data, FileName, species = "9606", plot_width = 25, 
-                     plot_height = 15) {
-    if (length(data)>600){
-        print("Your gene list is too big")
+Networking <-
+    function(data,
+             FileName,
+             species = "9606",
+             plot_width = 25,
+             plot_height = 15) {
+        if (length(data) > 600) {
+            print("Your gene list is too big")
             
-    }else{
-        string_api_url <- "https://string-db.org/api/"
-        output_format <- "highres_image"
-        method <- "network"
-        your_identifiers <- ""
-        optional_parameters <- ""
-
-        # Construct API request
-        genes <- data
-        repos <- GET(url = paste0(string_api_url,output_format,'/',method,'?identifiers=',
-                          paste(as.character(data), collapse = "%0d"),"&", "species=",species))
-                cat("Examine response components =",status_code(repos),"\t","200 means successful","\n")
-        y = repos$request$ url
-        download.file(y,paste0("network",FileName,".png"), mode = 'wb')
-        Network<- readPNG(paste0("network",FileName,".png"), native = TRUE)
-        set_plot_dimensions <- function(width_choice, height_choice) {
-            options(repr.plot.width=width_choice, repr.plot.height=height_choice)
+        } else{
+            string_api_url <- "https://string-db.org/api/"
+            output_format <- "highres_image"
+            method <- "network"
+            your_identifiers <- ""
+            optional_parameters <- ""
+            
+            # Construct API request
+            genes <- data
+            repos <-
+                GET(
+                    url = paste0(
+                        string_api_url,
+                        output_format,
+                        '/',
+                        method,
+                        '?identifiers=',
+                        paste(as.character(data), collapse = "%0d"),
+                        "&",
+                        "species=",
+                        species
+                    )
+                )
+            cat(
+                "Examine response components =",
+                status_code(repos),
+                "\t",
+                "200 means successful",
+                "\n"
+            )
+            y = repos$request$url
+            download.file(y, paste0("network", FileName, ".png"), mode = 'wb')
+            Network <-
+                readPNG(paste0("network", FileName, ".png"), native = TRUE)
+            set_plot_dimensions <-
+                function(width_choice, height_choice) {
+                    options(repr.plot.width = width_choice,
+                            repr.plot.height = height_choice)
+                }
+            set_plot_dimensions(plot_width, plot_height)
+            
+            plot(0:1,
+                 0:1,
+                 type = "n",
+                 ann = FALSE,
+                 axes = FALSE)
+            rasterImage(Network, 0, 0, 1, 1)
+            cat(
+                "\n",
+                "You can see the network with high resolution by clicking on the following link:",
+                "\n",
+                paste0(y)
+            )
+            
+            set_plot_dimensions(8, 8) # resets to default values
         }
-        set_plot_dimensions(plot_width, plot_height)
-
-        plot(0:1,0:1,type="n",ann=FALSE,axes=FALSE)
-        rasterImage(Network,0,0,1,1)
-        cat("\n","You can see the network with high resolution by clicking on the following link:","\n",paste0(y))
-
-        set_plot_dimensions(8,8) # resets to default values
     }
-}

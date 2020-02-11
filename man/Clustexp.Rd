@@ -37,26 +37,36 @@ Clustexp(
 \arguments{
 \item{object}{\code{DISCBIO} class object.}
 
-\item{clustnr}{Maximum number of clusters for the derivation of the cluster number by the saturation of mean within-cluster-dispersion. Default is 20.}
+\item{clustnr}{Maximum number of clusters for the derivation of the cluster
+number by the saturation of mean within-cluster-dispersion. Default is 20.}
 
-\item{bootnr}{A numeric value of booststrapping runs for \code{clusterboot}. Default is 50.}
+\item{bootnr}{A numeric value of booststrapping runs for \code{clusterboot}.
+Default is 50.}
 
-\item{metric}{Is the method to transform the input data to a distance object. 
-Metric has to be one of the following: ["spearman","pearson","kendall","euclidean","maximum","manhattan","canberra","binary","minkowski"].}
+\item{metric}{Is the method to transform the input data to a distance object.
+Metric has to be one of the following: ["spearman", "pearson", "kendall",
+"euclidean", "maximum", "manhattan", "canberra", "binary", "minkowski"].}
 
-\item{do.gap}{A logical vector that allows generating the number of clusters based on the gap statistics. Default is TRUE.}
+\item{do.gap}{A logical vector that allows generating the number of clusters
+based on the gap statistics. Default is TRUE.}
 
-\item{SE.method}{The SE.method determines the first local maximum of the gap statistics. 
-The SE.method has to be one of the following:["firstSEmax","Tibs2001SEmax","globalSEmax","firstmax","globalmax"]. Default is "Tibs2001SEmax"}
+\item{SE.method}{The SE.method determines the first local maximum of the gap
+statistics. The SE.method has to be one of the following:["firstSEmax",
+"Tibs2001SEmax", "globalSEmax", "firstmax", "globalmax"]. Default is
+"Tibs2001SEmax"}
 
-\item{SE.factor}{A numeric value of the fraction of the standard deviation by which the local maximum is required to differ from the neighboring points it is compared to. 
-Default is 0.25.}
+\item{SE.factor}{A numeric value of the fraction of the standard deviation by
+which the local maximum is required to differ from the neighboring points
+it is compared to. Default is 0.25.}
 
-\item{B.gap}{Number of bootstrap runs for the calculation of the gap statistics. Default is 50}
+\item{B.gap}{Number of bootstrap runs for the calculation of the gap
+statistics. Default is 50}
 
-\item{cln}{Number of clusters to be used. Default is \code{NULL} and the cluster number is inferred by the saturation criterion.}
+\item{cln}{Number of clusters to be used. Default is \code{NULL} and the
+cluster number is inferred by the saturation criterion.}
 
-\item{rseed}{Integer number. Random seed to enforce reproducible clustering results. Default is 17000.}
+\item{rseed}{Integer number. Random seed to enforce reproducible clustering
+results. Default is 17000.}
 
 \item{quiet}{if `TRUE`, intermediate output is suppressed}
 }
@@ -64,7 +74,8 @@ Default is 0.25.}
 The DISCBIO-class object input with the cpart slot filled.
 }
 \description{
-This functions performs the initial clustering of the RaceID algorithm.
+This functions performs the initial clustering of the RaceID
+  algorithm.
 }
 \examples{
 sc <- DISCBIO(valuesG1msReduced) # changes signature of data

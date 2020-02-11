@@ -9,7 +9,8 @@ Networking(data, FileName, species = "9606", plot_width = 25, plot_height = 15)
 \arguments{
 \item{data}{A gene list.}
 
-\item{FileName}{A string vector showing the name to be used to save the resulted network.}
+\item{FileName}{A string vector showing the name to be used to save the
+resulted network.}
 
 \item{species}{The taxonomy name/id. Default is "9606" for Homo sapiens.}
 
@@ -41,7 +42,7 @@ data <- data[,3]
 FileName <- paste0(DEGs)
 ppi <- PPI(data, FileName)
 networking <- NetAnalysis(ppi)
-FileName <- "Up.DownDEG" 
+FileName <- "Up.DownDEG"
 Networking(data, FileName)
 }
 }

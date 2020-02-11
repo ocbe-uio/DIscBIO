@@ -30,27 +30,38 @@ Normalizedata(
 \arguments{
 \item{object}{\code{DISCBIO} class object.}
 
-\item{mintotal}{minimum total transcript number required. Cells with less than \code{mintotal} transcripts are filtered out. Default is 1000.}
+\item{mintotal}{minimum total transcript number required. Cells with less
+than \code{mintotal} transcripts are filtered out. Default is 1000.}
 
-\item{minexpr}{minimum required transcript count of a gene in at least \code{minnumber} cells. All other genes are filtered out. Default is 0.}
+\item{minexpr}{minimum required transcript count of a gene in at least
+\code{minnumber} cells. All other genes are filtered out. Default is 0.}
 
-\item{minnumber}{minimum number of cells that are expressing each gene at minexpr transcripts. Default is 0.}
+\item{minnumber}{minimum number of cells that are expressing each gene at
+minexpr transcripts. Default is 0.}
 
-\item{maxexpr}{maximum allowed transcript count of a gene in at least a single cell after normalization or downsampling. All other genes are filtered out. Default is Inf.}
+\item{maxexpr}{maximum allowed transcript count of a gene in at least a
+single cell after normalization or downsampling. All other genes are
+filtered out. Default is Inf.}
 
-\item{downsample}{A logical vector. Default is FALSE. If downsample is set to TRUE, then transcript counts are downsampled to mintotal transcripts per cell, instead of 
-the normalization. Downsampled versions of the transcript count data are averaged across dsn samples}
+\item{downsample}{A logical vector. Default is FALSE. If downsample is set to
+TRUE, then transcript counts are downsampled to mintotal transcripts per
+cell, instead of the normalization. Downsampled versions of the transcript
+count data are averaged across dsn samples}
 
-\item{dsn}{A numeric value of the number of samples to be used to average the downsampled versions of the transcript count data. Default is 1 which means that sampling
-noise should be comparable across cells. For high numbers of dsn the data will become similar to the median normalization.}
+\item{dsn}{A numeric value of the number of samples to be used to average the
+downsampled versions of the transcript count data. Default is 1 which means
+that sampling noise should be comparable across cells. For high numbers of
+dsn the data will become similar to the median normalization.}
 
-\item{rseed}{Integer number. Random seed to enforce reproducible clustering results. Default is 17000.}
+\item{rseed}{Integer number. Random seed to enforce reproducible clustering
+results. Default is 17000.}
 }
 \value{
 The DISCBIO-class object input with the ndata and fdata slots filled.
 }
 \description{
-This function allows filtering of genes and cells to be used in the downstream analysis.
+This function allows filtering of genes and cells to be used in
+  the downstream analysis.
 }
 \examples{
 sc <- DISCBIO(valuesG1msReduced) # changes signature of data

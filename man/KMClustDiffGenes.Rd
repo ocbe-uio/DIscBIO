@@ -32,7 +32,8 @@ KMClustDiffGenes(
 
 \item{fdr}{A numeric value of the false discovery rate. Default is 0.01.}
 
-\item{export}{A logical vector that allows writing the final gene list in excel file. Default is TRUE.}
+\item{export}{A logical vector that allows writing the final gene list in
+excel file. Default is TRUE.}
 
 \item{quiet}{if `TRUE`, suppresses intermediate text output}
 }

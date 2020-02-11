@@ -22,9 +22,11 @@ FinalPreprocessing(
 \arguments{
 \item{object}{\code{DISCBIO} class object.}
 
-\item{GeneFlitering}{GeneFlitering has to be one of the followings: ["NoiseF","ExpF"]. Default is "NoiseF"}
+\item{GeneFlitering}{GeneFlitering has to be one of the followings:
+["NoiseF","ExpF"]. Default is "NoiseF"}
 
-\item{export}{A logical vector that allows writing the final gene list in excel file. Default is TRUE.}
+\item{export}{A logical vector that allows writing the final gene list in
+excel file. Default is TRUE.}
 
 \item{quiet}{if `TRUE`, intermediary output is suppressed}
 }

@@ -13,7 +13,8 @@ PlotMBorderPCA(object)
 A plot of the PCA.
 }
 \description{
-The PCA representation can also be used to show the pseudo-time ordering.
+The PCA representation can also be used to show the pseudo-time
+  ordering.
 }
 \examples{
 sc <- DISCBIO(valuesG1msReduced)

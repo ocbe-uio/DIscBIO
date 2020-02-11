@@ -17,7 +17,9 @@ MB_Order(object, quiet = FALSE, export = TRUE)
 The DISCBIO-class object input with the MBordering slot filled.
 }
 \description{
-This function takes the exact output of exprmclust function and construct Pseudo-time ordering by mapping all cells onto the path that connects cluster centers.
+This function takes the exact output of exprmclust function and
+  construct Pseudo-time ordering by mapping all cells onto the path that
+  connects cluster centers.
 }
 \examples{
 sc <- DISCBIO(valuesG1msReduced)
