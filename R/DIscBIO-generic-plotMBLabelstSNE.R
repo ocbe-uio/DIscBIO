@@ -2,6 +2,7 @@
 #' @description Visualizing the Model-based clusters using tSNE maps 
 #' @param object \code{DISCBIO} class object.
 #' @importFrom graphics text
+#' @return A plot of the `object@MBtsne` values
 #' @examples
 #' \dontrun{
 #' sc <- DISCBIO(valuesG1msReduced)

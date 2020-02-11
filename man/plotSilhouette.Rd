@@ -18,6 +18,9 @@ plotSilhouette(object, K)
 
 \item{K}{A numeric value of the number of clusters}
 }
+\value{
+A silhouette plot
+}
 \description{
 The silhouette provides a representation of how well each point is represented by its cluster in comparison to the 
 closest neighboring cluster. It computes for each point the difference between the average similarity 

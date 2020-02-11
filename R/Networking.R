@@ -10,6 +10,7 @@
 #' @importFrom utils download.file
 #' @importFrom png readPNG
 #' @importFrom graphics plot rasterImage
+#' @return A plot of the network
 #' @examples 
 #' \dontrun{
 #' sc <- DISCBIO(valuesG1msReduced)

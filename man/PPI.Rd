@@ -13,6 +13,9 @@ PPI(data, FileName, species = "9606")
 
 \item{species}{The taxonomy name/id. Default is "9606" for Homo sapiens.}
 }
+\value{
+A TSV file stored in the user's file system and its corresponding `data.frame` object in R.
+}
 \description{
 This function uses STRING-api. The outcome of STRING analysis will be stored in tab separated values (TSV) files.
 }

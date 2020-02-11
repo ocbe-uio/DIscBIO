@@ -28,6 +28,9 @@ FinalPreprocessing(
 
 \item{quiet}{if `TRUE`, intermediary output is suppressed}
 }
+\value{
+The DISCBIO-class object input with the FinalGeneList slot filled.
+}
 \description{
 This function generates the final filtered normalized dataset.
 }

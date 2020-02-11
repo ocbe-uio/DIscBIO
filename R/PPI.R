@@ -6,6 +6,7 @@
 #' @param species The taxonomy name/id. Default is "9606" for Homo sapiens.
 #' @importFrom httr content
 #' @importFrom readr read_tsv
+#' @return A TSV file stored in the user's file system and its corresponding `data.frame` object in R.
 #' @examples
 #' \dontrun{
 #' sc <- DISCBIO(valuesG1msReduced)

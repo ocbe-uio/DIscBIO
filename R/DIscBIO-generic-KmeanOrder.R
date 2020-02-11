@@ -4,6 +4,7 @@
 #' @param quiet if `TRUE`, suppresses intermediary output
 #' @param export if `TRUE`, exports order table to csv
 #' @importFrom TSCAN TSCANorder
+#' @return The DISCBIO-class object input with the kordering slot filled.
 #' @examples 
 #' sc <- DISCBIO(valuesG1msReduced)
 #' sc <- Clustexp(sc, cln=3) # K-means clustering

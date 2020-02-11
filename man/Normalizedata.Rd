@@ -46,6 +46,9 @@ noise should be comparable across cells. For high numbers of dsn the data will b
 
 \item{rseed}{Integer number. Random seed to enforce reproducible clustering results. Default is 17000.}
 }
+\value{
+The DISCBIO-class object input with the ndata and fdata slots filled.
+}
 \description{
 This function allows filtering of genes and cells to be used in the downstream analysis.
 }

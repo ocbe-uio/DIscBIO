@@ -46,6 +46,9 @@ Exprmclust(
 
 \item{quiet}{if `TRUE`, suppresses intermediary output}
 }
+\value{
+If `object` is of class DISCBIO, the output is the same object  with the MBclusters slot filled. If the `object` is a data frame, the function returns a named list containing the four objects that together correspond to the contents of the MBclusters slot.
+}
 \description{
 this function first uses principal component analysis (PCA) to reduce dimensionality of original data. It then performs model-based clustering 
 on the transformed expression values.

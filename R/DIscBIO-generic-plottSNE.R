@@ -2,6 +2,7 @@
 #' @description Visualizing the K-means clusters using tSNE maps
 #' @param object \code{DISCBIO} class object.
 #' @importFrom graphics text
+#' @return A plot of t-SNEs.
 #' @examples 
 #' sc <- DISCBIO(valuesG1msReduced) # changes signature of data
 #' sc <- Clustexp(sc, cln=3) # data must be clustered before plotting

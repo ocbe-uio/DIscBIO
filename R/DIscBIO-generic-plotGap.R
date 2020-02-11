@@ -3,6 +3,7 @@
 #' @rdname plotGap
 #' @param object \code{DISCBIO} class object.
 #' @param y_limits 2-length numeric vector with the limits for the gap plot
+#' @return A plot of the gap statistics
 #' @examples
 #' sc <- DISCBIO(valuesG1msReduced) # changes signature of data
 #' sc <- Clustexp(sc, cln=3) # data must be clustered before plotting

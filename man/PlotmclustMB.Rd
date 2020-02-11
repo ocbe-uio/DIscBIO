@@ -12,6 +12,9 @@ PlotmclustMB(object)
 \arguments{
 \item{object}{\code{DISCBIO} class object.}
 }
+\value{
+A plot of the PCA.
+}
 \description{
 Plot the model-based clustering results
 }

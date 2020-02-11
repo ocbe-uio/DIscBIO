@@ -13,6 +13,7 @@
 #' @param quiet if `TRUE`, intermediary output is suppressed
 #' @importFrom stats coef pnbinom
 #' @importFrom amap K
+#' @return A named vector of the genes containing outlying cells and the number of cells on each.
 #' @examples
 #' sc <- DISCBIO(valuesG1msReduced)
 #' sc <- Clustexp(sc, cln=3) # K-means clustering

@@ -7,6 +7,7 @@
 #' @param Second A string vector showing the second target cluster.  Default is "CL2"
 #' @param quiet If `TRUE`, suppresses intermediary output
 #' @importFrom stats predict
+#' @return Performance statistics of the model
 #' @examples
 #' sc <- DISCBIO(valuesG1msReduced)
 #' sc <- NoiseFiltering(sc, percentile=0.9, CV=0.2, export=FALSE)

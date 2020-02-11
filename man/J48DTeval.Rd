@@ -17,6 +17,9 @@ J48DTeval(data, num.folds = 10, First = "CL1", Second = "CL2", quiet = FALSE)
 
 \item{quiet}{If `TRUE`, suppresses intermediary output}
 }
+\value{
+Statistics about the J48 model
+}
 \description{
 This function evaluates the performance of the generated trees for error estimation by ten-fold cross validation assessment.
 }

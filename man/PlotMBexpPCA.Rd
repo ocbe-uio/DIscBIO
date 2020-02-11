@@ -14,6 +14,9 @@ of the \code{DISCBIO} object.}
 
 \item{n}{String of characters representing the title of the plot. Default is NULL and the first element of \code{g} is chosen.}
 }
+\value{
+A plot of the PCA.
+}
 \description{
 The PCA representation can also be used to show the gene expression of a particular gene.
 }

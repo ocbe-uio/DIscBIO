@@ -8,6 +8,7 @@
 #' @importFrom stats hclust as.dist cor kmeans
 #' @importFrom cluster clusGap maxSE
 #' @importFrom fpc clusterboot kmeansCBI
+#' @return Unless otherwise specified, a heatmap and a vector of the underlying cluster order.
 #' @examples 
 #' \dontrun{
 #' sc <- DISCBIO(valuesG1msReduced)

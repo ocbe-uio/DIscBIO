@@ -9,6 +9,9 @@ PlotMBorderPCA(object)
 \arguments{
 \item{object}{\code{DISCBIO} class object.}
 }
+\value{
+A plot of the PCA.
+}
 \description{
 The PCA representation can also be used to show the pseudo-time ordering.
 }

@@ -17,6 +17,9 @@ of the \code{DISCBIO} object.}
 
 \item{n}{String of characters representing the title of the plot. Default is NULL and the first element of \code{g} is chosen.}
 }
+\value{
+t-SNE plot for one particular gene
+}
 \description{
 The t-SNE map representation can also be used to analyze expression of a gene or a group of genes, 
 to investigate cluster specific gene expression patterns

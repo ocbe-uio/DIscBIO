@@ -8,6 +8,7 @@
 #' @param K A numeric value of the number of clusters
 #' @importFrom stats as.dist cor
 #' @importFrom cluster silhouette
+#' @return A silhouette plot
 setGeneric("plotsilhouetteMB", function(object,K) standardGeneric("plotsilhouetteMB"))
 
 #' @export

@@ -5,6 +5,7 @@
 #' @param g  Individual gene name or vector with a group of gene names corresponding to a subset of valid row names of the \code{ndata} slot
 #' of the \code{DISCBIO} object.
 #' @param n String of characters representing the title of the plot. Default is NULL and the first element of \code{g} is chosen.
+#' @return t-SNE plot for one particular gene
 #' @examples 
 #' \dontrun{
 #' sc <- DISCBIO(valuesG1msReduced)

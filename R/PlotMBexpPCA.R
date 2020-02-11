@@ -7,6 +7,7 @@
 #' @importFrom RColorBrewer brewer.pal
 #' @importFrom grDevices colorRampPalette
 #' @importFrom graphics layout par image
+#' @return A plot of the PCA.
 #' @export
 
 PlotMBexpPCA<- function(object,g,n=NULL) {

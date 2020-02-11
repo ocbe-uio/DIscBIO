@@ -5,6 +5,7 @@
 #' @param quiet if `TRUE`, suppresses intermediate output
 #' @importFrom tsne tsne
 #' @importFrom stats as.dist cor
+#' @return The DISCBIO-class object input with the tsne slot filled.
 #' @examples
 #' sc <- DISCBIO(valuesG1msReduced) # changes signature of data
 #' sc <- Clustexp(sc, cln=3) # data must be clustered before plottin

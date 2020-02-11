@@ -16,6 +16,9 @@ comptSNE(object, rseed = 15555, quiet = FALSE)
 
 \item{quiet}{if `TRUE`, suppresses intermediate output}
 }
+\value{
+The DISCBIO-class object input with the tsne slot filled.
+}
 \description{
 This function is used to compute the t-Distributed Stochastic Neighbor Embedding (t-SNE).
 }

@@ -10,6 +10,7 @@
 #' @importFrom mclust Mclust mclustBIC
 #' @importFrom stats dist prcomp lm
 #' @importFrom igraph graph.adjacency minimum.spanning.tree
+#' @return If `object` is of class DISCBIO, the output is the same object  with the MBclusters slot filled. If the `object` is a data frame, the function returns a named list containing the four objects that together correspond to the contents of the MBclusters slot.
 #' @examples
 #' sc <- DISCBIO(valuesG1msReduced)
 #' sc <- NoiseFiltering(sc, percentile=0.9, CV=0.2, export=FALSE)

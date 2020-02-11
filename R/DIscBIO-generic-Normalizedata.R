@@ -11,6 +11,7 @@
 #' noise should be comparable across cells. For high numbers of dsn the data will become similar to the median normalization.
 #' @param rseed Integer number. Random seed to enforce reproducible clustering results. Default is 17000.
 #' @include DIscBIO-classes.R
+#' @return The DISCBIO-class object input with the ndata and fdata slots filled.
 #' @examples
 #' sc <- DISCBIO(valuesG1msReduced) # changes signature of data
 #' 

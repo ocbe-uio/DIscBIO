@@ -4,6 +4,7 @@
 #' @param GeneFlitering GeneFlitering has to be one of the followings: ["NoiseF","ExpF"]. Default is "NoiseF"
 #' @param export A logical vector that allows writing the final gene list in excel file. Default is TRUE. 
 #' @param quiet if `TRUE`, intermediary output is suppressed
+#' @return The DISCBIO-class object input with the FinalGeneList slot filled.
 #' @examples 
 #' sc <- DISCBIO(valuesG1msReduced)
 #' sc <- NoiseFiltering(sc, percentile=0.9, CV=0.2, export=FALSE)

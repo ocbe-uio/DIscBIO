@@ -20,6 +20,9 @@ KMClustDiffGenes(object, K, fdr = 0.01, export = TRUE, quiet = FALSE)
 
 \item{quiet}{if `TRUE`, suppresses intermediate text output}
 }
+\value{
+A list containing two tables.
+}
 \description{
 description
 }

@@ -9,6 +9,7 @@
 #' @importFrom dplyr summarize
 #' @importFrom stats pbinom median
 #' @rdname KMClustDiffGenes
+#' @return A list containing two tables.
 #' @export
 #' @examples
 #' sc <- DISCBIO(valuesG1msReduced)

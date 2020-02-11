@@ -5,6 +5,7 @@
 #' @importFrom grDevices colorRampPalette
 #' @importFrom graphics layout par image
 #' @export
+#' @return A plot of the PCA.
 #' @examples
 #' \dontrun{
 #' sc <- DISCBIO(valuesG1msReduced)

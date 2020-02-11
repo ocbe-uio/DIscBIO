@@ -10,6 +10,7 @@
 #' @importFrom AnnotationDbi select
 #' @import org.Hs.eg.db
 #' @export
+#' @return A list containing two tables.
 #' @examples
 #' \dontrun{
 #' sc <- DISCBIO(valuesG1msReduced)

@@ -10,8 +10,10 @@ plotOrderKMtsne(object)
 \S4method{plotOrderKMtsne}{DISCBIO}(object)
 }
 \arguments{
-\item{object}{\code{DISCBIO} class object.
-of the \code{DISCBIO} object.}
+\item{object}{\code{DISCBIO} class object.}
+}
+\value{
+A plot of the pseudo-time ordering.
 }
 \description{
 The tSNE representation can also be used to show the pseudo-time ordering.

@@ -3,6 +3,7 @@
 #' @param object \code{DISCBIO} class object.
 #' @importFrom ggplot2 ggplot aes geom_point aes_string scale_colour_manual geom_text geom_segment guides guide_legend xlab ylab theme element_blank element_line unit element_text element_rect
 #' @importFrom igraph get.edgelist degree get.shortest.paths
+#' @return A plot of the PCA.
 #' @examples
 #' sc <- DISCBIO(valuesG1msReduced)
 #' sc <- NoiseFiltering(sc, percentile=0.9, CV=0.2, export=FALSE)

@@ -4,6 +4,7 @@
 #' @param types If types=NULL then the names of the cells will be grouped automatically. Default is NULL
 #' @importFrom grDevices rainbow
 #' @importFrom graphics legend
+#' @return Plot of the Principal Components
 #' @examples 
 #' sc <- DISCBIO(valuesG1msReduced)
 #' sc <- NoiseFiltering(sc, percentile=0.9, CV=0.2, export=FALSE)

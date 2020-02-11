@@ -6,6 +6,7 @@
 #' @export
 #' @importFrom rpart rpart
 #' @importFrom rpart.plot rpart.plot
+#' @return Information about the model and, by default, a plot of the decision tree.
 #' @examples
 #' sc <- DISCBIO(valuesG1msReduced)
 #' sc <- NoiseFiltering(sc, percentile=0.9, CV=0.2, export=FALSE)

@@ -8,6 +8,7 @@
 #' @param K A numeric value of the number of clusters
 #' @importFrom stats as.dist cor
 #' @importFrom cluster silhouette
+#' @return A silhouette plot
 #' @examples 
 #' sc <- DISCBIO(valuesG1msReduced) # changes signature of data
 #' sc <- Clustexp(sc, cln=3) # data must be clustered before plottin

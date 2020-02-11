@@ -8,6 +8,7 @@
 #' @importFrom graphics plot
 #' @importFrom partykit as.party
 #' @importFrom grid gpar
+#' @return Information about the J48 model and, by default, a plot of the decision tree.
 #' @examples
 #' sc <- DISCBIO(valuesG1msReduced)
 #' sc <- NoiseFiltering(sc, percentile=0.9, CV=0.2, export=FALSE)

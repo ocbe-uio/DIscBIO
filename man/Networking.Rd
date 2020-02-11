@@ -17,6 +17,9 @@ Networking(data, FileName, species = "9606", plot_width = 25, plot_height = 15)
 
 \item{plot_height}{Plot height}
 }
+\value{
+A plot of the network
+}
 \description{
 This function uses STRING-api to plot the network.
 }

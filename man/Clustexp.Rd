@@ -60,6 +60,9 @@ Default is 0.25.}
 
 \item{quiet}{if `TRUE`, intermediate output is suppressed}
 }
+\value{
+The DISCBIO-class object input with the cpart slot filled.
+}
 \description{
 This functions performs the initial clustering of the RaceID algorithm.
 }

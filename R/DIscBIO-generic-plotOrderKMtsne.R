@@ -1,7 +1,7 @@
 #' @title Plotting the pseudo-time ordering based on K-means clusters in the t-SNE map
 #' @description The tSNE representation can also be used to show the pseudo-time ordering.
 #' @param object \code{DISCBIO} class object.
-#' of the \code{DISCBIO} object.
+#' @return A plot of the pseudo-time ordering.
 #' @examples 
 #' sc <- DISCBIO(valuesG1msReduced)
 #' sc <- Clustexp(sc, cln=3) # K-means clustering

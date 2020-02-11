@@ -17,6 +17,9 @@ This should be one of "ward.D", "ward.D2", "single", "complete", "average". Defa
 
 \item{plot}{if `TRUE`, plots the heatmap; otherwise, just prints cclmo}
 }
+\value{
+Unless otherwise specified, a heatmap and a vector of the underlying cluster order.
+}
 \description{
 This functions plots a heatmap of the distance matrix grouped by clusters. Individual clusters are highlighted with rainbow colors along the x and y-axes.
 }

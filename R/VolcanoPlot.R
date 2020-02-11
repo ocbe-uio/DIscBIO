@@ -10,6 +10,7 @@
 #' @importFrom graphics title
 #' @importFrom utils write.csv
 #' @importFrom calibrate textxy
+#' @return A volcano plot
 #' @export
 #' @examples
 #' \dontrun{

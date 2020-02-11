@@ -50,6 +50,9 @@ the distance distribution of  pairs of cells in the orginal clusters after outli
 
 \item{quiet}{if `TRUE`, intermediary output is suppressed}
 }
+\value{
+A named vector of the genes containing outlying cells and the number of cells on each.
+}
 \description{
 This functions performs the outlier identification
 }

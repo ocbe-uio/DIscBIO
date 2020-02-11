@@ -5,6 +5,7 @@
 #' @param quiet if `TRUE`, suppresses intermediate output
 #' @importFrom tsne tsne
 #' @importFrom stats as.dist cor
+#' @return The DISCBIO-class object input with the MBtsne slot filled.
 #' @examples
 #' \dontrun{
 #' sc <- DISCBIO(valuesG1msReduced)

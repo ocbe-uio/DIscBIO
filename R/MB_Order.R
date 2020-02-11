@@ -5,6 +5,7 @@
 #' @param quiet if `TRUE`, intermediary output is suppressed
 #' @param export if `TRUE`, exports the results as a CSV file
 #' @importFrom TSCAN TSCANorder
+#' @return The DISCBIO-class object input with the MBordering slot filled.
 #' @examples
 #' \dontrun{
 #' sc <- DISCBIO(valuesG1msReduced)

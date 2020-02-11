@@ -3,6 +3,7 @@
 #' @param object \code{DISCBIO} class object.
 #' @param K A numeric value of the number of clusters
 #' @importFrom graphics text
+#' @return A plot of t-SNEs.
 #' @examples
 #' \dontrun{
 #' sc <- DISCBIO(valuesG1msReduced)

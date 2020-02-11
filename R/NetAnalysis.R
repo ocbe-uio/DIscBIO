@@ -6,6 +6,7 @@
 #' @param FileName suffix for the file name (if export = TRUE)
 #' @importFrom igraph graph.data.frame as_adjacency_matrix distance_table average.path.length get.adjacency V E mean_distance betweenness
 #' @importFrom NetIndices GenInd
+#' @return A network analysis table
 #' @examples 
 #' \dontrun{
 #' sc <- DISCBIO(valuesG1msReduced)

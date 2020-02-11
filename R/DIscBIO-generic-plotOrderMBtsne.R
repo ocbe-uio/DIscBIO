@@ -1,7 +1,7 @@
 #' @title Plotting the pseudo-time ordering based on Model-based clusters in the t-SNE map
 #' @description The tSNE representation can also be used to show the pseudo-time ordering.
 #' @param object \code{DISCBIO} class object.
-#' of the \code{DISCBIO} object.
+#' @return A plot of the pseudo-time ordering.
 setGeneric("plotOrderMBtsne", function(object) standardGeneric("plotOrderMBtsne"))
 
 #' @export

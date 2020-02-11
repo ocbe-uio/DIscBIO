@@ -17,6 +17,9 @@ VolcanoPlot(object, value = 0.05, name, fc = 0.5, FS = 0.4)
 
 \item{FS}{A numeric value of the font size. Default is 0.4.}
 }
+\value{
+A volcano plot
+}
 \description{
 Plotting differentially expressed genes (DEGs) in a particular cluster. 
 Volcano plots are used to readily show the DEGs by plotting significance versus fold-change on the y and x axes, respectively.

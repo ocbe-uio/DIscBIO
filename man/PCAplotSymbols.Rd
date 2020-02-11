@@ -14,6 +14,9 @@ PCAplotSymbols(object, types = NULL)
 
 \item{types}{If types=NULL then the names of the cells will be grouped automatically. Default is NULL}
 }
+\value{
+Plot of the Principal Components
+}
 \description{
 description
 }

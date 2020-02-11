@@ -15,6 +15,9 @@ Jaccard(object, Clustering = "K-means", K, plot = TRUE)
 
 \item{plot}{if `TRUE`, plots the mean Jaccard similarities}
 }
+\value{
+A plot of the mean Jaccard similarity coefficient per cluster.
+}
 \description{
 Robustness of the clusters can be assessed by Jaccard’s similarity, which reflects the reproducibility of individual clusters across bootstrapping runs.
 Jaccard’s similarity is the intersect of two clusters divided by the union.

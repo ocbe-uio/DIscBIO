@@ -14,6 +14,9 @@ plottsneMB(object, K = length(table(object@MBclusters$clusterid)))
 
 \item{K}{A numeric value of the number of clusters}
 }
+\value{
+A plot of t-SNEs.
+}
 \description{
 Visualizing the Model-based clusters using tSNE maps
 }

@@ -52,6 +52,9 @@ NoiseFiltering(
 
 \item{quiet}{if `TRUE`, suppresses printed output}
 }
+\value{
+The DISCBIO-class object input with the noiseF slot filled.
+}
 \description{
 Given a matrix or data frame of count data, this function 
 estimates the size factors as follows: Each column is divided by the 

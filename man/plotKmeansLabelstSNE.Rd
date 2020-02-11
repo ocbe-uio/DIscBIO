@@ -12,6 +12,9 @@ plotKmeansLabelstSNE(object)
 \arguments{
 \item{object}{\code{DISCBIO} class object.}
 }
+\value{
+Plot containing the ID of the cells in each cluster
+}
 \description{
 Visualizing the K-means clusters using tSNE maps
 }

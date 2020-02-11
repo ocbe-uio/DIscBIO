@@ -19,6 +19,7 @@
 #' @importFrom graphics plot axis abline points lines
 #' @importFrom statmod glmgam.fit
 #' @note This function should be used only if the dataset has ERCC.
+#' @return The DISCBIO-class object input with the noiseF slot filled.
 #' @examples
 #' sc <- DISCBIO(valuesG1msReduced) # changes signature of data
 #' sd_filtered <- NoiseFiltering(sc, export=FALSE)

@@ -15,6 +15,7 @@
 #' @importFrom graphics title
 #' @importFrom utils write.csv capture.output
 #' @importFrom AnnotationDbi keys
+#' @return A list containing two tables.
 #' @examples
 #' sc <- DISCBIO(valuesG1msReduced)
 #' sc <- NoiseFiltering(sc, percentile=0.9, CV=0.2, export=FALSE)

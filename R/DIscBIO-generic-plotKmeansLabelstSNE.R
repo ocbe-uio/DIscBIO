@@ -3,6 +3,7 @@
 #' @param object \code{DISCBIO} class object.
 #' @rdname plotKmeansLabelstSNE
 #' @importFrom graphics text
+#' @return Plot containing the ID of the cells in each cluster
 #' @examples 
 #' sc <- DISCBIO(valuesG1msReduced) # changes signature of data
 #' sc <- Clustexp(sc, cln=3) # data must be clustered before plottin

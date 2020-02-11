@@ -40,6 +40,9 @@ ClassVectoringDT(
 
 \item{quiet}{If `TRUE`, suppresses intermediary output}
 }
+\value{
+A data frame.
+}
 \description{
 This function generates a class vector for the input dataset so the decision tree analysis can be implemented afterwards.
 }

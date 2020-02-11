@@ -13,6 +13,9 @@ MB_Order(object, quiet = FALSE, export = TRUE)
 
 \item{export}{if `TRUE`, exports the results as a CSV file}
 }
+\value{
+The DISCBIO-class object input with the MBordering slot filled.
+}
 \description{
 This function takes the exact output of exprmclust function and construct Pseudo-time ordering by mapping all cells onto the path that connects cluster centers.
 }

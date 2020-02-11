@@ -12,6 +12,7 @@
 #' @importFrom graphics title
 #' @importFrom utils write.csv capture.output
 #' @param ... additional parameters to be passed to samr()
+#' @return A list containing two tables.
 #' @examples
 #' \dontrun{
 #' sc <- DISCBIO(valuesG1msReduced)
