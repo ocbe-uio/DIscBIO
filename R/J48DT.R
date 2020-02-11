@@ -32,40 +32,39 @@
 #' )
 #' J48DT(DATAforDT)
 J48DT <- function(data, quiet = FALSE, plot = TRUE) {
-        msg <- NULL
-        if (!is.data.frame(data)) {
-                msg <- c(msg, "input data must be data.frame")
-        } else if (nrow(data) < 2) {
-                msg <- c(msg, "input data must have more than one row")
-        } else if (ncol(data) < 2) {
-                msg <- c(msg, "input data must have more than one column")
-        } else if (sum(apply(is.na(data), 1, sum)) > 0) {
-                msg <- c(msg, "NAs are not allowed in input data")
-        } else if (sum(apply(data, 1, min)) < 0) {
-                msg <- c(msg,
-                         "negative values are not allowed in input data")
-        }
-        if (is.null(msg))
-                TRUE
-        else
-                msg
-        
-        exp.df <- as.data.frame(t(data))
-        classVector <- factor(colnames(data))
-        j48.model <- J48(classVector ~ ., exp.df)
-        if (!quiet)
-                print(j48.model)
-        if (plot) {
-                plot(
-                        as.party(j48.model),
-                        gp = gpar(
-                                cex = 0.65,
-                                col = "black",
-                                lty = "solid",
-                                lwd = 1.5,
-                                fontsize = 12
-                        )
-                )
-        }
-        return(j48.model)
+    msg <- NULL
+    if (!is.data.frame(data)) {
+        msg <- c(msg, "input data must be data.frame")
+    } else if (nrow(data) < 2) {
+        msg <- c(msg, "input data must have more than one row")
+    } else if (ncol(data) < 2) {
+        msg <- c(msg, "input data must have more than one column")
+    } else if (sum(apply(is.na(data), 1, sum)) > 0) {
+        msg <- c(msg, "NAs are not allowed in input data")
+    } else if (sum(apply(data, 1, min)) < 0) {
+        msg <- c(msg, "negative values are not allowed in input data")
+    }
+    if (is.null(msg))
+        TRUE
+    else
+        msg
+
+    exp.df <- as.data.frame(t(data))
+    classVector <- factor(colnames(data))
+    j48.model <- J48(classVector ~ ., exp.df)
+    if (!quiet)
+        print(j48.model)
+    if (plot) {
+        plot(
+            as.party(j48.model),
+            gp = gpar(
+                cex = 0.65,
+                col = "black",
+                lty = "solid",
+                lwd = 1.5,
+                fontsize = 12
+            )
+        )
+    }
+    return(j48.model)
 }

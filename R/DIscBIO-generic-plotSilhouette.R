@@ -17,33 +17,32 @@
 #' sc <- comptSNE(sc, rseed=15555)
 #' plotSilhouette(sc, K=3)
 setGeneric(
-  name = "plotSilhouette",
-  def = function(object, K)
-    standardGeneric("plotSilhouette")
+    name = "plotSilhouette",
+    def = function(object, K) standardGeneric("plotSilhouette")
 )
 
 #' @export
 #' @rdname plotSilhouette
 setMethod(
-  f = "plotSilhouette",
-  signature = "DISCBIO",
-  definition = function(object, K) {
+    f = "plotSilhouette",
+    signature = "DISCBIO",
+    definition = function(object, K) {
     if (length(object@kmeans$kpart) == 0) {
-      stop("run clustexp before plotsilhouette")
+        stop("run clustexp before plotsilhouette")
     }
     if (length(unique(object@kmeans$kpart)) < 2) {
-      stop("only a single cluster: no silhouette plot")
+        stop("only a single cluster: no silhouette plot")
     }
     col <- c("black", "blue", "green", "red", "yellow", "gray")
     kpart <- object@kmeans$kpart
     dist.gen <-
-      function(x, method = "euclidean", ...)
+        function(x, method = "euclidean", ...)
         if (method %in% c("spearman", "pearson", "kendall"))
-          as.dist(1 - cor(t(x), method = method, ...))
+            as.dist(1 - cor(t(x), method = method, ...))
     else
-      dist(x, method = method, ...)
+        dist(x, method = method, ...)
     distances <- dist.gen(object@distances)
     si <- silhouette(kpart, distances)
     plot(si, col = col[1:K])
-  }
+    }
 )

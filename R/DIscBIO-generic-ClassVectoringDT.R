@@ -47,18 +47,20 @@ setMethod(
     "ClassVectoringDT",
     signature = "DISCBIO",
     definition = function(object,
-                          Clustering = "K-means",
-                          K,
-                          First = "CL1",
-                          Second = "CL2",
-                          sigDEG,
-                          quiet = FALSE) {
+                        Clustering = "K-means",
+                        K,
+                        First = "CL1",
+                        Second = "CL2",
+                        sigDEG,
+                        quiet = FALSE) {
         if (!(Clustering %in% c("K-means", "MB"))) {
             stop("Clustering has to be either K-means or MB")
         }
         if (length(sigDEG[, 1]) < 1) {
-            stop("run DEGanalysis or DEGanalysis2clust ",
-                 "before running ClassVectoringDT")
+            stop(
+                "run DEGanalysis or DEGanalysis2clust ",
+                "before running ClassVectoringDT"
+            )
         }
 
         if (Clustering == "K-means") {
