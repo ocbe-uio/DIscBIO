@@ -42,7 +42,7 @@ J48DTeval <-
         num.instances <- nrow(exp.imput.df)
         indices <- 1:num.instances
         classVector <- factor(colnames(data))
-        
+
         cross.val <-
             function(exp.df,
                      class.vec,
@@ -65,14 +65,16 @@ J48DTeval <-
                         cv.model <- J48(training.class ~ ., training.set)
                         pred.class <- predict(cv.model, test.set)
                     } else if (class.algo == "rpart") {
-                        cv.model <- rpart(training.class ~ ., training.set, method = "class")
+                        cv.model <- rpart(
+                            training.class ~ ., training.set, method = "class"
+                        )
                         pred.class <-
                             predict(cv.model, test.set, type = "class")
                     } else{
                         stop("Unknown classification algorithm")
                     }
                     #Evaluate model on test set
-                    
+
                     eval.pred <-
                         function(pred.class,
                                  true.class,
@@ -98,8 +100,8 @@ J48DTeval <-
                 }
                 return(performance)
             }
-        
-        
+
+
         cv.segments <-
             split(sample(indices), rep(1:num.folds, length = num.instances))
         j48.performance <- c(
@@ -116,14 +118,14 @@ J48DTeval <-
                       "J48")
         if (!quiet)
             print(j48.performance)
-        
+
         j48.confusion.matrix <- matrix(j48.performance, nrow = 2)
         rownames(j48.confusion.matrix) <-
             c(paste0("Predicted", First), paste0("Predicted", Second))
         colnames(j48.confusion.matrix) <- c(First, Second)
         if (!quiet)
             print(j48.confusion.matrix)
-        
+
         SN <- function(con.mat) {
             TP <- con.mat[1, 1]
             FN <- con.mat[2, 1]
@@ -154,7 +156,7 @@ J48DTeval <-
         j48.sp <- SP(j48.confusion.matrix)
         j48.acc <- ACC(j48.confusion.matrix)
         j48.mcc <- MCC(j48.confusion.matrix)
-        
+
         if (!quiet) {
             cat(
                 "J48 SN: ",

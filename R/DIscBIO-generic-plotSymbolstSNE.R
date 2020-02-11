@@ -29,9 +29,10 @@ setMethod(
             stop("run comptsne before plotSymbolstSNE")
         if (length(types) != ncol(object@fdata))
             stop(
-                "types argument has wrong length. Length has to equal to the column number of object@ndata"
+                "types argument has wrong length.",
+                "Length has to equal to the column number of object@ndata"
             )
-        
+
         coloc <- rainbow(length(unique(types)))
         syms <- c()
         plot(

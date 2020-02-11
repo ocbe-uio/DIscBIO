@@ -75,9 +75,9 @@ setMethod(
             if (length(object@MBclusters$clusterid) < 1) {
                 stop("run ExprmclustMB before running DEGanalysisM")
             }
-            
+
         }
-        
+
         # Defining initial objects
         gene_list <- object@FinalGeneList
         gene_names <- rownames(object@expdata)
@@ -87,12 +87,12 @@ setMethod(
         Nam <- colnames(dataset)
         num <- c(1:K)
         num1 <- paste("CL", num, sep = "")
-        
+
         for (n in num) {
             Nam <- ifelse((Cluster_ID == n), num1[n], Nam)
         }
         colnames(dataset) <- Nam
-        
+
         if (!quiet) {
             cat("The dataset is ready for differential expression analysis")
         }
@@ -118,7 +118,9 @@ setMethod(
             first <- c(paste0(clustName[1]))
             second <- c(paste0(clustName[2]))
         } else if (K == 3) {
-            first <- c(rep(paste0(clustName[1]), 2), rep(paste0(clustName[2]), 1))
+            first <- c(
+                rep(paste0(clustName[1]), 2), rep(paste0(clustName[2]), 1)
+            )
             second <- c(paste0(clustName[2]),
                         paste0(clustName[3]),
                         paste0(clustName[3]))
@@ -199,7 +201,7 @@ setMethod(
             FinalDEGsU <- data.frame()
             FDRl <- c()
             FDRu <- c()
-            
+
             d1 <- comNUM[i]
             d2 <- cbind(get(first[i]), get(second[i]))
             assign(d1, d2)
@@ -244,7 +246,7 @@ setMethod(
             if (delta.table[wm, 5] <= fdr) {
                 w <- which(delta.table[, 5] <= fdr)
                 delta <- delta.table[w[1], 1] - 0.001
-                
+
                 if (plot) {
                     samr.plot(samr.obj, delta)
                     title(paste0(
@@ -256,15 +258,17 @@ setMethod(
                         second[i]
                     ))
                 }
-                siggenes.table <- samr.compute.siggenes.table(samr.obj, delta, data, delta.table)
+                siggenes.table <- samr.compute.siggenes.table(
+                    samr.obj, delta, data, delta.table
+                )
                 FDRl <-
                     as.numeric(siggenes.table$genes.lo[, 8]) / 100
                 FDRu <-
                     as.numeric(siggenes.table$genes.up[, 8]) / 100
-                
+
                 siggenes.table$genes.lo[, 8] <- FDRl
                 siggenes.table$genes.up[, 8] <- FDRu
-                
+
                 DEGsTable[i, 1] <-
                     paste0(first[i], " VS ", second[i])
                 DEGsTable[i, 2] <- second[i]
@@ -307,7 +311,7 @@ setMethod(
                                                 "VS",
                                                 second[i],
                                                 ".csv")
-                
+
                 if (length(FDRl) > 0) {
                     genes <- siggenes.table$genes.lo[, 3]
                     if (quiet) {
@@ -392,8 +396,8 @@ setMethod(
                     DEGsS <- c(DEGsS, FinalDEGsL[, 2])
                     DEGsE <- c(DEGsE, as.character(FinalDEGsL[, 3]))
                 }
-                
-                
+
+
                 if (length(FDRu) > 0) {
                     genes <- siggenes.table$genes.up[, 3]
                     if (quiet) {
@@ -480,7 +484,7 @@ setMethod(
                     DEGsS <- c(DEGsS, FinalDEGsU[, 2])
                     DEGsE <- c(DEGsE, as.character(FinalDEGsU[, 3]))
                 }
-                
+
             } else {
                 DEGsTable[i, 1] <- paste0(first[i], " VS ", second[i])
                 DEGsTable[i, 2] <- second[i]
@@ -488,7 +492,7 @@ setMethod(
                 DEGsTable[i, 4] <- NA
                 DEGsTable[i, 5] <- NA
                 DEGsTable[i, 6] <- NA
-                
+
                 DEGsTable[i + com, 1] <-
                     paste0(first[i], " VS ", second[i])
                 DEGsTable[i + com, 2] <- first[i]
@@ -498,7 +502,7 @@ setMethod(
                 DEGsTable[i + com, 6] <- NA
             }
         }
-        
+
         if (!quiet & export) {
             cat("The results of DEGs are saved in your directory", "\n")
         }

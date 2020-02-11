@@ -87,8 +87,9 @@ setMethod(
     clucenter <-
       matrix(0, ncol = ncol(pcareduceres), nrow = clunum)
     for (cid in 1:clunum) {
-      clucenter[cid,] <-
-        colMeans(pcareduceres[names(clusterid[clusterid == cid]), , drop = F])
+      clucenter[cid, ] <- colMeans(
+        pcareduceres[names(clusterid[clusterid == cid]), , drop = FALSE]
+      )
     }
     dp <- as.matrix(dist(clucenter))
     gp <-
@@ -153,8 +154,10 @@ setMethod(
     clucenter <-
       matrix(0, ncol = ncol(pcareduceres), nrow = clunum)
     for (cid in 1:clunum) {
-      clucenter[cid,] <-
-        colMeans(pcareduceres[names(clusterid[clusterid == cid]), , drop = F])
+      clucenter[cid, ] <-
+        colMeans(
+          pcareduceres[names(clusterid[clusterid == cid]), , drop = FALSE]
+        )
     }
     dp <- as.matrix(dist(clucenter))
     gp <-

@@ -26,7 +26,7 @@ The PCA representation can also be used to show the gene
 \examples{
 sc<- DISCBIO(valuesG1msReduced)
 sc<-NoiseFiltering(sc,percentile=0.9, CV=0.2)
-sc<-Normalizedata(sc, mintotal=1000, minexpr=0, minnumber=0, maxexpr=Inf, downsample=FALSE, dsn=1, rseed=17000)
+sc<-Normalizedata(sc)
 sc<-FinalPreprocessing(sc,GeneFlitering="NoiseF",export = FALSE)
 sc <- Exprmclust(sc,K =2,reduce = TRUE,quiet = TRUE)
 g <- "ENSG00000010244" #### Plotting the expression of MT-RNR2

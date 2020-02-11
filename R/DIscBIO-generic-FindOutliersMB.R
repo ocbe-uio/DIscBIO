@@ -93,7 +93,7 @@ setMethod(
     else if (outdistquant < 0 |
              outdistquant > 1)
       stop("outdistquant has to be a number between 0 and 1")
-    
+
     object <- Clustexp(
       object,
       clustnr = 20,
@@ -107,7 +107,7 @@ setMethod(
       rseed = 17000,
       quiet = quiet
     )
-    
+
     object@outlierpar <-
       list(
         outminc = outminc,
@@ -116,7 +116,7 @@ setMethod(
         thr = thr,
         outdistquant = outdistquant
       )
-    
+
     ### calibrate background model
     m <- log2(apply(object@fdata, 1, mean))
     v <- log2(apply(object@fdata, 1, var))
@@ -147,7 +147,7 @@ setMethod(
     object@background$lsize <- function(x, object) {
       x ** 2 / (max(x + 1e-6, object@background$lvar(x, object)) - x)
     }
-    
+
     ### identify outliers
     out <- c()
     stest <- rep(0, length(thr))
@@ -197,7 +197,7 @@ setMethod(
       thr = thr,
       cprobs = cprobs
     )
-    
+
     ### cluster outliers
     clp2p.cl <- c()
     cols <- names(object@fdata)
@@ -205,11 +205,13 @@ setMethod(
     for (i in 1:max(object@MBclusters$clusterid)) {
       tcol <- cols[object@MBclusters$clusterid == i]
       if (sum(!(tcol %in% out)) > 1)
-        clp2p.cl <-
-          append(clp2p.cl, as.vector(t(di[tcol[!(tcol %in% out)], tcol[!(tcol %in% out)]])))
+        clp2p.cl <- append(
+          clp2p.cl,
+          as.vector(t(di[tcol[!(tcol %in% out)], tcol[!(tcol %in% out)]]))
+        )
     }
     clp2p.cl <- clp2p.cl[clp2p.cl > 0]
-    
+
     cpart <- object@MBclusters$clusterid
     cadd  <- list()
     if (length(out) > 0) {
@@ -218,7 +220,7 @@ setMethod(
       } else{
         n <- out
         m <- as.data.frame(di[out, out])
-        
+
         for (i in 1:length(out)) {
           if (length(n) > 1) {
             o   <-
@@ -226,12 +228,14 @@ setMethod(
                 min(x[1:(length(x) - 1)][-x[length(x)]])), decreasing = FALSE)
             m <- m[o, o]
             n <- n[o]
-            f <-
-              m[, 1] < quantile(clp2p.cl, outdistquant) | m[, 1] == min(clp2p.cl)
+            f <- m[, 1] < quantile(clp2p.cl, outdistquant) |
+              m[, 1] == min(clp2p.cl)
             ind <- 1
             if (sum(f) > 1)
               for (j in 2:sum(f))
-                if (apply(m[f, f][j, c(ind, j)] > quantile(clp2p.cl, outdistquant) , 1, sum) == 0)
+                comp1 <- m[f, f][j, c(ind, j)]
+                comp2 <- quantile(clp2p.cl, outdistquant)
+                if (apply(comp1 > comp2, 1, sum) == 0)
                   ind <- append(ind, j)
             cadd[[i]] <- n[f][ind]
             g <- !n %in% n[f][ind]
@@ -239,28 +243,28 @@ setMethod(
             m <- m[g, g]
             if (sum(g) == 0)
               break
-            
+
           } else if (length(n) == 1) {
             cadd[[i]] <- n
             break
           }
         }
       }
-      
+
       for (i in 1:length(cadd)) {
         cpart[cols %in% cadd[[i]]] <- max(cpart) + 1
       }
     }
-    
+
     ### determine final clusters
-    
+
     object@cpart <- cpart
-    
+
     set.seed(111111)
     object@fcol <- sample(rainbow(max(cpart)))
-    p <-
-      object@MBclusters$clusterid[order(object@MBclusters$clusterid, decreasing =
-                                          FALSE)]
+    p <- object@MBclusters$clusterid[order(
+      object@MBclusters$clusterid, decreasing = FALSE
+      )]
     x <- object@out$cprobs[names(p)]
     fcol <- c("black", "blue", "green", "red", "yellow", "gray")
     if (plot) {

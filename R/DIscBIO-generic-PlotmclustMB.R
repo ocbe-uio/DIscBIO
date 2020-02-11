@@ -28,7 +28,7 @@ setMethod(
         if (length(object@MBclusters) == 0)
             stop("run ExprmclustMB before PlotmclustMB")
         total <- object@MBclusters
-        
+
         Plotmclust <-
             function(mclustobj,
                      x = 1,
@@ -67,7 +67,9 @@ setMethod(
                             )
                         )
                     if (showcluster) {
-                        g <- g + geom_point(aes_string(color = color_by), na.rm = TRUE)
+                        g <- g + geom_point(
+                            aes_string(color = color_by), na.rm = TRUE
+                        )
                         g <-
                             g + scale_colour_manual(
                                 values = c(
@@ -84,8 +86,13 @@ setMethod(
                     }
                 } else {
                     g <-
-                        ggplot(data = edge_df,
-                               aes(x = pca_space_df$pca_dim_1, y = pca_space_df$pca_dim_2))
+                        ggplot(
+                            data = edge_df,
+                            aes(
+                                x = pca_space_df$pca_dim_1,
+                                y = pca_space_df$pca_dim_2
+                            )
+                        )
                     if (showcluster) {
                         g <-
                             g + geom_point(aes_string(color = color_by),
@@ -102,16 +109,19 @@ setMethod(
                                     "6" = "gray"
                                 )
                             )
-                        
+
                     } else {
                         g <- g + geom_point(na.rm = TRUE, size = 3)
                     }
                 }
                 if (show_cell_names) {
                     g <-
-                        g + geom_text(aes(label = names(mclustobj$clusterid)), size = cell_name_size)
+                        g + geom_text(
+                            aes(label = names(mclustobj$clusterid)),
+                            size = cell_name_size
+                        )
                 }
-                
+
                 if (show_tree) {
                     clucenter <- mclustobj$clucenter[, c(x, y)]
                     clulines <- NULL
@@ -122,33 +132,48 @@ setMethod(
                         alledges[, 1] <- as.numeric(alledges[, 1])
                         alledges[, 2] <- as.numeric(alledges[, 2])
                         for (i in 1:nrow(alledges)) {
-                            clulines <-
-                                rbind(clulines, c(clucenter[alledges[i, 1], ], clucenter[alledges[i, 2], ]))
+                            clulines <- rbind(
+                                clulines,
+                                c(
+                                    clucenter[alledges[i, 1], ],
+                                    clucenter[alledges[i, 2], ]
+                                )
+                            )
                         }
                     } else {
                         if (is.null(MSTorder)) {
                             clutable <- table(mclustobj$clusterid)
                             alldeg <- degree(mclustobj$MSTtree)
-                            allcomb <-
-                                expand.grid(as.numeric(names(alldeg)[alldeg ==
-                                                                         1]),
-                                            as.numeric(names(alldeg)[alldeg == 1]))
+                            allcomb <- expand.grid(
+                                as.numeric(names(alldeg)[alldeg == 1]),
+                                as.numeric(names(alldeg)[alldeg == 1])
+                            )
                             allcomb <-
                                 allcomb[allcomb[, 1] < allcomb[, 2],]
                             numres <- t(apply(allcomb, 1, function(i) {
-                                tmp <- as.vector(get.shortest.paths(mclustobj$MSTtree,
-                                                                    i[1], i[2])$vpath[[1]])
+                                tmp <- as.vector(
+                                    get.shortest.paths(mclustobj$MSTtree,
+                                    i[1], i[2])$vpath[[1]]
+                                )
                                 c(length(tmp), sum(clutable[tmp]))
                             }))
-                            optcomb <-
-                                allcomb[order(numres[, 1], numres[, 2], decreasing = T)[1],]
-                            MSTorder <-
-                                get.shortest.paths(mclustobj$MSTtree, optcomb[1],
-                                                   optcomb[2])$vpath[[1]]
+                            orderedRows <- order(
+                                numres[, 1], numres[, 2], decreasing = T
+                            )[1]
+                            optcomb <- allcomb[orderedRows, ]
+                            MSTorder <- get.shortest.paths(
+                                mclustobj$MSTtree, optcomb[1],
+                                optcomb[2]
+                            )$vpath[[1]]
                         }
                         for (i in 1:(length(MSTorder) - 1)) {
-                            clulines <-
-                                rbind(clulines, c(clucenter[MSTorder[i], ], clucenter[MSTorder[i + 1], ]))
+                            clulines <- rbind(
+                                clulines,
+                                c(
+                                    clucenter[MSTorder[i], ],
+                                    clucenter[MSTorder[i + 1], ]
+                                )
+                            )
                         }
                     }
                     clulines <-
@@ -171,7 +196,7 @@ setMethod(
                             size = 1,
                             color = "orange"
                         )
-                    
+
                     clucenter <-
                         data.frame(
                             x = clucenter[, 1],
@@ -190,12 +215,19 @@ setMethod(
                             size = 10,
                             color = "orange"
                         )
-                    
+
                 }
                 g <-
-                    g + guides(colour = guide_legend(override.aes = list(size = 5))) +
-                    xlab(paste0("PCA_dimension_", x)) + ylab(paste0("PCA_dimension_", y)) +
-                    theme(panel.border = element_blank(), axis.line = element_line()) +
+                    g +
+                    guides(
+                        colour = guide_legend(override.aes = list(size = 5))
+                    ) +
+                    xlab(paste0("PCA_dimension_", x)) +
+                    ylab(paste0("PCA_dimension_", y)) +
+                    theme(
+                        panel.border = element_blank(),
+                        axis.line = element_line()
+                    ) +
                     theme(panel.grid.minor.x = element_blank(),
                           panel.grid.minor.y = element_blank()) +
                     theme(panel.grid.major.x = element_blank(),

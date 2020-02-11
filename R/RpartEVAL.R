@@ -42,7 +42,7 @@ RpartEVAL <-
         num.instances <- nrow(exp.imput.df)
         indices <- 1:num.instances
         classVector <- factor(colnames(data))
-        
+
         cross.val <-
             function(exp.df,
                      class.vec,
@@ -65,14 +65,17 @@ RpartEVAL <-
                         cv.model <- J48(training.class ~ ., training.set)
                         pred.class <- predict(cv.model, test.set)
                     } else if (class.algo == "rpart") {
-                        cv.model <- rpart(training.class ~ ., training.set, method = "class")
-                        pred.class <-
-                            predict(cv.model, test.set, type = "class")
+                        cv.model <- rpart(
+                            training.class ~ ., training.set, method = "class"
+                        )
+                        pred.class <- predict(
+                            cv.model, test.set, type = "class"
+                        )
                     } else{
                         stop("Unknown classification algorithm")
                     }
                     #Evaluate model on test set
-                    
+
                     eval.pred <-
                         function(pred.class,
                                  true.class,
@@ -98,7 +101,7 @@ RpartEVAL <-
                 }
                 return(performance)
             }
-        
+
         cv.segments <-
             split(sample(indices), rep(1:num.folds, length = num.instances))
         Rpart.performance <- c(
@@ -121,7 +124,7 @@ RpartEVAL <-
         colnames(Rpart.confusion.matrix) <- c(First, Second)
         if (!quiet)
             print(Rpart.confusion.matrix)
-        
+
         SN <- function(con.mat) {
             TP <- con.mat[1, 1]
             FN <- con.mat[2, 1]
@@ -148,12 +151,12 @@ RpartEVAL <-
             denom <- ifelse(denom == 0, NA, denom)
             return((TP * TN - FP * FN) / denom)
         }
-        
+
         Rpart.sn <- SN(Rpart.confusion.matrix)
         Rpart.sp <- SP(Rpart.confusion.matrix)
         Rpart.acc <- ACC(Rpart.confusion.matrix)
         Rpart.mcc <- MCC(Rpart.confusion.matrix)
-        
+
         if (!quiet) {
             cat(
                 "Rpart SN: ",
@@ -171,6 +174,6 @@ RpartEVAL <-
                 sep = ""
             )
         }
-        
+
         return(Rpart.performance)
     }

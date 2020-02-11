@@ -67,18 +67,18 @@ setMethod(
             stop("CV has to be a positive number")
         else if (CV <= 0)
             stop("CV has to be a positive number")
-        
+
         # Split data into sub tables based on the factor data geneTypes
         GeneList = rownames(object@expdata)
         data = object@expdataAll
         shortNames <- substr(rownames(data), 1, 4)
         geneTypes <-
             factor(c(ENSG = "ENSG", ERCC = "ERCC")[shortNames])
-        
+
         # calculate normalisation for counts\n",
         countsG1ms <- data[which(geneTypes == "ENSG"),]
         countsERCC <- data[which(geneTypes == "ERCC"),]
-        
+
         estimateSizeFactorsForMatrix = function (counts, locfunc = median) {
             loggeomeans <- rowMeans(log(counts))
             apply(counts, 2, function(cnts)
@@ -86,14 +86,14 @@ setMethod(
                     log(cnts) - loggeomeans
                 )[is.finite(loggeomeans)])))
         }
-        
+
         sfERCC <- estimateSizeFactorsForMatrix(countsERCC)
         sfG1ms <- estimateSizeFactorsForMatrix(countsG1ms)
-        
+
         # Divide columns by size factors to normalize counts
         nCountsERCC <- t(t(countsERCC) / sfERCC)
         nCountsG1ms <- t(t(countsG1ms) / sfG1ms)
-        
+
         # perform fit, define sample moments per gene
         meansG1ms <- rowMeans(nCountsG1ms)
         varsG1ms <- rowVars(nCountsG1ms)
@@ -101,47 +101,51 @@ setMethod(
         meansERCC <- rowMeans(nCountsERCC)
         varsERCC <- rowVars(nCountsERCC)
         cv2ERCC <- varsERCC / meansERCC ^ 2
-        minMeanForFit <- unname(quantile(meansERCC[which(cv2ERCC > CV)], percentile))
-        
+        minMeanForFit <- unname(
+            quantile(meansERCC[which(cv2ERCC > CV)], percentile)
+        )
+
         if (!quiet) {
             cat("Cut-off value for the ERCCs= ",
                 round(minMeanForFit, digits = 2),
                 "\n\n")
         }
-        
-        #Perform the fit of technical noise strength on average count. We regress cv2HeLa on 1/meansForHeLa. We use the
-        #glmgam.fit function from the statmod package to perform the regression as a GLM fit of the gamma family with log link.
-        #The 'cbind' construct serves to produce a model matrix with an intercept.
+
+        # Perform the fit of technical noise strength on average count.
+        # We regress cv2HeLa on 1/meansForHeLa. We use the glmgam.fit function
+        # from the statmod package to perform the regression as a GLM fit of
+        # the gamma family with log link. The 'cbind' construct serves to
+        # produce a model matrix with an intercept.
         useForFit <- meansERCC >= minMeanForFit
         fit <- glmgam.fit(cbind(a0 = 1, a1tilde = 1 / meansERCC[useForFit]),
                           cv2ERCC[useForFit])
-        
+
         if (!quiet) {
             cat("Coefficients of the fit:", "\n")
             print(fit$coefficients)
         }
-        
+
         #To get the actual noise coefficients, we need to subtract Xi
         xi <- mean(1 / sfERCC)
         a0 <- unname(fit$coefficients["a0"])
         a1 <- unname(fit$coefficients["a1tilde"] - xi)
-        
+
         #how much variance does the fit explain?
         residual <-
             var(log(fitted.values(fit)) - log(cv2ERCC[useForFit]))
         total <- var(log(cv2ERCC[useForFit]))
-        
+
         if (!quiet) {
             cat("Explained variances of log CV^2 values= ",
                 c(round(1 - residual / total, digits = 2)),
                 "\n\n")
         }
-        
+
         ## Pick out genes above noise line
-        
+
         # test which entries are above the line
         idx_test <- cv2G1ms > (xi + a1) / meansG1ms + a0
-        
+
         # pick out genes that fulfill statement
         genes_test <- GeneList[idx_test] #pick out genes
         genes_test <- genes_test[!is.na(genes_test)] #remove na entries
@@ -155,18 +159,21 @@ setMethod(
             cv2G1ms_test[!is.na(cv2G1ms_test)] #remove na entries
         genes_test <- genes_test[which(!sapply(genes_test, is.null))]
         genes_test <- sapply(genes_test, paste0, collapse = "")
-        
+
         if (!quiet) {
             cat("Number of genes that passed the filtering= ",
                 length(genes_test),
                 "\n\n")
         }
-        
+
         if (export) {
             write.csv(genes_test, file = "Noise_filtering_genes_test.csv")
-            cat("The filtered gene list was saved as: Noise_filtering_genes_test\n")
+            cat(
+                "The filtered gene list was saved as:",
+                "Noise_filtering_genes_test\n"
+            )
         }
-        
+
         if (plot) {
             plot(
                 NULL,
@@ -205,7 +212,7 @@ setMethod(
                 cex = .2,
                 col = geneCol
             )
-            
+
             #highlight gene list from test
             points(
                 meansG1ms_test,
@@ -214,11 +221,11 @@ setMethod(
                 cex = .22,
                 col = FgeneCol
             )
-            
+
             # Add the technical noise fit, as before
             xg <- 10 ^ seq(-2, 6, length.out = 1000)
             lines(xg, (xi + a1) / xg + a0, col = "red", lwd = 5)
-            
+
             # Add the normalised ERCC points
             if (Val) {
                 points(

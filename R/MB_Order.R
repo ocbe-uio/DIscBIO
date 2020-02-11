@@ -32,8 +32,8 @@ MB_Order <- function(object,
     order <- c(1:length(lpsorderMB))
     orderTableMB <- data.frame(order, orderID)
     if (export) {
-        write.csv(orderTableMB,
-                  file = "Cellular_pseudo-time_ordering_based_on_Model-based_clusters.csv")
+        nm <- "Cellular_pseudo-time_ordering_based_on_Model-based_clusters.csv"
+        write.csv(orderTableMB, file = nm)
     }
     if (!quiet) {
         print(orderTableMB)

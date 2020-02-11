@@ -60,11 +60,11 @@ setMethod(
             stop("run DEGanalysis or DEGanalysis2clust ",
                  "before running ClassVectoringDT")
         }
-        
+
         if (Clustering == "K-means") {
             Cluster_ID = object@cpart
         }
-        
+
         if (Clustering == "MB") {
             Cluster_ID = object@MBclusters$clusterid
         }
@@ -79,8 +79,10 @@ setMethod(
             Nam <- ifelse((Cluster_ID == n), num1[n], Nam)
         }
         colnames(DatasetForDT) <- Nam
-        chosenColumns <- which(colnames(DatasetForDT) == First |
-                                   colnames(DatasetForDT) == Second)
+        chosenColumns <- which(
+            colnames(DatasetForDT) == First |
+                colnames(DatasetForDT) == Second
+        )
         sg1 <- DatasetForDT[, chosenColumns]
         dim(sg1)
         # Creating a dataset that includes only the DEGs
@@ -102,12 +104,12 @@ setMethod(
         G_list = sigDEG
         genes <- rownames(DEGsfilteredDataset)
         DATAforDT <- cbind(genes, DEGsfilteredDataset)
-        
+
         DATAforDT <- merge(DATAforDT, G_list, by.x = "genes", by.y = "DEGsE")
         DATAforDT
         DATAforDT[, 1] <- DATAforDT[, length(DATAforDT[1, ])]
         DATAforDT <- DATAforDT[!duplicated(DATAforDT[, 1]),]
-        
+
         rownames(DATAforDT) <- DATAforDT[, 1]
         DATAforDT <- DATAforDT[, c(-1, -length(DATAforDT[1, ]))]
         sg <- factor(gsub(

@@ -47,355 +47,353 @@ setGeneric("Clustexp", function(object,
                                 cln = 0,
                                 rseed = 17000,
                                 quiet = FALSE) {
-        standardGeneric("Clustexp")
+    standardGeneric("Clustexp")
 })
 
 #' @export
 #' @rdname Clustexp
 setMethod(
-        f = "Clustexp",
-        signature = "DISCBIO",
-        definition = function(object,
-                              clustnr,
-                              bootnr,
-                              metric,
-                              do.gap,
-                              SE.method,
-                              SE.factor,
-                              B.gap,
-                              cln,
-                              rseed,
-                              quiet = FALSE) {
-                if (!is.numeric(clustnr))
-                        stop("clustnr has to be a positive integer")
-                else if (round(clustnr) != clustnr |
-                         clustnr <= 0)
-                        stop("clustnr has to be a positive integer")
-                if (!is.numeric(bootnr))
-                        stop("bootnr has to be a positive integer")
-                else if (round(bootnr) != bootnr |
-                         bootnr <= 0)
-                        stop("bootnr has to be a positive integer")
-                if (!(
-                        metric %in% c(
-                                "spearman",
-                                "pearson",
-                                "kendall",
-                                "euclidean",
-                                "maximum",
-                                "manhattan",
-                                "canberra",
-                                "binary",
-                                "minkowski"
+    f = "Clustexp",
+    signature = "DISCBIO",
+    definition = function(object,
+                          clustnr,
+                          bootnr,
+                          metric,
+                          do.gap,
+                          SE.method,
+                          SE.factor,
+                          B.gap,
+                          cln,
+                          rseed,
+                          quiet = FALSE) {
+        if (!is.numeric(clustnr))
+            stop("clustnr has to be a positive integer")
+        else if (round(clustnr) != clustnr |
+                 clustnr <= 0)
+            stop("clustnr has to be a positive integer")
+        if (!is.numeric(bootnr))
+            stop("bootnr has to be a positive integer")
+        else if (round(bootnr) != bootnr |
+                 bootnr <= 0)
+            stop("bootnr has to be a positive integer")
+        if (!(
+            metric %in% c(
+                "spearman",
+                "pearson",
+                "kendall",
+                "euclidean",
+                "maximum",
+                "manhattan",
+                "canberra",
+                "binary",
+                "minkowski"
+            )
+        ))
+        stop(
+            "metric has to be one of the following: spearman, ",
+            "pearson, kendall, euclidean, maximum, manhattan, ",
+            "canberra, binary, minkowski"
+        )
+        if (!(
+            SE.method %in% c(
+                "firstSEmax",
+                "Tibs2001SEmax",
+                "globalSEmax",
+                "firstmax",
+                "globalmax"
+            )
+        ))
+            stop(
+                "SE.method has to be one of the following: ",
+                "firstSEmax, Tibs2001SEmax, globalSEmax, ",
+                "firstmax, globalmax"
+            )
+        if (!is.numeric(SE.factor))
+            stop("SE.factor has to be a non-negative integer")
+        else if (SE.factor < 0)
+            stop("SE.factor has to be a non-negative integer")
+        if (!(is.numeric(do.gap) |
+              is.logical(do.gap)))
+            stop("do.gap has to be logical (TRUE/FALSE)")
+        if (!is.numeric(B.gap))
+            stop("B.gap has to be a positive integer")
+        else if (round(B.gap) != B.gap |
+                 B.gap <= 0)
+            stop("B.gap has to be a positive integer")
+        if (!is.numeric(cln))
+            stop("cln has to be a non-negative integer")
+        else if (round(cln) != cln |
+                 cln < 0)
+            stop("cln has to be a non-negative integer")
+        if (!is.numeric(rseed))
+            stop("rseed has to be numeric")
+        if (!do.gap & cln == 0)
+            stop("cln has to be a positive integer or do.gap has to be TRUE")
+
+        # Operations
+        object@clusterpar <-
+            list(
+                clustnr = clustnr,
+                bootnr = bootnr,
+                metric = metric,
+                do.gap = do.gap,
+                SE.method = SE.method,
+                SE.factor = SE.factor,
+                B.gap = B.gap,
+                cln = cln,
+                rseed = rseed
+            )
+        dist.gen <-
+            function(x, method = "euclidean", ...)
+                if (method %in% c("spearman", "pearson", "kendall"))
+                    as.dist(1 - cor(t(x), method = method, ...))
+        else
+            dist(x, method = method, ...)
+        dist.gen.pairs <-
+            function(x, y, ...)
+                dist.gen(t(cbind(x, y)), ...)
+        clustfun <-
+            function(x,
+                     clustnr = 20,
+                     bootnr = 50,
+                     metric = "pearson",
+                     do.gap = TRUE,
+                     SE.method = "Tibs2001SEmax",
+                     SE.factor = .25,
+                     B.gap = 50,
+                     cln = 0,
+                     rseed = 17000,
+                     quiet = FALSE) {
+                if (clustnr < 2)
+                    stop("Choose clustnr > 1")
+                di <-
+                    dist.gen(t(x), method = metric)
+                if (do.gap | cln > 0) {
+                    gpr <- NULL
+                    if (do.gap) {
+                        set.seed(rseed)
+                        gpr <-
+                            clusGap(
+                                as.matrix(di),
+                                FUNcluster = kmeans,
+                                K.max = clustnr,
+                                B = B.gap,
+                                verbose = !quiet
+                            )
+                        if (cln == 0)
+                            cln <-
+                            maxSE(gpr$Tab[, 3],
+                                  gpr$Tab[, 4],
+                                  method = SE.method,
+                                  SE.factor)
+                    }
+                    if (cln <= 1) {
+                        clb <- list(
+                            result = list(
+                                partition = rep(1, dim(x)[2])
+                            ),
+                            bootmean = 1
                         )
-                ))
-                stop(
-                        "metric has to be one of the following: spearman, pearson, kendall, euclidean, maximum, manhattan, canberra, binary, minkowski"
-                )
-                if (!(
-                        SE.method %in% c(
-                                "firstSEmax",
-                                "Tibs2001SEmax",
-                                "globalSEmax",
-                                "firstmax",
-                                "globalmax"
-                        )
-                ))
-                        stop(
-                                "SE.method has to be one of the following: firstSEmax, Tibs2001SEmax, globalSEmax, firstmax, globalmax"
-                        )
-                if (!is.numeric(SE.factor))
-                        stop("SE.factor has to be a non-negative integer")
-                else if (SE.factor < 0)
-                        stop("SE.factor has to be a non-negative integer")
-                if (!(is.numeric(do.gap) |
-                      is.logical(do.gap)))
-                        stop("do.gap has to be logical (TRUE/FALSE)")
-                if (!is.numeric(B.gap))
-                        stop("B.gap has to be a positive integer")
-                else if (round(B.gap) != B.gap |
-                         B.gap <= 0)
-                        stop("B.gap has to be a positive integer")
-                if (!is.numeric(cln))
-                        stop("cln has to be a non-negative integer")
-                else if (round(cln) != cln |
-                         cln < 0)
-                        stop("cln has to be a non-negative integer")
-                if (!is.numeric(rseed))
-                        stop("rseed has to be numeric")
-                if (!do.gap &
-                    cln == 0)
-                        stop("cln has to be a positive integer or do.gap has to be TRUE")
-                
-                # Operations
-                object@clusterpar <-
-                        list(
-                                clustnr = clustnr,
-                                bootnr = bootnr,
-                                metric = metric,
-                                do.gap = do.gap,
-                                SE.method = SE.method,
-                                SE.factor = SE.factor,
-                                B.gap = B.gap,
-                                cln = cln,
-                                rseed = rseed
-                        )
-                dist.gen <-
-                        function(x, method = "euclidean", ...)
-                                if (method %in% c("spearman", "pearson", "kendall"))
-                                        as.dist(1 - cor(t(x), method = method, ...))
-                else
-                        dist(x, method = method, ...)
-                dist.gen.pairs <-
-                        function(x, y, ...)
-                                dist.gen(t(cbind(x, y)), ...)
-                clustfun <-
-                        function(x,
-                                 clustnr = 20,
-                                 bootnr = 50,
-                                 metric = "pearson",
-                                 do.gap = TRUE,
-                                 SE.method = "Tibs2001SEmax",
-                                 SE.factor = .25,
-                                 B.gap = 50,
-                                 cln = 0,
-                                 rseed = 17000,
-                                 quiet = FALSE) {
-                                if (clustnr < 2)
-                                        stop("Choose clustnr > 1")
-                                di <-
-                                        dist.gen(t(x), method = metric)
-                                if (do.gap | cln > 0) {
-                                        gpr <- NULL
-                                        if (do.gap) {
-                                                set.seed(rseed)
-                                                gpr <-
-                                                        clusGap(
-                                                                as.matrix(di),
-                                                                FUNcluster = kmeans,
-                                                                K.max = clustnr,
-                                                                B = B.gap,
-                                                                verbose = !quiet
-                                                        )
-                                                if (cln == 0)
-                                                        cln <-
-                                                        maxSE(gpr$Tab[, 3],
-                                                              gpr$Tab[, 4],
-                                                              method = SE.method,
-                                                              SE.factor)
+                        names(clb$result$partition) <- names(x)
+                        return(list(
+                            x = x,
+                            clb = clb,
+                            gpr = gpr,
+                            di = di
+                        ))
+                    }
+
+                    Kmeansruns <-
+                        function (data,
+                                  krange = 2:10,
+                                  criterion = "ch",
+                                  iter.max = 100,
+                                  runs = 100,
+                                  scaledata = FALSE,
+                                  alpha = 0.001,
+                                  critout = FALSE,
+                                  plot = FALSE,
+                                  method = "euclidean",
+                                  ...) {
+                            data <- as.matrix(data)
+                            if (criterion == "asw")
+                                sdata <-
+                                    dist(data)
+                            if (scaledata)
+                                data <-
+                                    scale(data)
+                            cluster1 <-
+                                1 %in% krange
+                            crit <-
+                                numeric(max(krange))
+                            km <- list()
+                            for (k in krange) {
+                                if (k > 1) {
+                                    minSS <- Inf
+                                    kmopt <-
+                                        NULL
+                                    for (i in 1:runs) {
+                                        options(show.error.messages = FALSE)
+                                        repeat {
+                                            kmm <- try(Kmeans(
+                                                data,
+                                                k,
+                                                iter.max = iter.max,
+                                                method = method,
+                                                ...
+                                            ))
+                                            if (!is(kmm,
+                                                    "try-error"))
+                                                break
                                         }
-                                        if (cln <= 1) {
-                                                clb <- list(
-                                                        result = list(partition = rep(
-                                                                1, dim(x)[2]
-                                                        )),
-                                                        bootmean = 1
-                                                )
-                                                names(clb$result$partition) <-
-                                                        names(x)
-                                                return(list(
-                                                        x = x,
-                                                        clb = clb,
-                                                        gpr = gpr,
-                                                        di = di
-                                                ))
+                                        options(show.error.messages = TRUE)
+                                        swss <-
+                                            sum(kmm$withinss)
+                                        if (swss < minSS) {
+                                            kmopt <- kmm
+                                            minSS <-
+                                                swss
                                         }
-                                        
-                                        Kmeansruns <-
-                                                function (data,
-                                                          krange = 2:10,
-                                                          criterion = "ch",
-                                                          iter.max = 100,
-                                                          runs = 100,
-                                                          scaledata = FALSE,
-                                                          alpha = 0.001,
-                                                          critout = FALSE,
-                                                          plot = FALSE,
-                                                          method = "euclidean",
-                                                          ...) {
-                                                        data <- as.matrix(data)
-                                                        if (criterion == "asw")
-                                                                sdata <-
-                                                                        dist(data)
-                                                        if (scaledata)
-                                                                data <-
-                                                                        scale(data)
-                                                        cluster1 <-
-                                                                1 %in% krange
-                                                        crit <-
-                                                                numeric(max(krange))
-                                                        km <- list()
-                                                        for (k in krange) {
-                                                                if (k > 1) {
-                                                                        minSS <- Inf
-                                                                        kmopt <-
-                                                                                NULL
-                                                                        for (i in 1:runs) {
-                                                                                options(show.error.messages = FALSE)
-                                                                                repeat {
-                                                                                        kmm <- try(Kmeans(
-                                                                                                data,
-                                                                                                k,
-                                                                                                iter.max = iter.max,
-                                                                                                method = method,
-                                                                                                ...
-                                                                                        ))
-                                                                                        if (!is(
-                                                                                                kmm,
-                                                                                                "try-error"
-                                                                                        ))
-                                                                                                break
-                                                                                }
-                                                                                options(show.error.messages = TRUE)
-                                                                                swss <-
-                                                                                        sum(kmm$withinss)
-                                                                                if (swss < minSS) {
-                                                                                        kmopt <- kmm
-                                                                                        minSS <-
-                                                                                                swss
-                                                                                }
-                                                                                if (plot) {
-                                                                                        par(ask = TRUE)
-                                                                                        pairs(
-                                                                                                data,
-                                                                                                col = kmm$cluster,
-                                                                                                main = swss
-                                                                                        )
-                                                                                }
-                                                                        }
-                                                                        km[[k]] <-
-                                                                                kmopt
-                                                                        crit[k] <-
-                                                                                switch(
-                                                                                        criterion,
-                                                                                        asw = cluster.stats(
-                                                                                                sdata,
-                                                                                                km[[k]]$cluster
-                                                                                        )$avg.silwidth,
-                                                                                        ch = calinhara(
-                                                                                                data,
-                                                                                                km[[k]]$cluster
-                                                                                        )
-                                                                                )
-                                                                        if (critout)
-                                                                                cat(k,
-                                                                                    " clusters ",
-                                                                                    crit[k],
-                                                                                    "\n")
-                                                                }
-                                                        }
-                                                        if (cluster1)
-                                                                cluster1 <-
-                                                                dudahart2(data, km[[2]]$cluster, alpha = alpha)$cluster1
-                                                        k.best <-
-                                                                which.max(crit)
-                                                        if (cluster1)
-                                                                k.best <-
-                                                                1
-                                                        km[[k.best]]$crit <-
-                                                                crit
-                                                        km[[k.best]]$bestk <-
-                                                                k.best
-                                                        out <-
-                                                                km[[k.best]]
-                                                        out
-                                                }
-                                        
-                                        
-                                        KmeansCBI <-
-                                                function (data,
-                                                          krange,
-                                                          k = NULL,
-                                                          scaling = FALSE,
-                                                          runs = 1,
-                                                          criterion = "ch",
-                                                          method = "euclidean",
-                                                          ...) {
-                                                        if (!is.null(k))
-                                                                krange <-
-                                                                        k
-                                                        if (!identical(scaling, FALSE))
-                                                                sdata <-
-                                                                        scale(data,
-                                                                              center = TRUE,
-                                                                              scale = scaling)
-                                                        else
-                                                                sdata <-
-                                                                        data
-                                                        c1 <-
-                                                                Kmeansruns(
-                                                                        sdata,
-                                                                        krange,
-                                                                        runs = runs,
-                                                                        criterion = criterion,
-                                                                        method = method,
-                                                                        ...
-                                                                )
-                                                        partition <-
-                                                                c1$cluster
-                                                        cl <- list()
-                                                        nc <- krange
-                                                        for (i in 1:nc)
-                                                                cl[[i]] <-
-                                                                partition == i
-                                                        out <-
-                                                                list(
-                                                                        result = c1,
-                                                                        nc = nc,
-                                                                        clusterlist = cl,
-                                                                        partition = partition,
-                                                                        clustermethod = "kmeans"
-                                                                )
-                                                        out
-                                                }
-                                        
-                                        clb <-
-                                                clusterboot(
-                                                        di,
-                                                        B = bootnr,
-                                                        distances = FALSE,
-                                                        bootmethod = "boot",
-                                                        clustermethod = KmeansCBI,
-                                                        krange = cln,
-                                                        scaling = FALSE,
-                                                        multipleboot = FALSE,
-                                                        bscompare = TRUE,
-                                                        seed = rseed,
-                                                        count = !quiet
-                                                )
-                                        return(list(
-                                                x = x,
-                                                clb = clb,
-                                                gpr = gpr,
-                                                di = di
-                                        ))
+                                        if (plot) {
+                                            par(ask = TRUE)
+                                            pairs(data,
+                                                  col = kmm$cluster,
+                                                  main = swss)
+                                        }
+                                    }
+                                    km[[k]] <-
+                                        kmopt
+                                    crit[k] <-
+                                        switch(
+                                            criterion,
+                                            asw = cluster.stats(
+                                                sdata,
+                                                km[[k]]$cluster
+                                            )$avg.silwidth,
+                                            ch = calinhara(data,
+                                                           km[[k]]$cluster)
+                                        )
+                                    if (critout)
+                                        cat(k,
+                                            " clusters ",
+                                            crit[k],
+                                            "\n")
                                 }
+                            }
+                            if (cluster1)
+                                cluster1 <-
+                                dudahart2(
+                                    data, km[[2]]$cluster, alpha = alpha
+                                )$cluster1
+                            k.best <-
+                                which.max(crit)
+                            if (cluster1)
+                                k.best <-
+                                1
+                            km[[k.best]]$crit <-
+                                crit
+                            km[[k.best]]$bestk <-
+                                k.best
+                            out <-
+                                km[[k.best]]
+                            out
                         }
-                y <-
-                        clustfun(
-                                object@fdata,
-                                clustnr,
-                                bootnr,
-                                metric,
-                                do.gap,
-                                SE.method,
-                                SE.factor,
-                                B.gap,
-                                cln,
-                                rseed,
-                                quiet = quiet
+
+
+                    KmeansCBI <-
+                        function (data,
+                                  krange,
+                                  k = NULL,
+                                  scaling = FALSE,
+                                  runs = 1,
+                                  criterion = "ch",
+                                  method = "euclidean",
+                                  ...) {
+                            if (!is.null(k))
+                                krange <-
+                                    k
+                            if (!identical(scaling, FALSE))
+                                sdata <-
+                                    scale(data,
+                                          center = TRUE,
+                                          scale = scaling)
+                            else
+                                sdata <-
+                                    data
+                            c1 <-
+                                Kmeansruns(
+                                    sdata,
+                                    krange,
+                                    runs = runs,
+                                    criterion = criterion,
+                                    method = method,
+                                    ...
+                                )
+                            partition <-
+                                c1$cluster
+                            cl <- list()
+                            nc <- krange
+                            for (i in 1:nc)
+                                cl[[i]] <-
+                                partition == i
+                            out <-
+                                list(
+                                    result = c1,
+                                    nc = nc,
+                                    clusterlist = cl,
+                                    partition = partition,
+                                    clustermethod = "kmeans"
+                                )
+                            out
+                        }
+
+                    clb <-
+                        clusterboot(
+                            di,
+                            B = bootnr,
+                            distances = FALSE,
+                            bootmethod = "boot",
+                            clustermethod = KmeansCBI,
+                            krange = cln,
+                            scaling = FALSE,
+                            multipleboot = FALSE,
+                            bscompare = TRUE,
+                            seed = rseed,
+                            count = !quiet
                         )
-                object@kmeans    <-
-                        list(
-                                kpart = y$clb$result$partition,
-                                jaccard = y$clb$bootmean,
-                                gap = y$gpr
-                        )
-                object@distances <- as.matrix(y$di)
-                set.seed(111111) # fixed seed to keep the same colors
-                object@fcol <-
-                        sample(rainbow(max(y$clb$result$partition)))
-                object@cpart <- object@kmeans$kpart
-                return(object)
-        }
+                    return(list(
+                        x = x,
+                        clb = clb,
+                        gpr = gpr,
+                        di = di
+                    ))
+                }
+            }
+        y <-
+            clustfun(
+                object@fdata,
+                clustnr,
+                bootnr,
+                metric,
+                do.gap,
+                SE.method,
+                SE.factor,
+                B.gap,
+                cln,
+                rseed,
+                quiet = quiet
+            )
+        object@kmeans    <-
+            list(
+                kpart = y$clb$result$partition,
+                jaccard = y$clb$bootmean,
+                gap = y$gpr
+            )
+        object@distances <- as.matrix(y$di)
+        set.seed(111111) # fixed seed to keep the same colors
+        object@fcol <-
+            sample(rainbow(max(y$clb$result$partition)))
+        object@cpart <- object@kmeans$kpart
+        return(object)
+    }
 )

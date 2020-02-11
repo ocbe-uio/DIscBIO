@@ -41,14 +41,14 @@ Networking <-
              plot_height = 15) {
         if (length(data) > 600) {
             print("Your gene list is too big")
-            
+
         } else{
             string_api_url <- "https://string-db.org/api/"
             output_format <- "highres_image"
             method <- "network"
             your_identifiers <- ""
             optional_parameters <- ""
-            
+
             # Construct API request
             genes <- data
             repos <-
@@ -82,7 +82,7 @@ Networking <-
                             repr.plot.height = height_choice)
                 }
             set_plot_dimensions(plot_width, plot_height)
-            
+
             plot(0:1,
                  0:1,
                  type = "n",
@@ -91,11 +91,12 @@ Networking <-
             rasterImage(Network, 0, 0, 1, 1)
             cat(
                 "\n",
-                "You can see the network with high resolution by clicking on the following link:",
+                "You can see the network with high resolution",
+                "by clicking on the following link:",
                 "\n",
                 paste0(y)
             )
-            
+
             set_plot_dimensions(8, 8) # resets to default values
         }
     }

@@ -29,7 +29,7 @@ setMethod(
         if (length(object@kmeans$kpart) == 0) {
             stop("run Clustexp before KmeanOrder")
         }
-        
+
         Obj <- object@fdata
         Clusters <- object@cpart
         sampleNames <- colnames(object@fdata)
@@ -43,10 +43,8 @@ setMethod(
         order <- c(1:length(lpsorder))
         orderTable <- data.frame(order, orderID)
         if (export) {
-            write.csv(
-                orderTable,
-                file = "Cellular_pseudo-time_ordering_based_on_k-meansc-lusters.csv"
-            )
+            nm <- "Cellular_pseudo-time_ordering_based_on_k-meansc-lusters.csv"
+            write.csv(orderTable, file = nm)
         }
         if (!quiet) {
             print(orderTable)

@@ -54,7 +54,7 @@ setMethod(
         } else if (pValue < 0 | pValue > 1) {
             stop("pValue has to be a number between 0 and 1")
         }
-        
+
         cdiff <- list()
         x     <- object@ndata
         y     <- object@expdata[, names(object@ndata)]
@@ -76,7 +76,8 @@ setMethod(
                 x[, part == i]
             no <-
                 if (sum(part == i) > 1)
-                    median(apply(y[, part == i], 2, sum)) / median(apply(x[, part == i], 2, sum))
+                    median(apply(y[, part == i], 2, sum)) /
+                    median(apply(x[, part == i], 2, sum))
             else
                 sum(y[, part == i]) / sum(x[, part == i])
             m <- m * no
@@ -94,12 +95,12 @@ setMethod(
         DEGsE <- c()
         DEGsS <- c()
         DEGsTable <- data.frame()
-        
+
         for (n in 1:K) {
             if (length(cdiff[[n]][, 1]) == 0) {
                 next
             }
-            
+
             if (length(cdiff[[n]][, 1]) > 0) {
                 p.adj <- p.adjust(cdiff[[n]][, 4], method = "bonferroni")
                 out <- cbind(cdiff[[n]], p.adj)
@@ -142,7 +143,7 @@ setMethod(
                     idx_genes <- is.element(gene_list, genes)
                     genes2 <- geneList[idx_genes, ]
                     Final <- cbind(genes, out)
-                    
+
                     Final <-
                         merge(
                             Final,
@@ -184,9 +185,11 @@ setMethod(
                             "p.adj"
                         )
                     if (export) {
-                        write.csv(Up, file = paste0("Up-DEG-cluster", n, ".csv"))
+                        write.csv(
+                            Up, file = paste0("Up-DEG-cluster", n, ".csv")
+                        )
                     }
-                    
+
                     Down <- subset(Final, Final[, 7] == "Down")
                     Down <-
                         dplyr::select(
@@ -216,12 +219,12 @@ setMethod(
                         write.csv(Down,
                                   file = paste0("Down-DEG-cluster", n, ".csv"))
                     }
-                    
+
                     sigDEG <- cbind(DEGsE, DEGsS)
                     if (export) {
                         write.csv(sigDEG, file = "binomial-sigDEG.csv")
                     }
-                    
+
                     DEGsTable[n, 1] <- paste0("Cluster ", n)
                     DEGsTable[n, 2] <- "Remaining Clusters"
                     DEGsTable[n, 3] <- length(Up[, 1])

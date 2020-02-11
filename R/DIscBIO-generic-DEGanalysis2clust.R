@@ -80,12 +80,12 @@ setMethod(
             if (length(object@cpart) < 1)
                 stop("run Clustexp before running DEGanalysis2clust")
         }
-        
+
         if (Clustering == "MB") {
             Cluster_ID = object@MBclusters$clusterid
             if (length(object@MBclusters$clusterid) < 1)
                 stop("run ExprmclustMB before running DEGanalysis2clust")
-            
+
         }
         num <- c(1:K)
         num1 <- paste("CL", num, sep = "")
@@ -96,15 +96,18 @@ setMethod(
         sg1 <- dataset[, which(colnames(dataset) == First)]
         sg2 <- dataset[, which(colnames(dataset) == Second)]
         sg <- cbind(sg1, sg2)
-        
-        sg3 <-
-            factor(gsub(paste0("(", First, "|", Second, ").*"), "\\1", colnames(sg)), levels = c(paste0(First), paste0(Second)))
+
+        sg3 <- factor(
+            gsub(paste0("(", First, "|", Second, ").*"), "\\1", colnames(sg)),
+            levels = c(paste0(First), paste0(Second))
+        )
         sg3 <- sg3[!is.na(sg3)]
-        
+
         colnames(sg) <- sg3
-        len <-
-            c(length(sg[, which(colnames(sg) == First)]), length(sg[, which(colnames(sg) ==
-                                                                                Second)]))
+        len <- c(
+            length(sg[, which(colnames(sg) == First)]),
+            length(sg[, which(colnames(sg) == Second)])
+        )
         y <- c(rep(1:2, len))
         L <- as.matrix(sg)
         gname <- rownames(sg)
@@ -141,21 +144,21 @@ setMethod(
         if (delta.table[wm, 5] <= fdr) {
             w <- which(delta.table[, 5] <= fdr)
             delta <- delta.table[w[1], 1] - 0.001
-            
+
             if (plot) {
                 samr.plot(samr.obj, delta)
-                title(paste0("DEGs in the ", Second, " in ", First, " VS ", Second))
+                title(paste("DEGs in the", Second, "in", First, "VS", Second))
             }
-            
+
             siggenes.table <-
                 samr.compute.siggenes.table(samr.obj, delta, data, delta.table)
-            
+
             FDRl <- as.numeric(siggenes.table$genes.lo[, 8]) / 100
             FDRu <- as.numeric(siggenes.table$genes.up[, 8]) / 100
-            
+
             siggenes.table$genes.lo[, 8] <- FDRl
             siggenes.table$genes.up[, 8] <- FDRu
-            
+
             DEGsTable[1, 1] <- paste0(First, " VS ", Second)
             DEGsTable[1, 2] <- Second
             DEGsTable[1, 3] <- length(FDRu)
@@ -178,7 +181,7 @@ setMethod(
                        "VS",
                        Second,
                        ".csv")
-            
+
             DEGsTable[2, 1] <- paste0(First, " VS ", Second)
             DEGsTable[2, 2] <- First
             DEGsTable[2, 3] <- length(FDRu)
@@ -201,7 +204,7 @@ setMethod(
                        "VS",
                        Second,
                        ".csv")
-            
+
             if (length(FDRl) > 0) {
                 genes <- siggenes.table$genes.lo[, 3]
                 if (quiet) {
@@ -288,7 +291,7 @@ setMethod(
                 DEGsS <- c(DEGsS, FinalDEGsL[, 2])
                 DEGsE <- c(DEGsE, as.character(FinalDEGsL[, 3]))
             }
-            
+
             if (length(FDRu) > 0) {
                 genes <- siggenes.table$genes.up[, 3]
                 if (quiet) {
@@ -380,7 +383,7 @@ setMethod(
             DEGsTable[1, 4] <- NA
             DEGsTable[1, 5] <- NA
             DEGsTable[1, 6] <- NA
-            
+
             DEGsTable[2, 1] <- paste0(First, " VS ", Second)
             DEGsTable[2, 2] <- First
             DEGsTable[2, 3] <- NA
@@ -388,7 +391,7 @@ setMethod(
             DEGsTable[2, 5] <- NA
             DEGsTable[2, 6] <- NA
         }
-        
+
         colnames(DEGsTable) <-
             c(
                 "Comparisons",
@@ -401,7 +404,7 @@ setMethod(
         if (!quiet)
             print(DEGsTable)
         sigDEG <- cbind(DEGsE, DEGsS)
-        
+
         if (export) {
             write.csv(DEGsTable, file = "DEGsTable.csv")
             write.csv(sigDEG, file = "sigDEG.csv")

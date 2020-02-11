@@ -86,9 +86,9 @@ setMethod(
                 downsample = downsample,
                 dsn = dsn
             )
-        object@ndata <-
-            object@expdata[, apply(object@expdata, 2, sum, na.rm = TRUE) >= mintotal]
-        
+        cols <- apply(object@expdata, 2, sum, na.rm = TRUE) >= mintotal
+        object@ndata <- object@expdata[, cols]
+
         if (downsample) {
             downsample <- function(x, n, dsn) {
                 x <- round(x[, apply(x, 2, sum, na.rm = TRUE) >= n], 0)
@@ -124,9 +124,8 @@ setMethod(
                 downsample(object@expdata, n = mintotal, dsn = dsn)
         } else{
             x <- object@ndata
-            object@ndata <-
-                as.data.frame(t(t(x) / apply(x, 2, sum)) * median(apply(x, 2, sum, na.rm =
-                                                                            TRUE)) + .1)
+            object@ndata <- as.data.frame(t(t(x) / apply(x, 2, sum)) *
+                median(apply(x, 2, sum, na.rm = TRUE)) + .1)
         }
         x <- object@ndata
         object@fdata <-

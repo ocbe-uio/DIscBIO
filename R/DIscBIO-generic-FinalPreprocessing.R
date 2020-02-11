@@ -38,7 +38,7 @@ setMethod(
             filteredDataset <- object@fdata[gene_names2, ]
             object@fdata <- filteredDataset
             object@FinalGeneList <- rownames(filteredDataset)
-            
+
             if (!quiet) {
                 cat(
                     "The gene filtering method= Noise filtering\n\n",
@@ -52,17 +52,20 @@ setMethod(
                 )
             }
             if (export) {
-                cat("The Filtered Normalized dataset was saved as: filteredDataset.Rdata\n")
+                cat(
+                    "The Filtered Normalized dataset was saved as: ",
+                    "filteredDataset.Rdata\n"
+                )
                 save(filteredDataset, file = "filteredDataset.Rdata")
             }
         }
-        
+
         if (GeneFlitering == "ExpF") {
             if (nrow(object@fdata) < 1)
                 stop("run Normalizedata before running FinalPreprocessing")
             filteredDataset <- object@fdata
             object@FinalGeneList <- rownames(filteredDataset)
-            
+
             if (!quiet) {
                 cat(
                     "The gene filtering method= Expression filtering\n\n",
@@ -76,7 +79,10 @@ setMethod(
                 )
             }
             if (export) {
-                cat("The Filtered Normalized dataset was saved as: filteredDataset.Rdata\n")
+                cat(
+                    "The Filtered Normalized dataset was saved as: ",
+                    "filteredDataset.Rdata\n"
+                )
                 save(filteredDataset, file = "filteredDataset.Rdata")
             }
         }
