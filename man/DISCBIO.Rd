@@ -59,3 +59,10 @@ DISCBIO
 \item{\code{FinalGeneList}}{A vector containing the final gene list resulted from running the noise filtering or/and the expression filtering.}
 }}
 
+\examples{
+class(valuesG1msReduced)
+G1_reclassified <- DISCBIO(valuesG1msReduced)
+class(G1_reclassified)
+str(G1_reclassified, max.level=2) 
+identical(G1_reclassified@expdataAll, valuesG1msReduced)
+}

@@ -26,12 +26,18 @@
 #' @rdname DISCBIO
 #' @aliases DISCBIO-class, DISCBIO-class
 #' @exportClass DISCBIO
+#' @examples 
+#' class(valuesG1msReduced)
+#' G1_reclassified <- DISCBIO(valuesG1msReduced)
+#' class(G1_reclassified)
+#' str(G1_reclassified, max.level=2) 
+#' identical(G1_reclassified@expdataAll, valuesG1msReduced)
 #' @export
 DISCBIO <- setClass(
     Class = "DISCBIO",
     slots = c(
         expdata    = "data.frame",
-		expdataAll    = "data.frame",
+    expdataAll    = "data.frame",
         ndata      = "data.frame",
         fdata      = "data.frame", 
         distances  = "matrix",
@@ -48,8 +54,8 @@ DISCBIO <- setClass(
         kordering  = "vector",
         MBordering = "vector",
         MBtsne     = "data.frame",
-		noiseF   = "vector",
-		FinalGeneList   = "vector"
+    noiseF   = "vector",
+    FinalGeneList   = "vector"
     )
 )
 
@@ -80,11 +86,11 @@ setValidity("DISCBIO",
 setMethod("initialize",
           signature = "DISCBIO",
           definition = function(.Object, expdataAll ){
-		    .Object@expdataAll <- expdataAll
-			shortNames <- substr(rownames(expdataAll), 1, 4)
-			geneTypes <- factor(c(ENSG = "ENSG", ERCC = "ERCC" )[shortNames])
-			expdata <- expdataAll[which(geneTypes == "ENSG"), ]
-			#countsERCC <- expdataAll[which(geneTypes == "ERCC" ), ]
+        .Object@expdataAll <- expdataAll
+      shortNames <- substr(rownames(expdataAll), 1, 4)
+      geneTypes <- factor(c(ENSG = "ENSG", ERCC = "ERCC" )[shortNames])
+      expdata <- expdataAll[which(geneTypes == "ENSG"), ]
+      #countsERCC <- expdataAll[which(geneTypes == "ERCC" ), ]
             .Object@expdata <- expdata
             .Object@ndata <- expdata
             .Object@fdata <- expdata
