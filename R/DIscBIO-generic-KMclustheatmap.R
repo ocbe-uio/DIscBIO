@@ -7,12 +7,10 @@
 #' @return Unless otherwise specified, a heatmap and a vector of the underlying cluster order.
 #' @importFrom stats hclust as.dist cor
 #' @examples
-#' \dontrun{
 #' sc <- DISCBIO(valuesG1msReduced)
 #' sc <- Clustexp(sc, cln=3, quiet=TRUE) # K-means clustering
 #' sc <- comptSNE(sc, rseed=15555, quiet=TRUE)
 #' KMclustheatmap(sc, hmethod="single")
-#' }
 setGeneric("KMclustheatmap", function(object,hmethod="single", plot = TRUE) standardGeneric("KMclustheatmap"))
 
 #' @export

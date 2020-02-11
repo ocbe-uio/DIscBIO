@@ -6,8 +6,7 @@
 #' of the \code{DISCBIO} object.
 #' @param n String of characters representing the title of the plot. Default is NULL and the first element of \code{g} is chosen.
 #' @return t-SNE plot for one particular gene
-#' @examples 
-#' \dontrun{
+#' @examples
 #' sc <- DISCBIO(valuesG1msReduced)
 #' sc <- NoiseFiltering(sc, percentile=0.9, CV=0.2, export=FALSE)
 #' sc <- Normalizedata(
@@ -21,7 +20,6 @@
 #' sc <- MB_Order(sc, export = FALSE)
 #' g <- 'ENSG00000001460'
 #' plotexptsneMB(sc, g)
-#' }
 setGeneric("plotexptsneMB", function(object,g,n=NULL) standardGeneric("plotexptsneMB"))
 
 #' @export

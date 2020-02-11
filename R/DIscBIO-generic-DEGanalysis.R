@@ -14,7 +14,6 @@
 #' @param ... additional parameters to be passed to samr()
 #' @return A list containing two tables.
 #' @examples
-#' \dontrun{
 #' sc <- DISCBIO(valuesG1msReduced)
 #' sc <- NoiseFiltering(sc, percentile=0.9, CV=0.2, export=FALSE)
 #' sc <- Normalizedata(
@@ -27,7 +26,6 @@
 #' DEGanalysis(
 #'     sc, Clustering="K-means", K=3, fdr=0.1, name="Name", export = FALSE
 #' )
-#' }
 setGeneric(
 	name = "DEGanalysis",
 	def = function(object, Clustering="K-means", K, fdr=0.05, name="Name",

@@ -25,7 +25,6 @@ Plotting differentially expressed genes (DEGs) in a particular cluster.
 Volcano plots are used to readily show the DEGs by plotting significance versus fold-change on the y and x axes, respectively.
 }
 \examples{
-\dontrun{
 sc <- DISCBIO(valuesG1msReduced)
 sc <- NoiseFiltering(sc, percentile=0.9, CV=0.2)
 sc <- Normalizedata(
@@ -39,5 +38,4 @@ dff <- DEGanalysis2clust(sc, Clustering="K-means", K=3, fdr=0.1, name="Name")
 name <- dff[[2]][1, 6]
 U <- read.csv(file = paste0(name), head=TRUE, sep=",")
 VolcanoPlot(U, value=0.05, name=name, adj=FALSE, FS=.4)
-}
 }

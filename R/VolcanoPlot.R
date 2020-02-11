@@ -13,7 +13,6 @@
 #' @return A volcano plot
 #' @export
 #' @examples
-#' \dontrun{
 #' sc <- DISCBIO(valuesG1msReduced)
 #' sc <- NoiseFiltering(sc, percentile=0.9, CV=0.2)
 #' sc <- Normalizedata(
@@ -27,7 +26,6 @@
 #' name <- dff[[2]][1, 6]
 #' U <- read.csv(file = paste0(name), head=TRUE, sep=",")
 #' VolcanoPlot(U, value=0.05, name=name, adj=FALSE, FS=.4)
-#' }
 VolcanoPlot<-function(object,value=0.05,name,fc=0.5,FS=.4){
     if (length(object[1,])>8) {object<-object[,-1]}
     NO0<- object[,8]

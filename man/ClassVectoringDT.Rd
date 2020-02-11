@@ -47,7 +47,6 @@ A data frame.
 This function generates a class vector for the input dataset so the decision tree analysis can be implemented afterwards.
 }
 \examples{
-\dontrun{
 sc <- DISCBIO(valuesG1msReduced)
 sc <- NoiseFiltering(sc, percentile=0.9, CV=0.2, export=FALSE)
 sc <- Normalizedata(
@@ -65,5 +64,4 @@ DATAforDT <- ClassVectoringDT(
     sc, Clustering="K-means", K=2, First="CL1", Second="CL2", cdiff[[1]]
 )
 str(DATAforDT)
-}
 }
