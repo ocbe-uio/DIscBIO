@@ -11,6 +11,7 @@
 setGeneric("plotSymbolstSNE", function(object,types=NULL,legloc="bottomright") standardGeneric("plotSymbolstSNE"))
 
 #' @export
+#' @return Plot of tsne objet slot, grouped by gene.
 #' @rdname plotSymbolstSNE
 setMethod("plotSymbolstSNE",
           signature = "DISCBIO",

@@ -16,6 +16,9 @@ plotSymbolstSNE(object, types = NULL, legloc = "bottomright")
 
 \item{legloc}{A keyword from the list "bottomright", "bottom", "bottomleft", "left", "topleft", "top", "topright", "right" and "center". Default is "bottomright"}
 }
+\value{
+Plot of tsne objet slot, grouped by gene.
+}
 \description{
 Visualizing the K-means clusters using tSNE maps
 }
