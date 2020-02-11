@@ -2,6 +2,14 @@
 #' @description The tSNE representation can also be used to show the pseudo-time ordering.
 #' @param object \code{DISCBIO} class object.
 #' @return A plot of the pseudo-time ordering.
+#' @examples
+#' sc<- DISCBIO(valuesG1msReduced)
+#' sc<-NoiseFiltering(sc,percentile=0.9, CV=0.2)
+#' sc<-Normalizedata(sc, mintotal=1000, minexpr=0, minnumber=0, maxexpr=Inf, downsample=FALSE, dsn=1, rseed=17000)
+#' sc<-FinalPreprocessing(sc,GeneFlitering="NoiseF",export = FALSE)
+#' sc <- Exprmclust(sc,K =2,reduce = TRUE,quiet = TRUE)
+#' sc<- comptsneMB(sc,rseed=15555,quiet = TRUE)
+#' plotOrderMBtsne(sc)
 setGeneric("plotOrderMBtsne", function(object) standardGeneric("plotOrderMBtsne"))
 
 #' @export
@@ -11,11 +19,11 @@ setMethod("plotOrderMBtsne",
           definition = function(object){
             if ( length(object@MBtsne) == 0 ) stop("run comptsneMB before plotOrderMBtsne")
       total<-rbind(object@ndata,object@MBordering)
-      rownames(total)[nrow(total)]<-"Pseudo-time ordering of MBclustering" 
+      rownames(total)[nrow(total)]<-"Pseudo-time ordering of MBclustering"
       g<-rownames(total)[nrow(total)]
             n <- g[1]
             l <- apply(total[g,] - .1,2,sum) + .1
-            
+
             mi <- min(l,na.rm=TRUE)
             ma <- max(l,na.rm=TRUE)
             ColorRamp <- colorRampPalette(rev(brewer.pal(n = 7,name = "RdYlBu")))(100)
