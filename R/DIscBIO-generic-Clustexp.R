@@ -32,6 +32,7 @@
 #' @importFrom amap Kmeans
 #' @importFrom graphics pairs
 #' @importFrom fpc cluster.stats calinhara dudahart2
+#' @importFrom methods is
 #' @return The DISCBIO-class object input with the cpart slot filled.
 #' @examples
 #' sc <- DISCBIO(valuesG1msReduced) # changes signature of data
