@@ -17,6 +17,7 @@ test_that("Data signature changes", {
 
 # This function will be used only if the dataset has ERCC
 sc <- NoiseFiltering(sc, plot=FALSE, export=FALSE, quiet=TRUE)
+
 test_that("Noise filtering is added", {
     expect_equal(length(sc@noiseF), 341)
 })
@@ -114,9 +115,18 @@ cdiff3 <- DEGanalysis2clust(
 )
 
 test_that("DEGs are calculated", {
-    expect_identical(sapply(cdiff1, class), c("matrix", "data.frame"))
-    expect_identical(sapply(cdiff2, class), c("matrix", "data.frame"))
-    expect_identical(sapply(cdiff3, class), c("matrix", "data.frame"))
+    expect_identical(
+        object = sapply(cdiff1, function(x) class(x)[1]),
+        expected = c("matrix", "data.frame")
+    )
+    expect_identical(
+        object = sapply(cdiff2, function(x) class(x)[1]),
+        expected = c("matrix", "data.frame")
+    )
+    expect_identical(
+        object = sapply(cdiff3, function(x) class(x)[1]),
+        expected = c("matrix", "data.frame")
+    )
 })
 
 # Decision tree
@@ -229,9 +239,18 @@ cdiff3 <- DEGanalysis2clust(
 )
 
 test_that("DEGs are calculated", {
-    expect_identical(sapply(cdiff1, class), c("matrix", "data.frame"))
-    expect_identical(sapply(cdiff2, class), c("matrix", "data.frame"))
-    expect_identical(sapply(cdiff3, class), c("matrix", "data.frame"))
+    expect_identical(
+        object = sapply(cdiff1, function(x) class(x)[1]),
+        expected = c("matrix", "data.frame")
+    )
+    expect_identical(
+        object = sapply(cdiff2, function(x) class(x)[1]),
+        expected = c("matrix", "data.frame")
+    )
+    expect_identical(
+        object = sapply(cdiff3, function(x) class(x)[1]),
+        expected = c("matrix", "data.frame")
+    )
 })
 
 # Decision tree
