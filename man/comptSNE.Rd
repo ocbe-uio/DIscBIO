@@ -12,12 +12,17 @@ comptSNE(object, rseed = 15555, quiet = FALSE)
 \arguments{
 \item{object}{\code{DISCBIO} class object.}
 
-\item{rseed}{Integer number. Random seed to to yield exactly reproducible maps across different runs. Default is 15555.}
+\item{rseed}{Integer number. Random seed to to yield exactly reproducible
+maps across different runs. Default is 15555.}
 
 \item{quiet}{if `TRUE`, suppresses intermediate output}
 }
+\value{
+The DISCBIO-class object input with the tsne slot filled.
+}
 \description{
-This function is used to compute the t-Distributed Stochastic Neighbor Embedding (t-SNE).
+This function is used to compute the t-Distributed Stochastic
+  Neighbor Embedding (t-SNE).
 }
 \examples{
 sc <- DISCBIO(valuesG1msReduced) # changes signature of data

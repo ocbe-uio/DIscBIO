@@ -7,19 +7,26 @@
 VolcanoPlot(object, value = 0.05, name, fc = 0.5, FS = 0.4)
 }
 \arguments{
-\item{object}{A data frame showing the differentially expressed genes (DEGs) in a particular cluster}
+\item{object}{A data frame showing the differentially expressed genes (DEGs)
+in a particular cluster}
 
-\item{value}{A numeric value of the false discovery rate. Default is 0.05.. Default is 0.05}
+\item{value}{A numeric value of the false discovery rate. Default is 0.05..
+Default is 0.05}
 
-\item{name}{A string vector showing the name to be used to save the resulted tables.}
+\item{name}{A string vector showing the name to be used to save the resulted
+tables.}
 
 \item{fc}{A numeric value of the fold change. Default is 0.5.}
 
 \item{FS}{A numeric value of the font size. Default is 0.4.}
 }
+\value{
+A volcano plot
+}
 \description{
-Plotting differentially expressed genes (DEGs) in a particular cluster. 
-Volcano plots are used to readily show the DEGs by plotting significance versus fold-change on the y and x axes, respectively.
+Plotting differentially expressed genes (DEGs) in a particular
+  cluster. Volcano plots are used to readily show the DEGs by plotting
+  significance versus fold-change on the y and x axes, respectively.
 }
 \examples{
 \dontrun{

@@ -9,15 +9,21 @@ Jaccard(object, Clustering = "K-means", K, plot = TRUE)
 \arguments{
 \item{object}{\code{DISCBIO} class object.}
 
-\item{Clustering}{Clustering has to be one of the following: ["K-means","MB"]. Default is "K-means"}
+\item{Clustering}{Clustering has to be one of the following:
+["K-means","MB"]. Default is "K-means"}
 
 \item{K}{A numeric value of the number of clusters}
 
 \item{plot}{if `TRUE`, plots the mean Jaccard similarities}
 }
+\value{
+A plot of the mean Jaccard similarity coefficient per cluster.
+}
 \description{
-Robustness of the clusters can be assessed by Jaccard’s similarity, which reflects the reproducibility of individual clusters across bootstrapping runs.
-Jaccard’s similarity is the intersect of two clusters divided by the union.
+Robustness of the clusters can be assessed by Jaccard’s
+  similarity, which reflects the reproducibility of individual clusters
+  across bootstrapping runs. Jaccard’s similarity is the intersect of two
+  clusters divided by the union.
 }
 \examples{
 sc <- DISCBIO(valuesG1msReduced)

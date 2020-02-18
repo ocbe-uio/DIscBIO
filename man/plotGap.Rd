@@ -14,6 +14,9 @@ plotGap(object, y_limits = NULL)
 
 \item{y_limits}{2-length numeric vector with the limits for the gap plot}
 }
+\value{
+A plot of the gap statistics
+}
 \description{
 Plotting Gap Statistics
 }

@@ -34,9 +34,11 @@ NoiseFiltering(
 \arguments{
 \item{object}{\code{DISCBIO} class object.}
 
-\item{percentile}{A numeric value of the percentile. It is used to validate the ERCC spik-ins. Default is 0.8.}
+\item{percentile}{A numeric value of the percentile. It is used to validate
+the ERCC spik-ins. Default is 0.8.}
 
-\item{CV}{A numeric value of the coefficient of variation. It is used to validate the ERCC spik-ins. Default is 0.5.}
+\item{CV}{A numeric value of the coefficient of variation. It is used to
+validate the ERCC spik-ins. Default is 0.5.}
 
 \item{geneCol}{Color of the genes that did not pass the filtration.}
 
@@ -44,20 +46,26 @@ NoiseFiltering(
 
 \item{erccCol}{Color of the ERCC spik-ins.}
 
-\item{Val}{A logical vector that allows plotting only the validated ERCC spike-ins. Default is TRUE. If Val=FALSE will plot all the ERCC spike-ins.}
+\item{Val}{A logical vector that allows plotting only the validated ERCC
+spike-ins. Default is TRUE. If Val=FALSE will plot all the ERCC spike-ins.}
 
-\item{plot}{A logical vector that allows plotting the technical noise. Default is TRUE.}
+\item{plot}{A logical vector that allows plotting the technical noise.
+Default is TRUE.}
 
-\item{export}{A logical vector that allows writing the final gene list in excel file. Default is TRUE.}
+\item{export}{A logical vector that allows writing the final gene list in
+excel file. Default is TRUE.}
 
 \item{quiet}{if `TRUE`, suppresses printed output}
 }
+\value{
+The DISCBIO-class object input with the noiseF slot filled.
+}
 \description{
-Given a matrix or data frame of count data, this function 
-estimates the size factors as follows: Each column is divided by the 
-geometric means of the rows. The median (or, if requested, another location
-estimator) of these ratios (skipping the genes with a # geometric mean of
-zero) is used as the size factor for this column. Source: DESeq package.
+Given a matrix or data frame of count data, this function
+  estimates the size factors as follows: Each column is divided by the
+  geometric means of the rows. The median (or, if requested, another location
+  estimator) of these ratios (skipping the genes with a # geometric mean of
+  zero) is used as the size factor for this column. Source: DESeq package.
 }
 \note{
 This function should be used only if the dataset has ERCC.

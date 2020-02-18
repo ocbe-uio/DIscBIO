@@ -9,16 +9,23 @@ RpartEVAL(data, num.folds = 10, First = "CL1", Second = "CL2", quiet = FALSE)
 \arguments{
 \item{data}{The resulted data from running the function J48DT.}
 
-\item{num.folds}{A numeric value of the number of folds for the cross validation assessment. Default is 10.}
+\item{num.folds}{A numeric value of the number of folds for the cross
+validation assessment. Default is 10.}
 
-\item{First}{A string vector showing the first target cluster.  Default is "CL1"}
+\item{First}{A string vector showing the first target cluster.  Default is
+"CL1"}
 
-\item{Second}{A string vector showing the second target cluster.  Default is "CL2"}
+\item{Second}{A string vector showing the second target cluster.  Default is
+"CL2"}
 
 \item{quiet}{If `TRUE`, suppresses intermediary output}
 }
+\value{
+Performance statistics of the model
+}
 \description{
-This function evaluates the performance of the generated trees for error estimation by ten-fold cross validation assessment.
+This function evaluates the performance of the generated trees
+  for error estimation by ten-fold cross validation assessment.
 }
 \examples{
 sc <- DISCBIO(valuesG1msReduced)

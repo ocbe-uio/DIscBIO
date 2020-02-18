@@ -9,6 +9,9 @@ plottSNE(object)
 \arguments{
 \item{object}{\code{DISCBIO} class object.}
 }
+\value{
+A plot of t-SNEs.
+}
 \description{
 Visualizing the K-means clusters using tSNE maps
 }

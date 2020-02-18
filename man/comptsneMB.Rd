@@ -12,15 +12,19 @@ comptsneMB(object, rseed = 15555, quiet = FALSE)
 \arguments{
 \item{object}{\code{DISCBIO} class object.}
 
-\item{rseed}{Integer number. Random seed to to yield exactly reproducible maps across different runs. Default is 15555.}
+\item{rseed}{Integer number. Random seed to to yield exactly reproducible
+maps across different runs. Default is 15555.}
 
 \item{quiet}{if `TRUE`, suppresses intermediate output}
 }
+\value{
+The DISCBIO-class object input with the MBtsne slot filled.
+}
 \description{
-This function is used to compute the t-Distributed Stochastic Neighbor Embedding (t-SNE).
+This function is used to compute the t-Distributed Stochastic
+  Neighbor Embedding (t-SNE).
 }
 \examples{
-\dontrun{
 sc <- DISCBIO(valuesG1msReduced)
 sc <- NoiseFiltering(sc, percentile=0.9, CV=0.2, export=FALSE)
 sc <- Normalizedata(
@@ -31,5 +35,4 @@ sc <- FinalPreprocessing(sc, GeneFlitering="NoiseF", export=FALSE)
 sc <- Exprmclust(sc)
 sc <- comptsneMB(sc, rseed=15555, quiet = TRUE)
 print(sc@MBtsne)
-}
 }

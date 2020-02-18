@@ -5,26 +5,45 @@
 \alias{MBClustDiffGenes,DISCBIO-method}
 \title{ClustDiffGenes}
 \usage{
-MBClustDiffGenes(object, K, fdr = 0.01, export = TRUE, quiet = FALSE)
+MBClustDiffGenes(
+  object,
+  K,
+  pValue = 0.05,
+  fdr = 0.01,
+  export = TRUE,
+  quiet = FALSE
+)
 
-\S4method{MBClustDiffGenes}{DISCBIO}(object, K, fdr = 0.01, export = TRUE, quiet = FALSE)
+\S4method{MBClustDiffGenes}{DISCBIO}(
+  object,
+  K,
+  pValue = 0.05,
+  fdr = 0.01,
+  export = TRUE,
+  quiet = FALSE
+)
 }
 \arguments{
 \item{object}{\code{DISCBIO} class object.}
 
 \item{K}{A numeric value of the number of clusters.}
 
+\item{pValue}{A numeric value of the p-value. Default is 0.05.}
+
 \item{fdr}{A numeric value of the false discovery rate. Default is 0.01.}
 
-\item{export}{A logical vector that allows writing the final gene list in excel file. Default is TRUE.}
+\item{export}{A logical vector that allows writing the final gene list in
+excel file. Default is TRUE.}
 
 \item{quiet}{if `TRUE`, suppresses intermediate text output}
+}
+\value{
+A list containing two tables.
 }
 \description{
 ClustDiffGenes
 }
 \examples{
-\dontrun{
 sc <- DISCBIO(valuesG1msReduced)
 sc <- NoiseFiltering(sc, percentile=0.9, CV=0.2, export=FALSE)
 sc <- Normalizedata(
@@ -38,5 +57,4 @@ sc <- Clustexp(sc, cln=3)
 sc <- MB_Order(sc, export = FALSE)
 cdiff <- MBClustDiffGenes(sc, K=3, fdr=.1)
 str(cdiff)
-}
 }

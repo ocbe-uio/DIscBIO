@@ -12,9 +12,15 @@ plotSymbolstSNE(object, types = NULL, legloc = "bottomright")
 \arguments{
 \item{object}{\code{DISCBIO} class object.}
 
-\item{types}{If types=NULL then the names of the cells will be grouped automatically. Default is NULL}
+\item{types}{If types=NULL then the names of the cells will be grouped
+automatically. Default is NULL}
 
-\item{legloc}{A keyword from the list "bottomright", "bottom", "bottomleft", "left", "topleft", "top", "topright", "right" and "center". Default is "bottomright"}
+\item{legloc}{A keyword from the list "bottomright", "bottom", "bottomleft",
+"left", "topleft", "top", "topright", "right" and "center". Default is
+"bottomright"}
+}
+\value{
+Plot of tsne objet slot, grouped by gene.
 }
 \description{
 Visualizing the K-means clusters using tSNE maps
@@ -23,5 +29,5 @@ Visualizing the K-means clusters using tSNE maps
 sc <- DISCBIO(valuesG1msReduced) # changes signature of data
 sc <- Clustexp(sc, cln=3) # data must be clustered before plottin
 sc <- comptSNE(sc, rseed=15555, quiet=TRUE)
-plotSymbolstSNE(sc,types=sub("(\\\\_\\\\d+)$","", names(sc@ndata)))    
+plotSymbolstSNE(sc,types=sub("(\\\\_\\\\d+)$","", names(sc@ndata)))
 }
