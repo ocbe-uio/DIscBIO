@@ -13,8 +13,14 @@ RpartDT(data, quiet = FALSE, plot = TRUE)
 
 \item{plot}{If `FALSE`, suppresses plot output}
 }
+\value{
+Information about the model and, by default, a plot of the decision
+  tree.
+}
 \description{
-The decision tree analysis is implemented over a training dataset, which consisted of the DEGs obtained by either SAMseq or the binomial differential expression.
+The decision tree analysis is implemented over a training
+  dataset, which consisted of the DEGs obtained by either SAMseq or the
+  binomial differential expression.
 }
 \examples{
 sc <- DISCBIO(valuesG1msReduced)

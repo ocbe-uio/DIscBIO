@@ -16,8 +16,13 @@ KmeanOrder(object, quiet = FALSE, export = TRUE)
 
 \item{export}{if `TRUE`, exports order table to csv}
 }
+\value{
+The DISCBIO-class object input with the kordering slot filled.
+}
 \description{
-This function takes the exact output of exprmclust function and construct Pseudo-time ordering by mapping all cells onto the path that connects cluster centers.
+This function takes the exact output of exprmclust function and
+  construct Pseudo-time ordering by mapping all cells onto the path that
+  connects cluster centers.
 }
 \examples{
 sc <- DISCBIO(valuesG1msReduced)

@@ -3,7 +3,8 @@
 \name{KMclustheatmap}
 \alias{KMclustheatmap}
 \alias{KMclustheatmap,DISCBIO-method}
-\title{Plotting the K-means clusters in a heatmap representation of the cell-to-cell distances}
+\title{Plotting the K-means clusters in a heatmap representation of the
+  cell-to-cell distances}
 \usage{
 KMclustheatmap(object, hmethod = "single", plot = TRUE)
 
@@ -12,19 +13,24 @@ KMclustheatmap(object, hmethod = "single", plot = TRUE)
 \arguments{
 \item{object}{\code{DISCBIO} class object.}
 
-\item{hmethod}{Agglomeration method used for determining the cluster order from hierarchical clustering of the cluster medoids. 
-This should be one of "ward.D", "ward.D2", "single", "complete", "average". Default is "single".}
+\item{hmethod}{Agglomeration method used for determining the cluster order
+from hierarchical clustering of the cluster medoids. This should be one of
+"ward.D", "ward.D2", "single", "complete", "average". Default is "single".}
 
 \item{plot}{if `TRUE`, plots the heatmap; otherwise, just prints cclmo}
 }
+\value{
+Unless otherwise specified, a heatmap and a vector of the underlying
+  cluster order.
+}
 \description{
-This functions plots a heatmap of the distance matrix grouped by clusters. Individual clusters are highlighted with rainbow colors along the x and y-axes.
+This functions plots a heatmap of the distance matrix grouped
+  by clusters. Individual clusters are highlighted with rainbow colors along
+  the x and y-axes.
 }
 \examples{
-\dontrun{
 sc <- DISCBIO(valuesG1msReduced)
 sc <- Clustexp(sc, cln=3, quiet=TRUE) # K-means clustering
 sc <- comptSNE(sc, rseed=15555, quiet=TRUE)
 KMclustheatmap(sc, hmethod="single")
-}
 }

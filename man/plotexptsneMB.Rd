@@ -3,7 +3,8 @@
 \name{plotexptsneMB}
 \alias{plotexptsneMB}
 \alias{plotexptsneMB,DISCBIO-method}
-\title{Highlighting gene expression in Model-based clustering in the t-SNE map}
+\title{Highlighting gene expression in Model-based clustering in the t-SNE
+  map}
 \usage{
 plotexptsneMB(object, g, n = NULL)
 
@@ -12,17 +13,22 @@ plotexptsneMB(object, g, n = NULL)
 \arguments{
 \item{object}{\code{DISCBIO} class object.}
 
-\item{g}{Individual gene name or vector with a group of gene names corresponding to a subset of valid row names of the \code{ndata} slot
-of the \code{DISCBIO} object.}
+\item{g}{Individual gene name or vector with a group of gene names
+corresponding to a subset of valid row names of the \code{ndata} slot of
+the \code{DISCBIO} object.}
 
-\item{n}{String of characters representing the title of the plot. Default is NULL and the first element of \code{g} is chosen.}
+\item{n}{String of characters representing the title of the plot. Default is
+NULL and the first element of \code{g} is chosen.}
+}
+\value{
+t-SNE plot for one particular gene
 }
 \description{
-The t-SNE map representation can also be used to analyze expression of a gene or a group of genes, 
-to investigate cluster specific gene expression patterns
+The t-SNE map representation can also be used to analyze
+  expression of a gene or a group of genes, to investigate cluster specific
+  gene expression patterns
 }
 \examples{
-\dontrun{
 sc <- DISCBIO(valuesG1msReduced)
 sc <- NoiseFiltering(sc, percentile=0.9, CV=0.2, export=FALSE)
 sc <- Normalizedata(
@@ -36,5 +42,4 @@ sc <- Clustexp(sc, cln=3)
 sc <- MB_Order(sc, export = FALSE)
 g <- 'ENSG00000001460'
 plotexptsneMB(sc, g)
-}
 }

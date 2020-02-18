@@ -7,7 +7,6 @@ context("Data loading and pre-processing")
 sc <- DISCBIO(valuesG1msReduced)  # Reduced dataset used for testing
 
 test_that("Loading datasets generate the expected output", {
-    expect_equal(dim(valuesG1ms), c(59838, 94)) # OK to remove if broken
     expect_equal(dim(valuesG1msReduced), c(1092, 30))
 })
 
@@ -18,13 +17,14 @@ test_that("Data signature changes", {
 
 # This function will be used only if the dataset has ERCC
 sc <- NoiseFiltering(sc, plot=FALSE, export=FALSE, quiet=TRUE)
+
 test_that("Noise filtering is added", {
     expect_equal(length(sc@noiseF), 341)
 })
 
 # In this case this function is used to normalize the reads
 sc <- Normalizedata(
-    sc, mintotal=1000, minexpr=0, minnumber=0, maxexpr=Inf, downsample=FALSE, 
+    sc, mintotal=1000, minexpr=0, minnumber=0, maxexpr=Inf, downsample=FALSE,
     dsn=1, rseed=17000
 )
 
@@ -87,7 +87,7 @@ test_that("Outliers are the expected", {
     expect_equivalent(Outliers, c(3, 7, 19))
     expect_equivalent(Outliers2, c(3, 7, 19))
     expect_equivalent(
-        object = Order@kordering, 
+        object = Order@kordering,
         expected = c(
             23, 20, 6, 21, 27, 26, 24, 28, 10, 19, 15, 25, 16, 8, 14, 13, 22, 4,
             17, 2, 3, 18, 11, 29, 9, 5, 12, 1, 30, 7
@@ -115,9 +115,18 @@ cdiff3 <- DEGanalysis2clust(
 )
 
 test_that("DEGs are calculated", {
-    expect_identical(sapply(cdiff1, class), c("matrix", "data.frame"))
-    expect_identical(sapply(cdiff2, class), c("matrix", "data.frame"))
-    expect_identical(sapply(cdiff3, class), c("matrix", "data.frame"))
+    expect_identical(
+        object = sapply(cdiff1, function(x) class(x)[1]),
+        expected = c("matrix", "data.frame")
+    )
+    expect_identical(
+        object = sapply(cdiff2, function(x) class(x)[1]),
+        expected = c("matrix", "data.frame")
+    )
+    expect_identical(
+        object = sapply(cdiff3, function(x) class(x)[1]),
+        expected = c("matrix", "data.frame")
+    )
 })
 
 # Decision tree
@@ -152,7 +161,7 @@ test_that("Decision tree elements are defined", {
 
 context("Model-based clustering")
 
-# Technically, this should be done before Clustexp, but it's ok in practice to 
+# Technically, this should be done before Clustexp, but it's ok in practice to
 # apply it after K-means because it uses different slots.
 sc <- Exprmclust(sc, K=2, quiet=TRUE)
 
@@ -179,7 +188,7 @@ Outliers <- FindOutliersMB(
     sc, K=2, outminc=5, outlg=2, probthr=.5*1e-3, thr=2**-(1:40),
     outdistquant=.75, plot = FALSE, quiet = TRUE
 )
-outlg <- round(length(sc@fdata[, 1]) / 200) # The cell will be considered as an outlier if it has a minimum of 0.5% of the number of filtered genes as outlier genes. 
+outlg <- round(length(sc@fdata[, 1]) / 200) # The cell will be considered as an outlier if it has a minimum of 0.5% of the number of filtered genes as outlier genes.
 Outliers2 <- FindOutliersMB(
     sc, K=2, outminc=5, outlg=outlg, probthr=.5*1e-3, thr=2**-(1:40),
     outdistquant=.75, plot = FALSE, quiet = TRUE
@@ -203,7 +212,7 @@ test_that("More MB things are OK", {
     expect_equal(
         object = sc@MBordering,
         expected = c(
-            8, 28, 27, 18, 21, 10, 29, 26, 17, 25, 5, 13, 12, 19, 16, 15, 23, 
+            8, 28, 27, 18, 21, 10, 29, 26, 17, 25, 5, 13, 12, 19, 16, 15, 23,
             20, 30, 14, 7, 9, 24, 22, 3, 2, 4, 6, 1, 11
         )
     )
@@ -230,12 +239,21 @@ cdiff3 <- DEGanalysis2clust(
 )
 
 test_that("DEGs are calculated", {
-    expect_identical(sapply(cdiff1, class), c("matrix", "data.frame"))
-    expect_identical(sapply(cdiff2, class), c("matrix", "data.frame"))
-    expect_identical(sapply(cdiff3, class), c("matrix", "data.frame"))
+    expect_identical(
+        object = sapply(cdiff1, function(x) class(x)[1]),
+        expected = c("matrix", "data.frame")
+    )
+    expect_identical(
+        object = sapply(cdiff2, function(x) class(x)[1]),
+        expected = c("matrix", "data.frame")
+    )
+    expect_identical(
+        object = sapply(cdiff3, function(x) class(x)[1]),
+        expected = c("matrix", "data.frame")
+    )
 })
 
-# Decision tree   
+# Decision tree
 sigDEG <- cdiff3[[1]]
 DATAforDT <- ClassVectoringDT(
     sc, Clustering="MB", K=2, First="CL1", Second="CL2", sigDEG, quiet = TRUE

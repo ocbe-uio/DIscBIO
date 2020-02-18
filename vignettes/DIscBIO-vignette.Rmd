@@ -22,12 +22,12 @@ opts_chunk$set(fig.width=7, fig.height=7)
 
 ```{r}
 library(DIscBIO)
-library(enrichR, quiet = TRUE)
+library(enrichR, quiet=TRUE)
 ```
 
 ## Loading dataset
 
-The dataset should be formatted in a data frame where columns refer to samples and rows refer to genes. 
+The dataset should be formatted in a data frame where columns refer to samples and rows refer to genes.
 
 
 ```{r}
@@ -37,7 +37,7 @@ DataSet<-get(FileName)
 
 ## 1. Data Pre-processing
 
-Prior to applying data analysis methods, it is standard to pre-process the raw read counts resulted from the sequencing. The preprocessing approach depends on the existence or absence of ERCC spike-ins. In both cases, it includes normalization of read counts and gene filtering. 
+Prior to applying data analysis methods, it is standard to pre-process the raw read counts resulted from the sequencing. The preprocessing approach depends on the existence or absence of ERCC spike-ins. In both cases, it includes normalization of read counts and gene filtering.
 
 #### Normalization of read counts
 To account for RNA composition and sequencing depth among samples (single-cells), the normalization method “median of ratios” is used. This method takes the ratio of the gene instantaneous median to the total counts for all genes in that cell (column median). The gene instantaneous median is the product of multiplying the median of the total counts across all cells (row median) with the read of the target gene in each cell. This normalization method makes it possible to compare the normalized counts for each gene equally between samples.
@@ -62,49 +62,49 @@ Filtering the raw data that includes ERCCs can be done by applying the “NoiseF
     - geneCol: Color of the genes that did not pass the filtration.
     - FgeneCol: Color of the genes that passt the filtration.
     - erccCol: Color of the ERCC spik-ins.
-    - Val: A logical vector that allows plotting only the validated ERCC spike-ins. Default is TRUE. If Val=FALSE will 
+    - Val: A logical vector that allows plotting only the validated ERCC spike-ins. Default is TRUE. If Val=FALSE will
       plot all the ERCC spike-ins.
-    - plot: A logical vector that allows plotting the technical noise. Default is TRUE. 
-    - export: A logical vector that allows writing the final gene list in excel file. Default is TRUE. 
+    - plot: A logical vector that allows plotting the technical noise. Default is TRUE.
+    - export: A logical vector that allows writing the final gene list in excel file. Default is TRUE.
     - quiet: if `TRUE`, suppresses printed output
-    
-To normalize the raw sequencing reads the function Normalizedata() should be used, this function takes 8 parameters. 
+
+To normalize the raw sequencing reads the function Normalizedata() should be used, this function takes 8 parameters.
 - In case the user would like just to normalize the reads without any further gene filtering the parameters minexpr and minnumber should be set to 0.
 - In case the user would like just to normalize the reads and run gene filtering based on gene expression the parameters minexpr and minnumber should have values. This function will discard cells with less than mintotal transcripts. Genes that are not expressed at minexpr transcripts in at least minnumber cells are discarded.
-          
-The function Normalizedata() normalizes the count reads using the normalization method “median of ratios” 
-          
+
+The function Normalizedata() normalizes the count reads using the normalization method “median of ratios”
+
 To Finalize the preprocessing the function FinalPreprocessing() should be implemented by setting the parameter "GeneFlitering" to NoiseF ( whether the dditional gene filtering step based on gene expression was implemented on not).
 
 
 ```{r}
-sc<-NoiseFiltering(sc,percentile=0.9, CV=0.2)       
+sc<-NoiseFiltering(sc,percentile=0.9, CV=0.2)
 
 ####  Normalizing the reads without any further gene filtering
-sc<-Normalizedata(sc, mintotal=1000, minexpr=0, minnumber=0, maxexpr=Inf, downsample=FALSE, dsn=1, rseed=17000) 
+sc<-Normalizedata(sc, mintotal=1000, minexpr=0, minnumber=0, maxexpr=Inf, downsample=FALSE, dsn=1, rseed=17000)
 
 ####  Additional gene filtering step based on gene expression
 #MIínExp<- mean(rowMeans(DataSet,na.rm=TRUE))
 #MIínExp
 #MinNumber<- round(length(DataSet[1,])/3)    # To be expressed in at least one third of the cells.
 #MinNumber
-#sc<-Normalizedata(sc, mintotal=1000, minexpr=MIínExp, minnumber=MinNumber, maxexpr=Inf, downsample=FALSE, dsn=1, rseed=17000) 
+#sc<-Normalizedata(sc, mintotal=1000, minexpr=MIínExp, minnumber=MinNumber, maxexpr=Inf, downsample=FALSE, dsn=1, rseed=17000)
 
-sc<-FinalPreprocessing(sc,GeneFlitering="NoiseF",export = TRUE) ### The GeneFiltering can be either "NoiseF" or"ExpF"
+sc<-FinalPreprocessing(sc,GeneFlitering="NoiseF",export=TRUE) ### The GeneFiltering can be either "NoiseF" or"ExpF"
 ```
 
 ### 1.2. Filtering and normalizing the raw data that does not include ERCCs
 
 To normalize and filter the raw data that does not include ERCCs can be done by applying the function Normalizedata() and giving  the parameters minexpr and minnumber some values. This function will discard cells with less than mintotal transcripts. Genes that are not expressed at minexpr transcripts in at least minnumber cells are discarded. Furthermore, it will normalize the count reads using the normalization method “median of ratios”.
-          
+
 To Finalize the preprocessing the function FinalPreprocessing() should be implemented by setting the parameter "GeneFlitering" to ExpF.
 
 ###                                               ¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤ Running this cell will overwrite the previous cell ¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤
 
 
 ```{r}
-#OnlyExpressionFiltering=TRUE           
-OnlyExpressionFiltering=FALSE         
+#OnlyExpressionFiltering=TRUE
+OnlyExpressionFiltering=FALSE
 
 if (OnlyExpressionFiltering==TRUE){
     MIínExp<- mean(rowMeans(DataSet,na.rm=TRUE))
@@ -112,28 +112,28 @@ if (OnlyExpressionFiltering==TRUE){
     MinNumber<- round(length(DataSet[1,])/3)    # To be expressed in at least one third of the cells.
     MinNumber
     sc<-Normalizedata(sc, mintotal=1000, minexpr=MIínExp, minnumber=MinNumber, maxexpr=Inf, downsample=FALSE, dsn=1, rseed=17000) #### In this case this function is used to filter out genes and cells.
-    sc<-FinalPreprocessing(sc,GeneFlitering="ExpF",export = TRUE)  
+    sc<-FinalPreprocessing(sc,GeneFlitering="ExpF",export=TRUE)
 }
 ```
 
 ## 2. Cellular Clustering and Pseudo Time ordering
 
-Cellular clustering is performed according to the gene expression profiles to detect cellular sub-population with unique properties. After clustering, pseudo-temporal ordering is generated to indicate the cellular differentiation degree. 
+Cellular clustering is performed according to the gene expression profiles to detect cellular sub-population with unique properties. After clustering, pseudo-temporal ordering is generated to indicate the cellular differentiation degree.
 
 ![PSCAN](Clustering.png){width=90%}
 
 ## 2.1. K-means Clustering
 
-Rare cell type Identification algorithm (RaceID) was used to cluster the pre-processed data using k-means on a similarity distance matrix, which was based on Pearson correlation and the similarity matrix was computed as “1 – Pearson correlation”. The approach of the proposed clustering, i.e., applying k-means on a similarity distance matrix using the Euclidean metric, improves cluster separation. RaceID estimates the number of clusters by finding the minimal clusters' number at the saturation level of gap statistics, which standardizes the within-cluster dispersion. 
+Rare cell type Identification algorithm (RaceID) was used to cluster the pre-processed data using k-means on a similarity distance matrix, which was based on Pearson correlation and the similarity matrix was computed as “1 – Pearson correlation”. The approach of the proposed clustering, i.e., applying k-means on a similarity distance matrix using the Euclidean metric, improves cluster separation. RaceID estimates the number of clusters by finding the minimal clusters' number at the saturation level of gap statistics, which standardizes the within-cluster dispersion.
 
 The Clustexp() functions has several parameters:
 - object: the outcome of running the DISCBIO() function.
 - clustnr Maximum number of clusters for the derivation of the cluster number by the saturation of mean within-cluster dispersion. Default is 20.
 - bootnr A numeric value of booststrapping runs for \code{clusterboot}. Default is 50.
-- metric Is the method to transform the input data to a distance object. 
-- Metric has to be one of the following: ["spearman","pearson","kendall","euclidean","maximum","manhattan","canberra","binary","minkowski"]. 
+- metric Is the method to transform the input data to a distance object.
+- Metric has to be one of the following: ["spearman","pearson","kendall","euclidean","maximum","manhattan","canberra","binary","minkowski"].
 - do.gap A logical vector that allows generating the number of clusters based on the gap statistics. Default is TRUE.
-- SE.method The SE.method determines the first local maximum of the gap statistics. 
+- SE.method The SE.method determines the first local maximum of the gap statistics.
 - The SE.method has to be one of the following:["firstSEmax","Tibs2001SEmax","globalSEmax","firstmax","globalmax"]. Default is "Tibs2001SEmax"
 - SE.factor A numeric value of the fraction of the standard deviation by which the local maximum is required to differ from the neighboring points it is compared to. Default is 0.25.
 - B.gap Number of bootstrap runs for the calculation of the gap statistics. Default is 50
@@ -145,15 +145,15 @@ The Clustexp() functions has several parameters:
 
 
 ```{r}
-sc<- Clustexp(sc,cln=2,quiet=T)    #### K-means clustering to get three clusters
-plotGap(sc)        ### Plotting gap statisticssc<- Clustexp(sc, clustnr=20,bootnr=50,metric="pearson",do.gap=T,SE.method="Tibs2001SEmax",SE.factor=.25,B.gap=50,cln=K,rseed=17000)
+sc<- Clustexp(sc,cln=2,quiet=TRUE)    #### K-means clustering to get three clusters
+plotGap(sc)        ### Plotting gap statisticssc<- Clustexp(sc, clustnr=20,bootnr=50,metric="pearson",do.gap=TRUE,SE.method="Tibs2001SEmax",SE.factor=.25,B.gap=50,cln=K,rseed=17000)
 ```
 
 #### 2.1.1. Defining the Cells in the clusters generated by k-means clustering
 
 
 ```{r}
-sc<- comptSNE(sc,rseed=15555,quiet = TRUE)
+sc<- comptSNE(sc,rseed=15555,quiet=TRUE)
 cat("\t","     Cell-ID"," Cluster Number","\n")
 sc@cpart
 ```
@@ -170,12 +170,12 @@ plotSilhouette(sc,K=2)       # K is the number of clusters
 ```
 
 ```{r}
-Jaccard(sc,Clustering="K-means", K=2, plot = TRUE)     # Jaccard of k-means clusters
+Jaccard(sc,Clustering="K-means", K=2, plot=TRUE)     # Jaccard of k-means clusters
 ```
 
 #### 2.1.3. Cluster plotting using tSNE maps
 
-Here you visualize the K-means clusters using t-distributed stochastic neighbor embedding (tSNE), which is a non-linear dimensionality reduction method that places neighbor cells close to each other. 
+Here you visualize the K-means clusters using t-distributed stochastic neighbor embedding (tSNE), which is a non-linear dimensionality reduction method that places neighbor cells close to each other.
 
 
 ```{r}
@@ -188,15 +188,15 @@ plotSymbolstSNE(sc,types=sub("(\\_\\d+)$","", names(sc@ndata)))  # To plot the t
 ### Defining outlier cells based on K-means Clustering
 
 Outlier identification is implemented using a background model based on distribution of transcript counts within a cluster. Outlier cells are detected if the probability for that cell c that a minimum number of genes Gmin of observing total counts TGmin is less than a specific threshold Pthr, as given by the red dotted line. Outlier cells in K-means clusters can be detected by running the FindOutliersKM() function.
- 
-In case the user decided to remove outlier cells, the user should set RemovingOutliers to TRUE and then start from the beginning (Data Pre-processing). 
+
+In case the user decided to remove outlier cells, the user should set RemovingOutliers to TRUE and then start from the beginning (Data Pre-processing).
 
 
 ```{r}
-outlg<-round(length(sc@fdata[,1])/200)     # The cell will be considered as an outlier if it has a minimum of 0.5% of the number of filtered genes as outlier genes. 
-Outliers<- FindOutliersKM(sc, K=2, outminc=5,outlg=outlg,probthr=.5*1e-3,thr=2**-(1:40),outdistquant=.75, plot = TRUE, quiet = FALSE)
+outlg<-round(length(sc@fdata[,1])/200)     # The cell will be considered as an outlier if it has a minimum of 0.5% of the number of filtered genes as outlier genes.
+Outliers<- FindOutliersKM(sc, K=2, outminc=5,outlg=outlg,probthr=.5*1e-3,thr=2**-(1:40),outdistquant=.75, plot=TRUE, quiet=FALSE)
 
-RemovingOutliers=FALSE     
+RemovingOutliers=FALSE
 # RemovingOutliers=TRUE                    # Removing the defined outlier cells based on K-means Clustering
 
 if(RemovingOutliers==TRUE){
@@ -209,20 +209,20 @@ if(RemovingOutliers==TRUE){
 }
 ```
 
-#### 2.1.4. Cellular pseudo-time ordering based on k-means clusters 
+#### 2.1.4. Cellular pseudo-time ordering based on k-means clusters
 
 ```{r}
-sc<-KmeanOrder(sc,quiet = FALSE, export = TRUE)
+sc<-KmeanOrder(sc,quiet=FALSE, export=TRUE)
 plotOrderKMtsne(sc)
 ```
 
 #### 2.1.5 Plotting the K-means clusters in heatmap
 
-The similarities between single-cells were computed by Euclidean distances of Pearson transcriptome correlation matrix. Based on these similarities, a heatmap portrayal of cell-to-cell distances was plotted using Euclidean as the distance measure and the single linkage as the clustering method, cluster centers were ordered by hierarchic clustering. 
+The similarities between single-cells were computed by Euclidean distances of Pearson transcriptome correlation matrix. Based on these similarities, a heatmap portrayal of cell-to-cell distances was plotted using Euclidean as the distance measure and the single linkage as the clustering method, cluster centers were ordered by hierarchic clustering.
 
 
 ```{r}
-KMclustheatmap(sc,hmethod="single", plot = TRUE)
+KMclustheatmap(sc,hmethod="single", plot=TRUE)
 ```
 
 #### 2.1.6 Plotting the gene expression of a particular gene in a tSNE map
@@ -249,13 +249,13 @@ The user can define DEGs between all clusters generated by either K-means or mod
 
 ```{r degKM}
 ####### differential expression analysis between cluster 1 and cluster 3 of the Model-Based clustering using FDR of 0.05
-cdiff<-DEGanalysis2clust(sc,Clustering="K-means",K=2,fdr=0.05,name="Name",First="CL1",Second="CL2",export = TRUE,quiet=T)
+cdiff<-DEGanalysis2clust(sc,Clustering="K-means",K=2,fdr=0.05,name="Name",First="CL1",Second="CL2",export=TRUE,quiet=TRUE)
 ```
 
 ```{r}
 #### To show the result table
-head(cdiff[[1]])                  # The first component 
-head(cdiff[[2]])                  # The second component 
+head(cdiff[[1]])                  # The first component
+head(cdiff[[2]])                  # The second component
 ```
 
 ### 3.1.2 Determining DEGs between all clusters
@@ -264,26 +264,26 @@ head(cdiff[[2]])                  # The second component
 ##                                         ¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤ Running this cell will overwrite the previous one ¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤
 
 
-```R
-cdiff<-DEGanalysis(sc,Clustering="K-means",K=2,fdr=0.05,name="all_clusters",export = TRUE,quiet=T)   ####### differential expression analysis between all clusters
+```{r}
+cdiff<-DEGanalysis(sc,Clustering="K-means",K=2,fdr=0.05,name="all_clusters",export=TRUE,quiet=TRUE)   ####### differential expression analysis between all clusters
 ```
 
-```R
+```{r}
 #### To show the result table
-head(cdiff[[1]])                  # The first component 
+head(cdiff[[1]])                  # The first component
 head(cdiff[[2]])                  # The second component
 ```
 
 #### 3.2 Identifying DEGs using binomial differential expression
 
-The function KMClustDiffGenes identifies differentially regulated genes for each cluster of the K-means clustering in 
+The function KMClustDiffGenes identifies differentially regulated genes for each cluster of the K-means clustering in
 comparison to the ensemble of all cells. It returns a list with a data.frame element for each cluster that contains the mean expression across all cells not in the cluster (mean.ncl) and in the cluster (mean.cl), the fold-change in the cluster versus all remaining cells (fc), and the p-value for differential expression between all cells in a cluster and all remaining cells. The p-value is computed based on the overlap of negative binomials fitted to the count distributions within the two groups akin to DESeq.
 
 
-```R
-cdiffBinomial<-KMClustDiffGenes(sc,K=2,fdr=.01,,quiet=T)    ########## Binomial differential expression analysis
+```{r}
+cdiffBinomial<-KMClustDiffGenes(sc,K=2,fdr=.01,,quiet=TRUE)    ########## Binomial differential expression analysis
 #### To show the result table
-head(cdiffBinomial[[1]])                  # The first component 
+head(cdiffBinomial[[1]])                  # The first component
 head(cdiffBinomial[[2]])                  # The second component
 ```
 
@@ -291,25 +291,25 @@ head(cdiffBinomial[[2]])                  # The second component
 
 Volcano plots are used to readily show the DEGs by plotting significance versus fold-change on the y and x axes, respectively.
 
-
-```R
-name<-cdiffBinomial[[2]][2,4]    ############ Selecting the DEGs' table  ##############
-U<-read.csv(file=paste0(name),head=TRUE,sep=",")
-Vplot<-VolcanoPlot(U,value=0.001,name=name,FS=.3,fc=1)
-
-#### In case the output of this function is an error "Error in plot.window(...): need finite 'ylim' values", the adj should be set to TRUE
-### In case the user would like to get the names of the significant DEGs then FS should be set to a value of 0.3 or higher.
+```{r}
+name <- cdiffBinomial[[2]][2, 4] # Selecting the DEGs table
+U <- read.csv(file=paste0(name), head=TRUE, sep=",")
+Vplot <- VolcanoPlot(U, value=0.001, name=name, FS=.5, fc=1)
 ```
 
-## 4. Identifying biomarkers (decision trees and networking analysis) 
+In case the output of this function is the error "Error in plot.window(...): need finite 'ylim' values", `adj` should be set to TRUE.
 
-There are several methods to identify biomarkers, among them are decision trees and hub detection through networking analysis. The outcome of STRING analysis is stored in tab separated values (TSV) files. These TSV files served as an input to check both the connectivity degree and the betweenness centrality, which reflects the communication flow in the defined PPI networks 
+In case the user would like to get the names of the significant DEGs, then FS should be set to a value of 0.3 or higher.
+
+## 4. Identifying biomarkers (decision trees and networking analysis)
+
+There are several methods to identify biomarkers, among them are decision trees and hub detection through networking analysis. The outcome of STRING analysis is stored in tab separated values (TSV) files. These TSV files served as an input to check both the connectivity degree and the betweenness centrality, which reflects the communication flow in the defined PPI networks
 
 ![DIsccBIO](KM3.png){width=90%}
 
 Decision trees are one of the most efficient classification techniques in biomarkers discovery. Here we use it to predict the sub-population of a target cell based on transcriptomic data. Two types of decision trees can be performed: classification and regression trees (CART) and J48. The decision tree analysis is implemented over a training dataset, which consisted of the DEGs obtained by either SAMseq or the binomial differential expression. The performance of the generated trees can be evaluated for error estimation by ten-fold cross validation assessment using the "J48DTeval" and "RpartEVAL" functions. The decision tree analysis requires the dataset to be class vectored by applying the “ClassVectoringDT” function.
 
-```R
+```{r}
 #sigDEG<-cdiff[[1]]             # DEGs gene list from SANseq
 sigDEG<-cdiffBinomial[[1]]      # DEGs gene list from Binomial analysis
 First="CL1"
@@ -320,29 +320,29 @@ DATAforDT<-ClassVectoringDT(sc,Clustering="K-means",K=3,First=First,Second=Secon
 ### 4.1. J48 Decision Tree
 
 
-```R
+```{r}
 j48dt<-J48DT(DATAforDT)
-summary(j48dt) 
+summary(j48dt)
 ```
 
 #### 4.1.1. Evaluating the performance of the J48 Decision Tree
 
 
-```R
+```{r}
 j48dt<-J48DTeval(DATAforDT,num.folds=10,First=First,Second=Second)
 ```
 
 ### 4.2. RPART Decision Tree
 
 
-```R
-rpartDT<-RpartDT(DATAforDT)
+```{r}
+rpartDT <- RpartDT(DATAforDT)
 ```
 
 #### 4.2.1. Evaluating the performance of the RPART Decision Tree
 
 
-```R
+```{r}
 rpartEVAL<-RpartEVAL(DATAforDT,num.folds=10,First=First,Second=Second)
 ```
 
@@ -353,7 +353,7 @@ To define protein-protein interactions (PPI) over a list of genes, STRING-api is
 ### 4.3.1 All DEGs
 
 
-```R
+```{r}
 DEGs="All DEGs"
 FileName=paste0(DEGs)
 
@@ -363,18 +363,18 @@ data<-cdiffBinomial[[1]] [,2]           # DEGs gene list from Binomial analysis 
 ppi<-PPI(data,FileName)
 
 networking<-NetAnalysis(ppi)
-networking                            ##### In case the Examine response components = 200 and an error "linkmat[i, ]" appeared, that means there are no PPI.
+networking                            ##### In case the Examine response components=200 and an error "linkmat[i, ]" appeared, that means there are no PPI.
 ```
 
-```R
-data=networking[1:25,1]              # plotting the network of the top 25 highly connected genes 
-network<-Networking(data,FileName,plot_width = 25, plot_height = 10)
+```{r}
+data=networking[1:25,1]              # plotting the network of the top 25 highly connected genes
+network<-Networking(data,FileName,plot_width=25, plot_height=10)
 ```
 
-### 4.3.2 Particular set of DEGs 
+### 4.3.2 Particular set of DEGs
 
 
-```R
+```{r}
 ############ Selecting the DEGs' table  ##############
 DEGs=cdiffBinomial[[2]][1,4]     # Up-regulated genes in cluster 1 (from the Binomial analysis)
 #DEGs=cdiff[[2]][1,4]             # Up-regulated genes in cluster 1 (from SAMseq)
@@ -386,20 +386,20 @@ data<-data[,3]
 ppi<-PPI(data,FileName)
 
 networking<-NetAnalysis(ppi)
-networking                            ##### In case the Examine response components = 200 and an error "linkmat[i, ]" appeared, that means there are no PPI.
+networking                            ##### In case the Examine response components=200 and an error "linkmat[i, ]" appeared, that means there are no PPI.
 
 network<-Networking(data,FileName)
 ```
 
 ### 4.4 Gene Enrichment Analysis
 
-```R
+```{r}
 dbs <- listEnrichrDbs()
 head(dbs)
 #print(dbs)
 ```
 
-```R
+```{r}
 ############ Selecting the DEGs' table  ##############
 DEGs=cdiffBinomial[[2]][1,4]     # Up-regulated genes in cluster 1 (from the Binomial analysis)
 #DEGs=cdiff[[2]][1,4]              # Up-regulated genes in cluster 1 (from SAMseq)
@@ -426,8 +426,8 @@ Model-based clustering assumes that the data are generated by a model and attemp
 #### 2.2.1. Defining the Cells in the clusters generated by model-based clustering
 
 
-```R
-sc <- Exprmclust(sc,K =3,reduce = TRUE,quiet = TRUE) 
+```{r}
+sc <- Exprmclust(sc,K=3,reduce=TRUE,quiet=TRUE)
 cat("\t","     Cell-ID"," Cluster Number","\n")
 sc@MBclusters$clusterid
 
@@ -435,17 +435,17 @@ sc@MBclusters$clusterid
 
 #### 2.2.2. Cluster plotting using PCA and tSNE maps
 
-To visualize the detected clusters, two common dimensionality reduction tools are implemented: tSNE map and principal component analysis (PCA), which is a linear dimensionality reduction method that preserves the global structure and shows how the measurements themselves are related to each other.  
+To visualize the detected clusters, two common dimensionality reduction tools are implemented: tSNE map and principal component analysis (PCA), which is a linear dimensionality reduction method that preserves the global structure and shows how the measurements themselves are related to each other.
 
 
-```R
+```{r}
 PlotmclustMB(sc)
 PCAplotSymbols(sc)
 ```
 
-```R
+```{r}
 # Plotting the model-based clusters in tSNE maps
-sc<- comptsneMB(sc,rseed=15555,quiet = TRUE)
+sc<- comptsneMB(sc,rseed=15555,quiet=TRUE)
 plottsneMB(sc,K=3)
 plotMBLabelstSNE(sc)
 ```
@@ -453,25 +453,25 @@ plotMBLabelstSNE(sc)
 #### 2.2.3. Evaluating the stability and consistancy of the clusters
 
 
-```R
+```{r}
 # Silhouette of Model-based clusters
 par(mar=c(6,2,4,2))
 plotsilhouetteMB(sc,K=3)
 ```
 
-```R
-sc<- Clustexp(sc,cln=3,quiet=T)                  
-Jaccard(sc,Clustering="MB", K=3, plot = TRUE)    # Jaccard of Model based clusters
+```{r}
+sc<- Clustexp(sc,cln=3,quiet=TRUE)
+Jaccard(sc,Clustering="MB", K=3, plot=TRUE)    # Jaccard of Model based clusters
 ```
 
 ### Defining outlier cells based on Model-Based Clustering
 
 
-```R
-outlg<-round(length(sc@fdata[,1])/200)     # The cell will be considered as an outlier if it has a minimum of 0.5% of the number of filtered genes as outlier genes. 
-Outliers<- FindOutliersMB(sc, K=3, outminc=5,outlg=outlg,probthr=.5*1e-3,thr=2**-(1:40),outdistquant=.75, plot = TRUE, quiet = T)
+```{r}
+outlg<-round(length(sc@fdata[,1])/200)     # The cell will be considered as an outlier if it has a minimum of 0.5% of the number of filtered genes as outlier genes.
+Outliers<- FindOutliersMB(sc, K=3, outminc=5,outlg=outlg,probthr=.5*1e-3,thr=2**-(1:40),outdistquant=.75, plot=TRUE, quiet=TRUE)
 
-RemovingOutliers=FALSE     
+RemovingOutliers=FALSE
 # RemovingOutliers=TRUE                    # Removing the defined outlier cells based on K-means Clustering
 
 if(RemovingOutliers==TRUE){
@@ -487,14 +487,14 @@ if(RemovingOutliers==TRUE){
 ### 2.2.4. Cellular pseudo-time ordering based on Model-based clusters
 
 
-```R
-sc<-MB_Order(sc,quiet = FALSE, export = TRUE)
+```{r}
+sc<-MB_Order(sc,quiet=FALSE, export=TRUE)
 ```
 
 #### 2.2.4.1 Plotting the  pseudo-time ordering in a PCA plot
 
 
-```R
+```{r}
 PlotMBorderPCA(sc)
 ```
 
@@ -502,7 +502,7 @@ PlotMBorderPCA(sc)
 #### 2.2.4.2 Plotting the  pseudo-time ordering in a tSNE map
 
 
-```R
+```{r}
 plotOrderMBtsne(sc)
 ```
 
@@ -510,14 +510,14 @@ plotOrderMBtsne(sc)
 #### 2.2.4.3 Plotting the Model-based clusters in heatmap
 
 
-```R
-MBclustheatmap(sc,hmethod="single", plot = TRUE) 
+```{r}
+MBclustheatmap(sc,hmethod="single", plot=TRUE)
 ```
 
 #### 2.2.4.4 Plotting the gene expression of a particular gene in a tSNE map
 
 
-```R
+```{r}
 g='ENSG00000010244'                #### Plotting the expression of  MT-RNR2
 plotexptsneMB(sc,g)
 ```
@@ -525,7 +525,7 @@ plotexptsneMB(sc,g)
 #### 2.2.4.5 Plotting the gene expression of a particular gene in a PCA plot
 
 
-```R
+```{r}
 g <- "ENSG00000010244"       #### Plotting the expression of  MT-RNR2
 PlotMBexpPCA(sc,g)
 ```
@@ -545,12 +545,12 @@ The user can define DEGs between all clusters generated by either K-means or mod
 ### 3.1.1 Determining DEGs between two particular clusters
 
 
-```R
+```{r}
 ####### differential expression analysis between cluster 2 and cluster 3 of the Model-Based clustering using FDR of 0.05
-MBcdiff<-DEGanalysis2clust(sc,Clustering="MB",K=3,fdr=0.1,name="Name",First="CL1",Second="CL2",export = TRUE,quiet=F)   
+MBcdiff<-DEGanalysis2clust(sc,Clustering="MB",K=3,fdr=0.1,name="Name",First="CL1",Second="CL2",export=TRUE,quiet=FALSE)
 #### To show the result table
-head(MBcdiff[[1]])                  # The first component 
-head(MBcdiff[[2]])                  # The second component 
+head(MBcdiff[[1]])                  # The first component
+head(MBcdiff[[2]])                  # The second component
 ```
 
 ### 3.1.2 Determining DEGs between all clusters
@@ -558,29 +558,29 @@ head(MBcdiff[[2]])                  # The second component
 ##                                         ¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤ Running this cell will overwrite the previous one ¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤
 
 
-```R
-MBcdiff<-DEGanalysis(sc,Clustering="MB",K=3,fdr=0.05,name="all_clusters",export = TRUE,quiet=TRUE)   ####### differential expression analysis between all clusters
+```{r}
+MBcdiff<-DEGanalysis(sc,Clustering="MB",K=3,fdr=0.05,name="all_clusters",export=TRUE,quiet=TRUE)   ####### differential expression analysis between all clusters
 #### To show the result table
-head(MBcdiff[[1]])                  # The first component 
+head(MBcdiff[[1]])                  # The first component
 head(MBcdiff[[2]])                  # The second component
 ```
 
-```R
+```{r}
 #### To show the result table
-head(MBcdiff[[1]])                  # The first component 
+head(MBcdiff[[1]])                  # The first component
 head(MBcdiff[[2]])                  # The second component
 ```
 
 #### 3.2 Identifying DEGs using binomial differential expression
 
-The function MBClustDiffGenes identifies differentially regulated genes for each cluster of the Model-Based clustering in 
+The function MBClustDiffGenes identifies differentially regulated genes for each cluster of the Model-Based clustering in
 comparison to the ensemble of all cells. It returns a list with a data.frame element for each cluster that contains the mean expression across all cells not in the cluster (mean.ncl) and in the cluster (mean.cl), the fold-change in the cluster versus all remaining cells (fc), and the p-value for differential expression between all cells in a cluster and all remaining cells. The p-value is computed based on the overlap of negative binomials fitted to the count distributions within the two groups akin to DESeq.
 
 
-```R
-MBcdiffBinomial<-MBClustDiffGenes(sc,K=3,fdr=.01,export=TRUE, quiet=T)    ########## Binomial differential expression analysis
+```{r}
+MBcdiffBinomial<-MBClustDiffGenes(sc,K=3,fdr=.01,export=TRUE, quiet=TRUE)    ########## Binomial differential expression analysis
 #### To show the result table
-head(MBcdiffBinomial[[1]])                  # The first component 
+head(MBcdiffBinomial[[1]])                  # The first component
 head(MBcdiffBinomial[[2]])                  # The second component
 ```
 
@@ -589,18 +589,18 @@ head(MBcdiffBinomial[[2]])                  # The second component
 Volcano plots are used to readily show the DEGs by plotting significance versus fold-change on the y and x axes, respectively.
 
 
-```R
+```{r}
 name<-MBcdiffBinomial[[2]][2,4]    ############ Selecting the "Up-DEG-cluster2.csv " from the DEGs' binomial table  ##############
 #name<-MBcdiff[[2]][4,6]    ############ Selecting the "Up-DEG-cluster2.csv " from the DEGs' SAMseq table  ##############
 U<-read.csv(file=paste0(name),head=TRUE,sep=",")
-Vplot<-VolcanoPlot(U,value=0.001,name=name,FS=.3,fc=0.5)
+Vplot<-VolcanoPlot(U,value=0.001,name=name,FS=.5,fc=0.5)
 #### In case the output of this function is an error "Error in plot.window(...): need finite 'ylim' values", the adj should be set to TRUE
 ### In case the user would like to get the names of the significant DEGs then FS should be set to a value of 0.3 or higher.
 ```
 
-## 4. Identifying biomarkers (decision trees and networking analysis) 
+## 4. Identifying biomarkers (decision trees and networking analysis)
 
-There are several methods to identify biomarkers, among them are decision trees and hub detection through networking analysis. The outcome of STRING analysis is stored in tab separated values (TSV) files. These TSV files served as an input to check both the connectivity degree and the betweenness centrality, which reflects the communication flow in the defined PPI networks 
+There are several methods to identify biomarkers, among them are decision trees and hub detection through networking analysis. The outcome of STRING analysis is stored in tab separated values (TSV) files. These TSV files served as an input to check both the connectivity degree and the betweenness centrality, which reflects the communication flow in the defined PPI networks
 
 ![DIsccBIO](MB3.png){width=90%}
 
@@ -608,7 +608,7 @@ Decision trees are one of the most efficient classification techniques in biomar
 The decision tree analysis requires the dataset to be class vectored by applying the “ClassVectoringDT” function.
 
 
-```R
+```{r}
 sigDEG<-cdiff[[1]]             # DEGs gene list from SANseq
 #sigDEG<-cdiffBinomial[[1]]      # DEGs gene list from Binomial analysis
 First="CL1"
@@ -619,29 +619,29 @@ DATAforDT<-ClassVectoringDT(sc,Clustering="MB",K=3,First=First,Second=Second,sig
 ### 4.1. J48 Decision Tree
 
 
-```R
+```{r}
 j48dt<-J48DT(DATAforDT)
-summary(j48dt) 
+summary(j48dt)
 ```
 
 #### 4.1.1. Evaluating the performance of the J48 Decision Tree
 
 
-```R
+```{r}
 j48dt<-J48DTeval(DATAforDT,num.folds=10,First=First,Second=Second)
 ```
 
 ### 4.2. RPART Decision Tree
 
 
-```R
+```{r}
 rpartDT<-RpartDT(DATAforDT)
 ```
 
 #### 4.2.1. Evaluating the performance of the RPART Decision Tree
 
 
-```R
+```{r}
 rpartEVAL<-RpartEVAL(DATAforDT,num.folds=10,First=First,Second=Second)
 ```
 
@@ -652,7 +652,7 @@ To define protein-protein interactions (PPI) over a list of genes, STRING-api is
 ### 4.3.1 All DEGs
 
 
-```R
+```{r}
 DEGs="All DEGs"
 FileName=paste0(DEGs)
 
@@ -662,7 +662,7 @@ data<-MBcdiff[[1]] [,2]             # From the table of the differential express
 ppi<-PPI(data,FileName)
 
 networking<-NetAnalysis(ppi)
-networking                            ##### In case the Examine response components = 200 and an error "linkmat[i, ]" appeared, that means there are no PPI.
+networking                            ##### In case the Examine response components=200 and an error "linkmat[i, ]" appeared, that means there are no PPI.
 
 network<-Networking(data,FileName)
 ```
@@ -670,7 +670,7 @@ network<-Networking(data,FileName)
 ### 4.3.2 Particular set of DEGs
 
 
-```R
+```{r}
 ############ Selecting the DEGs' table  ##############
 DEGs=cdiffBinomial[[2]][2,4]     # UP-regulated genes in cluster 2 (from the Binomial analysis)
 #DEGs=MBcdiff[[2]][2,6]             # UP-regulated genes in cluster 2 (from SAMseq)
@@ -682,7 +682,7 @@ data<-data[,3]
 ppi<-PPI(data,FileName)
 
 networking<-NetAnalysis(ppi)
-networking                            ##### In case the Examine response components = 200 and an error "linkmat[i, ]" appeared, that means there are no PPI.
+networking                            ##### In case the Examine response components=200 and an error "linkmat[i, ]" appeared, that means there are no PPI.
 
 network<-Networking(data,FileName)
 
@@ -690,13 +690,13 @@ network<-Networking(data,FileName)
 
 ### 4.4 Gene Enrichment Analysis
 
-```R
+```{r}
 dbs <- listEnrichrDbs()
 head(dbs)
 #print(dbs)
 ```
 
-```R
+```{r}
 ############ Selecting the DEGs' table  ##############
 DEGs=MBcdiffBinomial[[2]][2,4]     # Up-regulated genes in cluster 2 (from the Binomial analysis)
 #DEGs=MBcdiff[[2]][2,6]              # UP-regulated genes in cluster 2 (from SAMseq)

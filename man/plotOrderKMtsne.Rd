@@ -3,18 +3,22 @@
 \name{plotOrderKMtsne}
 \alias{plotOrderKMtsne}
 \alias{plotOrderKMtsne,DISCBIO-method}
-\title{Plotting the pseudo-time ordering based on K-means clusters in the t-SNE map}
+\title{Plotting the pseudo-time ordering based on K-means clusters in the
+  t-SNE map}
 \usage{
 plotOrderKMtsne(object)
 
 \S4method{plotOrderKMtsne}{DISCBIO}(object)
 }
 \arguments{
-\item{object}{\code{DISCBIO} class object.
-of the \code{DISCBIO} object.}
+\item{object}{\code{DISCBIO} class object.}
+}
+\value{
+A plot of the pseudo-time ordering.
 }
 \description{
-The tSNE representation can also be used to show the pseudo-time ordering.
+The tSNE representation can also be used to show the pseudo-time
+  ordering.
 }
 \examples{
 sc <- DISCBIO(valuesG1msReduced)
