@@ -1,4 +1,6 @@
-if (!requireNamespace("BiocManager", quietly = TRUE)) install.packages("BiocManager")
+if (!requireNamespace("BiocManager", quietly = TRUE))
+    install.packages("BiocManager")
+BiocManager::install()
 
 BiocManager::install(
     c(
@@ -13,5 +15,4 @@ BiocManager::install(
     )
 )
 
-library("devtools")
-devtools::install(".", build_vignettes=TRUE)
+install.packages(".", repos=NULL, build_vignettes=TRUE)
