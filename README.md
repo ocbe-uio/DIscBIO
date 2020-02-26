@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/ocbe-uio/DIscBIO.svg?branch=dev)](https://travis-ci.org/ocbe-uio/DIscBIO)
+
 # DIscBIO
 
 A user-friendly pipeline for biomarker discovery in single-cell transcriptomics.
