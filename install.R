@@ -12,3 +12,7 @@ BiocManager::install(
         "enrichR", "tsne"
     )
 )
+
+# BiocInstaller appears to be needed to install DIscBIO from source
+# it shouldn't be needed, however
+install.packages("BiocInstaller", repos="http://bioconductor.org/packages/2.13/bioc")
