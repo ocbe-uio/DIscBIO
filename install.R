@@ -13,4 +13,5 @@ BiocManager::install(
     )
 )
 
-install.packages(".", repos=NULL, build_vignettes=TRUE)
+# install DIscBIO
+tools:::.install_packages(".")
