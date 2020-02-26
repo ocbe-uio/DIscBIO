@@ -8,3 +8,4 @@ README.md
 notebook
 data/valuesG1ms.rda
 data/genes20k.rda
+.travis.yml
