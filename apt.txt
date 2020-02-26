@@ -1,0 +1,3 @@
+# jre/jdk needed for RWeka
+default-jre
+default-jdk

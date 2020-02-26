@@ -9,3 +9,8 @@ notebook
 data/valuesG1ms.rda
 data/genes20k.rda
 .travis.yml
+data/genes20k.rda
+apt.txt
+install.R
+postBuild
+runtime.txt
