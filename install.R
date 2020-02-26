@@ -12,6 +12,3 @@ BiocManager::install(
         "enrichR", "tsne"
     )
 )
-
-# install DIscBIO
-tools:::.install_packages(".")

@@ -1,0 +1,4 @@
+#!/bin/sh
+
+# install DIscBIO from this repo
+R CMD INSTALL .
