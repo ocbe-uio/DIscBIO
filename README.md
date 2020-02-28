@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.org/ocbe-uio/DIscBIO.svg?branch=dev)](https://travis-ci.org/ocbe-uio/DIscBIO)
+[![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/minrk/DIscBIO/binder?filepath=notebook) [![Build Status](https://travis-ci.org/ocbe-uio/DIscBIO.svg?branch=dev)](https://travis-ci.org/ocbe-uio/DIscBIO) 
 
 # DIscBIO
 
@@ -51,6 +51,10 @@ library(DIscBIO)
 ```
 
 A step-by-step tutorial of DIscBIO is under construction as a standalone R vignette. In the meantime, you can use the interactive Jupyter notebook available [here](notebook/DIscBIO.ipynb).
+
+In order to use the Binder version of DIscBIO, just click on the badge below:
+
+[![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/minrk/DIscBIO/binder?filepath=notebook) 
 
 # Development
 
