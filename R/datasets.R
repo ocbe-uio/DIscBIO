@@ -10,8 +10,6 @@
 #' @docType data
 NULL
 
-
-
 #' Human and Mouse Gene Identifiers.
 #' 
 #' Data.frame including ENTREZID, SYMBOL, and ENSEMBL gene identifiers of human and mouse genes.
@@ -22,4 +20,6 @@ NULL
 #' @examples 
 #' data(HumanMouseGeneIds)
 #' print(HumanMouseGeneIds[1:6,])
-"HumanMouseGeneIds"
+#' @name HumanMouseGeneIds
+#' @docType data
+NULL

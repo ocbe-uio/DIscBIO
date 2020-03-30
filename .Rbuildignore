@@ -14,3 +14,4 @@ install.R
 postBuild
 runtime.txt
 .travis.yml
+.github
