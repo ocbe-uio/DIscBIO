@@ -106,18 +106,27 @@ setValidity("DISCBIO",
             })
 
 setMethod(
-    "initialize",
-    signature = "DISCBIO",
-    definition = function(.Object, expdataAll) {
-        .Object@expdataAll <- expdataAll
-        shortNames <- substr(rownames(expdataAll), 1, 4)
-        geneTypes <-
-            factor(c(ENSG = "ENSG", ERCC = "ERCC")[shortNames])
-        expdata <- expdataAll[which(geneTypes == "ENSG"), ]
-        .Object@expdata <- expdata
-        .Object@ndata <- expdata
-        .Object@fdata <- expdata
-        validObject(.Object)
-        return(.Object)
+  "initialize",
+  signature = "DISCBIO",
+  definition = function(.Object, expdataAll) {
+    .Object@expdataAll <- expdataAll
+    
+    tmpFeats <- rownames(expdataAll)
+    if(sum(grepl("^ENS", tmpFeats)) / length(tmpFeats) < 0.5) {
+      # Attempt fat conversion
+      tmpExpdataAll <- customConvertFeats(x = expdataAll)
+    } else {
+      tmpExpdataAll <- expdataAll
     }
+
+    shortNames <- substr(rownames(tmpExpdataAll), 1, 4)
+    geneTypes <-
+      factor(c(ENSG = "ENSG", ERCC = "ERCM", ENSG = "ENSM")[shortNames])
+    expdata <- tmpExpdataAll[which(grepl("^ENS", geneTypes)), ]
+    .Object@expdata <- expdata
+    .Object@ndata <- expdata
+    .Object@fdata <- expdata
+    validObject(.Object)
+    return(.Object)
+  }
 )

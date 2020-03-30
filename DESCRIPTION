@@ -32,7 +32,7 @@ Imports: methods, TSCAN, boot, httr, mclust, statmod, biomaRt, samr, igraph,
 	readr, RColorBrewer, ggplot2, rpart, fpc, cluster, rpart.plot, amap, dplyr,
 	tsne, AnnotationDbi, org.Hs.eg.db, calibrate, graphics, stats, utils
 Depends:
-    R (>= 3.6),
+    R (>= 3.5),
 Suggests: 
     knitr,
     rmarkdown,
@@ -40,7 +40,7 @@ Suggests:
     enrichR
 VignetteBuilder: knitr
 LazyData: true
-RoxygenNote: 7.0.2
+RoxygenNote: 7.1.0
 BugReports: https://github.com/ocbe-uio/DIscBIO/issues
 Collate: 
     'DIscBIO-classes.R'
@@ -87,5 +87,6 @@ Collate:
     'RpartDT.R'
     'RpartEVAL.R'
     'VolcanoPlot.R'
+    'customConverters.R'
     'datasets.R'
     'retrieveBiomart.R'
