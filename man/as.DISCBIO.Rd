@@ -10,13 +10,13 @@ as.DISCBIO(x, ...)
 \item{x}{an object of class Seurat or SingleCellExperiment}
 
 \item{...}{additional parameters to pass to the function, including:
-* if x is a Seurat object: 
+* if x is a Seurat object:
    - assay, string indicating the assay slot used to obtain data from (defaults to 'RNA')}
 }
 \value{
 a DISCBIO-class object
 }
 \description{
-Initialize a DISCBIO-class object starting from a 
+Initialize a DISCBIO-class object starting from a
 SingleCellExperiment object or a Seurat object
 }

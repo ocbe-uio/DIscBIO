@@ -2,7 +2,7 @@ Package: DIscBIO
 Date: 2020-02-06
 Title: A User-Friendly Pipeline for Biomarker Discovery in Single-Cell Transcriptomics
 Version: 0.99.1
-Authors@R: 
+Authors@R:
     c(
         person(given = "Salim",
                family = "Ghannoum",
@@ -18,11 +18,11 @@ Authors@R:
                email = "w.l.netto@medisin.uio.no")
     )
 Description: An open, multi-algorithmic pipeline for easy, fast and efficient
-    analysis of cellular sub-populations and the molecular signatures that 
-    characterize them. The pipeline consists of four successive steps: data 
-    pre-processing, cellular clustering with pseudo-temporal ordering, defining 
-    differential expressed genes and biomarker identification. This package 
-    implements extensions of the work published by Ghannoum et. al. 
+    analysis of cellular sub-populations and the molecular signatures that
+    characterize them. The pipeline consists of four successive steps: data
+    pre-processing, cellular clustering with pseudo-temporal ordering, defining
+    differential expressed genes and biomarker identification. This package
+    implements extensions of the work published by Ghannoum et. al.
     <doi:10.1101/700989>.
 biocViews: SingleCell, Transcriptomics, Clustering, DecisionTree
 License: MIT + file LICENSE
@@ -33,7 +33,7 @@ Imports: methods, TSCAN, boot, httr, mclust, statmod, biomaRt, samr, igraph,
 	tsne, AnnotationDbi, org.Hs.eg.db, calibrate, graphics, stats, utils
 Depends:
     R (>= 3.5),
-Suggests: 
+Suggests:
     knitr,
     rmarkdown,
 	testthat,
@@ -42,7 +42,7 @@ VignetteBuilder: knitr
 LazyData: true
 RoxygenNote: 7.1.0
 BugReports: https://github.com/ocbe-uio/DIscBIO/issues
-Collate: 
+Collate:
     'DIscBIO-classes.R'
     'DIscBIO-generic-ClassVectoringDT.R'
     'DIscBIO-generic-Clustexp.R'
