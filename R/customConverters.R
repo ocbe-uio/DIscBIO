@@ -17,10 +17,8 @@
 #' @export 
 customConvertFeats <- function(x, verbose = TRUE) {
   
-  # uncomment
-  # myDict <- DIscBIO::HumanMouseGeneIds
-  myDict <- HumanMouseGeneIds
-  
+  myDict <- DIscBIO::HumanMouseGeneIds
+ 
   # 
   xx <- rownames(x)
   keep.ei <- xx %in% myDict[, "ENTREZID"]
