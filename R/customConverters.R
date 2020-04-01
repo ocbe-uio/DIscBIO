@@ -101,7 +101,7 @@ as.DISCBIO <- function(x, ...) {
     all.cells <- base::as.character(x@colData@rownames)
 
     # Get data
-    all.counts <- base::data.frame(base::as.matrix(x@assays$data@listData$counts))
+    all.counts <- base::data.frame(base::as.matrix(x@assays@data@listData$counts))
 
     # re-write row and colnames
     rownames(all.counts) <- all.feats
