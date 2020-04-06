@@ -15,7 +15,12 @@ Authors@R:
         person(given = "Waldir",
                family = "Leoncio",
                role = c("cre", "aut"),
-               email = "w.l.netto@medisin.uio.no")
+               email = "w.l.netto@medisin.uio.no"),
+        person(given = "Damiano",
+               family = "Fantini",
+               role = c("ctb"),
+
+        )
     )
 Description: An open, multi-algorithmic pipeline for easy, fast and efficient
     analysis of cellular sub-populations and the molecular signatures that
