@@ -18,9 +18,7 @@ Authors@R:
                email = "w.l.netto@medisin.uio.no"),
         person(given = "Damiano",
                family = "Fantini",
-               role = c("ctb"),
-
-        )
+               role = c("ctb"))
     )
 Description: An open, multi-algorithmic pipeline for easy, fast and efficient
     analysis of cellular sub-populations and the molecular signatures that
