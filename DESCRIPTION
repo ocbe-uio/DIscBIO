@@ -35,7 +35,7 @@ Imports: methods, TSCAN, boot, httr, mclust, statmod, biomaRt, samr, igraph,
 	readr, RColorBrewer, ggplot2, rpart, fpc, cluster, rpart.plot, amap, dplyr,
 	tsne, AnnotationDbi, org.Hs.eg.db, calibrate, graphics, stats, utils
 Depends:
-    R (>= 3.5),
+    R (>= 3.6),
 Suggests:
     knitr,
     rmarkdown,
