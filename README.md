@@ -1,3 +1,5 @@
+[![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/ocbe-uio/DIscBIO/dev?filepath=notebook) [![Build Status](https://travis-ci.org/ocbe-uio/DIscBIO.svg?branch=dev)](https://travis-ci.org/ocbe-uio/DIscBIO) 
+
 # DIscBIO
 
 A user-friendly pipeline for biomarker discovery in single-cell transcriptomics.
@@ -34,7 +36,8 @@ BiocManager::install(
         "matrixStats", "robustbase", "philentropy", "igraph", "boot",
         "biomaRt", "tidyr", "calibrate", "partykit", "RWeka", "rpart",
         "rpart.plot", "imager", "png", "NetIndices", "httr", "jsonlite",
-        "tidyverse", "samr", "tidyverse",”org.Hs.eg.db”,”AnnotationDbi”, "enrichR"
+        "tidyverse", "samr", "tidyverse", "org.Hs.eg.db", "AnnotationDbi",
+        "enrichR", "tsne"
     )
 )
 ```
@@ -48,6 +51,10 @@ library(DIscBIO)
 ```
 
 A step-by-step tutorial of DIscBIO is under construction as a standalone R vignette. In the meantime, you can use the interactive Jupyter notebook available [here](notebook/DIscBIO.ipynb).
+
+In order to use the Binder version of DIscBIO, just click on the badge below:
+
+[![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/ocbe-uio/DIscBIO/dev?filepath=notebook) 
 
 # Development
 
