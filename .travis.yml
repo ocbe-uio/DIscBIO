@@ -1,5 +1,8 @@
 # Source: https://docs.travis-ci.com/user/languages/r
 language: r
+cache:
+  packages: true
+  timeout: 1500
 r:
   - bioc-release
   - bioc-devel
