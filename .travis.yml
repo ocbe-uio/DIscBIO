@@ -4,5 +4,4 @@ cache:
   packages: true
   timeout: 1500
 r:
-  - bioc-release
   - bioc-devel
