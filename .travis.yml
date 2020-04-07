@@ -1,7 +1,8 @@
 # Source: https://docs.travis-ci.com/user/languages/r
 language: r
 cache:
+  apt: true
   packages: true
-  timeout: 1500
+  timeout: 3000
 r:
   - bioc-devel
