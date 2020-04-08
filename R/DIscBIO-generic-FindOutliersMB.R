@@ -23,6 +23,7 @@
 #' @return A named vector of the genes containing outlying cells and the number
 #'   of cells on each.
 #' @examples
+#' \dontrun{
 #' sc <- DISCBIO(valuesG1msReduced)
 #' sc <- NoiseFiltering(sc, percentile=0.9, CV=0.2, export=FALSE)
 #' sc <- Normalizedata(
@@ -37,6 +38,7 @@
 #'     sc, K=3, outminc=5, outlg=2, probthr=.5*1e-3, thr=2**-(1:40),
 #'     outdistquant=.75, plot = FALSE, quiet = TRUE
 #' )
+#' }
 setGeneric(
     name = "FindOutliersMB",
     def = function(object,
