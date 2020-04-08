@@ -65,7 +65,6 @@ A named vector of the genes containing outlying cells and the number
 This functions performs the outlier identification
 }
 \examples{
-\dontrun{
 sc <- DISCBIO(valuesG1msReduced)
 sc <- NoiseFiltering(sc, percentile=0.9, CV=0.2, export=FALSE)
 sc <- Normalizedata(
@@ -80,5 +79,5 @@ FindOutliersMB(
     sc, K=3, outminc=5, outlg=2, probthr=.5*1e-3, thr=2**-(1:40),
     outdistquant=.75, plot = FALSE, quiet = TRUE
 )
-}
+
 }

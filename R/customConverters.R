@@ -65,6 +65,14 @@ customConvertFeats <- function(x, verbose = TRUE) {
 #' @return a DISCBIO-class object
 #'
 #' @export
+#'
+#' @examples
+#' g1_sce <- SingleCellExperiment::SingleCellExperiment(
+#'     list(counts=as.matrix(valuesG1msReduced))
+#' )
+#' g1_disc <- as.DISCBIO(g1_sce)
+#' class(g1_disc)
+#'
 as.DISCBIO <- function(x, ...) {
 
   if ("Seurat" %in% class(x)) {
