@@ -31,6 +31,7 @@ This functions plots a heatmap of the distance matrix grouped
   the x and y-axes.
 }
 \examples{
+\dontrun{
 sc <- DISCBIO(valuesG1msReduced)
 sc <- NoiseFiltering(sc, export=FALSE)
 sc <- Normalizedata(
@@ -43,4 +44,5 @@ sc <- comptsneMB(sc, rseed=15555)
 sc <- Clustexp(sc, cln=3)
 sc <- MB_Order(sc, export = FALSE)
 MBclustheatmap(sc, hmethod="single")
+}
 }

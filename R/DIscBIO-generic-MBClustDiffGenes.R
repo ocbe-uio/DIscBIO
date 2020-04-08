@@ -13,6 +13,7 @@
 #' @export
 #' @return A list containing two tables.
 #' @examples
+#' \dontrun{
 #' sc <- DISCBIO(valuesG1msReduced)
 #' sc <- NoiseFiltering(sc, percentile=0.9, CV=0.2, export=FALSE)
 #' sc <- Normalizedata(
@@ -26,6 +27,7 @@
 #' sc <- MB_Order(sc, export = FALSE)
 #' cdiff <- MBClustDiffGenes(sc, K=3, fdr=.1)
 #' str(cdiff)
+#' }
 setGeneric("MBClustDiffGenes", function(object,
                                         K,
                                         pValue = 0.05,
