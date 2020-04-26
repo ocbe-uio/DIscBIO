@@ -18,8 +18,8 @@
 customConvertFeats <- function(x, verbose = TRUE) {
   
   # uncomment
-  # myDict <- DIscBIO::HumanMouseGeneIds
-  myDict <- HumanMouseGeneIds
+  myDict <- DIscBIO::HumanMouseGeneIds
+  #myDict <- HumanMouseGeneIds
   myDict <- myDict[!is.na(myDict[, "ENSEMBL"]), ]
   
   #  
