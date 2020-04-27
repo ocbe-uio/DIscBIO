@@ -120,7 +120,7 @@ setMethod(
     # Assess the class of the input
     if ("SingleCellExperiment" %in% class(expdataAll)) {
       
-      .Object@SingleCellExperiment <- SingleCellExperiment
+      .Object@SingleCellExperiment <- expdataAll
       tmp <- as.data.frame(SingleCellExperiment@assays$data@listData$counts)
       tmp <- customConvertFeats(tmp, verbose = FALSE)
       .Object@expdataAll <- tmp
@@ -129,7 +129,7 @@ setMethod(
 
       expdataAll <- customConvertFeats(expdataAll, verbose = FALSE)
       .Object@expdataAll <- as.data.frame(expdataAll)
-      XX <- tryCatch({SingleCellExperiment(expdataAll)}, 
+      XX <- tryCatch({SingleCellExperiment::SingleCellExperiment(expdataAll)}, 
                      error = function(e) {NULL})
       .Object@SingleCellExperiment <- XX
       
@@ -137,7 +137,7 @@ setMethod(
       
       expdataAll <- customConvertFeats(expdataAll, verbose = FALSE)
       .Object@expdataAll <- expdataAll
-      XX <- tryCatch({SingleCellExperiment(as.matrix(expdataAll))}, 
+      XX <- tryCatch({SingleCellExperiment::SingleCellExperiment(as.matrix(expdataAll))}, 
                error = function(e) {NULL})
       .Object@SingleCellExperiment <- XX
       
