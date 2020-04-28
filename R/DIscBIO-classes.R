@@ -124,13 +124,8 @@ setMethod(
     if ("SingleCellExperiment" %in% class(expdataAll)) {
       
       .Object@SingleCellExperiment <- expdataAll
-      tmp <- tryCatch(as.data.frame(SingleCellExperiment@assays$data@listData$counts), 
-                      error = function(e) {NULL})
-      if (is.null(tmp)) {
-        tmp <- tryCatch(as.data.frame(SingleCellExperiment@assays@data@listData$counts), 
-                        error = function(e) {NULL})
-      }
-                      
+      tmp <- SingleCellExperiment::counts(expdataAll)
+      tmp <- as.data.frame(as.matrix(tmp))                
       tmp <- customConvertFeats(tmp, verbose = FALSE)
       .Object@expdataAll <- tmp
       
