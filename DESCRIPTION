@@ -41,8 +41,7 @@ Suggests:
     rmarkdown,
 	testthat,
     enrichR,
-    Seurat,
-    SingleCellExperiment
+    Seurat
 VignetteBuilder: knitr
 LazyData: true
 RoxygenNote: 7.1.0
