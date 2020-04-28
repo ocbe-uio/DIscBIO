@@ -19,7 +19,7 @@ customConvertFeats <- function(x, verbose = TRUE) {
   
   # uncomment
   myDict <- DIscBIO::HumanMouseGeneIds
-  #myDict <- HumanMouseGeneIds
+  # myDict <- HumanMouseGeneIds
   myDict <- myDict[!is.na(myDict[, "ENSEMBL"]), ]
   
   #  
@@ -109,21 +109,22 @@ as.DISCBIO <- function(x, ...) {
   } else if ("SingleCellExperiment" %in% class(x)) {
     
     # Get data
-    all.counts <- base::data.frame(base::as.matrix(x@assays$data@listData$counts))
+    #all.counts <- base::data.frame(base::as.matrix(x@assays$data@listData$counts))
     
     # Get feats and sample names
-    all.feats <- base::as.character(rownames(all.counts))
-    all.cells <- base::as.character(colnames(all.counts))
+    #all.feats <- base::as.character(rownames(all.counts))
+    #all.cells <- base::as.character(colnames(all.counts))
     
     # re-write row and colnames
-    rownames(all.counts) <- all.feats
-    colnames(all.counts) <- all.cells
+    #rownames(all.counts) <- all.feats
+    #colnames(all.counts) <- all.cells
     
     # prep output and return
-    all.counts <- customConvertFeats(all.counts)
+    #all.counts <- customConvertFeats(all.counts)
 
-    y <- DISCBIO(all.counts)
-    
+    #y <- DISCBIO(all.counts)
+    y <- DISCBIO(x)
+
   } else {
     stop("Conersion not supported")
   }
