@@ -37,7 +37,7 @@ BiocManager::install(
         "biomaRt", "tidyr", "calibrate", "partykit", "RWeka", "rpart",
         "rpart.plot", "imager", "png", "NetIndices", "httr", "jsonlite",
         "tidyverse", "samr", "tidyverse", "org.Hs.eg.db", "AnnotationDbi",
-        "enrichR", "tsne"
+        "enrichR", "tsne", "SingleCellExperiment"
     )
 )
 ```

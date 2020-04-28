@@ -19,6 +19,11 @@ DISCBIO
 \section{Slots}{
 
 \describe{
+
+\item{\code{SingleCellExperiment}}{Representation of the single cell input data, 
+including both cells from regular and ERCC spike-in samples. Data are 
+stored in a SingleCellExperiment object.}
+
 \item{\code{expdata}}{The raw expression data matrix with cells as columns and
 genes as rows in sparse matrix format. It does not contain ERCC spike-ins.}
 
