@@ -17,6 +17,10 @@
 #' @export 
 customConvertFeats <- function(x, verbose = TRUE) {
   
+  if (! (is.matrix(x) || is.data.frame(x)) ){
+    stop("wrong input")
+  }
+  
   # uncomment
   myDict <- DIscBIO::HumanMouseGeneIds
   # myDict <- HumanMouseGeneIds
@@ -126,7 +130,7 @@ as.DISCBIO <- function(x, ...) {
     y <- DISCBIO(x)
 
   } else {
-    stop("Conersion not supported")
+    stop("Conversion not supported")
   }
   
   return(y)
