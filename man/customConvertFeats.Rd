@@ -7,19 +7,19 @@
 customConvertFeats(x, verbose = TRUE)
 }
 \arguments{
-\item{x}{data.frame or matrix including raw counts (typically, UMIs), wehre rows are
+\item{x}{data.frame or matrix including raw counts (typically, UMIs), wehre rows are 
 features (genes) and rownames are feature identifiers (SYMBOLs or ENTREZIDs).}
 
 \item{verbose}{logical, shall messages be printed to inform about conversion advances.}
 }
 \value{
-a data.frame where rownames are ENSEMBL IDs. The new feature IDs are
+a data.frame where rownames are ENSEMBL IDs. The new feature IDs are 
 automatically imputed based on existing feature IDs (SYMBOLs or ENTREZIDs).
 }
 \description{
 Attempt to automatically convert non-ENSEMBL feature identifiers to ENSEMBL identifiers.
-Features are included as rownames of the input data.frame (or matrix).
-It is assumed that feature identifiers (i.e., rownames of x) come from human or mouse genomes,
+Features are included as rownames of the input data.frame (or matrix). 
+It is assumed that feature identifiers (i.e., rownames of x) come from human or mouse genomes, 
 and are either OFFICIAL SYMBOLS or ENTREZIDS. If less than 20% of match is identified, an
 error will be thrown.
 }
