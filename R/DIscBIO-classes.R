@@ -2,6 +2,9 @@
 #' @title The DISCBIO Class
 #' @description The DISCBIO class is the central object storing all information
 #'   generated throughout the pipeline.
+#' @slot SingleCellExperiment Representation of the single cell input data, 
+#' including both cells from regular and ERCC spike-in samples. Data are 
+#' stored in a SingleCellExperiment object.
 #' @slot expdata The raw expression data matrix with cells as columns and
 #'   genes as rows in sparse matrix format. It does not contain ERCC spike-ins.
 #' @slot expdataAll The raw expression data matrix with cells as columns
@@ -45,6 +48,9 @@
 #' @rdname DISCBIO
 #' @aliases DISCBIO-class, DISCBIO-class
 #' @exportClass DISCBIO
+#' 
+#' @importClassesFrom SingleCellExperiment SingleCellExperiment
+#' 
 #' @examples
 #' class(valuesG1msReduced)
 #' G1_reclassified <- DISCBIO(valuesG1msReduced)
@@ -55,6 +61,7 @@
 DISCBIO <- setClass(
     Class = "DISCBIO",
     slots = c(
+        SingleCellExperiment = "SingleCellExperiment",  
         expdata         = "data.frame",
         expdataAll      = "data.frame",
         ndata           = "data.frame",
@@ -109,15 +116,42 @@ setMethod(
   "initialize",
   signature = "DISCBIO",
   definition = function(.Object, expdataAll) {
-    .Object@expdataAll <- expdataAll
     
-    tmpFeats <- rownames(expdataAll)
-    if(sum(grepl("^ENS", tmpFeats)) / length(tmpFeats) < 0.5) {
-      # Attempt fat conversion
-      tmpExpdataAll <- customConvertFeats(x = expdataAll)
-    } else {
-      tmpExpdataAll <- expdataAll
+    # Fix?
+    SingleCellExperiment <- NULL
+      
+    # Assess the class of the input
+    if ("SingleCellExperiment" %in% class(expdataAll)) {
+      
+      .Object@SingleCellExperiment <- expdataAll
+      tmp <- SingleCellExperiment::counts(expdataAll)
+      tmp <- as.data.frame(as.matrix(tmp))                
+      tmp <- customConvertFeats(tmp, verbose = FALSE)
+      .Object@expdataAll <- tmp
+      
+    } else if (is.matrix(expdataAll)) {
+
+      expdataAll <- customConvertFeats(expdataAll, verbose = FALSE)
+      .Object@expdataAll <- as.data.frame(expdataAll)
+      XX <- tryCatch({SingleCellExperiment::SingleCellExperiment(expdataAll)}, 
+                     error = function(e) {NULL})
+      .Object@SingleCellExperiment <- XX
+      
+    } else if (is.data.frame(expdataAll)) {
+      
+      expdataAll <- customConvertFeats(expdataAll, verbose = FALSE)
+      .Object@expdataAll <- expdataAll
+      XX <- tryCatch({SingleCellExperiment::SingleCellExperiment(as.matrix(expdataAll))}, 
+               error = function(e) {NULL})
+      .Object@SingleCellExperiment <- XX
+      
     }
+    
+    # Proceed
+    #tmpFeats <- rownames(expdataAll)
+    #tmpExpdataAll <- expdataAll
+    tmpFeats <- rownames(.Object@expdataAll)
+    tmpExpdataAll <- .Object@expdataAll
 
     shortNames <- substr(rownames(tmpExpdataAll), 1, 4)
     geneTypes <-

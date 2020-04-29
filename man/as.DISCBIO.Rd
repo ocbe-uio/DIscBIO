@@ -20,3 +20,11 @@ a DISCBIO-class object
 Initialize a DISCBIO-class object starting from a
 SingleCellExperiment object or a Seurat object
 }
+\examples{
+g1_sce <- SingleCellExperiment::SingleCellExperiment(
+    list(counts=as.matrix(valuesG1msReduced))
+)
+g1_disc <- as.DISCBIO(g1_sce)
+class(g1_disc)
+
+}

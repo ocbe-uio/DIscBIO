@@ -84,11 +84,11 @@ sc<-NoiseFiltering(sc,percentile=0.9, CV=0.2)
 sc<-Normalizedata(sc, mintotal=1000, minexpr=0, minnumber=0, maxexpr=Inf, downsample=FALSE, dsn=1, rseed=17000)
 
 ####  Additional gene filtering step based on gene expression
-#MIínExp<- mean(rowMeans(DataSet,na.rm=TRUE))
-#MIínExp
+#MIinExp<- mean(rowMeans(DataSet,na.rm=TRUE))
+#MIinExp
 #MinNumber<- round(length(DataSet[1,])/3)    # To be expressed in at least one third of the cells.
 #MinNumber
-#sc<-Normalizedata(sc, mintotal=1000, minexpr=MIínExp, minnumber=MinNumber, maxexpr=Inf, downsample=FALSE, dsn=1, rseed=17000)
+#sc<-Normalizedata(sc, mintotal=1000, minexpr=MIinExp, minnumber=MinNumber, maxexpr=Inf, downsample=FALSE, dsn=1, rseed=17000)
 
 sc<-FinalPreprocessing(sc,GeneFlitering="NoiseF",export=TRUE) ### The GeneFiltering can be either "NoiseF" or"ExpF"
 ```
@@ -107,11 +107,11 @@ To Finalize the preprocessing the function FinalPreprocessing() should be implem
 OnlyExpressionFiltering=FALSE
 
 if (OnlyExpressionFiltering==TRUE){
-    MIínExp<- mean(rowMeans(DataSet,na.rm=TRUE))
-    MIínExp
+    MIinExp <- mean(rowMeans(DataSet,na.rm=TRUE))
+    MIinExp
     MinNumber<- round(length(DataSet[1,])/3)    # To be expressed in at least one third of the cells.
     MinNumber
-    sc<-Normalizedata(sc, mintotal=1000, minexpr=MIínExp, minnumber=MinNumber, maxexpr=Inf, downsample=FALSE, dsn=1, rseed=17000) #### In this case this function is used to filter out genes and cells.
+    sc<-Normalizedata(sc, mintotal=1000, minexpr=MIinExp, minnumber=MinNumber, maxexpr=Inf, downsample=FALSE, dsn=1, rseed=17000) #### In this case this function is used to filter out genes and cells.
     sc<-FinalPreprocessing(sc,GeneFlitering="ExpF",export=TRUE)
 }
 ```

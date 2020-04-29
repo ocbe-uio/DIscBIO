@@ -15,6 +15,7 @@
 #' @return Unless otherwise specified, a heatmap and a vector of the underlying
 #'   cluster order.
 #' @examples
+#' \dontrun{
 #' sc <- DISCBIO(valuesG1msReduced)
 #' sc <- NoiseFiltering(sc, export=FALSE)
 #' sc <- Normalizedata(
@@ -27,6 +28,7 @@
 #' sc <- Clustexp(sc, cln=3)
 #' sc <- MB_Order(sc, export = FALSE)
 #' MBclustheatmap(sc, hmethod="single")
+#' }
 setGeneric("MBclustheatmap", function(
     object, hmethod="single", plot=TRUE, quiet=FALSE) {
         standardGeneric("MBclustheatmap")
