@@ -19,7 +19,6 @@ DISCBIO
 \section{Slots}{
 
 \describe{
-
 \item{\code{SingleCellExperiment}}{Representation of the single cell input data, 
 including both cells from regular and ERCC spike-in samples. Data are 
 stored in a SingleCellExperiment object.}
