@@ -47,7 +47,7 @@ test_that("Data is normalized", {
 context("K-means clustering")
 
 sc <- Clustexp(sc, cln=2, quiet=TRUE) # K-means clustering
-sc <- comptSNE(sc, rseed=15555, quiet=TRUE)
+sc <- comptSNE(sc, rseed=15555, quiet=TRUE, max_iter=10)
 
 test_that("tSNE is computed", {
     expect_equal(class(sc@tsne), "data.frame")
@@ -172,7 +172,7 @@ test_that("Model-based clustering elements are OK", {
     )
 })
 
-sc <- comptsneMB(sc, rseed=15555, quiet = TRUE)
+sc <- comptsneMB(sc, rseed=15555, quiet=TRUE, max_iter=100)
 
 test_that("tSNE clustering works fine", {
     expect_equal(dim(sc@MBtsne), c(30, 2))

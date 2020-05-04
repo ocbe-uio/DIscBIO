@@ -16,8 +16,7 @@ The pipeline consists of four successive steps: data pre-processing, cellular cl
 ## Required Packages
 
 ```{r options, echo=FALSE}
-library(knitr)
-opts_chunk$set(fig.width=7, fig.height=7)
+knitr::opts_chunk$set(fig.width=7, fig.height=7)
 ```
 
 ```{r}
