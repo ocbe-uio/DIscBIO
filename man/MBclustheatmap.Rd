@@ -40,7 +40,7 @@ sc <- Normalizedata(
 )
 sc <- FinalPreprocessing(sc, GeneFlitering="NoiseF", export=FALSE)
 sc <- Exprmclust(sc,K = 2)
-sc <- comptsneMB(sc, rseed=15555)
+sc <- comptsneMB(sc, max_iter=100)
 sc <- Clustexp(sc, cln=3)
 sc <- MB_Order(sc, export = FALSE)
 MBclustheatmap(sc, hmethod="single")

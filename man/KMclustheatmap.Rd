@@ -31,6 +31,6 @@ This functions plots a heatmap of the distance matrix grouped
 \examples{
 sc <- DISCBIO(valuesG1msReduced)
 sc <- Clustexp(sc, cln=3, quiet=TRUE) # K-means clustering
-sc <- comptSNE(sc, rseed=15555, quiet=TRUE)
+sc <- comptSNE(sc, max_iter=100, quiet=TRUE)
 KMclustheatmap(sc, hmethod="single")
 }

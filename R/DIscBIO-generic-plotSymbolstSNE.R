@@ -9,7 +9,7 @@
 #' @examples
 #' sc <- DISCBIO(valuesG1msReduced) # changes signature of data
 #' sc <- Clustexp(sc, cln=3) # data must be clustered before plottin
-#' sc <- comptSNE(sc, rseed=15555, quiet=TRUE)
+#' sc <- comptSNE(sc, max_iter=100, quiet=TRUE)
 #' plotSymbolstSNE(sc,types=sub("(\\_\\d+)$","", names(sc@ndata)))
 setGeneric("plotSymbolstSNE", function(object,
                                        types = NULL,

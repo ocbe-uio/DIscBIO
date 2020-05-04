@@ -38,7 +38,7 @@ sc <- Normalizedata(
 )
 sc <- FinalPreprocessing(sc, GeneFlitering="NoiseF", export=FALSE)
 sc <- Exprmclust(sc, K=3)
-sc <- comptsneMB(sc, rseed=15555)
+sc <- comptsneMB(sc, max_iter=100)
 sc <- Clustexp(sc, cln=3)
 sc <- MB_Order(sc, export = FALSE)
 g <- 'ENSG00000001460'
