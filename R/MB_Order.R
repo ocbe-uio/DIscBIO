@@ -23,9 +23,7 @@
 #' sc <- MB_Order(sc, export = FALSE)
 #' sc@MBordering
 #' }
-MB_Order <- function(object,
-                     quiet = FALSE,
-                     export = TRUE) {
+MB_Order <- function(object, quiet = FALSE, export = TRUE) {
     data = object@MBclusters
     lpsorderMB <- TSCANorder(data)
     Names <- names(object@MBclusters$clusterid)

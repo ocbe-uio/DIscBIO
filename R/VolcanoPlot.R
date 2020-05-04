@@ -33,11 +33,7 @@
 #' U <- read.csv(file = paste0(name), head=TRUE, sep=",")
 #' VolcanoPlot(U, value=0.05, name=name, adj=FALSE, FS=.4)
 #' }
-VolcanoPlot <- function(object,
-                        value = 0.05,
-                        name,
-                        fc = 0.5,
-                        FS = .4) {
+VolcanoPlot <- function(object, value = 0.05, name, fc = 0.5, FS = .4) {
     if (length(object[1, ]) > 8) {
         object <- object[, -1]
     }
@@ -62,9 +58,9 @@ VolcanoPlot <- function(object,
         )
     )
     FC <- subset(object, abs(object[, 7]) > fc)    # Fold Change
-    sigFC <-
-        subset(object, object[, 8] < value &
-                   abs(object[, 7]) > fc) # Significant genes
+    sigFC <- subset(
+        object, object[, 8] < value & abs(object[, 7]) > fc
+    ) # Significant genes
     with(FC, points(
         abs(FC[, 7]),
         -log10(FC[, 8]),
@@ -80,13 +76,14 @@ VolcanoPlot <- function(object,
         col = "blue"
     ))
     with(sigFC,
-         textxy(
-             abs(sigFC[, 7]),
-             -log10(sigFC[, 8]),
-             labs = sigFC[, 2],
-             cex = FS,
-             col = "blue"
-         ))
+        textxy(
+            abs(sigFC[, 7]),
+            -log10(sigFC[, 8]),
+            labs = sigFC[, 2],
+            cex = FS,
+            col = "blue"
+        )
+    )
     add_legend <- function(...) {
         opar <- par(
             fig = c(0, 1, 0, 1),

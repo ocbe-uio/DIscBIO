@@ -38,10 +38,12 @@ setMethod(
             cex = .5,
             col = "lightgrey"
         )
-        text(object@tsne[, 1],
-             object@tsne[, 2],
-             labels,
-             cex = .7,
-             col = COL)
+        text(
+            object@tsne[, 1],
+            object@tsne[, 2],
+            labels,
+            cex = .7,
+            col = COL
+        )
     }
 )

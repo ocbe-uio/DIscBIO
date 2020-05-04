@@ -30,57 +30,46 @@
 #'     outdistquant=.75, plot = FALSE
 #' )
 #'
-setGeneric("FindOutliersKM", function(object,
-                                      K,
-                                      outminc = 5,
-                                      outlg = 2,
-                                      probthr = 1e-3,
-                                      thr = 2 ** -(1:40),
-                                      outdistquant = .75,
-                                      plot = TRUE,
-                                      quiet = FALSE)
-    standardGeneric("FindOutliersKM"))
+setGeneric(
+    "FindOutliersKM",
+    function(
+        object, K, outminc = 5, outlg = 2, probthr = 1e-3, thr = 2 ** -(1:40),
+        outdistquant = .75, plot = TRUE, quiet = FALSE
+    )
+    standardGeneric("FindOutliersKM")
+)
 
 #' @rdname FindOutliersKM
 #' @export
 setMethod(
     "FindOutliersKM",
     signature = "DISCBIO",
-    definition = function(object,
-                          K,
-                          outminc,
-                          outlg,
-                          probthr,
-                          thr,
-                          outdistquant,
-                          plot = TRUE,
-                          quiet = FALSE) {
+    definition = function(
+        object, K, outminc, outlg, probthr, thr, outdistquant, plot = TRUE,
+        quiet = FALSE
+    )
+    {
         if (length(object@kmeans$kpart) == 0)
             stop("run Clustexp before FindOutliersKM")
         if (!is.numeric(outminc))
             stop("outminc has to be a non-negative integer")
-        else if (round(outminc) != outminc |
-                 outminc < 0)
+        else if (round(outminc) != outminc | outminc < 0)
             stop("outminc has to be a non-negative integer")
         if (!is.numeric(outlg))
             stop("outlg has to be a non-negative integer")
-        else if (round(outlg) != outlg |
-                 outlg < 0)
+        else if (round(outlg) != outlg | outlg < 0)
             stop("outlg has to be a non-negative integer")
         if (!is.numeric(probthr))
             stop("probthr has to be a number between 0 and 1")
-        else if (probthr < 0 |
-                 probthr > 1)
+        else if (probthr < 0 | probthr > 1)
             stop("probthr has to be a number between 0 and 1")
         if (!is.numeric(thr))
             stop("thr hast to be a vector of numbers between 0 and 1")
-        else if (min(thr) < 0 |
-                 max(thr) > 1)
+        else if (min(thr) < 0 | max(thr) > 1)
             stop("thr hast to be a vector of numbers between 0 and 1")
         if (!is.numeric(outdistquant))
             stop("outdistquant has to be a number between 0 and 1")
-        else if (outdistquant < 0 |
-                 outdistquant > 1)
+        else if (outdistquant < 0 | outdistquant > 1)
             stop("outdistquant has to be a number between 0 and 1")
 
         object@outlierpar <-
@@ -271,16 +260,17 @@ setMethod(
                         axes = FALSE
                     )
             }
-            abline(-log10(object@outlierpar$probthr),
-                   0,
-                   col = "black",
-                   lty = 2)
+            abline(
+                -log10(object@outlierpar$probthr),
+                0,
+                col = "black",
+                lty = 2
+            )
             d <- b[2, 1] - b[1, 1]
             y <- 0
             for (i in 1:max(p))
                 y <- append(y, b[sum(p <= i), 1] + d / 2)
-            axis(1, at = (y[1:(length(y) - 1)] + y[-1]) / 2, labels =
-                     1:max(p))
+            axis(1, at = (y[1:(length(y) - 1)] + y[-1]) / 2, labels = 1:max(p))
             box()
         }
         if (!quiet) {
@@ -291,7 +281,7 @@ setMethod(
             )
             print(which(object@cpart > K))
         }
-        LL = which(object@cpart > K)
+        LL <- which(object@cpart > K)
         return(LL)
     }
 )

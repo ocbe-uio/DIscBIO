@@ -16,10 +16,13 @@
 #' sc <- Clustexp(sc, cln=3, quiet=TRUE) # K-means clustering
 #' sc <- comptSNE(sc, max_iter=100, quiet=TRUE)
 #' KMclustheatmap(sc, hmethod="single")
-setGeneric("KMclustheatmap", function(object,
-                                      hmethod = "single",
-                                      plot = TRUE)
-    standardGeneric("KMclustheatmap"))
+setGeneric(
+    "KMclustheatmap",
+    function(
+        object, hmethod = "single", plot = TRUE
+    )
+    standardGeneric("KMclustheatmap")
+)
 
 #' @export
 #' @rdname KMclustheatmap
@@ -103,7 +106,7 @@ setMethod(
             ColorLevels <- seq(mi, ma, length = length(ColorRamp))
             if (mi == ma) {
                 ColorLevels <- seq(
-                  0.99 * mi, 1.01 * ma, length = length(ColorRamp)
+                    0.99 * mi, 1.01 * ma, length = length(ColorRamp)
                 )
             }
 
@@ -115,7 +118,7 @@ setMethod(
             tmp <- c()
             for (u in 1:max(part)) {
                 ol <- (0:(length(part) - 1) /
-                  (length(part) - 1))[ptn %in% names(x)[part == u]]
+                    (length(part) - 1))[ptn %in% names(x)[part == u]]
                 points(
                     rep(0, length(ol)),
                     ol,

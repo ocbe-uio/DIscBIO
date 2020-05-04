@@ -37,70 +37,44 @@
 #' @examples
 #' sc <- DISCBIO(valuesG1msReduced) # changes signature of data
 #' sc <- Clustexp(sc, cln=3)
-setGeneric("Clustexp", function(object,
-                                clustnr = 20,
-                                bootnr = 50,
-                                metric = "pearson",
-                                do.gap = TRUE,
-                                SE.method = "Tibs2001SEmax",
-                                SE.factor = .25,
-                                B.gap = 50,
-                                cln = 0,
-                                rseed = 17000,
-                                quiet = FALSE) {
-    standardGeneric("Clustexp")
-})
+setGeneric("Clustexp", function(object, clustnr = 20, bootnr = 50,
+    metric = "pearson", do.gap = TRUE, SE.method = "Tibs2001SEmax",
+    SE.factor = .25, B.gap = 50, cln = 0, rseed = 17000, quiet = FALSE)
+    {
+        standardGeneric("Clustexp")
+    }
+)
 
 #' @export
 #' @rdname Clustexp
 setMethod(
     f = "Clustexp",
     signature = "DISCBIO",
-    definition = function(object,
-                          clustnr,
-                          bootnr,
-                          metric,
-                          do.gap,
-                          SE.method,
-                          SE.factor,
-                          B.gap,
-                          cln,
-                          rseed,
-                          quiet = FALSE) {
+    definition = function(object, clustnr, bootnr, metric, do.gap, SE.method,
+        SE.factor, B.gap, cln, rseed, quiet = FALSE)
+    {
         if (!is.numeric(clustnr))
             stop("clustnr has to be a positive integer")
-        else if (round(clustnr) != clustnr |
-                 clustnr <= 0)
+        else if (round(clustnr) != clustnr | clustnr <= 0)
             stop("clustnr has to be a positive integer")
         if (!is.numeric(bootnr))
             stop("bootnr has to be a positive integer")
-        else if (round(bootnr) != bootnr |
-                 bootnr <= 0)
+        else if (round(bootnr) != bootnr | bootnr <= 0)
             stop("bootnr has to be a positive integer")
         if (!(
             metric %in% c(
-                "spearman",
-                "pearson",
-                "kendall",
-                "euclidean",
-                "maximum",
-                "manhattan",
-                "canberra",
-                "binary",
-                "minkowski"
+                "spearman", "pearson", "kendall", "euclidean", "maximum",
+                "manhattan", "canberra", "binary", "minkowski"
             )
         ))
-        stop(
-            "metric has to be one of the following: spearman, ",
-            "pearson, kendall, euclidean, maximum, manhattan, ",
-            "canberra, binary, minkowski"
-        )
+            stop(
+                "metric has to be one of the following: spearman, ",
+                "pearson, kendall, euclidean, maximum, manhattan, ",
+                "canberra, binary, minkowski"
+            )
         if (!(
             SE.method %in% c(
-                "firstSEmax",
-                "Tibs2001SEmax",
-                "globalSEmax",
-                "firstmax",
+                "firstSEmax", "Tibs2001SEmax", "globalSEmax", "firstmax",
                 "globalmax"
             )
         ))
@@ -113,18 +87,15 @@ setMethod(
             stop("SE.factor has to be a non-negative integer")
         else if (SE.factor < 0)
             stop("SE.factor has to be a non-negative integer")
-        if (!(is.numeric(do.gap) |
-              is.logical(do.gap)))
+        if (!(is.numeric(do.gap) | is.logical(do.gap)))
             stop("do.gap has to be logical (TRUE/FALSE)")
         if (!is.numeric(B.gap))
             stop("B.gap has to be a positive integer")
-        else if (round(B.gap) != B.gap |
-                 B.gap <= 0)
+        else if (round(B.gap) != B.gap | B.gap <= 0)
             stop("B.gap has to be a positive integer")
         if (!is.numeric(cln))
             stop("cln has to be a non-negative integer")
-        else if (round(cln) != cln |
-                 cln < 0)
+        else if (round(cln) != cln | cln < 0)
             stop("cln has to be a non-negative integer")
         if (!is.numeric(rseed))
             stop("rseed has to be numeric")
@@ -155,16 +126,16 @@ setMethod(
                 dist.gen(t(cbind(x, y)), ...)
         clustfun <-
             function(x,
-                     clustnr = 20,
-                     bootnr = 50,
-                     metric = "pearson",
-                     do.gap = TRUE,
-                     SE.method = "Tibs2001SEmax",
-                     SE.factor = .25,
-                     B.gap = 50,
-                     cln = 0,
-                     rseed = 17000,
-                     quiet = FALSE) {
+                    clustnr = 20,
+                    bootnr = 50,
+                    metric = "pearson",
+                    do.gap = TRUE,
+                    SE.method = "Tibs2001SEmax",
+                    SE.factor = .25,
+                    B.gap = 50,
+                    cln = 0,
+                    rseed = 17000,
+                    quiet = FALSE) {
                 if (clustnr < 2)
                     stop("Choose clustnr > 1")
                 di <-
@@ -184,9 +155,9 @@ setMethod(
                         if (cln == 0)
                             cln <-
                             maxSE(gpr$Tab[, 3],
-                                  gpr$Tab[, 4],
-                                  method = SE.method,
-                                  SE.factor)
+                                gpr$Tab[, 4],
+                                method = SE.method,
+                                SE.factor)
                     }
                     if (cln <= 1) {
                         clb <- list(
@@ -206,16 +177,16 @@ setMethod(
 
                     Kmeansruns <-
                         function (data,
-                                  krange = 2:10,
-                                  criterion = "ch",
-                                  iter.max = 100,
-                                  runs = 100,
-                                  scaledata = FALSE,
-                                  alpha = 0.001,
-                                  critout = FALSE,
-                                  plot = FALSE,
-                                  method = "euclidean",
-                                  ...) {
+                                krange = 2:10,
+                                criterion = "ch",
+                                iter.max = 100,
+                                runs = 100,
+                                scaledata = FALSE,
+                                alpha = 0.001,
+                                critout = FALSE,
+                                plot = FALSE,
+                                method = "euclidean",
+                                ...) {
                             data <- as.matrix(data)
                             if (criterion == "asw")
                                 sdata <-
@@ -258,8 +229,8 @@ setMethod(
                                         if (plot) {
                                             par(ask = TRUE)
                                             pairs(data,
-                                                  col = kmm$cluster,
-                                                  main = swss)
+                                                col = kmm$cluster,
+                                                main = swss)
                                         }
                                     }
                                     km[[k]] <-
@@ -272,7 +243,7 @@ setMethod(
                                                 km[[k]]$cluster
                                             )$avg.silwidth,
                                             ch = calinhara(data,
-                                                           km[[k]]$cluster)
+                                                        km[[k]]$cluster)
                                         )
                                     if (critout)
                                         cat(k,
@@ -303,21 +274,21 @@ setMethod(
 
                     KmeansCBI <-
                         function (data,
-                                  krange,
-                                  k = NULL,
-                                  scaling = FALSE,
-                                  runs = 1,
-                                  criterion = "ch",
-                                  method = "euclidean",
-                                  ...) {
+                                krange,
+                                k = NULL,
+                                scaling = FALSE,
+                                runs = 1,
+                                criterion = "ch",
+                                method = "euclidean",
+                                ...) {
                             if (!is.null(k))
                                 krange <-
                                     k
                             if (!identical(scaling, FALSE))
                                 sdata <-
                                     scale(data,
-                                          center = TRUE,
-                                          scale = scaling)
+                                        center = TRUE,
+                                        scale = scaling)
                             else
                                 sdata <-
                                     data

@@ -10,10 +10,7 @@
 #'   database
 #' @importFrom biomaRt useDataset useMart useEnsembl getBM
 #' @return data.frame resulting from a successful call to getBM.
-retrieveBiomart <-
-    function(gene_name,
-             quiet = FALSE,
-             max_tries = 3) {
+retrieveBiomart <- function(gene_name, quiet = FALSE, max_tries = 3) {
         # Generates a Mart object
         if (!quiet)
             message("Retrieving mart object. Please wait.")
@@ -42,7 +39,7 @@ retrieveBiomart <-
                 return(NULL)
             })
         }
-        
+
         # Retrieve BioMart dataframe
         if (!quiet) {
             message(
@@ -108,7 +105,7 @@ retrieveBiomart <-
                 return(NULL)
             })
         }
-        
+
         # Giving up or returning output
         if (is.null(G_list) & tries > 3) {
             stop(
@@ -121,6 +118,6 @@ retrieveBiomart <-
             if (!quiet)
                 message("Done.")
         }
-        
+
         return(G_list)
     }

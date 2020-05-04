@@ -37,20 +37,19 @@ PPI <- function(data, FileName, species = "9606") {
     optional_parameters <- ""
     # Construct API request
     genes <- data
-    repos <-
-        GET(
-            url = paste0(
-                string_api_url,
-                output_format,
-                '/',
-                method,
-                '?identifiers=',
-                paste(as.character(data), collapse = "%0d"),
-                "&",
-                "species=",
-                species
-            )
+    repos <- GET(
+        url = paste0(
+            string_api_url,
+            output_format,
+            '/',
+            method,
+            '?identifiers=',
+            paste(as.character(data), collapse = "%0d"),
+            "&",
+            "species=",
+            species
         )
+    )
     cat(
         "Examine response components =",
         status_code(repos),

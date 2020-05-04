@@ -35,14 +35,14 @@
 setGeneric(
     name = "DEGanalysis",
     def = function(object,
-                   Clustering = "K-means",
-                   K,
-                   fdr = 0.05,
-                   name = "Name",
-                   export = TRUE,
-                   quiet = FALSE,
-                   plot = TRUE,
-                   ...)
+                Clustering = "K-means",
+                K,
+                fdr = 0.05,
+                name = "Name",
+                export = TRUE,
+                quiet = FALSE,
+                plot = TRUE,
+                ...)
         standardGeneric("DEGanalysis")
 )
 
@@ -52,14 +52,15 @@ setMethod(
     f = "DEGanalysis",
     signature = "DISCBIO",
     definition = function(object,
-                          Clustering = "K-means",
-                          K,
-                          fdr = 0.05,
-                          name = "Name",
-                          export = TRUE,
-                          quiet = FALSE,
-                          plot = TRUE,
-                          ...) {
+                        Clustering = "K-means",
+                        K,
+                        fdr = 0.05,
+                        name = "Name",
+                        export = TRUE,
+                        quiet = FALSE,
+                        plot = TRUE,
+                        ...)
+    {
         # Validation
         if (!(Clustering %in% c("K-means", "MB"))) {
             stop("Clustering has to be either K-means or MB")
@@ -125,10 +126,12 @@ setMethod(
                         paste0(clustName[3]),
                         paste0(clustName[3]))
         } else if (K == 4) {
-            first <- c(rep(paste0(clustName[1]), 3),
-                       rep(paste0(clustName[2]), 1),
-                       rep(paste0(clustName[4]), 1),
-                       rep(paste0(clustName[3]), 1))
+            first <- c(
+                rep(paste0(clustName[1]), 3),
+                rep(paste0(clustName[2]), 1),
+                rep(paste0(clustName[4]), 1),
+                rep(paste0(clustName[3]), 1)
+            )
             second <- c(
                 paste0(clustName[2]),
                 paste0(clustName[3]),
@@ -138,10 +141,12 @@ setMethod(
                 paste0(clustName[4])
             )
         } else if (K == 5) {
-            first <- c(rep(paste0(clustName[1]), 4),
-                       rep(paste0(clustName[2]), 3),
-                       rep(paste0(clustName[3]), 2),
-                       rep(paste0(clustName[5]), 1))
+            first <- c(
+                rep(paste0(clustName[1]), 4),
+                rep(paste0(clustName[2]), 3),
+                rep(paste0(clustName[3]), 2),
+                rep(paste0(clustName[5]), 1)
+            )
             second <- c(
                 paste0(clustName[2]),
                 paste0(clustName[3]),
@@ -211,9 +216,7 @@ setMethod(
             L <- as.matrix(get(comNUM[i]))
             gname <- rownames(get(comNUM[i]))
             x <- L
-            data <- list(x = x,
-                         y = y,
-                         geneid = gname)
+            data <- list(x = x, y = y, geneid = gname)
             if (quiet) {
                 invisible(capture.output(
                     samr.obj <- samr(
@@ -250,11 +253,7 @@ setMethod(
                 if (plot) {
                     samr.plot(samr.obj, delta)
                     title(paste0(
-                        "DEGs in the ",
-                        second[i],
-                        " in ",
-                        first[i],
-                        " VS ",
+                        "DEGs in the ", second[i], " in ", first[i], " VS ",
                         second[i]
                     ))
                 }
@@ -273,44 +272,28 @@ setMethod(
                     paste0(first[i], " VS ", second[i])
                 DEGsTable[i, 2] <- second[i]
                 DEGsTable[i, 3] <- length(FDRu)
-                DEGsTable[i, 4] <- paste0("Up-regulated-",
-                                          name,
-                                          second[i],
-                                          "in",
-                                          first[i],
-                                          "VS",
-                                          second[i],
-                                          ".csv")
+                DEGsTable[i, 4] <- paste0(
+                    "Up-regulated-", name, second[i], "in", first[i], "VS",
+                    second[i], ".csv"
+                )
                 DEGsTable[i, 5] <- length(FDRl)
-                DEGsTable[i, 6] <- paste0("Low-regulated-",
-                                          name,
-                                          second[i],
-                                          "in",
-                                          first[i],
-                                          "VS",
-                                          second[i],
-                                          ".csv")
+                DEGsTable[i, 6] <- paste0(
+                    "Low-regulated-", name, second[i], "in", first[i], "VS",
+                    second[i], ".csv"
+                )
                 DEGsTable[i + com, 1] <-
                     paste0(first[i], " VS ", second[i])
                 DEGsTable[i + com, 2] <- first[i]
                 DEGsTable[i + com, 3] <- length(FDRu)
-                DEGsTable[i + com, 4] <- paste0("Low-regulated-",
-                                                name,
-                                                first[i],
-                                                "in",
-                                                first[i],
-                                                "VS",
-                                                second[i],
-                                                ".csv")
+                DEGsTable[i + com, 4] <- paste0(
+                    "Low-regulated-", name, first[i], "in", first[i], "VS",
+                    second[i], ".csv"
+                )
                 DEGsTable[i + com, 5] <- length(FDRl)
-                DEGsTable[i + com, 6] <- paste0("Up-regulated-",
-                                                name,
-                                                first[i],
-                                                "in",
-                                                first[i],
-                                                "VS",
-                                                second[i],
-                                                ".csv")
+                DEGsTable[i + com, 6] <- paste0(
+                    "Up-regulated-", name, first[i], "in", first[i], "VS",
+                    second[i], ".csv"
+                )
 
                 if (length(FDRl) > 0) {
                     genes <- siggenes.table$genes.lo[, 3]
@@ -339,13 +322,12 @@ setMethod(
                     gene_list <- geneList[, 3]
                     idx_genes <- is.element(gene_list, genes)
                     genes2 <- geneList[idx_genes, ]
-                    FinalDEGsL <-
-                        merge(
-                            FinalDEGsL,
-                            genes2,
-                            by.x = "genes",
-                            by.y = "ENSEMBL",
-                            all.x = TRUE
+                    FinalDEGsL <- merge(
+                        FinalDEGsL,
+                        genes2,
+                        by.x = "genes",
+                        by.y = "ENSEMBL",
+                        all.x = TRUE
                         )
                     FinalDEGsL[, 3] <- FinalDEGsL[, 11]
                     FinalDEGsL <- FinalDEGsL[, c(-1, -10, -11)]
@@ -355,13 +337,8 @@ setMethod(
                     if (!quiet) {
                         cat(
                             paste0(
-                                "Low-regulated genes in the ",
-                                second[i],
-                                " in ",
-                                first[i],
-                                " VS ",
-                                second[i],
-                                "\n"
+                                "Low-regulated genes in the ", second[i],
+                                " in ", first[i], " VS ", second[i], "\n"
                             )
                         )
                     }
@@ -369,35 +346,21 @@ setMethod(
                         write.csv(
                             FinalDEGsL,
                             file = paste0(
-                                "Low-regulated-",
-                                name,
-                                second[i],
-                                "in",
-                                first[i],
-                                "VS",
-                                second[i],
-                                ".csv"
+                                "Low-regulated-", name, second[i], "in",
+                                first[i], "VS", second[i], ".csv"
                             )
                         )
                         write.csv(
                             FinalDEGsL,
                             file = paste0(
-                                "Up-regulated-",
-                                name,
-                                first[i],
-                                "in",
-                                first[i],
-                                "VS",
-                                second[i],
-                                ".csv"
+                                "Up-regulated-", name, first[i], "in", first[i],
+                                "VS", second[i], ".csv"
                             )
                         )
                     }
                     DEGsS <- c(DEGsS, FinalDEGsL[, 2])
                     DEGsE <- c(DEGsE, as.character(FinalDEGsL[, 3]))
                 }
-
-
                 if (length(FDRu) > 0) {
                     genes <- siggenes.table$genes.up[, 3]
                     if (quiet) {
@@ -427,14 +390,10 @@ setMethod(
                     gene_list <- geneList[, 3]
                     idx_genes <- is.element(gene_list, genes)
                     genes2 <- geneList[idx_genes, ]
-                    FinalDEGsU <-
-                        merge(
-                            FinalDEGsU,
-                            genes2,
-                            by.x = "genes",
-                            by.y = "ENSEMBL",
-                            all.x = TRUE
-                        )
+                    FinalDEGsU <- merge(
+                        FinalDEGsU, genes2, by.x = "genes",
+                        by.y = "ENSEMBL", all.x = TRUE
+                    )
                     FinalDEGsU[, 3] <- FinalDEGsU[, 11]
                     FinalDEGsU <- FinalDEGsU[, c(-1, -10, -11)]
                     FinalDEGsU <- FinalDEGsU[order(FinalDEGsU[, 8]), ]
@@ -443,13 +402,8 @@ setMethod(
                     if (!quiet) {
                         cat(
                             paste0(
-                                "Up-regulated genes in the ",
-                                second[i],
-                                " in ",
-                                first[i],
-                                " VS ",
-                                second[i],
-                                "\n"
+                                "Up-regulated genes in the ", second[i], " in ",
+                                first[i], " VS ", second[i], "\n"
                             )
                         )
                     }
@@ -457,27 +411,15 @@ setMethod(
                         write.csv(
                             FinalDEGsU,
                             file = paste0(
-                                "Up-regulated-",
-                                name,
-                                second[i],
-                                "in",
-                                first[i],
-                                "VS",
-                                second[i],
-                                ".csv"
+                                "Up-regulated-", name, second[i], "in",
+                                first[i], "VS", second[i], ".csv"
                             )
                         )
                         write.csv(
                             FinalDEGsU,
                             file = paste0(
-                                "Low-regulated-",
-                                name,
-                                first[i],
-                                "in",
-                                first[i],
-                                "VS",
-                                second[i],
-                                ".csv"
+                                "Low-regulated-", name, first[i], "in",
+                                first[i], "VS", second[i], ".csv"
                             )
                         )
                     }
@@ -493,8 +435,7 @@ setMethod(
                 DEGsTable[i, 5] <- NA
                 DEGsTable[i, 6] <- NA
 
-                DEGsTable[i + com, 1] <-
-                    paste0(first[i], " VS ", second[i])
+                DEGsTable[i + com, 1] <- paste0(first[i], " VS ", second[i])
                 DEGsTable[i + com, 2] <- first[i]
                 DEGsTable[i + com, 3] <- NA
                 DEGsTable[i + com, 4] <- NA
@@ -507,12 +448,8 @@ setMethod(
             cat("The results of DEGs are saved in your directory", "\n")
         }
         colnames(DEGsTable) <- c(
-            "Comparisons",
-            "Target cluster",
-            "Gene number",
-            "File name",
-            "Gene number",
-            "File name"
+            "Comparisons", "Target cluster", "Gene number", "File name",
+            "Gene number", "File name"
         )
         if (export)
             write.csv(DEGsTable, file = "DEGsTable.csv")

@@ -29,8 +29,12 @@
 #' sc <- MB_Order(sc, export = FALSE)
 #' MBclustheatmap(sc, hmethod="single")
 #' }
-setGeneric("MBclustheatmap", function(
-    object, hmethod="single", plot=TRUE, quiet=FALSE) {
+setGeneric(
+    "MBclustheatmap",
+    function(
+        object, hmethod="single", plot=TRUE, quiet=FALSE
+    )
+    {
         standardGeneric("MBclustheatmap")
     }
 )
@@ -40,10 +44,7 @@ setGeneric("MBclustheatmap", function(
 setMethod(
     "MBclustheatmap",
     signature = "DISCBIO",
-    definition = function(object,
-                          hmethod,
-                          plot=TRUE,
-                          quiet=FALSE) {
+    definition = function(object, hmethod, plot, quiet) {
     x <- object@fdata
     object@clusterpar$metric <- "pearson"
     dist.gen <-

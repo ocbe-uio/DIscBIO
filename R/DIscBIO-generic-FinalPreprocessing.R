@@ -11,21 +11,23 @@
 #' sc <- DISCBIO(valuesG1msReduced)
 #' sc <- NoiseFiltering(sc, percentile=0.9, CV=0.2, export=FALSE)
 #' sc <- FinalPreprocessing(sc, GeneFlitering="NoiseF", export=FALSE)
-setGeneric("FinalPreprocessing", function(object,
-                                          GeneFlitering = "NoiseF",
-                                          export = TRUE,
-                                          quiet = FALSE)
-    standardGeneric("FinalPreprocessing"))
+setGeneric(
+    "FinalPreprocessing",
+    function(
+        object, GeneFlitering = "NoiseF", export = TRUE, quiet = FALSE
+    )
+    standardGeneric("FinalPreprocessing")
+)
 
 #' @export
 #' @rdname FinalPreprocessing
 setMethod(
     "FinalPreprocessing",
     signature = "DISCBIO",
-    definition = function(object,
-                          GeneFlitering,
-                          export = TRUE,
-                          quiet = FALSE) {
+    definition = function(
+        object, GeneFlitering, export = TRUE, quiet = FALSE
+    )
+    {
         if (GeneFlitering == "NoiseF") {
             if (length(object@noiseF) < 1)
                 stop("run NoiseFiltering before running FinalPreprocessing")
@@ -59,7 +61,6 @@ setMethod(
                 save(filteredDataset, file = "filteredDataset.Rdata")
             }
         }
-
         if (GeneFlitering == "ExpF") {
             if (nrow(object@fdata) < 1)
                 stop("run Normalizedata before running FinalPreprocessing")

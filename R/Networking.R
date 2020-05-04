@@ -33,15 +33,12 @@
 #' FileName <- "Up.DownDEG"
 #' Networking(data, FileName)
 #' }
-Networking <-
-    function(data,
-             FileName,
-             species = "9606",
-             plot_width = 25,
-             plot_height = 15) {
+Networking <- function(
+    data, FileName, species = "9606", plot_width = 25, plot_height = 15
+    )
+    {
         if (length(data) > 600) {
             print("Your gene list is too big")
-
         } else{
             string_api_url <- "https://string-db.org/api/"
             output_format <- "highres_image"
@@ -66,11 +63,8 @@ Networking <-
                     )
                 )
             cat(
-                "Examine response components =",
-                status_code(repos),
-                "\t",
-                "200 means successful",
-                "\n"
+                "Examine response components =", status_code(repos), "\t",
+                "200 means successful", "\n"
             )
             y = repos$request$url
             download.file(y, paste0("network", FileName, ".png"), mode = 'wb')
@@ -83,11 +77,7 @@ Networking <-
                 }
             set_plot_dimensions(plot_width, plot_height)
 
-            plot(0:1,
-                 0:1,
-                 type = "n",
-                 ann = FALSE,
-                 axes = FALSE)
+            plot(0:1, 0:1, type = "n", ann = FALSE, axes = FALSE)
             rasterImage(Network, 0, 0, 1, 1)
             cat(
                 "\n",
@@ -96,7 +86,6 @@ Networking <-
                 "\n",
                 paste0(y)
             )
-
             set_plot_dimensions(8, 8) # resets to default values
         }
     }

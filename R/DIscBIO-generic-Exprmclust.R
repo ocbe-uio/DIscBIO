@@ -118,58 +118,55 @@
                         reduce = TRUE,
                         cluster = NULL,
                         quiet = FALSE) {
-    set.seed(12345)
-    obj <- object
-    if (reduce) {
-        sdev <- prcomp(t(obj), scale = T)$sdev[1:20]
-        x <- 1:20
-        optpoint <- which.min(sapply(2:10, function(i) {
-        x2 <- pmax(0, x - i)
-        sum(lm(sdev ~ x + x2)$residuals ^ 2)
-        }))
-        pcadim = optpoint + 1
-        tmpdata <- t(apply(obj, 1, scale))
-        colnames(tmpdata) <- colnames(obj)
-        tmppc <- prcomp(t(tmpdata), scale = TRUE)
-        pcareduceres <-
-        t(tmpdata) %*% tmppc$rotation[, 1:pcadim]
-    } else {
-        pcareduceres <- t(obj)
-    }
-    if (is.null(cluster)) {
-        K <- K[K > 1]
-        res <- Mclust(
-        data = pcareduceres,
-        G = K,
-        modelNames = modelNames,
-        warn = FALSE,
-        verbose = !quiet
+        set.seed(12345)
+        obj <- object
+        if (reduce) {
+            sdev <- prcomp(t(obj), scale = T)$sdev[1:20]
+            x <- 1:20
+            optpoint <- which.min(sapply(2:10, function(i) {
+            x2 <- pmax(0, x - i)
+            sum(lm(sdev ~ x + x2)$residuals ^ 2)
+            }))
+            pcadim = optpoint + 1
+            tmpdata <- t(apply(obj, 1, scale))
+            colnames(tmpdata) <- colnames(obj)
+            tmppc <- prcomp(t(tmpdata), scale = TRUE)
+            pcareduceres <-
+            t(tmpdata) %*% tmppc$rotation[, 1:pcadim]
+        } else {
+            pcareduceres <- t(obj)
+        }
+        if (is.null(cluster)) {
+            K <- K[K > 1]
+            res <- Mclust(
+                data = pcareduceres,
+                G = K,
+                modelNames = modelNames,
+                warn = FALSE,
+                verbose = !quiet
+            )
+            clusterid <- apply(res$z, 1, which.max)
+            clunum <- res$G
+        } else {
+            clunum <- length(unique(cluster))
+            clusterid <- cluster
+        }
+        clucenter <- matrix(0, ncol = ncol(pcareduceres), nrow = clunum)
+        for (cid in 1:clunum) {
+            clucenter[cid, ] <- colMeans(
+                pcareduceres[names(clusterid[clusterid == cid]), , drop = FALSE]
+            )
+        }
+        dp <- as.matrix(dist(clucenter))
+        gp <-
+            graph.adjacency(dp, mode = "undirected", weighted = TRUE)
+        dp_mst <- minimum.spanning.tree(gp)
+        object <- list(
+            pcareduceres = pcareduceres,
+            MSTtree = dp_mst,
+            clusterid = clusterid,
+            clucenter = clucenter
         )
-        clusterid <- apply(res$z, 1, which.max)
-        clunum <- res$G
-    } else {
-        clunum <- length(unique(cluster))
-        clusterid <- cluster
+        return(object)
     }
-    clucenter <-
-        matrix(0, ncol = ncol(pcareduceres), nrow = clunum)
-    for (cid in 1:clunum) {
-        clucenter[cid, ] <-
-        colMeans(
-            pcareduceres[names(clusterid[clusterid == cid]), , drop = FALSE]
-        )
-    }
-    dp <- as.matrix(dist(clucenter))
-    gp <-
-        graph.adjacency(dp, mode = "undirected", weighted = TRUE)
-    dp_mst <- minimum.spanning.tree(gp)
-    object <-
-        list(
-        pcareduceres = pcareduceres,
-        MSTtree = dp_mst,
-        clusterid = clusterid,
-        clucenter = clucenter
-        )
-    return(object)
-    }
-    )
+)

@@ -26,7 +26,7 @@ setGeneric(
     name = "comptsneMB",
     def = function(object, rseed = 15555, max_iter = 5000, epoch = 500,
         quiet = FALSE, ...) {
-    standardGeneric("comptsneMB")
+        standardGeneric("comptsneMB")
     }
 )
 

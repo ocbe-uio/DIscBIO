@@ -30,9 +30,7 @@
 #' ppi <- PPI(data, FileName)
 #' NetAnalysis(ppi)
 #' }
-NetAnalysis <- function(data,
-                        export = TRUE,
-                        FileName = "1") {
+NetAnalysis <- function(data, export = TRUE, FileName = "1") {
     if (length(data[, 1]) < 1)
         stop("No Protein-Protein Interactions")
     df <- data[, -c(1, 2)]
@@ -48,8 +46,10 @@ NetAnalysis <- function(data,
     AnalysisTable <- cbind(names, degree.table, betweenness.table)
 
     if (export) {
-        write.csv(AnalysisTable,
-                  file = paste0("NetworkAnalysisTable-", FileName, ".csv"))
+        write.csv(
+            AnalysisTable,
+            file = paste0("NetworkAnalysisTable-", FileName, ".csv")
+        )
     }
 
     test.graph.adj <- get.adjacency(gg, sparse = FALSE)

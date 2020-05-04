@@ -44,10 +44,7 @@ J48DT <- function(data, quiet = FALSE, plot = TRUE) {
     } else if (sum(apply(data, 1, min)) < 0) {
         msg <- c(msg, "negative values are not allowed in input data")
     }
-    if (is.null(msg))
-        TRUE
-    else
-        msg
+    if (is.null(msg)) TRUE else msg
 
     exp.df <- as.data.frame(t(data))
     classVector <- factor(colnames(data))

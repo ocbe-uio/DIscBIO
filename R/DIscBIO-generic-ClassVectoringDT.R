@@ -32,27 +32,25 @@
 #'     sc, Clustering="K-means", K=2, First="CL1", Second="CL2", cdiff[[1]]
 #' )
 #' str(DATAforDT)
-setGeneric("ClassVectoringDT", function(object,
-                                        Clustering = "K-means",
-                                        K,
-                                        First = "CL1",
-                                        Second = "CL2",
-                                        sigDEG,
-                                        quiet = FALSE)
-    standardGeneric("ClassVectoringDT"))
+setGeneric(
+    "ClassVectoringDT",
+    function(
+        object, Clustering = "K-means", K, First = "CL1", Second = "CL2",
+        sigDEG, quiet = FALSE
+    )
+    standardGeneric("ClassVectoringDT")
+)
 
 #' @rdname ClassVectoringDT
 #' @export
 setMethod(
     "ClassVectoringDT",
     signature = "DISCBIO",
-    definition = function(object,
-                        Clustering = "K-means",
-                        K,
-                        First = "CL1",
-                        Second = "CL2",
-                        sigDEG,
-                        quiet = FALSE) {
+    definition = function(
+        object, Clustering = "K-means", K, First = "CL1", Second = "CL2",
+        sigDEG, quiet = FALSE
+    )
+    {
         if (!(Clustering %in% c("K-means", "MB"))) {
             stop("Clustering has to be either K-means or MB")
         }

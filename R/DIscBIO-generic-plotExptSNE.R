@@ -17,7 +17,8 @@
 #' plotExptSNE(sc, g)
 
 setGeneric("plotExptSNE", function(object, g, n = NULL)
-    standardGeneric("plotExptSNE"))
+    standardGeneric("plotExptSNE")
+)
 
 #' @export
 #' @rdname plotExptSNE
