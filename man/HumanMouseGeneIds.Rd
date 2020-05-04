@@ -5,7 +5,7 @@
 \alias{HumanMouseGeneIds}
 \title{Human and Mouse Gene Identifiers.}
 \source{
-Data were imported, modified, and formatted from the Mus.musculus (ver 1.3.1) and 
+Data were imported, modified, and formatted from the Mus.musculus (ver 1.3.1) and
 the Homo.sapiens (ver 1.3.1) BioConductor libraries.
 }
 \description{

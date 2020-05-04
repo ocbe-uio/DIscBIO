@@ -12,13 +12,13 @@
 #' @importFrom graphics layout par image
 #' @return A plot of the PCA.
 #' @examples
-#' sc<- DISCBIO(valuesG1msReduced)
-#' sc<-NoiseFiltering(sc,percentile=0.9, CV=0.2)
-#' sc<-Normalizedata(sc)
-#' sc<-FinalPreprocessing(sc,GeneFlitering="NoiseF",export = FALSE)
-#' sc <- Exprmclust(sc,K =2,reduce = TRUE,quiet = TRUE)
-#' g <- "ENSG00000010244" #### Plotting the expression of MT-RNR2
-#' PlotMBexpPCA(sc,g)
+#' sc <- DISCBIO(valuesG1msReduced)
+#' sc <- NoiseFiltering(sc, percentile=0.9, CV=0.2, export=FALSE)
+#' sc <- Normalizedata(sc)
+#' sc <- FinalPreprocessing(sc, GeneFlitering="NoiseF", export=FALSE)
+#' sc <- Exprmclust(sc, K=2, reduce=TRUE, quiet=TRUE)
+#' g <- "ENSG00000010244" # Plotting the expression of MT-RNR2
+#' PlotMBexpPCA(sc, g)
 #' @export
 
 PlotMBexpPCA <- function(object, g, n = NULL) {
