@@ -12,10 +12,11 @@
 #' )
 #' sc <- FinalPreprocessing(sc, GeneFlitering="NoiseF", export=FALSE)
 #' sc <- Exprmclust(sc, K=2)
-#' sc <- comptsneMB(sc, rseed=15555, quiet = TRUE)
+#' sc <- comptsneMB(sc, rseed=15555, quiet=TRUE, max_iter=100)
 #' plotMBLabelstSNE(sc)
 setGeneric("plotMBLabelstSNE", function(object)
-    standardGeneric("plotMBLabelstSNE"))
+    standardGeneric("plotMBLabelstSNE")
+)
 
 #' @rdname plotMBLabelstSNE
 #' @export
@@ -43,10 +44,12 @@ setMethod(
             cex = .5,
             col = "lightgrey"
         )
-        text(object@MBtsne[, 1],
-             object@MBtsne[, 2],
-             labels,
-             cex = .7,
-             col = COL)
+        text(
+            object@MBtsne[, 1],
+            object@MBtsne[, 2],
+            labels,
+            cex = .7,
+            col = COL
+        )
     }
-) 
+)

@@ -12,12 +12,13 @@
 #' @examples
 #' sc <- DISCBIO(valuesG1msReduced)
 #' sc <- Clustexp(sc, cln=3, quiet=TRUE) # K-means clustering
-#' sc <- comptSNE(sc, rseed=15555, quiet=TRUE)
+#' sc <- comptSNE(sc, max_iter=100)
 #' g <- 'ENSG00000001460'
 #' plotExptSNE(sc, g)
 
 setGeneric("plotExptSNE", function(object, g, n = NULL)
-    standardGeneric("plotExptSNE"))
+    standardGeneric("plotExptSNE")
+)
 
 #' @export
 #' @rdname plotExptSNE

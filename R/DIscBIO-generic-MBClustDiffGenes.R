@@ -22,30 +22,23 @@
 #' )
 #' sc <- FinalPreprocessing(sc, GeneFlitering="NoiseF", export=FALSE)
 #' sc <- Exprmclust(sc, K=3)
-#' sc <- comptsneMB(sc, rseed=15555)
+#' sc <- comptsneMB(sc, max_iter=100)
 #' sc <- Clustexp(sc, cln=3)
 #' sc <- MB_Order(sc, export = FALSE)
 #' cdiff <- MBClustDiffGenes(sc, K=3, fdr=.1)
 #' str(cdiff)
 #' }
-setGeneric("MBClustDiffGenes", function(object,
-                                        K,
-                                        pValue = 0.05,
-                                        fdr = .01,
-                                        export = TRUE,
-                                        quiet = FALSE)
-    standardGeneric("MBClustDiffGenes"))
+setGeneric(
+    "MBClustDiffGenes",
+    function(object, K, pValue = 0.05, fdr = .01, export = TRUE, quiet = FALSE)
+        standardGeneric("MBClustDiffGenes")
+)
 #' @export
 #' @rdname MBClustDiffGenes
 setMethod(
     "MBClustDiffGenes",
     signature = "DISCBIO",
-    definition = function(object,
-                          K,
-                          pValue,
-                          fdr,
-                          export = TRUE,
-                          quiet = FALSE) {
+    definition = function(object, K, pValue, fdr, export, quiet) {
         if (!is.numeric(fdr)) {
             stop("fdr has to be a number between 0 and 1")
         } else if (fdr < 0 | fdr > 1) {
@@ -63,8 +56,8 @@ setMethod(
         part  <- object@MBclusters$clusterid
         binompval <- function(p, N, n) {
             pval   <- pbinom(n, round(N, 0), p, lower.tail = TRUE)
-            pval[!is.na(pval) &
-                     pval > 0.5] <- 1 - pval[!is.na(pval) & pval > 0.5]
+            filter <- !is.na(pval) & pval > 0.5
+            pval[filter] <- 1 - pval[filter]
             return(pval)
         }
         for (i in 1:max(part)) {
@@ -164,28 +157,17 @@ setMethod(
                     DEGsE <-
                         c(DEGsE, as.character(rownames(Final)))
                     Up <- subset(Final, Final[, 7] == "Up")
-                    Up <-
-                        dplyr::select(Up,
-                                      "Regulation",
-                                      "genes",
-                                      "pv",
-                                      "mean.all",
-                                      "mean.cl",
-                                      "fc",
-                                      "p.adj")
+                    Up <- dplyr::select(
+                        Up, "Regulation", "genes", "pv", "mean.all", "mean.cl",
+                        "fc", "p.adj"
+                    )
                     Up[, 3] <- rownames(Up)
                     Up[, 6] <- log2(Up[, 6])
                     Up[, 1] <- Up[, 2]
-                    colnames(Up) <-
-                        c(
-                            "Genes",
-                            "genes",
-                            "E.genes",
-                            "mean.all",
-                            "mean.cl",
-                            "log2.fc",
-                            "p.adj"
-                        )
+                    colnames(Up) <- c(
+                        "Genes", "genes", "E.genes", "mean.all", "mean.cl",
+                        "log2.fc", "p.adj"
+                    )
                     if (export) {
                         write.csv(
                             Up, file = paste0("Up-DEG-cluster", n, ".csv")
@@ -193,33 +175,27 @@ setMethod(
                     }
 
                     Down <- subset(Final, Final[, 7] == "Down")
-                    Down <-
-                        dplyr::select(
-                            Down,
-                            "Regulation",
-                            "genes",
-                            "pv",
-                            "mean.all",
-                            "mean.cl",
-                            "fc",
-                            "p.adj"
-                        )
+                    Down <- dplyr::select(
+                        Down, "Regulation", "genes", "pv", "mean.all",
+                        "mean.cl", "fc", "p.adj"
+                    )
                     Down[, 3] <- rownames(Down)
                     Down[, 6] <- log2(Down[, 6])
                     Down[, 1] <- Down[, 2]
-                    colnames(Down) <-
-                        c(
-                            "Genes",
-                            "genes",
-                            "E.genes",
-                            "mean.all",
-                            "mean.cl",
-                            "log2.fc",
-                            "p.adj"
-                        )
+                    colnames(Down) <- c(
+                        "Genes",
+                        "genes",
+                        "E.genes",
+                        "mean.all",
+                        "mean.cl",
+                        "log2.fc",
+                        "p.adj"
+                    )
                     if (export) {
-                        write.csv(Down,
-                                  file = paste0("Down-DEG-cluster", n, ".csv"))
+                        write.csv(
+                            Down,
+                            file = paste0("Down-DEG-cluster", n, ".csv")
+                        )
                     }
 
                     sigDEG <- cbind(DEGsE, DEGsS)
@@ -239,13 +215,10 @@ setMethod(
             }
         }
         if (length(DEGsTable) > 0) {
-            colnames(DEGsTable) <-
-                c("Target Cluster",
-                  "VS",
-                  "Gene number",
-                  "File name",
-                  "Gene number",
-                  "File name")
+            colnames(DEGsTable) <- c(
+                "Target Cluster", "VS", "Gene number", "File name",
+                "Gene number", "File name"
+            )
             if (export) {
                 write.csv(DEGsTable, file = "binomial-DEGsTable.csv")
             }

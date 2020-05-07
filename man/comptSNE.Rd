@@ -5,9 +5,23 @@
 \alias{comptSNE,DISCBIO-method}
 \title{Computing tSNE for K-means clustering}
 \usage{
-comptSNE(object, rseed = 15555, quiet = FALSE)
+comptSNE(
+  object,
+  rseed = 15555,
+  max_iter = 5000,
+  epoch = 500,
+  quiet = FALSE,
+  ...
+)
 
-\S4method{comptSNE}{DISCBIO}(object, rseed = 15555, quiet = FALSE)
+\S4method{comptSNE}{DISCBIO}(
+  object,
+  rseed = 15555,
+  max_iter = 5000,
+  epoch = 500,
+  quiet = FALSE,
+  ...
+)
 }
 \arguments{
 \item{object}{\code{DISCBIO} class object.}
@@ -15,7 +29,13 @@ comptSNE(object, rseed = 15555, quiet = FALSE)
 \item{rseed}{Integer number. Random seed to to yield exactly reproducible
 maps across different runs. Default is 15555.}
 
+\item{max_iter}{maximum number of iterations to perform.}
+
+\item{epoch}{The number of iterations in between update messages.}
+
 \item{quiet}{if `TRUE`, suppresses intermediate output}
+
+\item{...}{other parameters to be passed to `tsne::tsne`}
 }
 \value{
 The DISCBIO-class object input with the tsne slot filled.
@@ -27,6 +47,6 @@ This function is used to compute the t-Distributed Stochastic
 \examples{
 sc <- DISCBIO(valuesG1msReduced) # changes signature of data
 sc <- Clustexp(sc, cln=3) # data must be clustered before plottin
-sc <- comptSNE(sc, rseed=15555, quiet=TRUE)
+sc <- comptSNE(sc, max_iter=1000)
 head(sc@tsne)
 }

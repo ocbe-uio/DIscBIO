@@ -6,7 +6,7 @@
 #' @examples
 #' sc <- DISCBIO(valuesG1msReduced) # changes signature of data
 #' sc <- Clustexp(sc, cln=3) # data must be clustered before plotting
-#' sc <- comptSNE(sc, rseed=15555, quiet=TRUE)
+#' sc <- comptSNE(sc, max_iter=100, quiet=TRUE)
 #' plottSNE(sc)
 setGeneric("plottSNE", function(object)
     standardGeneric("plottSNE"))
@@ -19,7 +19,7 @@ setMethod(
     definition = function(object) {
         if (length(object@tsne) == 0)
             stop("run comptsne before plottsne")
-        col = c("black", "blue", "green", "red", "yellow", "gray")
+        col <- c("black", "blue", "green", "red", "yellow", "gray")
         part <- object@kmeans$kpart
         plot(
             object@tsne,
@@ -31,7 +31,7 @@ setMethod(
             col = "lightgrey"
         )
         for (i in 1:max(part)) {
-            if (sum(part == i) > 0)
+            if (sum(part == i) > 0) {
                 text(
                     object@tsne[part == i, 1],
                     object@tsne[part == i, 2],
@@ -40,6 +40,7 @@ setMethod(
                     cex = .75,
                     font = 4
                 )
+            }
         }
     }
 )

@@ -5,9 +5,23 @@
 \alias{comptsneMB,DISCBIO-method}
 \title{Computing tSNE for Model-based clustering}
 \usage{
-comptsneMB(object, rseed = 15555, quiet = FALSE)
+comptsneMB(
+  object,
+  rseed = 15555,
+  max_iter = 5000,
+  epoch = 500,
+  quiet = FALSE,
+  ...
+)
 
-\S4method{comptsneMB}{DISCBIO}(object, rseed = 15555, quiet = FALSE)
+\S4method{comptsneMB}{DISCBIO}(
+  object,
+  rseed = 15555,
+  max_iter = 5000,
+  epoch = 500,
+  quiet = FALSE,
+  ...
+)
 }
 \arguments{
 \item{object}{\code{DISCBIO} class object.}
@@ -15,7 +29,13 @@ comptsneMB(object, rseed = 15555, quiet = FALSE)
 \item{rseed}{Integer number. Random seed to to yield exactly reproducible
 maps across different runs. Default is 15555.}
 
+\item{max_iter}{maximum number of iterations to perform.}
+
+\item{epoch}{The number of iterations in between update messages.}
+
 \item{quiet}{if `TRUE`, suppresses intermediate output}
+
+\item{...}{other parameters to be passed to `tsne::tsne`}
 }
 \value{
 The DISCBIO-class object input with the MBtsne slot filled.
@@ -33,6 +53,6 @@ sc <- Normalizedata(
 )
 sc <- FinalPreprocessing(sc, GeneFlitering="NoiseF", export=FALSE)
 sc <- Exprmclust(sc)
-sc <- comptsneMB(sc, rseed=15555, quiet = TRUE)
+sc <- comptsneMB(sc, rseed=15555, max_iter = 1000)
 print(sc@MBtsne)
 }

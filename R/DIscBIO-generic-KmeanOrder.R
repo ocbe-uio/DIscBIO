@@ -12,19 +12,16 @@
 #' sc <- Clustexp(sc, cln=3) # K-means clustering
 #' Order <- KmeanOrder(sc, export = FALSE)
 #' Order@kordering
-setGeneric("KmeanOrder", function(object,
-                                  quiet = FALSE,
-                                  export = TRUE)
-    standardGeneric("KmeanOrder"))
+setGeneric("KmeanOrder", function(object, quiet = FALSE, export = TRUE)
+    standardGeneric("KmeanOrder")
+)
 
 #' @export
 #' @rdname KmeanOrder
 setMethod(
     "KmeanOrder",
     signature = "DISCBIO",
-    definition = function(object,
-                          quiet = FALSE,
-                          export = TRUE) {
+    definition = function(object, quiet = FALSE, export = TRUE) {
         # Validation
         if (length(object@kmeans$kpart) == 0) {
             stop("run Clustexp before KmeanOrder")
@@ -33,11 +30,7 @@ setMethod(
         Obj <- object@fdata
         Clusters <- object@cpart
         sampleNames <- colnames(object@fdata)
-        lpsmclust <-
-            Exprmclust(Obj,
-                       K = 4,
-                       reduce = F,
-                       cluster = Clusters)
+        lpsmclust <- Exprmclust(Obj, K = 4, reduce = F, cluster = Clusters)
         lpsorder <- TSCANorder(lpsmclust)
         orderID <- lpsorder
         order <- c(1:length(lpsorder))

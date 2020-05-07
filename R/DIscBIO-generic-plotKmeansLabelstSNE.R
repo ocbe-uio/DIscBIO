@@ -7,7 +7,7 @@
 #' @examples
 #' sc <- DISCBIO(valuesG1msReduced) # changes signature of data
 #' sc <- Clustexp(sc, cln=3) # data must be clustered before plottin
-#' sc <- comptSNE(sc, rseed=15555, quiet=TRUE)
+#' sc <- comptSNE(sc, max_iter=100)
 #' plotKmeansLabelstSNE(sc) # Plots the ID of the cells in each cluster
 setGeneric("plotKmeansLabelstSNE", function(object)
     standardGeneric("plotKmeansLabelstSNE"))
@@ -38,10 +38,12 @@ setMethod(
             cex = .5,
             col = "lightgrey"
         )
-        text(object@tsne[, 1],
-             object@tsne[, 2],
-             labels,
-             cex = .7,
-             col = COL)
+        text(
+            object@tsne[, 1],
+            object@tsne[, 2],
+            labels,
+            cex = .7,
+            col = COL
+        )
     }
 )

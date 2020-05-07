@@ -7,7 +7,7 @@
 #' @examples
 #' sc <- DISCBIO(valuesG1msReduced)
 #' sc <- Clustexp(sc, cln=3) # K-means clustering
-#' sc <- comptSNE(sc)
+#' sc <- comptSNE(sc, max_iter=100)
 #' sc <- KmeanOrder(sc, export = FALSE)
 #' plotOrderKMtsne(sc)
 setGeneric("plotOrderKMtsne", function(object)
@@ -27,7 +27,7 @@ setMethod(
         g <- rownames(total)[nrow(total)]
         n <- g[1]
         l <- apply(total[g, ] - .1, 2, sum) + .1
-        
+
         mi <- min(l, na.rm = TRUE)
         ma <- max(l, na.rm = TRUE)
         ColorRamp <-

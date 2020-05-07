@@ -13,14 +13,14 @@
 #' @examples
 #' \dontrun{
 #' sc <- DISCBIO(valuesG1msReduced)
-#' sc <- NoiseFiltering(sc, percentile=0.9, CV=0.2)
+#' sc <- NoiseFiltering(sc, percentile=0.9, CV=0.2, export=FALSE)
 #' sc <- Normalizedata(
 #'     sc, mintotal=1000, minexpr=0, minnumber=0, maxexpr=Inf, downsample=FALSE,
 #'     dsn=1, rseed=17000
 #' )
 #' sc <- FinalPreprocessing(sc, GeneFlitering="NoiseF")
 #' sc <- Clustexp(sc, cln=3) # K-means clustering
-#' sc <- comptSNE(sc, rseed=15555)
+#' sc <- comptSNE(sc, max_iter=100)
 #' dff <- DEGanalysis2clust(sc, Clustering="K-means", K=3, fdr=0.1, name="Name")
 #' DEGs <- dff[[2]][1, 6]
 #' data <- read.csv(file=paste0(DEGs),head=TRUE,sep=",")
@@ -37,20 +37,19 @@ PPI <- function(data, FileName, species = "9606") {
     optional_parameters <- ""
     # Construct API request
     genes <- data
-    repos <-
-        GET(
-            url = paste0(
-                string_api_url,
-                output_format,
-                '/',
-                method,
-                '?identifiers=',
-                paste(as.character(data), collapse = "%0d"),
-                "&",
-                "species=",
-                species
-            )
+    repos <- GET(
+        url = paste0(
+            string_api_url,
+            output_format,
+            '/',
+            method,
+            '?identifiers=',
+            paste(as.character(data), collapse = "%0d"),
+            "&",
+            "species=",
+            species
         )
+    )
     cat(
         "Examine response components =",
         status_code(repos),

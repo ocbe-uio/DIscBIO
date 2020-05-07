@@ -31,16 +31,11 @@
 #' str(sd_filtered)
 setGeneric(
     name = "NoiseFiltering",
-    def = function(object,
-                   percentile = 0.8,
-                   CV = 0.3,
-                   geneCol = "yellow",
-                   FgeneCol = "black",
-                   erccCol = "blue",
-                   Val = TRUE,
-                   plot = TRUE,
-                   export = TRUE,
-                   quiet = FALSE)
+    def = function(
+        object, percentile = 0.8, CV = 0.3, geneCol = "yellow",
+        FgeneCol = "black", erccCol = "blue", Val = TRUE, plot = TRUE,
+        export = TRUE, quiet = FALSE
+    )
         standardGeneric("NoiseFiltering")
 )
 
@@ -49,16 +44,11 @@ setGeneric(
 setMethod(
     f = "NoiseFiltering",
     signature = "DISCBIO",
-    definition = function(object,
-                          percentile = 0.8,
-                          CV = 0.3,
-                          geneCol = "yellow",
-                          FgeneCol = "black",
-                          erccCol = "blue",
-                          Val = TRUE,
-                          plot = TRUE,
-                          export = TRUE,
-                          quiet = FALSE) {
+    definition = function(
+        object, percentile, CV, geneCol, FgeneCol, erccCol, Val, plot,
+        export, quiet
+    )
+    {
         if (!is.numeric(percentile))
             stop("percentile has to be a positive number")
         else if (percentile <= 0)
@@ -79,7 +69,7 @@ setMethod(
         countsG1ms <- data[which(geneTypes == "ENSG"),]
         countsERCC <- data[which(geneTypes == "ERCC"),]
 
-        estimateSizeFactorsForMatrix = function (counts, locfunc = median) {
+        estimateSizeFactorsForMatrix <- function (counts, locfunc = median) {
             loggeomeans <- rowMeans(log(counts))
             apply(counts, 2, function(cnts)
                 exp(locfunc((
@@ -106,9 +96,11 @@ setMethod(
         )
 
         if (!quiet) {
-            cat("Cut-off value for the ERCCs= ",
+            cat(
+                "Cut-off value for the ERCCs= ",
                 round(minMeanForFit, digits = 2),
-                "\n\n")
+                "\n\n"
+            )
         }
 
         # Perform the fit of technical noise strength on average count.
@@ -117,8 +109,10 @@ setMethod(
         # the gamma family with log link. The 'cbind' construct serves to
         # produce a model matrix with an intercept.
         useForFit <- meansERCC >= minMeanForFit
-        fit <- glmgam.fit(cbind(a0 = 1, a1tilde = 1 / meansERCC[useForFit]),
-                          cv2ERCC[useForFit])
+        fit <- glmgam.fit(
+            cbind(a0 = 1, a1tilde = 1 / meansERCC[useForFit]),
+            cv2ERCC[useForFit]
+        )
 
         if (!quiet) {
             cat("Coefficients of the fit:", "\n")
@@ -186,17 +180,19 @@ setMethod(
                 xlab = "Average normalized read count",
                 ylab = "Squared coefficient of variation (CV^2)"
             )
-            axis(1,
-                 10 ^ (-1:5),
-                 c(
-                     "0.1",
-                     "1",
-                     "10",
-                     "100",
-                     "1000",
-                     expression(10 ^ 4),
-                     expression(10 ^ 5)
-                 ))
+            axis(
+                1,
+                10 ^ (-1:5),
+                c(
+                    "0.1",
+                    "1",
+                    "10",
+                    "100",
+                    "1000",
+                    expression(10 ^ 4),
+                    expression(10 ^ 5)
+                )
+            )
             axis(2, 10 ^ (-2:2), c("0.01", "0.1", "1", "10", "100"), las = 2)
             abline(
                 h = 10 ^ (-2:1),
