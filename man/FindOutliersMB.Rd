@@ -73,8 +73,6 @@ sc <- Normalizedata(
 )
 sc <- FinalPreprocessing(sc, GeneFlitering="NoiseF", export=FALSE)
 sc <- Exprmclust(sc)
-sc <- comptsneMB(sc, rseed=15555)
-sc <- Clustexp(sc, cln=3)
 FindOutliersMB(
     sc, K=3, outminc=5, outlg=2, probthr=.5*1e-3, thr=2**-(1:40),
     outdistquant=.75, plot = FALSE, quiet = TRUE

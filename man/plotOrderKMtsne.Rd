@@ -23,7 +23,7 @@ The tSNE representation can also be used to show the pseudo-time
 \examples{
 sc <- DISCBIO(valuesG1msReduced)
 sc <- Clustexp(sc, cln=3) # K-means clustering
-sc <- comptSNE(sc)
+sc <- comptSNE(sc, max_iter=100)
 sc <- KmeanOrder(sc, export = FALSE)
 plotOrderKMtsne(sc)
 }

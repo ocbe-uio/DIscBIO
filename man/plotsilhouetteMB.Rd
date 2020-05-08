@@ -27,11 +27,13 @@ The silhouette provides a representation of how well each point
   representation of a point by its cluster.
 }
 \examples{
-sc<- DISCBIO(valuesG1msReduced)
-sc<-NoiseFiltering(sc,percentile=0.9, CV=0.2)
-sc<-Normalizedata(sc, mintotal=1000, minexpr=0, minnumber=0, maxexpr=Inf,
-downsample=FALSE, dsn=1, rseed=17000)
-sc<-FinalPreprocessing(sc,GeneFlitering="NoiseF",export = FALSE)
-sc <- Exprmclust(sc,K =2,reduce = TRUE,quiet = TRUE)
-plotsilhouetteMB(sc,K=2)
+sc <- DISCBIO(valuesG1msReduced)
+sc <- NoiseFiltering(sc, percentile=0.9, CV=0.2, export=FALSE)
+sc <- Normalizedata(
+  sc, mintotal=1000, minexpr=0, minnumber=0, maxexpr=Inf,
+  downsample=FALSE, dsn=1, rseed=17000
+)
+sc <- FinalPreprocessing(sc, GeneFlitering="NoiseF", export=FALSE)
+sc <- Exprmclust(sc, K=2, reduce=TRUE, quiet=TRUE)
+plotsilhouetteMB(sc, K=2)
 }

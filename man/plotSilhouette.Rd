@@ -33,6 +33,6 @@ The silhouette provides a representation of how well each point
 \examples{
 sc <- DISCBIO(valuesG1msReduced) # changes signature of data
 sc <- Clustexp(sc, cln=3) # data must be clustered before plottin
-sc <- comptSNE(sc, rseed=15555)
+sc <- comptSNE(sc, max_iter=100)
 plotSilhouette(sc, K=3)
 }

@@ -19,7 +19,7 @@
 #' )
 #' sc <- FinalPreprocessing(sc, GeneFlitering="NoiseF", export=FALSE)
 #' sc <- Clustexp(sc, cln=3) # K-means clustering
-#' sc <- comptSNE(sc, rseed=15555)
+#' sc <- comptSNE(sc, max_iter=100)
 #' cdiff <- DEGanalysis2clust(
 #'     sc, Clustering="K-means", K=3, fdr=.2, name="Name", First="CL1",
 #'     Second="CL2", export=FALSE
@@ -32,17 +32,14 @@
 RpartDT <- function(data, quiet = FALSE, plot = TRUE) {
     exp.df <- as.data.frame(t(data))
     classVector <- factor(colnames(data))
-    model <-
-        rpart(
-            classVector ~ .,
-            exp.df,
-            method = "class",
-            minsplit = 1,
-            cp = -1
-        )
-    if (!quiet)
-        print(model)
-    if (plot)
-        rpart.plot(model, type = 4, extra = 101)
+    model <- rpart(
+        classVector ~ .,
+        exp.df,
+        method = "class",
+        minsplit = 1,
+        cp = -1
+    )
+    if (!quiet) print(model)
+    if (plot) rpart.plot(model, type = 4, extra = 101)
     return(model)
 }

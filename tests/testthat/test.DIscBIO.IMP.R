@@ -47,7 +47,7 @@ test_that("Data is normalized", {
 context("K-means clustering")
 
 sc <- Clustexp(sc, cln=2, quiet=TRUE) # K-means clustering
-sc <- comptSNE(sc, rseed=15555, quiet=TRUE)
+sc <- comptSNE(sc, rseed=15555, quiet=TRUE, max_iter=10)
 
 test_that("tSNE is computed", {
     expect_equal(class(sc@tsne), "data.frame")
@@ -56,7 +56,7 @@ test_that("tSNE is computed", {
 
 test_that("Cluster plots output is as expexted", {
     expect_equivalent(
-        object = Jaccard(sc, Clustering="K-means", K=2, plot = FALSE),
+        object = Jaccard(sc, Clustering="K-means", K=2, plot=FALSE, R=5),
         expected = c(.790, .653),
         tolerance = .01
     )
@@ -111,7 +111,7 @@ cdiff2 <- DEGanalysis(
 # differential expression analysis between two particular clusters.
 cdiff3 <- DEGanalysis2clust(
     sc, Clustering="K-means", K=2, fdr=.15, name="Name", First="CL1",
-    Second="CL2", export=FALSE, quiet=TRUE, plot=FALSE
+    Second="CL2", export=FALSE, quiet=TRUE, plot=FALSE, nperms=5, nresamp=2
 )
 
 test_that("DEGs are calculated", {
@@ -150,9 +150,9 @@ test_that("Decision tree elements are defined", {
     expect_output(str(DATAforDT), "3 obs. of  30 variables")
     expect_s3_class(j48dt, "J48")
     expect_s3_class(summary(j48dt), "Weka_classifier_evaluation")
-    expect_identical(j48dt_eval, c(TP = 14, FN = 4, FP = 5, TN = 7))
+    expect_identical(j48dt_eval, c(TP = 14, FN = 4, FP = 3, TN = 9))
     expect_s3_class(rpartDT, "rpart")
-    expect_identical(rpartEVAL, c(TP = 15, FN = 3, FP = 3, TN = 9))
+    expect_identical(rpartEVAL, c(TP = 16, FN = 2, FP = 4, TN = 8))
 })
 
 # ---------------------------------------------------------------------------- #
@@ -172,7 +172,7 @@ test_that("Model-based clustering elements are OK", {
     )
 })
 
-sc <- comptsneMB(sc, rseed=15555, quiet = TRUE)
+sc <- comptsneMB(sc, rseed=15555, quiet=TRUE, max_iter=100)
 
 test_that("tSNE clustering works fine", {
     expect_equal(dim(sc@MBtsne), c(30, 2))
@@ -196,7 +196,7 @@ Outliers2 <- FindOutliersMB(
 
 test_that("MB clustering and outliers work as expected", {
     expect_equivalent(
-        object = Jaccard(sc, Clustering="MB", K=2, plot = FALSE),
+        object = Jaccard(sc, Clustering="MB", K=2, plot = FALSE, R=5),
         expected = c(.819, .499),
         tolerance = 0.01
     )
@@ -229,13 +229,13 @@ cdiff1 <- MBClustDiffGenes(sc, K=2, fdr=.2, export=FALSE, quiet=TRUE)
 # DE analysis between all clusters
 cdiff2 <- DEGanalysis(
     sc, Clustering="MB", K=2, fdr=.2, name="Name", export=FALSE, quiet=TRUE,
-    plot = FALSE
+    plot = FALSE, nperms=5, nresamp=2
 )
 
 # differential expression analysis between particular clusters.
 cdiff3 <- DEGanalysis2clust(
     sc, Clustering="MB", K=2, fdr=.15, name="Name", First="CL1", Second="CL2",
-    export = FALSE, plot = FALSE, quiet = TRUE
+    export = FALSE, plot = FALSE, quiet = TRUE, nperms=5, nresamp=2
 )
 
 test_that("DEGs are calculated", {
@@ -268,10 +268,10 @@ rpartEVAL <- RpartEVAL(
 )
 
 test_that("Decision tree elements are defined", {
-    expect_output(str(DATAforDT), "23 obs. of  30 variables") # used to be 31
+    expect_output(str(DATAforDT), "29 obs. of  30 variables") # used to be 31
     expect_s3_class(j48dt, "J48")
     expect_s3_class(summary(j48dt), "Weka_classifier_evaluation")
     expect_identical(j48dt_eval, c(TP = 21, FN = 2, FP = 4, TN = 3))
     expect_s3_class(rpartDT, "rpart")
-    expect_identical(rpartEVAL, c(TP = 19, FN = 4, FP = 4, TN = 3))
+    expect_identical(rpartEVAL, c(TP = 20, FN = 3, FP = 4, TN = 3))
 })

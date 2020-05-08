@@ -27,6 +27,6 @@ sc <- Normalizedata(
 )
 sc <- FinalPreprocessing(sc, GeneFlitering="NoiseF", export=FALSE)
 sc <- Exprmclust(sc, K=2)
-sc <- comptsneMB(sc, rseed=15555, quiet = TRUE)
+sc <- comptsneMB(sc, rseed=15555, quiet=TRUE, max_iter=100)
 plotMBLabelstSNE(sc)
 }

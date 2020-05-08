@@ -60,7 +60,7 @@ sc <- Normalizedata(
 )
 sc <- FinalPreprocessing(sc, GeneFlitering="NoiseF", export=FALSE)
 sc <- Clustexp(sc, cln=2) # K-means clustering
-sc <- comptSNE(sc, rseed=15555)
+sc <- comptSNE(sc, max_iter=100)
 cdiff <- DEGanalysis2clust(
     sc, Clustering="K-means", K=2, fdr=.2, name="Name", First="CL1",
     Second="CL2", export=FALSE

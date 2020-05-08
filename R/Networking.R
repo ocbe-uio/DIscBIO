@@ -15,14 +15,14 @@
 #' @examples
 #' \dontrun{
 #' sc <- DISCBIO(valuesG1msReduced)
-#' sc <- NoiseFiltering(sc)
+#' sc <- NoiseFiltering(sc, export=FALSE)
 #' sc <- Normalizedata(
 #'     sc, mintotal=1000, minexpr=0, minnumber=0, maxexpr=Inf, downsample=FALSE,
 #'     dsn=1, rseed=17000
 #' )
 #' sc <- FinalPreprocessing(sc, GeneFlitering="NoiseF")
 #' sc <- Clustexp(sc, cln=3) # K-means clustering
-#' sc <- comptSNE(sc, rseed=15555)
+#' sc <- comptSNE(sc, max_iter=100)
 #' dff <- DEGanalysis2clust(sc, Clustering="K-means", K=3, fdr=0.1, name="Name")
 #' DEGs <- dff[[2]][1, 6]
 #' data <- read.csv(file=paste0(DEGs),head=TRUE,sep=",")
@@ -33,15 +33,12 @@
 #' FileName <- "Up.DownDEG"
 #' Networking(data, FileName)
 #' }
-Networking <-
-    function(data,
-             FileName,
-             species = "9606",
-             plot_width = 25,
-             plot_height = 15) {
+Networking <- function(
+    data, FileName, species = "9606", plot_width = 25, plot_height = 15
+    )
+    {
         if (length(data) > 600) {
             print("Your gene list is too big")
-
         } else{
             string_api_url <- "https://string-db.org/api/"
             output_format <- "highres_image"
@@ -66,11 +63,8 @@ Networking <-
                     )
                 )
             cat(
-                "Examine response components =",
-                status_code(repos),
-                "\t",
-                "200 means successful",
-                "\n"
+                "Examine response components =", status_code(repos), "\t",
+                "200 means successful", "\n"
             )
             y = repos$request$url
             download.file(y, paste0("network", FileName, ".png"), mode = 'wb')
@@ -83,11 +77,7 @@ Networking <-
                 }
             set_plot_dimensions(plot_width, plot_height)
 
-            plot(0:1,
-                 0:1,
-                 type = "n",
-                 ann = FALSE,
-                 axes = FALSE)
+            plot(0:1, 0:1, type = "n", ann = FALSE, axes = FALSE)
             rasterImage(Network, 0, 0, 1, 1)
             cat(
                 "\n",
@@ -96,7 +86,6 @@ Networking <-
                 "\n",
                 paste0(y)
             )
-
             set_plot_dimensions(8, 8) # resets to default values
         }
     }

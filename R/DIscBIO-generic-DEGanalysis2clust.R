@@ -33,39 +33,30 @@
 #' )
 #' sc <- FinalPreprocessing(sc, GeneFlitering="NoiseF", export=FALSE)
 #' sc <- Clustexp(sc, cln=3) # K-means clustering
-#' sc <- comptSNE(sc, rseed=15555)
+#' sc <- comptSNE(sc, max_iter=100)
 #' DEGanalysis2clust(
 #'     sc, Clustering="K-means", K=3, fdr=0.1, name="Name", export = FALSE
 #' )
-setGeneric("DEGanalysis2clust", function(object,
-                                         Clustering = "K-means",
-                                         K,
-                                         fdr = 0.05,
-                                         name = "Name",
-                                         First = "CL1",
-                                         Second = "CL2",
-                                         export = TRUE,
-                                         quiet = FALSE,
-                                         plot = TRUE,
-                                         ...)
-    standardGeneric("DEGanalysis2clust"))
+setGeneric(
+    "DEGanalysis2clust",
+    function(
+        object, Clustering = "K-means", K, fdr = 0.05, name = "Name",
+        First = "CL1", Second = "CL2",  export = TRUE, quiet = FALSE,
+        plot = TRUE, ...
+    )
+    standardGeneric("DEGanalysis2clust")
+)
 
 #' @export
 #' @rdname DEGanalysis2clust
 setMethod(
     "DEGanalysis2clust",
     signature = "DISCBIO",
-    definition = function(object,
-                          Clustering = "K-means",
-                          K,
-                          fdr = 0.05,
-                          name = "Name",
-                          First = "CL1",
-                          Second = "CL2",
-                          export = TRUE,
-                          quiet = FALSE,
-                          plot = TRUE,
-                          ...) {
+    definition = function(
+        object, Clustering = "K-means", K, fdr = 0.05, name = "Name",
+        First = "CL1", Second = "CL2", export = TRUE, quiet = FALSE,
+        plot = TRUE, ...)
+    {
         if (!(Clustering %in% c("K-means", "MB"))) {
             stop("Clustering has to be either K-means or MB")
         }
@@ -85,7 +76,6 @@ setMethod(
             Cluster_ID = object@MBclusters$clusterid
             if (length(object@MBclusters$clusterid) < 1)
                 stop("run ExprmclustMB before running DEGanalysis2clust")
-
         }
         num <- c(1:K)
         num1 <- paste("CL", num, sep = "")
@@ -123,8 +113,7 @@ setMethod(
                     random.seed = 15,
                     ...
                 )
-                delta.table <-
-                    samr.compute.delta.table(samr.obj)
+                delta.table <- samr.compute.delta.table(samr.obj)
             }))
         } else {
             samr.obj <- samr(
@@ -144,14 +133,13 @@ setMethod(
         if (delta.table[wm, 5] <= fdr) {
             w <- which(delta.table[, 5] <= fdr)
             delta <- delta.table[w[1], 1] - 0.001
-
             if (plot) {
                 samr.plot(samr.obj, delta)
                 title(paste("DEGs in the", Second, "in", First, "VS", Second))
             }
-
-            siggenes.table <-
-                samr.compute.siggenes.table(samr.obj, delta, data, delta.table)
+            siggenes.table <- samr.compute.siggenes.table(
+                samr.obj, delta, data, delta.table
+            )
 
             FDRl <- as.numeric(siggenes.table$genes.lo[, 8]) / 100
             FDRu <- as.numeric(siggenes.table$genes.up[, 8]) / 100
@@ -162,70 +150,46 @@ setMethod(
             DEGsTable[1, 1] <- paste0(First, " VS ", Second)
             DEGsTable[1, 2] <- Second
             DEGsTable[1, 3] <- length(FDRu)
-            DEGsTable[1, 4] <-
-                paste0("Up-regulated-",
-                       name,
-                       Second,
-                       "in",
-                       First,
-                       "VS",
-                       Second,
-                       ".csv")
+            DEGsTable[1, 4] <- paste0(
+                "Up-regulated-", name, Second, "in", First, "VS", Second,
+                ".csv"
+            )
             DEGsTable[1, 5] <- length(FDRl)
-            DEGsTable[1, 6] <-
-                paste0("Low-regulated-",
-                       name,
-                       Second,
-                       "in",
-                       First,
-                       "VS",
-                       Second,
-                       ".csv")
-
+            DEGsTable[1, 6] <- paste0(
+                "Low-regulated-", name, Second, "in", First, "VS", Second,
+                ".csv"
+            )
             DEGsTable[2, 1] <- paste0(First, " VS ", Second)
             DEGsTable[2, 2] <- First
             DEGsTable[2, 3] <- length(FDRu)
-            DEGsTable[2, 4] <-
-                paste0("Low-regulated-",
-                       name,
-                       First,
-                       "in",
-                       First,
-                       "VS",
-                       Second,
-                       ".csv")
+            DEGsTable[2, 4] <- paste0(
+                "Low-regulated-", name, First, "in", First, "VS", Second,
+                ".csv"
+            )
             DEGsTable[2, 5] <- length(FDRl)
-            DEGsTable[2, 6] <-
-                paste0("Up-regulated-",
-                       name,
-                       First,
-                       "in",
-                       First,
-                       "VS",
-                       Second,
-                       ".csv")
-
+            DEGsTable[2, 6] <- paste0(
+                "Up-regulated-", name, First, "in", First, "VS", Second,
+                ".csv"
+            )
             if (length(FDRl) > 0) {
                 genes <- siggenes.table$genes.lo[, 3]
                 if (quiet) {
                     suppressMessages(
-                        geneList <-
-                            AnnotationDbi::select(
-                                org.Hs.eg.db,
-                                keys = keys(org.Hs.eg.db),
-                                columns = c("SYMBOL", "ENSEMBL")
-                            )
+                        geneList <- AnnotationDbi::select(
+                            org.Hs.eg.db,
+                            keys = keys(org.Hs.eg.db),
+                            columns = c("SYMBOL", "ENSEMBL")
+                        )
                     )
                     GL <- c(1, "MTRNR2", "ENSG00000210082")
                     GL1 <- c(1, "MTRNR1", "ENSG00000211459")
                     geneList <- rbind(geneList, GL, GL1)
                 } else {
-                    geneList <-
-                        AnnotationDbi::select(
-                            org.Hs.eg.db,
-                            keys = keys(org.Hs.eg.db),
-                            columns = c("SYMBOL", "ENSEMBL")
-                        )
+                    geneList <- AnnotationDbi::select(
+                        org.Hs.eg.db,
+                        keys = keys(org.Hs.eg.db),
+                        columns = c("SYMBOL", "ENSEMBL")
+                    )
                     GL <- c(1, "MTRNR2", "ENSG00000210082")
                     GL1 <- c(1, "MTRNR1", "ENSG00000211459")
                     geneList <- rbind(geneList, GL, GL1)
@@ -234,57 +198,41 @@ setMethod(
                 gene_list <- geneList[, 3]
                 idx_genes <- is.element(gene_list, genes)
                 genes2 <- geneList[idx_genes, ]
-                FinalDEGsL <-
-                    merge(
-                        FinalDEGsL,
-                        genes2,
-                        by.x = "genes",
-                        by.y = "ENSEMBL",
-                        all.x = TRUE
-                    )
+                FinalDEGsL <- merge(
+                    FinalDEGsL,
+                    genes2,
+                    by.x = "genes",
+                    by.y = "ENSEMBL",
+                    all.x = TRUE
+                )
                 FinalDEGsL[, 3] <- FinalDEGsL[, 11]
                 FinalDEGsL <- FinalDEGsL[, c(-1, -10, -11)]
                 FinalDEGsL <- FinalDEGsL[order(FinalDEGsL[, 8]), ]
                 FinalDEGsL[is.na(FinalDEGsL[, 2]), c(2, 3)] <-
                     FinalDEGsL[is.na(FinalDEGsL[, 2]), 3]
                 if (export) {
-                    cat("The results of DEGs are saved in your directory",
-                        "\n")
+                    cat(
+                        "The results of DEGs are saved in your directory",
+                        "\n"
+                    )
                     cat(
                         paste0(
-                            "Low-regulated genes in the ",
-                            Second,
-                            " in ",
-                            First,
-                            " VS ",
-                            Second,
-                            "\n"
+                            "Low-regulated genes in the ", Second, " in ",
+                            First, " VS ", Second, "\n"
                         )
                     )
                     write.csv(
                         FinalDEGsL,
                         file = paste0(
-                            "Low-regulated-",
-                            name,
-                            Second,
-                            "in",
-                            First,
-                            "VS",
-                            Second,
-                            ".csv"
+                            "Low-regulated-", name, Second, "in", First,
+                            "VS", Second, ".csv"
                         )
                     )
                     write.csv(
                         FinalDEGsL,
                         file = paste0(
-                            "Up-regulated-",
-                            name,
-                            First,
-                            "in",
-                            First,
-                            "VS",
-                            Second,
-                            ".csv"
+                            "Up-regulated-", name, First, "in", First, "VS",
+                            Second, ".csv"
                         )
                     )
                 }
@@ -296,22 +244,20 @@ setMethod(
                 genes <- siggenes.table$genes.up[, 3]
                 if (quiet) {
                     suppressMessages(
-                        geneList <-
-                            AnnotationDbi::select(
-                                org.Hs.eg.db,
-                                keys = keys(org.Hs.eg.db),
-                                columns = c("SYMBOL", "ENSEMBL")
-                            )
-                    )
-                    GL <- c(1, "MTRNR2", "ENSG00000210082")
-                    geneList <- rbind(geneList, GL)
-                } else {
-                    geneList <-
-                        AnnotationDbi::select(
+                        geneList <- AnnotationDbi::select(
                             org.Hs.eg.db,
                             keys = keys(org.Hs.eg.db),
                             columns = c("SYMBOL", "ENSEMBL")
                         )
+                    )
+                    GL <- c(1, "MTRNR2", "ENSG00000210082")
+                    geneList <- rbind(geneList, GL)
+                } else {
+                    geneList <- AnnotationDbi::select(
+                        org.Hs.eg.db,
+                        keys = keys(org.Hs.eg.db),
+                        columns = c("SYMBOL", "ENSEMBL")
+                    )
                     GL <- c(1, "MTRNR2", "ENSG00000210082")
                     geneList <- rbind(geneList, GL)
                 }
@@ -319,57 +265,41 @@ setMethod(
                 gene_list <- geneList[, 3]
                 idx_genes <- is.element(gene_list, genes)
                 genes2 <- geneList[idx_genes, ]
-                FinalDEGsU <-
-                    merge(
-                        FinalDEGsU,
-                        genes2,
-                        by.x = "genes",
-                        by.y = "ENSEMBL",
-                        all.x = TRUE
-                    )
+                FinalDEGsU <- merge(
+                    FinalDEGsU,
+                    genes2,
+                    by.x = "genes",
+                    by.y = "ENSEMBL",
+                    all.x = TRUE
+                )
                 FinalDEGsU[, 3] <- FinalDEGsU[, 11]
                 FinalDEGsU <- FinalDEGsU[, c(-1, -10, -11)]
                 FinalDEGsU <- FinalDEGsU[order(FinalDEGsU[, 8]), ]
                 FinalDEGsU[is.na(FinalDEGsU[, 2]), c(2, 3)] <-
                     FinalDEGsU[is.na(FinalDEGsU[, 2]), 3]
                 if (export) {
-                    cat("The results of DEGs are saved in your directory",
-                        "\n")
+                    cat(
+                        "The results of DEGs are saved in your directory",
+                        "\n"
+                    )
                     cat(
                         paste0(
-                            "Up-regulated genes in the ",
-                            Second,
-                            " in ",
-                            First,
-                            " VS ",
-                            Second,
-                            "\n"
+                            "Up-regulated genes in the ", Second, " in ", First,
+                            " VS ", Second, "\n"
                         )
                     )
                     write.csv(
                         FinalDEGsU,
                         file = paste0(
-                            "Up-regulated-",
-                            name,
-                            Second,
-                            "in",
-                            First,
-                            "VS",
-                            Second,
-                            ".csv"
+                            "Up-regulated-", name, Second, "in", First, "VS",
+                            Second, ".csv"
                         )
                     )
                     write.csv(
                         FinalDEGsU,
                         file = paste0(
-                            "Low-regulated-",
-                            name,
-                            First,
-                            "in",
-                            First,
-                            "VS",
-                            Second,
-                            ".csv"
+                            "Low-regulated-", name, First, "in", First, "VS",
+                            Second, ".csv"
                         )
                     )
                 }
@@ -391,20 +321,16 @@ setMethod(
             DEGsTable[2, 5] <- NA
             DEGsTable[2, 6] <- NA
         }
-
-        colnames(DEGsTable) <-
-            c(
-                "Comparisons",
-                "Target cluster",
-                "Gene number",
-                "File name",
-                "Gene number",
-                "File name"
-            )
-        if (!quiet)
-            print(DEGsTable)
+        colnames(DEGsTable) <- c(
+            "Comparisons",
+            "Target cluster",
+            "Gene number",
+            "File name",
+            "Gene number",
+            "File name"
+        )
+        if (!quiet) print(DEGsTable)
         sigDEG <- cbind(DEGsE, DEGsS)
-
         if (export) {
             write.csv(DEGsTable, file = "DEGsTable.csv")
             write.csv(sigDEG, file = "sigDEG.csv")

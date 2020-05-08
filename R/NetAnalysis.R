@@ -21,7 +21,7 @@
 #' )
 #' sc <- FinalPreprocessing(sc, GeneFlitering="NoiseF")
 #' sc <- Clustexp(sc, cln=3) # K-means clustering
-#' sc <- comptSNE(sc, rseed=15555)
+#' sc <- comptSNE(sc, max_iter=100)
 #' dff <- DEGanalysis2clust(sc, Clustering="K-means", K=3, fdr=0.1, name="Name")
 #' DEGs <- dff[[2]][1, 6]
 #' data <- read.csv(file=paste0(DEGs),head=TRUE,sep=",")
@@ -30,9 +30,7 @@
 #' ppi <- PPI(data, FileName)
 #' NetAnalysis(ppi)
 #' }
-NetAnalysis <- function(data,
-                        export = TRUE,
-                        FileName = "1") {
+NetAnalysis <- function(data, export = TRUE, FileName = "1") {
     if (length(data[, 1]) < 1)
         stop("No Protein-Protein Interactions")
     df <- data[, -c(1, 2)]
@@ -46,12 +44,14 @@ NetAnalysis <- function(data,
     names <- rownames(degree.table)
     rownames(degree.table) <- NULL
     AnalysisTable <- cbind(names, degree.table, betweenness.table)
-    
+
     if (export) {
-        write.csv(AnalysisTable,
-                  file = paste0("NetworkAnalysisTable-", FileName, ".csv"))
+        write.csv(
+            AnalysisTable,
+            file = paste0("NetworkAnalysisTable-", FileName, ".csv")
+        )
     }
-    
+
     test.graph.adj <- get.adjacency(gg, sparse = FALSE)
     test.graph.properties <- GenInd(test.graph.adj)
     cat("Number of nodes: ", test.graph.properties$N, "\n")
