@@ -1,21 +1,27 @@
-library(devtools)#TEMP
+# library(devtools)#TEMP
+# library(testthat)#TEMP
+# source("Aux/samr.R")#TEMP
+# source("Aux/resample.R")#TEMP
+# source("Aux/rankcol.R")#TEMP
+# source("Aux/samr/R/samr.morefuns.R")#TEMP
+# source("Aux/samr/R/samr.R")#TEMP
+# library(DIscBIO)#TEMP
 context("Stress-testing DEG analyses")
 # ==============================================================================
 # Loading dataset
 # ==============================================================================
-install()#TEMP
-library(DIscBIO)#TEMP
 data(pan_indrop_matrix_8000cells_18556genes)
 
 # ==============================================================================
 # Determining contants
 # ==============================================================================
-n_genes <- 500
-n_clust <- 2
+n_genes <- 1e3
+n_clust <- 3
 
 # ==============================================================================
 # Defining datasets to be used
 # ==============================================================================
+message(Sys.time(), " - Subsetting")
 sc <- DISCBIO(pan_indrop_matrix_8000cells_18556genes[, seq_len(n_genes)])
 
 # ==============================================================================
@@ -27,15 +33,18 @@ sc <- DISCBIO(pan_indrop_matrix_8000cells_18556genes[, seq_len(n_genes)])
 #     sc, mintotal=1000, minexpr=MIinExp, minnumber=MinNumber, maxexpr=Inf,
 #     downsample=FALSE, dsn=1, rseed=17000
 # )
+message("Filtering")
+sc <- Normalizedata(sc, mintotal=1000, maxexpr=Inf, downsample=FALSE, dsn=1)
 sc <- FinalPreprocessing(sc, GeneFlitering="ExpF", export=FALSE, quiet=TRUE)
-sc <- Clustexp(sc, cln=n_clust, quiet=TRUE)
+sc <- Clustexp(sc, clustnr=n_clust, quiet=TRUE, bootnr = 2, B.gap = 2)
 
 # ------------------------------------------------------------------------------
 # DEG Analysis
 # ------------------------------------------------------------------------------
+message("Analysing DEG")
 cdiff <- DEGanalysis(
     sc, Clustering="K-means", K=n_clust, fdr=0.10, name="all_clusters",
-    export=FALSE, quiet=FALSE, plot=FALSE, nresamp=5, nperms=10
+    export=FALSE, quiet=TRUE, plot=FALSE, nresamp=2, nperms=2
 )
 # sc <- Exprmclust(sc, K=K, reduce=TRUE, quiet=TRUE)
 # sc <- MB_Order(sc, quiet=TRUE, export=FALSE)
@@ -47,3 +56,6 @@ cdiff <- DEGanalysis(
 # 	sc, Clustering="MB", K=K, fdr=0.05, name="all_clusters", export = FALSE,
 # 	quiet=TRUE
 # )
+test_that("DEG analysis doesn't freeze", {
+    expect_output(str(cdiff), "List of 2")
+})
