@@ -105,7 +105,7 @@ setMethod(
         data = list(x = x, y = y, geneid = gname)
         if (quiet) {
             invisible(capture.output({
-                samr.obj <- samr(
+                samr.obj <- sammy(
                     data,
                     resp.type = "Two class unpaired",
                     assay.type = "seq",
@@ -116,7 +116,7 @@ setMethod(
                 delta.table <- samr.compute.delta.table(samr.obj)
             }))
         } else {
-            samr.obj <- samr(
+            samr.obj <- sammy(
                 data,
                 resp.type = "Two class unpaired",
                 assay.type = "seq",

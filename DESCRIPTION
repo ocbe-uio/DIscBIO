@@ -33,7 +33,7 @@ Encoding: UTF-8
 Imports: methods, TSCAN, boot, httr, mclust, statmod, biomaRt, samr, igraph,
 	RWeka, partykit, grid, philentropy, NetIndices, png, matrixStats, grDevices,
 	readr, RColorBrewer, ggplot2, rpart, fpc, cluster, rpart.plot, amap, dplyr,
-	tsne, AnnotationDbi, org.Hs.eg.db, calibrate, graphics, stats, utils
+	tsne, AnnotationDbi, org.Hs.eg.db, calibrate, graphics, stats, utils, impute
 Depends:
     R (>= 4.0), SingleCellExperiment
 Suggests:
@@ -94,3 +94,4 @@ Collate:
     'customConverters.R'
     'datasets.R'
     'retrieveBiomart.R'
+    'samr-adapted.R'
