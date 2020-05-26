@@ -195,13 +195,12 @@ setMethod(
         o <- c(1:K)
         oo <- o[-length(o)]
         com <- sum(oo)
-        if (!quiet)
-            cat("Number of comparisons: ", com * 2, "\n")
+        if (!quiet) cat("Number of comparisons: ", com * 2, "\n")
         comNUM <- paste("comp", c(1:com), sep = "")
         DEGsTable <- data.frame()
         DEGsE <- c()
         DEGsS <- c()
-        for (i in 1:com) {
+        for (i in seq_len(com)) {
             FinalDEGsL <- data.frame()
             FinalDEGsU <- data.frame()
             FDRl <- c()
@@ -219,7 +218,7 @@ setMethod(
             data <- list(x = x, y = y, geneid = gname)
             if (quiet) {
                 invisible(capture.output(
-                    samr.obj <- samr(
+                    samr.obj <- sammy(
                         data,
                         resp.type = "Two class unpaired",
                         assay.type = "seq",
@@ -229,7 +228,7 @@ setMethod(
                     )
                 ))
             } else {
-                samr.obj <- samr(
+                samr.obj <- sammy(
                     data,
                     resp.type = "Two class unpaired",
                     assay.type = "seq",

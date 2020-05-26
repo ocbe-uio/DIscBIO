@@ -20,6 +20,25 @@ samr.const.patterndiscovery.response <- "Pattern discovery"
 
 #' @title Significance analysis of microarrays
 #' @description This function is an adaptation of `samr::samr`
+#' @param data Data object with components x- p by n matrix of features, one observation per column (missing values allowed); y- n-vector of outcome measurements; censoring.status- n-vector of censoring censoring.status (1= died or event occurred, 0=survived, or event was censored), needed for a censored survival outcome
+#' @param resp.type Problem type: "Quantitative" for a continuous parameter (Available for both array and sequencing data); "Two class unpaired" (for both array and sequencing data); "Survival" for censored survival outcome (for both array and sequencingdata); "Multiclass": more than 2 groups (for both array and sequencing data); "One class" for a single group (only for array data); "Two class paired" for two classes with paired observations (for both array and sequencing data); "Two class unpaired timecourse" (only for array data), "One class time course" (only for array data), "Two class.paired timecourse" (only for array data), or "Pattern discovery" (only for array data)
+#' @param assay.type Assay type: "array" for microarray data, "seq" for counts from sequencing
+#' @param s0 Exchangeability factor for denominator of test statistic; Default is automatic choice. Only used for array data.
+#' @param s0.perc Percentile of standard deviation values to use for s0; default is automatic choice; -1 means s0=0 (different from s0.perc=0, meaning s0=zeroeth percentile of standard deviation values= min of sd values. Only used for array data.
+#' @param nperms Number of permutations used to estimate false discovery rates
+#' @param center.arrays Should the data for each sample (array) be median centered at the outset? Default =FALSE. Only used for array data.
+#' @param testStatistic Test statistic to use in two class unpaired case.Either "standard" (t-statistic) or ,"wilcoxon" (Two-sample wilcoxon or Mann-Whitney test). Only used for array data.
+#' @param time.summary.type Summary measure for each time course: "slope", or"signed.area"). Only used for array data.
+#' @param regression.method Regression method for quantitative case: "standard",(linear least squares) or "ranks" (linear least squares on ranked data). Only used for array data.
+#' @param return.x Should the matrix of feature values be returned? Only useful for time course data, where x contains summaries of the features over time. Otherwise x is the same as the input data data\$x
+#' @param knn.neighbors Number of nearest neighbors to use for imputation of missing features values. Only used for array data.
+#' @param random.seed Optional initial seed for random number generator (integer)
+#' @param nresamp For assay.type="seq", number of resamples used to construct test statistic. Default 20. Only used for sequencing data.
+#' @param nresamp.perm For assay.type="seq", number of resamples used to construct test statistic for permutations. Default is equal to nresamp and it must be at most nresamp. Only used for sequencing data.
+#' @param xl.mode Used by Excel interface
+#' @param xl.time Used by Excel interface
+#' @param xl.prevfit Used by Excel interface
+#' @importFrom impute impute.knn
 sammy <- function (data, resp.type = c("Quantitative", "Two class unpaired",
     "Survival", "Multiclass", "One class", "Two class paired",
     "Two class unpaired timecourse", "One class timecourse",
@@ -631,6 +650,7 @@ samr.estimate.depth <- function(x) {
 #' @param nresamp number of resamplings
 #' @return xresamp: an rank array with dim #gene*#sample*nresamp
 #' @description Corresponds to `samr::resample`
+#' @importFrom stats rpois runif
 resa <- function(x, d, nresamp = 20) {
 	ng <- nrow(x)
 	ns <- ncol(x)
@@ -654,6 +674,7 @@ resa <- function(x, d, nresamp = 20) {
 #' @note this function is equivalent to `samr::rankcol`, but uses `apply` to
 #' rank the colums instead of a compiled Fortran function which was causing our
 #' DEGanalysis functions to freeze in large datasets.
+#' @param x x
 rankcols <- function(x) {
 	# ranks the elements within each col of the matrix x
 	# and returns these ranks in a matrix
@@ -667,7 +688,10 @@ rankcols <- function(x) {
 }
 
 #' @title Check format
-check.format = function(y, resp.type, censoring.status = NULL) {
+#' @param y y
+#' @param resp.type resp type
+#' @param censoring.status censoring status
+check.format <- function(y, resp.type, censoring.status = NULL) {
 	# here i do some format checks for the input data$y
 	# note that checks for time course data are done in the
 	#   parse function for time course;
@@ -752,7 +776,15 @@ wilcoxon.unpaired.seq.func <- function(xresamp, y) {
 	tt <- tt/dim(xresamp)[3]
 	return(list(tt = tt, numer = tt, sd = rep(1, length(tt))))
 }
-
+wilcoxon.paired.seq.func <- function(xresamp, y) {
+	tt <- rep(0, dim(xresamp)[1])
+	for (i in 1:dim(xresamp)[3]) {
+		tt <- tt + rowSums(xresamp[, y > 0, i]) - sum(y > 0) *
+			(length(y) + 1)/2
+	}
+	tt <- tt/dim(xresamp)[3]
+	return(list(tt = tt, numer = tt, sd = rep(1, length(tt))))
+}
 getperms = function(y, nperms) {
 	total.perms = factorial(length(y))
 	if (total.perms <= nperms) {
@@ -771,12 +803,580 @@ getperms = function(y, nperms) {
 	return(list(perms = perms, all.perms.flag = all.perms.flag,
 		nperms.act = nperms.act))
 }
-
+foldchange.twoclass = function(x, y, logged2) {
+	#  if(logged2){x=2^x}
+	m1 <- rowMeans(x[, y == 1, drop = F])
+	m2 <- rowMeans(x[, y == 2, drop = F])
+	if (!logged2) {
+		fc = m2/m1
+	}
+	if (logged2) {
+		fc = 2^{
+			m2 - m1
+		}
+	}
+	return(fc)
+}
 #' @title Foldchange of twoclass unpaired sequencing data
+#' @importFrom matrixStats rowMedians
+#' @param x x
+#' @param y y
+#' @param depth depth
 foldchange.seq.twoclass.unpaired <- function(x, y, depth)
 {
 	x.norm <- scale(x, center = F, scale = depth) + 1e-08
 	fc <- rowMedians(x.norm[, y == 2])/rowMedians(x.norm[, y ==
 		1])
 	return(fc)
+}
+foldchange.seq.twoclass.paired <- function(x, y, depth) {
+	nc <- ncol(x)/2
+	o1 <- o2 <- rep(0, nc)
+	for (j in 1:nc) {
+		o1[j] <- which(y == -j)
+		o2[j] <- which(y == j)
+	}
+	x.norm <- scale(x, center = F, scale = depth) + 1e-08
+	d <- x.norm[, o2, drop = F]/x.norm[, o1, drop = F]
+	fc <- rowMedians(d, na.rm = T)
+	return(fc)
+}
+permute <- function(elem) {
+	# generates all perms of the vector elem
+	if (!missing(elem)) {
+		if (length(elem) == 2)
+			return(matrix(c(elem, elem[2], elem[1]), nrow = 2))
+		last.matrix <- permute(elem[-1])
+		dim.last <- dim(last.matrix)
+		new.matrix <- matrix(0, nrow = dim.last[1] * (dim.last[2] +
+			1), ncol = dim.last[2] + 1)
+		for (row in 1:(dim.last[1])) {
+			for (col in 1:(dim.last[2] + 1)) new.matrix[row +
+				(col - 1) * dim.last[1], ] <- insert.value(last.matrix[row,
+				], elem[1], col)
+		}
+		return(new.matrix)
+	}
+	else cat("Usage: permute(elem)\n\twhere elem is a vector\n")
+}
+insert.value <- function(vec, newval, pos) {
+	if (pos == 1)
+		return(c(newval, vec))
+	lvec <- length(vec)
+	if (pos > lvec)
+		return(c(vec, newval))
+	return(c(vec[1:pos - 1], newval, vec[pos:lvec]))
+}
+parse.block.labels.for.2classes = function(y) {
+	#this only works for 2 class case- having form jBlockn,
+	#   where j=1 or 2
+	n = length(y)
+	y.act = rep(NA, n)
+	blocky = rep(NA, n)
+	for (i in 1:n) {
+		blocky[i] = as.numeric(substring(y[i], 7, nchar(y[i])))
+		y.act[i] = as.numeric(substring(y[i], 1, 1))
+	}
+	return(list(y.act = y.act, blocky = blocky))
+}
+parse.time.labels.and.summarize.data = function(x,
+	y, resp.type, time.summary.type) {
+	# parse time labels, and summarize time data for each
+	#   person, via a slope or area
+	# does some error checking too
+	n = length(y)
+	last5char = rep(NA, n)
+	last3char = rep(NA, n)
+	for (i in 1:n) {
+		last3char[i] = substring(y[i], nchar(y[i]) - 2, nchar(y[i]))
+		last5char[i] = substring(y[i], nchar(y[i]) - 4, nchar(y[i]))
+	}
+	if (sum(last3char == "End") != sum(last5char == "Start")) {
+		stop("Error in format of  time course data: a Start or End tag is missing")
+	}
+	y.act = rep(NA, n)
+	timey = rep(NA, n)
+	person.id = rep(NA, n)
+	k = 1
+	end.flag = FALSE
+	person.id[1] = 1
+	if (substring(y[1], nchar(y[1]) - 4, nchar(y[1])) != "Start") {
+		stop("Error in format of  time course data: first cell should have a Start tag")
+	}
+	for (i in 1:n) {
+		cat(i)
+		j = 1
+		while (substring(y[i], j, j) != "T") {
+			j = j + 1
+		}
+		end.of.y = j - 1
+		y.act[i] = as.numeric(substring(y[i], 1, end.of.y))
+		timey[i] = substring(y[i], end.of.y + 5, nchar(y[i]))
+		if (nchar(timey[i]) > 3 & substring(timey[i], nchar(timey[i]) -
+			2, nchar(timey[i])) == "End") {
+			end.flag = TRUE
+			timey[i] = substring(timey[i], 1, nchar(timey[i]) -
+				3)
+		}
+		if (nchar(timey[i]) > 3 & substring(timey[i], nchar(timey[i]) -
+			4, nchar(timey[i])) == "Start") {
+			timey[i] = substring(timey[i], 1, nchar(timey[i]) -
+				5)
+		}
+		if (i < n & !end.flag) {
+			person.id[i + 1] = k
+		}
+		if (i < n & end.flag) {
+			k = k + 1
+			person.id[i + 1] = k
+		}
+		end.flag = FALSE
+	}
+	timey = as.numeric(timey)
+	# do a check that the format was correct
+	tt = table(person.id, y.act)
+	junk = function(x) {
+		sum(x != 0)
+	}
+	if (sum(apply(tt, 1, junk) != 1) > 0) {
+		num = (1:nrow(tt))[apply(tt, 1, junk) > 1]
+		stop(paste("Error in format of  time course data, timecourse #",
+			as.character(num)))
+	}
+	npeople = length(unique(person.id))
+	newx = matrix(NA, nrow = nrow(x), ncol = npeople)
+	sd = matrix(NA, nrow = nrow(x), ncol = npeople)
+	for (j in 1:npeople) {
+		jj = person.id == j
+		tim = timey[jj]
+		xc = t(scale(t(x[, jj, drop = F]), center = TRUE, scale = FALSE))
+		if (time.summary.type == "slope") {
+			junk = quantitative.func(xc, tim - mean(tim))
+			newx[, j] = junk$numer
+			sd[, j] = junk$sd
+		}
+		if (time.summary.type == "signed.area") {
+			junk = timearea.func(x[, jj, drop = F], tim)
+			newx[, j] = junk$numer
+			sd[, j] = junk$sd
+		}
+	}
+	y.unique = y.act[!duplicated(person.id)]
+	return(list(y = y.unique, x = newx, sd = sd))
+}
+ttest.func <- function(x, y, s0 = 0, sd = NULL) {
+	n1 <- sum(y == 1)
+	n2 <- sum(y == 2)
+	p <- nrow(x)
+	m1 <- rowMeans(x[, y == 1, drop = F])
+	m2 <- rowMeans(x[, y == 2, drop = F])
+	if (is.null(sd)) {
+		sd <- sqrt(((n2 - 1) * varr(x[, y == 2], meanx = m2) +
+			(n1 - 1) * varr(x[, y == 1], meanx = m1)) * (1/n1 +
+			1/n2)/(n1 + n2 - 2))
+	}
+	numer <- m2 - m1
+	dif.obs <- (numer)/(sd + s0)
+	return(list(tt = dif.obs, numer = numer, sd = sd))
+}
+
+wilcoxon.func <- function(x, y, s0 = 0) {
+	n1 <- sum(y == 1)
+	n2 <- sum(y == 2)
+	p = nrow(x)
+	r2 = rowSums(t(apply(x, 1, rank))[, y == 2, drop = F])
+	numer = r2 - (n2/2) * (n2 + 1) - (n1 * n2)/2
+	sd = sqrt(n1 * n2 * (n1 + n2 + 1)/12)
+	tt = (numer)/(sd + s0)
+	return(list(tt = tt, numer = numer, sd = rep(sd, p)))
+}
+
+onesample.ttest.func <- function(x, y, s0 = 0, sd = NULL) {
+	n <- length(y)
+	x <- x * matrix(y, nrow = nrow(x), ncol = ncol(x), byrow = TRUE)
+	m <- rowMeans(x)
+	if (is.null(sd)) {
+		sd <- sqrt(varr(x, meanx = m)/n)
+	}
+	dif.obs <- m/(sd + s0)
+	return(list(tt = dif.obs, numer = m, sd = sd))
+}
+
+patterndiscovery.func = function(x, s0 = 0, eigengene.number = 1) {
+	a = mysvd(x, n.components = eigengene.number)
+	v = a$v[, eigengene.number]
+	# here we try to guess the most interpretable orientation
+	#   for the eigengene
+	om = abs(a$u[, eigengene.number]) > quantile(abs(a$u[, eigengene.number]),
+		0.95)
+	if (median(a$u[om, eigengene.number]) < 0) {
+		v = -1 * v
+	}
+	aa = quantitative.func(x, v, s0 = s0)
+	eigengene = cbind(1:nrow(a$v), v)
+	dimnames(eigengene) = list(NULL, c("sample number", "value"))
+	return(list(tt = aa$tt, numer = aa$numer, sd = aa$sd, eigengene = eigengene))
+}
+
+paired.ttest.func <- function(x, y, s0 = 0, sd = NULL) {
+	nc <- ncol(x)/2
+	o <- 1:nc
+	o1 <- rep(0, ncol(x)/2)
+	o2 <- o1
+	for (j in 1:nc) {
+		o1[j] <- (1:ncol(x))[y == -o[j]]
+	}
+	for (j in 1:nc) {
+		o2[j] <- (1:ncol(x))[y == o[j]]
+	}
+	d <- x[, o2, drop = F] - x[, o1, drop = F]
+	su <- x[, o2, drop = F] + x[, o1, drop = F]
+	if (is.matrix(d)) {
+		m <- rowMeans(d)
+	}
+	if (!is.matrix(d)) {
+		m <- mean(d)
+	}
+	if (is.null(sd)) {
+		if (is.matrix(d)) {
+			sd <- sqrt(varr(d, meanx = m)/nc)
+		}
+		if (!is.matrix(d)) {
+			sd <- sqrt(var(d)/nc)
+		}
+	}
+	dif.obs <- m/(sd + s0)
+	return(list(tt = dif.obs, numer = m, sd = sd))
+}
+
+cox.func <- function(x, y, censoring.status, s0 = 0) {
+	# find the index matrix
+	Dn <- sum(censoring.status == 1)
+	Dset <- c(1:ncol(x))[censoring.status == 1]  # the set of observed
+	ind <- matrix(0, ncol(x), Dn)
+	# get the matrix
+	for (i in 1:Dn) {
+		ind[y > y[Dset[i]] - 1e-08, i] <- 1/sum(y > y[Dset[i]] -
+			1e-08)
+	}
+	ind.sums <- rowSums(ind)
+	x.ind <- x %*% ind
+	# get the derivatives
+	numer <- x %*% (censoring.status - ind.sums)
+	sd <- sqrt((x * x) %*% ind.sums - rowSums(x.ind * x.ind))
+	tt <- numer/(sd + s0)
+	return(list(tt = tt, numer = numer, sd = sd))
+}
+
+multiclass.func <- function(x, y, s0 = 0) {
+	##assumes y is coded 1,2...
+	nn <- table(y)
+	m <- matrix(0, nrow = nrow(x), ncol = length(nn))
+	v <- m
+	for (j in 1:length(nn)) {
+		m[, j] <- rowMeans(x[, y == j])
+		v[, j] <- (nn[j] - 1) * varr(x[, y == j], meanx = m[,
+			j])
+	}
+	mbar <- rowMeans(x)
+	mm <- m - matrix(mbar, nrow = length(mbar), ncol = length(nn))
+	fac <- (sum(nn)/prod(nn))
+	scor <- sqrt(fac * (apply(matrix(nn, nrow = nrow(m), ncol = ncol(m),
+		byrow = TRUE) * mm * mm, 1, sum)))
+	sd <- sqrt(rowSums(v) * (1/sum(nn - 1)) * sum(1/nn))
+	tt <- scor/(sd + s0)
+	mm.stand = t(scale(t(mm), center = FALSE, scale = sd))
+	return(list(tt = tt, numer = scor, sd = sd, stand.contrasts = mm.stand))
+}
+
+est.s0 <- function(tt, sd, s0.perc = seq(0, 1, by = 0.05)) {
+	## estimate s0 (exchangeability) factor for denominator.
+	## returns the actual estimate s0 (not a percentile)
+	br = unique(quantile(sd, seq(0, 1, len = 101)))
+	nbr = length(br)
+	a <- cut(sd, br, labels = F)
+	a[is.na(a)] <- 1
+	cv.sd <- rep(0, length(s0.perc))
+	for (j in 1:length(s0.perc)) {
+		w <- quantile(sd, s0.perc[j])
+		w[j == 1] <- 0
+		tt2 <- tt * sd/(sd + w)
+		tt2[tt2 == Inf] = NA
+		sds <- rep(0, nbr - 1)
+		for (i in 1:(nbr - 1)) {
+			sds[i] <- stats::mad(tt2[a == i], na.rm = TRUE)
+		}
+		cv.sd[j] <- sqrt(var(sds))/mean(sds)
+	}
+	o = (1:length(s0.perc))[cv.sd == min(cv.sd)]
+	# we don;t allow taking s0.hat to be 0th percentile when
+	#   min sd is 0
+	s0.hat = quantile(sd[sd != 0], s0.perc[o])
+	return(list(s0.perc = s0.perc, cv.sd = cv.sd, s0.hat = s0.hat))
+}
+
+permute.rows <- function(x) {
+	dd <- dim(x)
+	n <- dd[1]
+	p <- dd[2]
+	mm <- runif(length(x)) + rep(seq(n) * 10, rep(p, n))
+	matrix(t(x)[order(mm)], n, p, byrow = TRUE)
+}
+
+foldchange.paired = function(x, y, logged2) {
+	#  if(logged2){x=2^x}
+	nc <- ncol(x)/2
+	o <- 1:nc
+	o1 <- rep(0, ncol(x)/2)
+	o2 <- o1
+	for (j in 1:nc) {
+		o1[j] <- (1:ncol(x))[y == -o[j]]
+	}
+	for (j in 1:nc) {
+		o2[j] <- (1:ncol(x))[y == o[j]]
+	}
+	if (!logged2) {
+		d <- x[, o2, drop = F]/x[, o1, drop = F]
+	}
+	if (logged2) {
+		d <- x[, o2, drop = F] - x[, o1, drop = F]
+	}
+	if (!logged2) {
+		fc <- rowMeans(d)
+	}
+	if (logged2) {
+		fc <- 2^rowMeans(d)
+	}
+	return(fc)
+}
+foldchange.seq.twoclass.unpaired <- function(x, y, depth)
+{
+	x.norm <- scale(x, center = F, scale = depth) + 1e-08
+	fc <- rowMedians(x.norm[, y == 2])/rowMedians(x.norm[, y ==
+		1])
+	return(fc)
+}
+integer.base.b <- function(x, b = 2) {
+	xi <- as.integer(x)
+	if (xi == 0) {
+		return(0)
+	}
+	if (any(is.na(xi) | ((x - xi) != 0)))
+		print(list(ERROR = "x not integer", x = x))
+	N <- length(x)
+	xMax <- max(x)
+	ndigits <- (floor(logb(xMax, base = 2)) + 1)
+	Base.b <- array(NA, dim = c(N, ndigits))
+	for (i in 1:ndigits) {
+		#i <- 1
+		Base.b[, ndigits - i + 1] <- (x%%b)
+		x <- (x%/%b)
+	}
+	if (N == 1)
+		Base.b[1, ]
+	else Base.b
+}
+varr <- function(x, meanx = NULL) {
+	n <- ncol(x)
+	p <- nrow(x)
+	Y <- matrix(1, nrow = n, ncol = 1)
+	if (is.null(meanx)) {
+		meanx <- rowMeans(x)
+	}
+	ans <- rep(1, p)
+	xdif <- x - meanx %*% t(Y)
+	ans <- (xdif^2) %*% rep(1/(n - 1), n)
+	ans <- drop(ans)
+	return(ans)
+}
+quantitative.func <- function(x, y, s0 = 0) {
+	# regression of x on y
+	my = mean(y)
+	yy <- y - my
+	temp <- x %*% yy
+	mx = rowMeans(x)
+	syy = sum(yy^2)
+	scor <- temp/syy
+	b0hat <- mx - scor * my
+	ym = matrix(y, nrow = nrow(x), ncol = ncol(x), byrow = T)
+	xhat <- matrix(b0hat, nrow = nrow(x), ncol = ncol(x)) + ym *
+		matrix(scor, nrow = nrow(x), ncol = ncol(x))
+	sigma <- sqrt(rowSums((x - xhat)^2)/(ncol(xhat) - 2))
+	sd <- sigma/sqrt(syy)
+	tt <- scor/(sd + s0)
+	return(list(tt = tt, numer = scor, sd = sd))
+}
+timearea.func <- function(x, y, s0 = 0) {
+	n <- ncol(x)
+	xx <- 0.5 * (x[, 2:n] + x[, 1:(n - 1)]) * matrix(diff(y),
+		nrow = nrow(x), ncol = n - 1, byrow = T)
+	numer <- rowMeans(xx)
+	sd <- sqrt(varr(xx, meanx = numer)/n)
+	tt <- numer/sqrt(sd + s0)
+	return(list(tt = tt, numer = numer, sd = sd))
+}
+cox.seq.func <- function(xresamp, y, censoring.status) {
+	# get the dimensions
+	ng <- dim(xresamp)[1]
+	ns <- dim(xresamp)[2]
+	# prepare for the calculation
+	# find the index matrix
+	Dn <- sum(censoring.status == 1)
+	Dset <- c(1:ns)[censoring.status == 1]  # the set of died
+	ind <- matrix(0, ns, Dn)
+	# get the matrix
+	for (i in 1:Dn) {
+		ind[y >= y[Dset[i]] - 1e-08, i] <- 1/sum(y >= y[Dset[i]] -
+			1e-08)
+	}
+	ind.sums <- rowSums(ind)
+	# calculate the score statistic
+	tt <- apply(xresamp, 3, function(x, cen.ind, ind.para, ind.sums.para) {
+		dev1 <- x %*% cen.ind
+		x.ind <- x %*% ind.para
+		dev2 <- (x * x) %*% ind.sums.para - rowSums(x.ind * x.ind)
+		dev1/(sqrt(dev2) + 1e-08)
+	}, (censoring.status - ind.sums), ind, ind.sums)
+	tt <- rowMeans(tt)
+	return(list(tt = tt, numer = tt, sd = rep(1, length(tt))))
+}
+compute.block.perms = function(y, blocky, nperms) {
+	# y are the data (eg class label 1 vs 2; or -1,1, -2,2 for
+	#   paired data)
+	# blocky are the block labels (abs(y) for paired daatr)
+	ny = length(y)
+	nblocks = length(unique(blocky))
+	tab = table(blocky)
+	total.nperms = prod(factorial(tab))
+	# block.perms is a list of all possible permutations
+	block.perms = vector("list", nblocks)
+	# first enumerate all perms, when possible
+	if (total.nperms <= nperms) {
+		all.perms.flag = 1
+		nperms.act = total.nperms
+		for (i in 1:nblocks) {
+			block.perms[[i]] = permute(y[blocky == i])
+		}
+		kk = 0:(factorial(max(tab))^nblocks - 1)
+		#the rows of the matrix outerm runs through the 'outer
+		#   product'
+		# first we assume that all blocks have max(tab) members;
+		#   then we remove rows of outerm that
+		#  are illegal (ie when a block has fewer members)
+		outerm = matrix(0, nrow = length(kk), ncol = nblocks)
+		for (i in 1:length(kk)) {
+			kkkk = integer.base.b(kk[i], b = factorial(max(tab)))
+			if (length(kkkk) > nblocks) {
+				kkkk = kkkk[(length(kkkk) - nblocks + 1):length(kkkk)]
+			}
+			outerm[i, (nblocks - length(kkkk) + 1):nblocks] = kkkk
+		}
+		outerm = outerm + 1
+		# now remove rows that are illegal perms
+		ind = rep(TRUE, nrow(outerm))
+		for (j in 1:ncol(outerm)) {
+			ind = ind & outerm[, j] <= factorial(tab[j])
+		}
+		outerm = outerm[ind, , drop = F]
+		# finally, construct permutation matrix from outer product
+		permsy = matrix(NA, nrow = total.nperms, ncol = ny)
+		for (i in 1:total.nperms) {
+			junk = NULL
+			for (j in 1:nblocks) {
+				junk = c(junk, block.perms[[j]][outerm[i, j],
+				  ])
+			}
+			permsy[i, ] = junk
+		}
+	}
+	# next handle case when there are too many perms to enumerate
+	if (total.nperms > nperms) {
+		all.perms.flag = 0
+		nperms.act = nperms
+		permsy = NULL
+		block.perms = vector("list", nblocks)
+		for (j in 1:nblocks) {
+			block.perms[[j]] = sample.perms(y[blocky == j], nperms = nperms)
+		}
+		for (j in 1:nblocks) {
+			permsy = cbind(permsy, block.perms[[j]])
+		}
+	}
+	return(list(permsy = permsy, all.perms.flag = all.perms.flag,
+		nperms.act = nperms.act))
+}
+sample.perms <- function(elem, nperms) {
+	# randomly generates  nperms of the vector elem
+	res = permute.rows(matrix(elem, nrow = nperms, ncol = length(elem),
+		byrow = T))
+	return(res)
+}
+mysvd <- function(x, n.components = NULL) {
+	# finds PCs of matrix x
+	p <- nrow(x)
+	n <- ncol(x)
+	# center the observations (rows)
+	feature.means <- rowMeans(x)
+	x <- t(scale(t(x), center = feature.means, scale = F))
+	if (is.null(n.components)) {
+		n.components = min(n, p)
+	}
+	if (p > n) {
+		a <- eigen(t(x) %*% x)
+		v <- a$vec[, 1:n.components, drop = FALSE]
+		d <- sqrt(a$val[1:n.components, drop = FALSE])
+		u <- scale(x %*% v, center = FALSE, scale = d)
+		return(list(u = u, d = d, v = v))
+	}
+	else {
+		junk <- svd(x, LINPACK = TRUE)
+		nc = min(ncol(junk$u), n.components)
+		return(list(u = junk$u[, 1:nc], d = junk$d[1:nc], v = junk$v[,
+			1:nc]))
+	}
+}
+quantitative.seq.func <- function(xresamp, y) {
+	tt <- rep(0, dim(xresamp)[1])
+	for (i in 1:dim(xresamp)[3]) {
+		y.ranked <- rank(y, ties.method = "random") - (dim(xresamp)[2] +
+			1)/2
+		tt <- tt + (xresamp[, , i] - (dim(xresamp)[2] + 1)/2) %*%
+			y.ranked
+	}
+	ns <- dim(xresamp)[2]
+	tt <- tt/(dim(xresamp)[3] * (ns^3 - ns)/12)
+	return(list(tt = as.vector(tt), numer = as.vector(tt), sd = rep(1,
+		length(tt))))
+}
+multiclass.seq.func <- function(xresamp, y)
+{
+	# number of classes and number of samples in each class
+	K <- max(y)
+	n.each <- rep(0, K)
+	for (k in 1 : K)
+	{
+		n.each[k] <- sum(y == k)
+	}
+	# the statistic
+	tt <- temp <- rep(0, dim(xresamp)[1])
+	stand.contrasts <- matrix(0, dim(xresamp)[1], K)
+
+	for (i in 1 : dim(xresamp)[3])
+	{
+		for (k in 1 : K)
+		{
+			temp <- rowSums(xresamp[, y == k, i])
+			tt <- tt + temp ^2 / n.each[k]
+			stand.contrasts[, k] <- stand.contrasts[, k] + temp
+		}
+	}
+	# finalize
+	nresamp <- dim(xresamp)[3]
+	ns <- dim(xresamp)[2]
+	tt <- tt / nresamp * 12 / ns / (ns + 1) - 3 * (ns + 1)
+	stand.contrasts <- stand.contrasts / nresamp
+	stand.contrasts <- scale(stand.contrasts, center=n.each * (ns + 1) / 2,
+		scale=sqrt(n.each * (ns - n.each) * (ns + 1) / 12))
+	return(list(tt = tt, numer = tt, sd = rep(1, length(tt)),
+		stand.contrasts = stand.contrasts))
 }
