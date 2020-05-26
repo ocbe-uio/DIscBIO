@@ -94,3 +94,4 @@ Collate:
     'customConverters.R'
     'datasets.R'
     'retrieveBiomart.R'
+    'samr.R'
