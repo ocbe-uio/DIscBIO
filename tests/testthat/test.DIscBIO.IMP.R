@@ -71,14 +71,14 @@ test_that("Cluster plots output is as expexted", {
 context("Outliers")
 
 Outliers <- FindOutliersKM(
-    sc, K=2, outminc=5, outlg=2, probthr=.5*1e-3, thr=2**-(1:40),
+    sc, K=2, outminc=5, outlg=2, probthr=.5*1e-3, thr=2 ^ (-1:-40),
     outdistquant=.75, plot = FALSE, quiet = TRUE
 )
 
 # Adjusting outliers
 outlg <- round(length(sc@fdata[, 1]) / 200) # The cell will be considered as an outlier if it has a minimum of 0.5% of the number of filtered genes as outlier genes.
 Outliers2 <- FindOutliersKM(
-    sc, K=2, outminc=5, outlg=outlg, probthr=.5*1e-3, thr=2**-(1:40),
+    sc, K=2, outminc=5, outlg=outlg, probthr=.5*1e-3, thr=2 ^ (-1:-40),
     outdistquant=.75, plot = FALSE, quiet = TRUE
 )
 Order <- KmeanOrder(sc, quiet = TRUE, export = FALSE)
@@ -185,12 +185,12 @@ context("MB outliers")
 sc <- Clustexp(sc, cln=2, quiet=TRUE)
 
 Outliers <- FindOutliersMB(
-    sc, K=2, outminc=5, outlg=2, probthr=.5*1e-3, thr=2**-(1:40),
+    sc, K=2, outminc=5, outlg=2, probthr=.5*1e-3, thr=2 ^ (-1:-40),
     outdistquant=.75, plot = FALSE, quiet = TRUE
 )
 outlg <- round(length(sc@fdata[, 1]) / 200) # The cell will be considered as an outlier if it has a minimum of 0.5% of the number of filtered genes as outlier genes.
 Outliers2 <- FindOutliersMB(
-    sc, K=2, outminc=5, outlg=outlg, probthr=.5*1e-3, thr=2**-(1:40),
+    sc, K=2, outminc=5, outlg=outlg, probthr=.5*1e-3, thr=2 ^ (-1:-40),
     outdistquant=.75, plot = FALSE, quiet = TRUE
 )
 
