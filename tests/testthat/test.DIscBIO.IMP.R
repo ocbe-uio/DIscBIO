@@ -149,7 +149,9 @@ rpartEVAL <- RpartEVAL(
 test_that("Decision tree elements are defined", {
     expect_output(str(DATAforDT), "3 obs. of  30 variables")
     expect_s3_class(j48dt, "J48")
-    expect_s3_class(summary(j48dt), "Weka_classifier_evaluation")
+    expect_identical(
+        attributes(j48dt)$class, c("J48", "Weka_tree", "Weka_classifier")
+    )
     expect_identical(j48dt_eval, c(TP = 14, FN = 4, FP = 3, TN = 9))
     expect_s3_class(rpartDT, "rpart")
     expect_identical(rpartEVAL, c(TP = 16, FN = 2, FP = 4, TN = 8))
@@ -270,7 +272,9 @@ rpartEVAL <- RpartEVAL(
 test_that("Decision tree elements are defined", {
     expect_output(str(DATAforDT), "29 obs. of  30 variables") # used to be 31
     expect_s3_class(j48dt, "J48")
-    expect_s3_class(summary(j48dt), "Weka_classifier_evaluation")
+    expect_identical(
+        attributes(j48dt)$class, c("J48", "Weka_tree", "Weka_classifier")
+    )
     expect_identical(j48dt_eval, c(TP = 21, FN = 2, FP = 4, TN = 3))
     expect_s3_class(rpartDT, "rpart")
     expect_identical(rpartEVAL, c(TP = 20, FN = 3, FP = 4, TN = 3))
