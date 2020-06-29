@@ -171,6 +171,7 @@ setMethod(
                 "Up-regulated-", name, First, "in", First, "VS", Second,
                 ".csv"
             )
+            FinalDEGsL <- NULL
             if (length(FDRl) > 0) {
                 genes <- siggenes.table$genes.lo[, 3]
                 if (quiet) {
@@ -239,7 +240,7 @@ setMethod(
                 DEGsS <- c(DEGsS, FinalDEGsL[, 2])
                 DEGsE <- c(DEGsE, as.character(FinalDEGsL[, 3]))
             }
-
+            FinalDEGsU <- NULL
             if (length(FDRu) > 0) {
                 genes <- siggenes.table$genes.up[, 3]
                 if (quiet) {
@@ -335,6 +336,14 @@ setMethod(
             write.csv(DEGsTable, file = "DEGsTable.csv")
             write.csv(sigDEG, file = "sigDEG.csv")
         }
-        return(list(sigDEG, DEGsTable))
+        return(
+            list(
+                sigDEG = sigDEG,
+                DEGsTable = DEGsTable,
+                FinalDEGsL = FinalDEGsL,
+                FinalDEGsU = FinalDEGsU
+
+            )
+        )
     }
 )
