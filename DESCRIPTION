@@ -33,7 +33,7 @@ Description: An open, multi-algorithmic pipeline for easy, fast and efficient
 	characterize them. The pipeline consists of four successive steps: data
 	pre-processing, cellular clustering with pseudo-temporal ordering, defining
 	differential expressed genes and biomarker identification. This package
-	implements extensions of the work published by Ghannoum et. al.
+	implements extensions of the work published by Ghannoum et. al. (2019)
 	<doi:10.1101/700989>.
 License: MIT + file LICENSE
 Encoding: UTF-8
