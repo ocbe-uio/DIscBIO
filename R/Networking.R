@@ -13,7 +13,7 @@
 #' @importFrom graphics plot rasterImage
 #' @return A plot of the network
 #' @examples
-#' \dontrun{
+#' \donttest{
 #' sc <- DISCBIO(valuesG1msReduced)
 #' sc <- NoiseFiltering(sc, export=FALSE)
 #' sc <- Normalizedata(

@@ -70,6 +70,7 @@ sc <- Clustexp(sc, cln=3) # K-means clustering
 sc <- FinalPreprocessing(sc, GeneFlitering="NoiseF", export=FALSE)
 sc <- comptSNE(sc, max_iter=100)
 DEGanalysis(
-    sc, Clustering="K-means", K=3, fdr=0.1, name="Name", export = FALSE
+    sc, Clustering="K-means", K=3, fdr=0.1, name="Name", export = FALSE,
+    nresamp=5, nperms=20
 )
 }

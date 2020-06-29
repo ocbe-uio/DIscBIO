@@ -11,7 +11,7 @@
 #' @return A TSV file stored in the user's file system and its corresponding
 #'   `data.frame` object in R.
 #' @examples
-#' \dontrun{
+#' \donttest{
 #' sc <- DISCBIO(valuesG1msReduced)
 #' sc <- NoiseFiltering(sc, percentile=0.9, CV=0.2, export=FALSE)
 #' sc <- Normalizedata(

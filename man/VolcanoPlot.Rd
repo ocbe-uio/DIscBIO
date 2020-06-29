@@ -29,7 +29,7 @@ Plotting differentially expressed genes (DEGs) in a particular
   significance versus fold-change on the y and x axes, respectively.
 }
 \examples{
-\dontrun{
+\donttest{
 sc <- DISCBIO(valuesG1msReduced)
 sc <- NoiseFiltering(sc, percentile=0.9, CV=0.2, export=FALSE)
 sc <- Normalizedata(

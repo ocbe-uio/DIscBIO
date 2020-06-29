@@ -31,7 +31,7 @@ This functions plots a heatmap of the distance matrix grouped
   the x and y-axes.
 }
 \examples{
-\dontrun{
+\donttest{
 sc <- DISCBIO(valuesG1msReduced)
 sc <- NoiseFiltering(sc, export=FALSE)
 sc <- Normalizedata(

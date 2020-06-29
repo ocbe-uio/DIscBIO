@@ -29,7 +29,7 @@ The t-SNE map representation can also be used to analyze
   gene expression patterns
 }
 \examples{
-\dontrun{
+\donttest{
 sc <- DISCBIO(valuesG1msReduced)
 sc <- NoiseFiltering(sc, percentile=0.9, CV=0.2, export=FALSE)
 sc <- Normalizedata(

@@ -25,7 +25,7 @@ A plot of the network
 This function uses STRING-api to plot the network.
 }
 \examples{
-\dontrun{
+\donttest{
 sc <- DISCBIO(valuesG1msReduced)
 sc <- NoiseFiltering(sc, export=FALSE)
 sc <- Normalizedata(

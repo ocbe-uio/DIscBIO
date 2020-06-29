@@ -34,7 +34,8 @@ sc <- Clustexp(sc, cln=3) # K-means clustering
 sc <- comptSNE(sc, max_iter=100)
 cdiff <- DEGanalysis2clust(
     sc, Clustering="K-means", K=3, fdr=.2, name="Name", First="CL1",
-    Second="CL2", export=FALSE
+    Second="CL2", export=FALSE,
+    nresamp=5, nperms=20
 )
 sigDEG <- cdiff[[1]]
 DATAforDT <- ClassVectoringDT(
