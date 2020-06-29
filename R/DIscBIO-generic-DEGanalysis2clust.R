@@ -140,6 +140,11 @@ setMethod(
             siggenes.table <- samr.compute.siggenes.table(
                 samr.obj, delta, data, delta.table
             )
+            # ------------------------------------------------------------------
+            # Reformat siggenes.table as data.frame
+            # ------------------------------------------------------------------
+            siggenes.table$genes.lo <- reformatSiggenes(siggenes.table$genes.lo)
+            siggenes.table$genes.up <- reformatSiggenes(siggenes.table$genes.up)
 
             FDRl <- as.numeric(siggenes.table$genes.lo[, 8]) / 100
             FDRu <- as.numeric(siggenes.table$genes.up[, 8]) / 100
@@ -171,7 +176,7 @@ setMethod(
                 "Up-regulated-", name, First, "in", First, "VS", Second,
                 ".csv"
             )
-            FinalDEGsL <- NULL
+            FinalDEGsL <- data.frame()
             if (length(FDRl) > 0) {
                 genes <- siggenes.table$genes.lo[, 3]
                 if (quiet) {
@@ -240,7 +245,7 @@ setMethod(
                 DEGsS <- c(DEGsS, FinalDEGsL[, 2])
                 DEGsE <- c(DEGsE, as.character(FinalDEGsL[, 3]))
             }
-            FinalDEGsU <- NULL
+            FinalDEGsU <- data.frame()
             if (length(FDRu) > 0) {
                 genes <- siggenes.table$genes.up[, 3]
                 if (quiet) {
