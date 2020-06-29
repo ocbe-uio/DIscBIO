@@ -13,8 +13,7 @@ in a particular cluster}
 \item{value}{A numeric value of the false discovery rate. Default is 0.05..
 Default is 0.05}
 
-\item{name}{A string vector showing the name to be used to save the resulted
-tables.}
+\item{name}{A string vector showing the name to be used on the plot title}
 
 \item{fc}{A numeric value of the fold change. Default is 0.5.}
 
@@ -31,17 +30,15 @@ Plotting differentially expressed genes (DEGs) in a particular
 \examples{
 \donttest{
 sc <- DISCBIO(valuesG1msReduced)
-sc <- NoiseFiltering(sc, percentile=0.9, CV=0.2, export=FALSE)
+sc <- NoiseFiltering(sc, percentile=0.9, CV=0.2, export=FALSE, plot=FALSE)
 sc <- Normalizedata(
     sc, mintotal=1000, minexpr=0, minnumber=0, maxexpr=Inf, downsample=FALSE,
     dsn=1, rseed=17000
 )
-sc <- FinalPreprocessing(sc, GeneFlitering="NoiseF")
-sc <- Clustexp(sc, cln=3) # K-means clustering
-sc <- comptSNE(sc, max_iter=100)
-dff <- DEGanalysis2clust(sc, Clustering="K-means", K=3, fdr=0.1, name="Name")
-name <- dff[[2]][1, 6]
-U <- read.csv(file = paste0(name), head=TRUE, sep=",")
-VolcanoPlot(U, value=0.05, name=name, adj=FALSE, FS=.4)
+sc <- FinalPreprocessing(sc, export=FALSE, quiet=TRUE)
+sc <- Clustexp(sc, cln=3, quiet=TRUE) # K-means clustering
+sc <- comptSNE(sc, max_iter=100, quiet=TRUE)
+dff <- DEGanalysis2clust(sc, K=3, export=FALSE, quiet=TRUE, plot=FALSE)
+VolcanoPlot(dff$FinalDEGsU, value=0.05, FS=.4)
 }
 }
