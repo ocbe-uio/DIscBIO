@@ -52,7 +52,7 @@ Suggests:
 	BiocManager
 VignetteBuilder: knitr
 LazyData: true
-RoxygenNote: 7.1.0
+RoxygenNote: 7.1.1
 BugReports: https://github.com/ocbe-uio/DIscBIO/issues
 Collate:
 	'DIscBIO-classes.R'
