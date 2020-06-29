@@ -6,8 +6,16 @@
 \usage{
 replaceDecimals(x, from = ",", to = ".")
 }
+\arguments{
+\item{x}{vector of characters}
+
+\item{from}{decimal separator on input file}
+
+\item{to}{decimal separator for output file}
+}
 \description{
-Replaces decimals separators between comma and periods
+Replaces decimals separators between comma and periods on a
+character vector
 }
 \note{
 This function was especially designed to be used with retormatSiggenes

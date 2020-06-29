@@ -6,6 +6,9 @@
 \usage{
 reformatSiggenes(table)
 }
+\arguments{
+\item{table}{output from `samr::samr.compute.siggenes.table`}
+}
 \description{
 Reformats the Siggenes table output from the SAMR package
 }

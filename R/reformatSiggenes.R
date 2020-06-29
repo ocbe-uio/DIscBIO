@@ -1,5 +1,6 @@
 #' @title Reformat Siggenes Table
 #' @description Reformats the Siggenes table output from the SAMR package
+#' @param table output from `samr::samr.compute.siggenes.table`
 #' @seealso replaceDecimals
 reformatSiggenes <- function(table) {
     if (is.null(table)) return(table)

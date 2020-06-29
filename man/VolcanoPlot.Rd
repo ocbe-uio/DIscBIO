@@ -4,7 +4,7 @@
 \alias{VolcanoPlot}
 \title{Volcano Plot}
 \usage{
-VolcanoPlot(object, value = 0.05, name, fc = 0.5, FS = 0.4)
+VolcanoPlot(object, value = 0.05, name = NULL, fc = 0.5, FS = 0.4)
 }
 \arguments{
 \item{object}{A data frame showing the differentially expressed genes (DEGs)
