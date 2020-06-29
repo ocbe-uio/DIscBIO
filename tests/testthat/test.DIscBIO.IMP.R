@@ -123,9 +123,9 @@ test_that("DEGs are calculated", {
         object = sapply(cdiff2, function(x) class(x)[1]),
         expected = c("matrix", "data.frame")
     )
-    expect_identical(
+    expect_equivalent(
         object = sapply(cdiff3, function(x) class(x)[1]),
-        expected = c("matrix", "data.frame")
+        expected = c("matrix", "data.frame", "data.frame", "data.frame")
     )
 })
 
@@ -249,9 +249,9 @@ test_that("DEGs are calculated", {
         object = sapply(cdiff2, function(x) class(x)[1]),
         expected = c("matrix", "data.frame")
     )
-    expect_identical(
+    expect_equivalent(
         object = sapply(cdiff3, function(x) class(x)[1]),
-        expected = c("matrix", "data.frame")
+        expected = c("matrix", "data.frame", "data.frame", "data.frame")
     )
 })
 
