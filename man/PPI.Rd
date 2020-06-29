@@ -4,13 +4,13 @@
 \alias{PPI}
 \title{Defining protein-protein interactions (PPI) over a list of genes,}
 \usage{
-PPI(data, FileName, species = "9606")
+PPI(data, FileName = NULL, species = "9606")
 }
 \arguments{
 \item{data}{A gene list.}
 
 \item{FileName}{A string vector showing the name to be used to save the
-resulted table.}
+resulted table. If null, no file will be exported}
 
 \item{species}{The taxonomy name/id. Default is "9606" for Homo sapiens.}
 }

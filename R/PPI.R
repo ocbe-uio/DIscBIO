@@ -4,7 +4,7 @@
 #' @export
 #' @param data A gene list.
 #' @param FileName A string vector showing the name to be used to save the
-#'   resulted table.
+#'   resulted table. If null, no file will be exported
 #' @param species The taxonomy name/id. Default is "9606" for Homo sapiens.
 #' @importFrom httr content
 #' @importFrom readr read_tsv
@@ -28,7 +28,7 @@
 #' FileName <- paste0(DEGs)
 #' PPI(data, FileName)
 #' }
-PPI <- function(data, FileName, species = "9606") {
+PPI <- function(data, FileName = NULL, species = "9606") {
     # Save base enpoint as variable
     string_api_url <- "https://string-db.org/api/"
     output_format <- "tsv" #"json", "tsv-no-header", "tsv", "xml"
@@ -60,6 +60,8 @@ PPI <- function(data, FileName, species = "9606") {
     # Process API request content
     repo_content <- content(repos)
     results  <- read_tsv(repo_content)
-    write.csv(results, file = paste0("PPI-", FileName, ".csv"))
+    if (!is.null(FileName)) {
+        write.csv(results, file = paste0("PPI-", FileName, ".csv"))
+    }
     return(results)
 }
