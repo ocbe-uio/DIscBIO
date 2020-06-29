@@ -8,8 +8,9 @@
 #' @param species The taxonomy name/id. Default is "9606" for Homo sapiens.
 #' @importFrom httr content
 #' @importFrom readr read_tsv
-#' @return A TSV file stored in the user's file system and its corresponding
-#'   `data.frame` object in R.
+#' @return Either a TSV file stored in the user's file system and its
+#' corresponding `data.frame` object in R or and R object containing that
+#' information.
 #' @examples
 #' \donttest{
 #' sc <- DISCBIO(valuesG1msReduced)
@@ -18,15 +19,11 @@
 #'     sc, mintotal=1000, minexpr=0, minnumber=0, maxexpr=Inf, downsample=FALSE,
 #'     dsn=1, rseed=17000
 #' )
-#' sc <- FinalPreprocessing(sc, GeneFlitering="NoiseF")
-#' sc <- Clustexp(sc, cln=3) # K-means clustering
-#' sc <- comptSNE(sc, max_iter=100)
-#' dff <- DEGanalysis2clust(sc, Clustering="K-means", K=3, fdr=0.1, name="Name")
-#' DEGs <- dff[[2]][1, 6]
-#' data <- read.csv(file=paste0(DEGs),head=TRUE,sep=",")
-#' data <- data[,3]
-#' FileName <- paste0(DEGs)
-#' PPI(data, FileName)
+#' sc <- FinalPreprocessing(sc, export=FALSE, quiet=TRUE)
+#' sc <- Clustexp(sc, cln=3, quiet=TRUE) # K-means clustering
+#' sc <- comptSNE(sc, max_iter=100, quiet=TRUE)
+#' dff <- DEGanalysis2clust(sc, K=3, export=FALSE, quiet=TRUE, plot=FALSE)
+#' PPI(dff$FinalDEGsU[, "Gene Name"])
 #' }
 PPI <- function(data, FileName = NULL, species = "9606") {
     # Save base enpoint as variable
@@ -54,7 +51,7 @@ PPI <- function(data, FileName = NULL, species = "9606") {
         "Examine response components =",
         status_code(repos),
         "\t",
-        "200 means successful",
+        "(200 means successful)",
         "\n"
     )
     # Process API request content
