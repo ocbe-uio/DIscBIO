@@ -4,13 +4,20 @@
 \alias{Networking}
 \title{Plotting the network.}
 \usage{
-Networking(data, FileName, species = "9606", plot_width = 25, plot_height = 15)
+Networking(
+  data,
+  FileName = NULL,
+  species = "9606",
+  plot_width = 25,
+  plot_height = 15
+)
 }
 \arguments{
 \item{data}{A gene list.}
 
 \item{FileName}{A string vector showing the name to be used to save the
-resulted network.}
+resulted network. If `NULL`, the network will be saved to a temporary
+directory}
 
 \item{species}{The taxonomy name/id. Default is "9606" for Homo sapiens.}
 
@@ -27,22 +34,15 @@ This function uses STRING-api to plot the network.
 \examples{
 \donttest{
 sc <- DISCBIO(valuesG1msReduced)
-sc <- NoiseFiltering(sc, export=FALSE)
+sc <- NoiseFiltering(sc, percentile=0.9, CV=0.2, export=FALSE, plot=FALSE)
 sc <- Normalizedata(
     sc, mintotal=1000, minexpr=0, minnumber=0, maxexpr=Inf, downsample=FALSE,
     dsn=1, rseed=17000
 )
-sc <- FinalPreprocessing(sc, GeneFlitering="NoiseF")
-sc <- Clustexp(sc, cln=3) # K-means clustering
-sc <- comptSNE(sc, max_iter=100)
-dff <- DEGanalysis2clust(sc, Clustering="K-means", K=3, fdr=0.1, name="Name")
-DEGs <- dff[[2]][1, 6]
-data <- read.csv(file=paste0(DEGs),head=TRUE,sep=",")
-data <- data[,3]
-FileName <- paste0(DEGs)
-ppi <- PPI(data, FileName)
-networking <- NetAnalysis(ppi)
-FileName <- "Up.DownDEG"
-Networking(data, FileName)
+sc <- FinalPreprocessing(sc, export=FALSE, quiet=TRUE)
+sc <- Clustexp(sc, cln=3, quiet=TRUE) #' K-means clustering
+sc <- comptSNE(sc, max_iter=100, quiet=TRUE)
+dff <- DEGanalysis2clust(sc, K=3, export=FALSE, quiet=TRUE, plot=FALSE)
+Networking(dff$FinalDEGsU[, "Gene Name"])
 }
 }
