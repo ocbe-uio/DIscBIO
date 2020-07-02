@@ -164,7 +164,7 @@ PSCAN enables the robustness assessment of the detected clusters in terms of sta
 
 ```{r}
 # Silhouette of k-means clusters
-par(mar=c(6,2,4,2))
+# you might have to run "par(mar=c(6,2,4,2))" first so plot looks better
 plotSilhouette(sc,K=2)       # K is the number of clusters
 ```
 
@@ -453,7 +453,7 @@ plotMBLabelstSNE(sc)
 
 ```{r, eval=FALSE}
 # Silhouette of Model-based clusters
-par(mar=c(6,2,4,2))
+# you might have to run "par(mar=c(6,2,4,2))" first so plot looks better
 plotsilhouetteMB(sc,K=3)
 ```
 

@@ -42,7 +42,8 @@ setMethod(
             widths = c(5, 1, 5, 1),
             heights = c(5, 1, 1, 1)
         )
-        par(mar = c(3, 5, 2.5, 2))
+        opar <- par(mar = c(3, 5, 2.5, 2))
+        on.exit(par(opar))
         plot(
             object@tsne,
             xlab = "Dim 1",
@@ -62,7 +63,8 @@ setMethod(
                 cex = 1.5
             )
         }
-        par(mar = c(3, 2.5, 2.5, 2))
+        opar <- par(mar = c(3, 2.5, 2.5, 2))
+        on.exit(par(opar))
         image(
             1,
             ColorLevels,

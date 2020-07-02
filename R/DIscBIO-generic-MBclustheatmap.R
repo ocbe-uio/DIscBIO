@@ -191,7 +191,8 @@ setMethod(
         if (mi == ma) {
         ColorLevels <- seq(0.99 * mi, 1.01 * ma, length = length(ColorRamp))
         }
-        par(mar = c(3, 5, 2.5, 2))
+        opar <- par(mar = c(3, 5, 2.5, 2))
+        on.exit(par(opar))
         image(as.matrix(di[ptn, ptn]), col = ColorRamp, axes = FALSE)
         abline(0, 1)
         box()
@@ -218,7 +219,8 @@ setMethod(
         }
         axis(1, at = tmp, labels = cclmo)
         axis(2, at = tmp, labels = cclmo)
-        par(mar = c(3, 2.5, 2.5, 2))
+        opar <- par(mar = c(3, 2.5, 2.5, 2))
+        on.exit(par(opar))
         image(
         1,
         ColorLevels,

@@ -205,7 +205,8 @@ setMethod(
                                     kmopt <-
                                         NULL
                                     for (i in 1:runs) {
-                                        options(show.error.messages = FALSE)
+                                        opar <- options(show.error.messages = FALSE)
+                                        on.exit(par(opar))
                                         repeat {
                                             kmm <- try(Kmeans(
                                                 data,
@@ -218,7 +219,8 @@ setMethod(
                                                     "try-error"))
                                                 break
                                         }
-                                        options(show.error.messages = TRUE)
+                                        opar <- options(show.error.messages = TRUE)
+                                        on.exit(par(opar))
                                         swss <-
                                             sum(kmm$withinss)
                                         if (swss < minSS) {
@@ -227,7 +229,8 @@ setMethod(
                                                 swss
                                         }
                                         if (plot) {
-                                            par(ask = TRUE)
+                                            opar <- par(ask = TRUE)
+                                            on.exit(par(opar))
                                             pairs(data,
                                                 col = kmm$cluster,
                                                 main = swss)
