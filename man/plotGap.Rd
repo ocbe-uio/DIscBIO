@@ -21,7 +21,7 @@ A plot of the gap statistics
 Plotting Gap Statistics
 }
 \examples{
-sc <- DISCBIO(valuesG1msReduced) # changes signature of data
-sc <- Clustexp(sc, cln=3) # data must be clustered before plotting
+data(valuesG1msReduced_treated_K)  # DIscBIO:::prepExampleDataset for details
+sc <- valuesG1msReduced_treated_K
 plotGap(sc)
 }

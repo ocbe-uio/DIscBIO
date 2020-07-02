@@ -16,8 +16,8 @@
 #' @importFrom graphics barplot box
 #' @return A plot of the mean Jaccard similarity coefficient per cluster.
 #' @examples
-#' sc <- DISCBIO(valuesG1msReduced)
-#' sc <- Clustexp(sc, cln=3, quiet=TRUE) # K-means clustering
+#' data(valuesG1msReduced_treated_K)  # details: DIscBIO:::prepExampleDataset
+#' sc <- valuesG1msReduced_treated_K
 #' Jaccard(sc, Clustering="K-means", K=3)
 Jaccard <- function(
     object,

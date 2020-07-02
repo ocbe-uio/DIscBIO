@@ -30,7 +30,7 @@ Robustness of the clusters can be assessed by Jaccard’s
   clusters divided by the union.
 }
 \examples{
-sc <- DISCBIO(valuesG1msReduced)
-sc <- Clustexp(sc, cln=3, quiet=TRUE) # K-means clustering
+data(valuesG1msReduced_treated_K)  # details: DIscBIO:::prepExampleDataset
+sc <- valuesG1msReduced_treated_K
 Jaccard(sc, Clustering="K-means", K=3)
 }

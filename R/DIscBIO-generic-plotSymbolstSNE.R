@@ -7,9 +7,8 @@
 #'   "left", "topleft", "top", "topright", "right" and "center". Default is
 #'   "bottomright"
 #' @examples
-#' sc <- DISCBIO(valuesG1msReduced) # changes signature of data
-#' sc <- Clustexp(sc, cln=3) # data must be clustered before plottin
-#' sc <- comptSNE(sc, max_iter=100, quiet=TRUE)
+#' data(valuesG1msReduced_treated_K)  # details: DIscBIO:::prepExampleDataset
+#' sc <- valuesG1msReduced_treated_K
 #' plotSymbolstSNE(sc,types=sub("(\\_\\d+)$","", names(sc@ndata)))
 setGeneric(
     "plotSymbolstSNE",

@@ -12,9 +12,8 @@
 #'   cluster order.
 #' @importFrom stats hclust as.dist cor
 #' @examples
-#' sc <- DISCBIO(valuesG1msReduced)
-#' sc <- Clustexp(sc, cln=3, quiet=TRUE) # K-means clustering
-#' sc <- comptSNE(sc, max_iter=100, quiet=TRUE)
+#' data(valuesG1msReduced_treated_K)  # DIscBIO:::prepExampleDataset for details
+#' sc <- valuesG1msReduced_treated_K
 #' KMclustheatmap(sc, hmethod="single")
 setGeneric(
     "KMclustheatmap",

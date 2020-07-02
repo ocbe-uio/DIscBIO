@@ -5,9 +5,8 @@
 #' @importFrom graphics text
 #' @return Plot containing the ID of the cells in each cluster
 #' @examples
-#' sc <- DISCBIO(valuesG1msReduced) # changes signature of data
-#' sc <- Clustexp(sc, cln=3) # data must be clustered before plottin
-#' sc <- comptSNE(sc, max_iter=100)
+#' data(valuesG1msReduced_treated_K)  # DIscBIO:::prepExampleDataset for details
+#' sc <- valuesG1msReduced_treated_K
 #' plotKmeansLabelstSNE(sc) # Plots the ID of the cells in each cluster
 setGeneric("plotKmeansLabelstSNE", function(object)
     standardGeneric("plotKmeansLabelstSNE"))

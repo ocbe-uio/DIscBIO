@@ -5,8 +5,8 @@
 #' @param y_limits 2-length numeric vector with the limits for the gap plot
 #' @return A plot of the gap statistics
 #' @examples
-#' sc <- DISCBIO(valuesG1msReduced) # changes signature of data
-#' sc <- Clustexp(sc, cln=3) # data must be clustered before plotting
+#' data(valuesG1msReduced_treated_K)  # DIscBIO:::prepExampleDataset for details
+#' sc <- valuesG1msReduced_treated_K
 #' plotGap(sc)
 setGeneric(
     "plotGap", function(object, y_limits = NULL) standardGeneric("plotGap")

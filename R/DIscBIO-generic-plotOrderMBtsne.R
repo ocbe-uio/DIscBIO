@@ -5,12 +5,8 @@
 #' @param object \code{DISCBIO} class object.
 #' @return A plot of the pseudo-time ordering.
 #' @examples
-#' sc<- DISCBIO(valuesG1msReduced)
-#' sc<-NoiseFiltering(sc,percentile=0.9, CV=0.2, export=FALSE)
-#' sc<-Normalizedata(sc)
-#' sc<-FinalPreprocessing(sc,GeneFlitering="NoiseF", export=FALSE)
-#' sc <- Exprmclust(sc, K=2, reduce=TRUE, quiet=TRUE)
-#' sc<- comptsneMB(sc, rseed=15555, quiet=TRUE, max_iter=100)
+#' data(valuesG1msReduced_treated_MB)  # details: DIscBIO:::prepExampleDataset
+#' sc <- valuesG1msReduced_treated_MB
 #' plotOrderMBtsne(sc)
 setGeneric("plotOrderMBtsne", function(object)
     standardGeneric("plotOrderMBtsne"))

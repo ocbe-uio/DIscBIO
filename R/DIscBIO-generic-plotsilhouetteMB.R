@@ -12,14 +12,8 @@
 #' @importFrom cluster silhouette
 #' @return A silhouette plot
 #' @examples
-#' sc <- DISCBIO(valuesG1msReduced)
-#' sc <- NoiseFiltering(sc, percentile=0.9, CV=0.2, export=FALSE)
-#' sc <- Normalizedata(
-#'   sc, mintotal=1000, minexpr=0, minnumber=0, maxexpr=Inf,
-#'   downsample=FALSE, dsn=1, rseed=17000
-#' )
-#' sc <- FinalPreprocessing(sc, GeneFlitering="NoiseF", export=FALSE)
-#' sc <- Exprmclust(sc, K=2, reduce=TRUE, quiet=TRUE)
+#' data(valuesG1msReduced_treated_MB)  # details: DIscBIO:::prepExampleDataset
+#' sc <- valuesG1msReduced_treated_MB
 #' plotsilhouetteMB(sc, K=2)
 setGeneric("plotsilhouetteMB", function(object, K)
     standardGeneric("plotsilhouetteMB"))

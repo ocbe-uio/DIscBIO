@@ -16,8 +16,7 @@ A plot of t-SNEs.
 Visualizing the K-means clusters using tSNE maps
 }
 \examples{
-sc <- DISCBIO(valuesG1msReduced) # changes signature of data
-sc <- Clustexp(sc, cln=3) # data must be clustered before plotting
-sc <- comptSNE(sc, max_iter=100, quiet=TRUE)
+data(valuesG1msReduced_treated_K)  # details: DIscBIO:::prepExampleDataset
+sc <- valuesG1msReduced_treated_K
 plottSNE(sc)
 }

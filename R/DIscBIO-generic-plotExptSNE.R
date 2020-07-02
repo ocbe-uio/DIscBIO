@@ -10,9 +10,8 @@
 #'   NULL and the first element of \code{g} is chosen.
 #' @return t-SNE plot for one particular gene
 #' @examples
-#' sc <- DISCBIO(valuesG1msReduced)
-#' sc <- Clustexp(sc, cln=3, quiet=TRUE) # K-means clustering
-#' sc <- comptSNE(sc, max_iter=100)
+#' data(valuesG1msReduced_treated_K)  # DIscBIO:::prepExampleDataset for details
+#' sc <- valuesG1msReduced_treated_K
 #' g <- 'ENSG00000001460'
 #' plotExptSNE(sc, g)
 

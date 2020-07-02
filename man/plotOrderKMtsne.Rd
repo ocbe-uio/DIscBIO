@@ -21,9 +21,8 @@ The tSNE representation can also be used to show the pseudo-time
   ordering.
 }
 \examples{
-sc <- DISCBIO(valuesG1msReduced)
-sc <- Clustexp(sc, cln=3) # K-means clustering
-sc <- comptSNE(sc, max_iter=100)
+data(valuesG1msReduced_treated_K)  # details: DIscBIO:::prepExampleDataset
+sc <- valuesG1msReduced_treated_K
 sc <- KmeanOrder(sc, export = FALSE)
 plotOrderKMtsne(sc)
 }
