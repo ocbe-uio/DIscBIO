@@ -16,16 +16,8 @@
 #'   cluster order.
 #' @examples
 #' \donttest{
-#' sc <- DISCBIO(valuesG1msReduced)
-#' sc <- NoiseFiltering(sc, export=FALSE)
-#' sc <- Normalizedata(
-#'     sc, mintotal=1000, minexpr=0, minnumber=0, maxexpr=Inf, downsample=FALSE,
-#'     dsn=1, rseed=17000
-#' )
-#' sc <- FinalPreprocessing(sc, GeneFlitering="NoiseF", export=FALSE)
-#' sc <- Exprmclust(sc,K = 2)
-#' sc <- comptsneMB(sc, max_iter=100)
-#' sc <- Clustexp(sc, cln=3)
+#' data(valuesG1msReduced_treated_MB)  # details: DIscBIO:::prepExampleDataset
+#' sc <- valuesG1msReduced_treated_MB
 #' sc <- MB_Order(sc, export = FALSE)
 #' MBclustheatmap(sc, hmethod="single")
 #' }
