@@ -101,6 +101,7 @@ Collate:
     'VolcanoPlot.R'
     'customConverters.R'
     'datasets.R'
+    'prepExampleDataset.R'
     'reformatSiggenes.R'
     'replaceDecimals.R'
     'retrieveBiomart.R'
