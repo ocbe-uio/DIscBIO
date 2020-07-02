@@ -14,7 +14,7 @@
 #' @examples
 #' sc <- DISCBIO(valuesG1msReduced) # changes signature of data
 #' sc <- Clustexp(sc, cln=3) # data must be clustered before plottin
-#' sc <- comptSNE(sc, max_iter=1000)
+#' sc <- comptSNE(sc, max_iter=30)
 #' head(sc@tsne)
     setGeneric(
     name = "comptSNE",
