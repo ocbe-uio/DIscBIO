@@ -49,7 +49,7 @@ PPI <- function(data, FileName = NULL, species = "9606") {
     )
     # Process API request content
     repo_content <- content(repos)
-    results  <- read_tsv(repo_content)
+    results <- read_tsv(repo_content)
     if (!is.null(FileName)) {
         write.csv(results, file = paste0("PPI-", FileName, ".csv"))
     }

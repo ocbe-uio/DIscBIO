@@ -7,6 +7,10 @@
 #' @param export A logical vector that allows writing the final gene list in
 #'   excel file. Default is TRUE.
 #' @param quiet if `TRUE`, suppresses intermediate text output
+#' @param filename_up Name of the exported "up" file (if `export=TRUE`)
+#' @param filename_down Name of the exported "down" file (if `export=TRUE`)
+#' @param filename_binom Name of the exported binomial file
+#' @param filename_sigdeg Name of the exported sigDEG file
 #' @importFrom dplyr summarize
 #' @importFrom stats pbinom median
 #' @rdname KMClustDiffGenes
@@ -18,15 +22,25 @@
 #' KMClustDiffGenes(sc, K=3, fdr=.3, export=FALSE)
 setGeneric(
     "KMClustDiffGenes",
-    function(object, K, pValue = 0.05, fdr = .01, export = TRUE, quiet = FALSE)
+    function(
+        object, K, pValue = 0.05, fdr = .01, export = TRUE, quiet = FALSE,
+        filename_up = "Up-DEG-cluster",
+        filename_down = "Down-DEG-cluster",
+        filename_binom = "binomial-DEGsTable",
+        filename_sigdeg = "binomial-sigDEG"
+    ) {
         standardGeneric("KMClustDiffGenes")
+    }
 )
 #' @export
 #' @rdname KMClustDiffGenes
 setMethod(
     "KMClustDiffGenes",
     signature = "DISCBIO",
-    definition = function(object, K, pValue, fdr, export, quiet) {
+    definition = function(
+        object, K, pValue, fdr, export, quiet, filename_up, filename_down,
+        filename_binom, filename_sigdeg
+    ) {
         # Validation
         if (!is.numeric(fdr)) {
             stop("fdr has to be a number between 0 and 1")
@@ -166,7 +180,7 @@ setMethod(
                     )
                     if (export) {
                         write.csv(
-                            Up, file = paste0("Up-DEG-cluster", n, ".csv")
+                            Up, file = paste0(filename_up, n, ".csv")
                         )
                     }
 
@@ -190,21 +204,23 @@ setMethod(
                     if (export) {
                         write.csv(
                             Down,
-                            file = paste0("Down-DEG-cluster", n, ".csv")
+                            file = paste0(filename_down, n, ".csv")
                         )
                     }
 
                     sigDEG <- cbind(DEGsE, DEGsS)
                     if (export) {
-                        write.csv(sigDEG, file = "binomial-sigDEG.csv")
+                        write.csv(
+                            sigDEG, file = paste0(filename_sigdeg, ".csv")
+                        )
                     }
 
                     DEGsTable[n, 1] <- paste0("Cluster ", n)
                     DEGsTable[n, 2] <- "Remaining Clusters"
                     DEGsTable[n, 3] <- length(Up[, 1])
-                    DEGsTable[n, 4] <- paste0("Up-DEG-cluster", n, ".csv")
+                    DEGsTable[n, 4] <- paste0(filename_up, n, ".csv")
                     DEGsTable[n, 5] <- length(Down[, 1])
-                    DEGsTable[n, 6] <- paste0("Down-DEG-cluster", n, ".csv")
+                    DEGsTable[n, 6] <- paste0(filename_down, n, ".csv")
                 }
             }
         }
@@ -214,7 +230,7 @@ setMethod(
                 "Gene number", "File name"
             )
             if (export) {
-                write.csv(DEGsTable, file = "binomial-DEGsTable.csv")
+                write.csv(DEGsTable, file = paste0(filename_binom, ".csv"))
             }
             return(list(sigDEG, DEGsTable))
         } else{

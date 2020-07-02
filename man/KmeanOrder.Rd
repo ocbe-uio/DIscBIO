@@ -5,9 +5,19 @@
 \alias{KmeanOrder,DISCBIO-method}
 \title{Pseudo-time ordering based on k-means clusters}
 \usage{
-KmeanOrder(object, quiet = FALSE, export = TRUE)
+KmeanOrder(
+  object,
+  quiet = FALSE,
+  export = TRUE,
+  filename = "Cellular_pseudo-time_ordering_based_on_k-meansc-lusters"
+)
 
-\S4method{KmeanOrder}{DISCBIO}(object, quiet = FALSE, export = TRUE)
+\S4method{KmeanOrder}{DISCBIO}(
+  object,
+  quiet = FALSE,
+  export = TRUE,
+  filename = "Cellular_pseudo-time_ordering_based_on_k-meansc-lusters"
+)
 }
 \arguments{
 \item{object}{\code{DISCBIO} class object.}
@@ -15,6 +25,8 @@ KmeanOrder(object, quiet = FALSE, export = TRUE)
 \item{quiet}{if `TRUE`, suppresses intermediary output}
 
 \item{export}{if `TRUE`, exports order table to csv}
+
+\item{filename}{Name of the exported file (if `export=TRUE`)}
 }
 \value{
 The DISCBIO-class object input with the kordering slot filled.

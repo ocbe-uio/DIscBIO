@@ -8,35 +8,39 @@
 \usage{
 DEGanalysis(
   object,
-  Clustering = "K-means",
   K,
+  Clustering = "K-means",
   fdr = 0.05,
   name = "Name",
   export = TRUE,
   quiet = FALSE,
   plot = TRUE,
+  filename_deg = "DEGsTable",
+  filename_sigdeg = "sigDEG",
   ...
 )
 
 \S4method{DEGanalysis}{DISCBIO}(
   object,
-  Clustering = "K-means",
   K,
+  Clustering = "K-means",
   fdr = 0.05,
   name = "Name",
   export = TRUE,
   quiet = FALSE,
   plot = TRUE,
+  filename_deg = "DEGsTable",
+  filename_sigdeg = "sigDEG",
   ...
 )
 }
 \arguments{
 \item{object}{\code{DISCBIO} class object.}
 
+\item{K}{A numeric value of the number of clusters.}
+
 \item{Clustering}{Clustering has to be one of the following:
 ["K-means","MB"]. Default is "K-means"}
-
-\item{K}{A numeric value of the number of clusters.}
 
 \item{fdr}{A numeric value of the false discovery rate. Default is 0.05.}
 
@@ -49,6 +53,10 @@ excel file. Default is TRUE.}
 \item{quiet}{if `TRUE`, suppresses intermediate text output}
 
 \item{plot}{if `TRUE`, plots are generated}
+
+\item{filename_deg}{Name of the exported DEG table}
+
+\item{filename_sigdeg}{Name of the exported sigDEG table}
 
 \item{...}{additional parameters to be passed to samr()}
 }

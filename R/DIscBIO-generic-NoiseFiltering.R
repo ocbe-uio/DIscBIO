@@ -19,6 +19,7 @@
 #' @param export A logical vector that allows writing the final gene list in
 #'   excel file. Default is TRUE.
 #' @param quiet if `TRUE`, suppresses printed output
+#' @param filename Name of the exported file (if `export=TRUE`)
 #' @importFrom matrixStats rowVars
 #' @importFrom stats quantile var fitted.values pchisq p.adjust median aggregate
 #' @importFrom graphics plot axis abline points lines
@@ -34,7 +35,8 @@ setGeneric(
     def = function(
         object, percentile = 0.8, CV = 0.3, geneCol = "yellow",
         FgeneCol = "black", erccCol = "blue", Val = TRUE, plot = TRUE,
-        export = TRUE, quiet = FALSE
+        export = TRUE, quiet = FALSE,
+        filename = "Noise_filtering_genes_test"
     )
         standardGeneric("NoiseFiltering")
 )
@@ -46,7 +48,7 @@ setMethod(
     signature = "DISCBIO",
     definition = function(
         object, percentile, CV, geneCol, FgeneCol, erccCol, Val, plot,
-        export, quiet
+        export, quiet, filename
     )
     {
         if (!is.numeric(percentile))
@@ -161,7 +163,7 @@ setMethod(
         }
 
         if (export) {
-            write.csv(genes_test, file = "Noise_filtering_genes_test.csv")
+            write.csv(genes_test, file = paste0(filename, ".csv"))
             cat(
                 "The filtered gene list was saved as:",
                 "Noise_filtering_genes_test\n"

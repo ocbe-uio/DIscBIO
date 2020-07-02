@@ -4,7 +4,12 @@
 \alias{MB_Order}
 \title{Pseudo-time ordering based on Model-based clusters}
 \usage{
-MB_Order(object, quiet = FALSE, export = TRUE)
+MB_Order(
+  object,
+  quiet = FALSE,
+  export = TRUE,
+  filename = "Cellular_pseudo-time_ordering_based_on_Model-based_clusters"
+)
 }
 \arguments{
 \item{object}{\code{DISCBIO} class object.}
@@ -12,6 +17,8 @@ MB_Order(object, quiet = FALSE, export = TRUE)
 \item{quiet}{if `TRUE`, intermediary output is suppressed}
 
 \item{export}{if `TRUE`, exports the results as a CSV file}
+
+\item{filename}{Name of the exported file (if `export=TRUE`)}
 }
 \value{
 The DISCBIO-class object input with the MBordering slot filled.

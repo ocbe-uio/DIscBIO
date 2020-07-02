@@ -17,6 +17,8 @@
 #'   excel file. Default is TRUE.
 #' @param quiet if `TRUE`, suppresses intermediate text output
 #' @param plot if `TRUE`, plots are generated
+#' @param filename_deg Name of the exported DEG table
+#' @param filename_sigdeg Name of the exported sigDEG table
 #' @param ... additional parameters to be passed to samr()
 #' @importFrom samr samr samr.compute.delta.table samr.plot
 #'   samr.compute.siggenes.table
@@ -33,9 +35,10 @@
 setGeneric(
     "DEGanalysis2clust",
     function(
-        object, Clustering = "K-means", K, fdr = 0.05, name = "Name",
+        object, K, Clustering = "K-means", fdr = 0.05, name = "Name",
         First = "CL1", Second = "CL2",  export = TRUE, quiet = FALSE,
-        plot = TRUE, ...
+        plot = TRUE, filename_deg = "DEGsTable", filename_sigdeg = "sigDEG",
+        ...
     )
     standardGeneric("DEGanalysis2clust")
 )
@@ -46,9 +49,8 @@ setMethod(
     "DEGanalysis2clust",
     signature = "DISCBIO",
     definition = function(
-        object, Clustering = "K-means", K, fdr = 0.05, name = "Name",
-        First = "CL1", Second = "CL2", export = TRUE, quiet = FALSE,
-        plot = TRUE, ...)
+        object, K, Clustering, fdr, name, First, Second, export, quiet, plot,
+        filename_deg, filename_sigdeg, ...)
     {
         if (!(Clustering %in% c("K-means", "MB"))) {
             stop("Clustering has to be either K-means or MB")
@@ -331,8 +333,8 @@ setMethod(
         if (!quiet) print(DEGsTable)
         sigDEG <- cbind(DEGsE, DEGsS)
         if (export) {
-            write.csv(DEGsTable, file = "DEGsTable.csv")
-            write.csv(sigDEG, file = "sigDEG.csv")
+            write.csv(DEGsTable, file = paste0(filename_deg, ".csv"))
+            write.csv(sigDEG, file = paste0(filename_sigdeg, ".csv"))
         }
         return(
             list(

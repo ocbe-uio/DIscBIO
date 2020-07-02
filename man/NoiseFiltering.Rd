@@ -15,7 +15,8 @@ NoiseFiltering(
   Val = TRUE,
   plot = TRUE,
   export = TRUE,
-  quiet = FALSE
+  quiet = FALSE,
+  filename = "Noise_filtering_genes_test"
 )
 
 \S4method{NoiseFiltering}{DISCBIO}(
@@ -28,7 +29,8 @@ NoiseFiltering(
   Val = TRUE,
   plot = TRUE,
   export = TRUE,
-  quiet = FALSE
+  quiet = FALSE,
+  filename = "Noise_filtering_genes_test"
 )
 }
 \arguments{
@@ -56,6 +58,8 @@ Default is TRUE.}
 excel file. Default is TRUE.}
 
 \item{quiet}{if `TRUE`, suppresses printed output}
+
+\item{filename}{Name of the exported file (if `export=TRUE`)}
 }
 \value{
 The DISCBIO-class object input with the noiseF slot filled.

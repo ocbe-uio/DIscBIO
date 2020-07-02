@@ -11,7 +11,11 @@ MBClustDiffGenes(
   pValue = 0.05,
   fdr = 0.01,
   export = TRUE,
-  quiet = FALSE
+  quiet = FALSE,
+  filename_up = "Up-DEG-cluster",
+  filename_down = "Down-DEG-cluster",
+  filename_binom = "binomial-DEGsTable",
+  filename_sigdeg = "binomial-sigDEG"
 )
 
 \S4method{MBClustDiffGenes}{DISCBIO}(
@@ -20,7 +24,11 @@ MBClustDiffGenes(
   pValue = 0.05,
   fdr = 0.01,
   export = TRUE,
-  quiet = FALSE
+  quiet = FALSE,
+  filename_up = "Up-DEG-cluster",
+  filename_down = "Down-DEG-cluster",
+  filename_binom = "binomial-DEGsTable",
+  filename_sigdeg = "binomial-sigDEG"
 )
 }
 \arguments{
@@ -36,6 +44,14 @@ MBClustDiffGenes(
 excel file. Default is TRUE.}
 
 \item{quiet}{if `TRUE`, suppresses intermediate text output}
+
+\item{filename_up}{Name of the exported "up" file (if `export=TRUE`)}
+
+\item{filename_down}{Name of the exported "down" file (if `export=TRUE`)}
+
+\item{filename_binom}{Name of the exported binomial file}
+
+\item{filename_sigdeg}{Name of the exported sigDEG file}
 }
 \value{
 A list containing two tables.

@@ -13,6 +13,8 @@
 #'   excel file. Default is TRUE.
 #' @param quiet if `TRUE`, suppresses intermediate text output
 #' @param plot if `TRUE`, plots are generated
+#' @param filename_deg Name of the exported DEG table
+#' @param filename_sigdeg Name of the exported sigDEG table
 #' @importFrom samr samr samr.compute.delta.table samr.plot
 #'   samr.compute.siggenes.table
 #' @importFrom graphics title
@@ -28,16 +30,20 @@
 #' )
 setGeneric(
     name = "DEGanalysis",
-    def = function(object,
-                Clustering = "K-means",
-                K,
-                fdr = 0.05,
-                name = "Name",
-                export = TRUE,
-                quiet = FALSE,
-                plot = TRUE,
-                ...)
-        standardGeneric("DEGanalysis")
+    def = function(
+        object,
+        K,
+        Clustering = "K-means",
+        fdr = 0.05,
+        name = "Name",
+        export = TRUE,
+        quiet = FALSE,
+        plot = TRUE,
+        filename_deg = "DEGsTable",
+        filename_sigdeg = "sigDEG",
+        ...) {
+            standardGeneric("DEGanalysis")
+        }
 )
 
 #' @export
@@ -45,16 +51,19 @@ setGeneric(
 setMethod(
     f = "DEGanalysis",
     signature = "DISCBIO",
-    definition = function(object,
-                        Clustering = "K-means",
-                        K,
-                        fdr = 0.05,
-                        name = "Name",
-                        export = TRUE,
-                        quiet = FALSE,
-                        plot = TRUE,
-                        ...)
-    {
+    definition = function(
+        object,
+        K,
+        Clustering = "K-means",
+        fdr = 0.05,
+        name = "Name",
+        export = TRUE,
+        quiet = FALSE,
+        plot = TRUE,
+        filename_deg,
+        filename_sigdeg,
+        ...
+    ) {
         # Validation
         if (!(Clustering %in% c("K-means", "MB"))) {
             stop("Clustering has to be either K-means or MB")
@@ -444,13 +453,10 @@ setMethod(
             "Comparisons", "Target cluster", "Gene number", "File name",
             "Gene number", "File name"
         )
-        if (export)
-            write.csv(DEGsTable, file = "DEGsTable.csv")
-        if (!quiet)
-            print(DEGsTable)
+        if (export) write.csv(DEGsTable, file = paste0(filename_deg, ".csv"))
+        if (!quiet) print(DEGsTable)
         sigDEG <- cbind(DEGsE, DEGsS)
-        if (export)
-            write.csv(sigDEG, file = "sigDEG.csv")
+        if (export) write.csv(sigDEG, file = paste0(filename_sigdeg, ".csv"))
         return(list(sigDEG, DEGsTable))
     }
 )

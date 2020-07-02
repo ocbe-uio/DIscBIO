@@ -19,7 +19,9 @@
 #' ppi <- PPI(dff$FinalDEGsU[, "Gene Name"])
 #' NetAnalysis(ppi, export=FALSE)
 #' }
-NetAnalysis <- function(data, export = TRUE, FileName = "1") {
+NetAnalysis <- function(
+    data, export = TRUE, FileName = "NetworkAnalysisTable-1"
+) {
     if (length(data[, 1]) < 1)
         stop("No Protein-Protein Interactions")
     df <- data[, -c(1, 2)]
@@ -35,9 +37,7 @@ NetAnalysis <- function(data, export = TRUE, FileName = "1") {
     AnalysisTable <- cbind(names, degree.table, betweenness.table)
 
     if (export) {
-        write.csv(
-            AnalysisTable,
-            file = paste0("NetworkAnalysisTable-", FileName, ".csv")
+        write.csv(AnalysisTable, file = paste0(FileName, ".csv")
         )
     }
 
