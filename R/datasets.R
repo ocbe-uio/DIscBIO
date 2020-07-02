@@ -25,3 +25,17 @@ NULL
 #' @name HumanMouseGeneIds
 #' @docType data
 NULL
+
+#' @title Single-cells data from a myxoid liposarcoma cell line (K variant)
+#'
+#' @description Equivalent to valuesG1msReduced after treatment and K-means clustering.
+#' @name valuesG1msReduced_treated_K
+#' @docType data
+NULL
+
+#' @title Single-cells data from a myxoid liposarcoma cell line (MB variant)
+#'
+#' @description Equivalent to valuesG1msReduced after treatment and model-based clustering.
+#' @name valuesG1msReduced_treated_MB
+#' @docType data
+NULL

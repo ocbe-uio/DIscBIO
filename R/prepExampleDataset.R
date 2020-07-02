@@ -1,15 +1,19 @@
 #' @title Prepare Example Dataset
 #' @description Internal function that prepares a pre-treated dataset for use in
 #' several examples
-#' @param clustering determines the clustering method (either "K" or "MB").
-#' @note This is an internal function, reachable through the terminal by using `DIscBIO:::prepExampleDataset`
+#' @param dataset Dataset used for transformation
+#' @param save save results?
+#' @examples
+#' \donttest{
+#'     DIscBIO:::prepExampleDataset(valuesG1msReduced, save=FALSE)
+#' }
 #' @return rda file
-prepExampleDataset <- function(clustering) {
+prepExampleDataset <- function(dataset, save=TRUE) {
 	# ==========================================================================
 	# Initial data treatment
 	# ==========================================================================
 	message("Treating dataset")
-	sc <- DISCBIO(valuesG1msReduced)
+	sc <- DISCBIO(dataset)
 	sc <- NoiseFiltering(
 		sc, percentile=0.9, CV=0.2, export=FALSE, plot=FALSE, quiet=TRUE
 	)
@@ -18,19 +22,28 @@ prepExampleDataset <- function(clustering) {
 	# ==========================================================================
 	# Clustering
 	# ==========================================================================
-	message("Clustering")
-	if (clustering == "K") {
-		sc <- Clustexp(sc, cln=3, quiet=TRUE)
-		sc <- comptSNE(sc, quiet=TRUE)
-		output_name <- "valuesG1msReduced_treated_K"
-	} else if (clustering == "MB") {
-		sc <- Exprmclust(sc, quiet=TRUE)
-		sc <- comptsneMB(sc, rseed=15555, quiet=TRUE)
-		output_name <- "valuesG1msReduced_treated_MB"
-	}
+	message("K-means clustering")
+	sc_k <- Clustexp(sc, cln=3, quiet=TRUE)
+	sc_k <- comptSNE(sc_k, quiet=TRUE)
+	valuesG1msReduced_treated_K <- sc_k
+	message("Model-based clustering")
+	sc_mb <- Exprmclust(sc, quiet=TRUE)
+	sc_mb <- comptsneMB(sc_mb, rseed=15555, quiet=TRUE)
+	valuesG1msReduced_treated_MB <- sc_mb
 	# ==========================================================================
 	# Output
 	# ==========================================================================
-	message("Saving")
-	save(sc, file = paste0("data/", output_name, ".rda"))
+	message("Saving datasets")
+	if (save) {
+		save(
+			valuesG1msReduced_treated_K,
+			file = "data/valuesG1msReduced_treated_K.rda"
+		)
+		save(
+			valuesG1msReduced_treated_MB,
+			file = "data/valuesG1msReduced_treated_MB.rda"
+		)
+	} else {
+		message("Not saving dataset because (save == FALSE)")
+	}
 }

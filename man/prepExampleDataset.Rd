@@ -4,10 +4,12 @@
 \alias{prepExampleDataset}
 \title{Prepare Example Dataset}
 \usage{
-prepExampleDataset(clustering)
+prepExampleDataset(dataset, save = TRUE)
 }
 \arguments{
-\item{clustering}{determines the clustering method (either "K" or "MB").}
+\item{dataset}{Dataset used for transformation}
+
+\item{save}{save results?}
 }
 \value{
 rda file
@@ -15,4 +17,9 @@ rda file
 \description{
 Internal function that prepares a pre-treated dataset for use in
 several examples
+}
+\examples{
+\donttest{
+    DIscBIO:::prepExampleDataset(valuesG1msReduced, save=FALSE)
+}
 }
