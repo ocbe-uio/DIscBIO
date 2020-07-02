@@ -8,14 +8,14 @@
 KmeanOrder(
   object,
   quiet = FALSE,
-  export = TRUE,
+  export = FALSE,
   filename = "Cellular_pseudo-time_ordering_based_on_k-meansc-lusters"
 )
 
 \S4method{KmeanOrder}{DISCBIO}(
   object,
   quiet = FALSE,
-  export = TRUE,
+  export = FALSE,
   filename = "Cellular_pseudo-time_ordering_based_on_k-meansc-lusters"
 )
 }

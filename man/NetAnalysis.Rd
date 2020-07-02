@@ -4,7 +4,7 @@
 \alias{NetAnalysis}
 \title{Networking analysis.}
 \usage{
-NetAnalysis(data, export = TRUE, FileName = "NetworkAnalysisTable-1")
+NetAnalysis(data, export = FALSE, FileName = "NetworkAnalysisTable-1")
 }
 \arguments{
 \item{data}{Protein-protein interaction data frame resulted from running the

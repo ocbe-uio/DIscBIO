@@ -13,7 +13,7 @@
 #' sc <- valuesG1msReduced_treated_K
 #' Order <- KmeanOrder(sc, export = FALSE)
 #' Order@kordering
-setGeneric("KmeanOrder", function(object, quiet = FALSE, export = TRUE,
+setGeneric("KmeanOrder", function(object, quiet = FALSE, export = FALSE,
     filename = "Cellular_pseudo-time_ordering_based_on_k-meansc-lusters")
     standardGeneric("KmeanOrder")
 )

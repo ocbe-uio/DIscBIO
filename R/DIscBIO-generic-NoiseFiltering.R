@@ -35,7 +35,7 @@ setGeneric(
     def = function(
         object, percentile = 0.8, CV = 0.3, geneCol = "yellow",
         FgeneCol = "black", erccCol = "blue", Val = TRUE, plot = TRUE,
-        export = TRUE, quiet = FALSE,
+        export = FALSE, quiet = FALSE,
         filename = "Noise_filtering_genes_test"
     )
         standardGeneric("NoiseFiltering")

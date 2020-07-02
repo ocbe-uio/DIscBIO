@@ -14,7 +14,7 @@
 setGeneric(
     "FinalPreprocessing",
     function(
-        object, GeneFlitering = "NoiseF", export = TRUE, quiet = FALSE
+        object, GeneFlitering = "NoiseF", export = FALSE, quiet = FALSE
     )
     standardGeneric("FinalPreprocessing")
 )
@@ -25,7 +25,7 @@ setMethod(
     "FinalPreprocessing",
     signature = "DISCBIO",
     definition = function(
-        object, GeneFlitering, export = TRUE, quiet = FALSE
+        object, GeneFlitering, export, quiet = FALSE
     )
     {
         if (GeneFlitering == "NoiseF") {

@@ -8,14 +8,14 @@
 FinalPreprocessing(
   object,
   GeneFlitering = "NoiseF",
-  export = TRUE,
+  export = FALSE,
   quiet = FALSE
 )
 
 \S4method{FinalPreprocessing}{DISCBIO}(
   object,
   GeneFlitering = "NoiseF",
-  export = TRUE,
+  export = FALSE,
   quiet = FALSE
 )
 }

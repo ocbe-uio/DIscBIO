@@ -14,7 +14,7 @@ NoiseFiltering(
   erccCol = "blue",
   Val = TRUE,
   plot = TRUE,
-  export = TRUE,
+  export = FALSE,
   quiet = FALSE,
   filename = "Noise_filtering_genes_test"
 )
@@ -28,7 +28,7 @@ NoiseFiltering(
   erccCol = "blue",
   Val = TRUE,
   plot = TRUE,
-  export = TRUE,
+  export = FALSE,
   quiet = FALSE,
   filename = "Noise_filtering_genes_test"
 )

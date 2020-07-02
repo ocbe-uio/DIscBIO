@@ -20,7 +20,7 @@
 #' NetAnalysis(ppi, export=FALSE)
 #' }
 NetAnalysis <- function(
-    data, export = TRUE, FileName = "NetworkAnalysisTable-1"
+    data, export = FALSE, FileName = "NetworkAnalysisTable-1"
 ) {
     if (length(data[, 1]) < 1)
         stop("No Protein-Protein Interactions")

@@ -23,7 +23,7 @@
 setGeneric(
     "KMClustDiffGenes",
     function(
-        object, K, pValue = 0.05, fdr = .01, export = TRUE, quiet = FALSE,
+        object, K, pValue = 0.05, fdr = .01, export = FALSE, quiet = FALSE,
         filename_up = "Up-DEG-cluster",
         filename_down = "Down-DEG-cluster",
         filename_binom = "binomial-DEGsTable",

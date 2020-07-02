@@ -36,7 +36,7 @@ setGeneric(
     "DEGanalysis2clust",
     function(
         object, K, Clustering = "K-means", fdr = 0.05, name = "Name",
-        First = "CL1", Second = "CL2",  export = TRUE, quiet = FALSE,
+        First = "CL1", Second = "CL2",  export = FALSE, quiet = FALSE,
         plot = TRUE, filename_deg = "DEGsTable", filename_sigdeg = "sigDEG",
         ...
     )

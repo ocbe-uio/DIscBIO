@@ -17,7 +17,7 @@
 #' sc@MBordering
 #' }
 MB_Order <- function(
-    object, quiet = FALSE, export = TRUE,
+    object, quiet = FALSE, export = FALSE,
     filename = "Cellular_pseudo-time_ordering_based_on_Model-based_clusters"
 ) {
     data = object@MBclusters

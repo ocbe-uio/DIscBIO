@@ -7,7 +7,7 @@
 MB_Order(
   object,
   quiet = FALSE,
-  export = TRUE,
+  export = FALSE,
   filename = "Cellular_pseudo-time_ordering_based_on_Model-based_clusters"
 )
 }
