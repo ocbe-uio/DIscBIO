@@ -206,7 +206,7 @@ setMethod(
                                         NULL
                                     for (i in 1:runs) {
                                         opar <- options(show.error.messages = FALSE)
-                                        on.exit(par(opar))
+                                        on.exit(options(opar))
                                         repeat {
                                             kmm <- try(Kmeans(
                                                 data,
@@ -220,7 +220,7 @@ setMethod(
                                                 break
                                         }
                                         opar <- options(show.error.messages = TRUE)
-                                        on.exit(par(opar))
+                                        on.exit(options(opar))
                                         swss <-
                                             sum(kmm$withinss)
                                         if (swss < minSS) {

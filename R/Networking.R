@@ -71,7 +71,7 @@ Networking <- function(
                         repr.plot.width = width_choice,
                         repr.plot.height = height_choice
                     )
-                    on.exit(par(opar))
+                    on.exit(options(opar))
                 }
             set_plot_dimensions(plot_width, plot_height)
 
