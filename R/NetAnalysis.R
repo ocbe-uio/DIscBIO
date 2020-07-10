@@ -11,14 +11,6 @@
 #'   average.path.length get.adjacency V E mean_distance betweenness
 #' @importFrom NetIndices GenInd
 #' @return A network analysis table
-#' @examples
-#' \donttest{
-#' data(valuesG1msReduced_treated_K)  # details: DIscBIO:::prepExampleDataset
-#' sc <- valuesG1msReduced_treated_K
-#' dff <- DEGanalysis2clust(sc, K=3, export=FALSE, quiet=TRUE, plot=FALSE)
-#' ppi <- PPI(dff$FinalDEGsU[, "Gene Name"])
-#' NetAnalysis(ppi, export=FALSE)
-#' }
 NetAnalysis <- function(
     data, export = FALSE, FileName = "NetworkAnalysisTable-1"
 ) {

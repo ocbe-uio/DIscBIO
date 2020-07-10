@@ -6,10 +6,6 @@
 #' @param legloc A keyword from the list "bottomright", "bottom", "bottomleft",
 #'   "left", "topleft", "top", "topright", "right" and "center". Default is
 #'   "bottomright"
-#' @examples
-#' data(valuesG1msReduced_treated_K)  # details: DIscBIO:::prepExampleDataset
-#' sc <- valuesG1msReduced_treated_K
-#' plotSymbolstSNE(sc,types=sub("(\\_\\d+)$","", names(sc@ndata)))
 setGeneric(
     "plotSymbolstSNE",
     function(object, types = NULL, legloc = "bottomright") {

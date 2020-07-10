@@ -3,10 +3,6 @@
 #' @param object \code{DISCBIO} class object.
 #' @importFrom graphics text
 #' @return A plot of the `object@MBtsne` values
-#' @examples
-#' data(valuesG1msReduced_treated_MB)  # details: DIscBIO:::prepExampleDataset
-#' sc <- valuesG1msReduced_treated_MB
-#' plotMBLabelstSNE(sc)
 setGeneric("plotMBLabelstSNE", function(object)
     standardGeneric("plotMBLabelstSNE")
 )

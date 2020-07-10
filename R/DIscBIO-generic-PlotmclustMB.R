@@ -6,10 +6,6 @@
 #'   element_line unit element_text element_rect
 #' @importFrom igraph get.edgelist degree get.shortest.paths
 #' @return A plot of the PCA.
-#' @examples
-#' data(valuesG1msReduced_treated_MB)  # details: DIscBIO:::prepExampleDataset
-#' sc <- valuesG1msReduced_treated_MB
-#' PlotmclustMB(sc)
 setGeneric("PlotmclustMB", function(object)
     standardGeneric("PlotmclustMB"))
 

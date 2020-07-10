@@ -15,13 +15,6 @@
 #' @importFrom fpc clusterboot kmeansCBI
 #' @return Unless otherwise specified, a heatmap and a vector of the underlying
 #'   cluster order.
-#' @examples
-#' \donttest{
-#' data(valuesG1msReduced_treated_MB)  # details: DIscBIO:::prepExampleDataset
-#' sc <- valuesG1msReduced_treated_MB
-#' sc <- MB_Order(sc, export = FALSE)
-#' MBclustheatmap(sc, hmethod="single")
-#' }
 setGeneric(
     "MBclustheatmap",
     function(object, hmethod="single", plot=TRUE, quiet=FALSE, rseed=NULL) {

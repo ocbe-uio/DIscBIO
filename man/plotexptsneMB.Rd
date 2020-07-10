@@ -28,12 +28,3 @@ The t-SNE map representation can also be used to analyze
   expression of a gene or a group of genes, to investigate cluster specific
   gene expression patterns
 }
-\examples{
-\donttest{
-data(valuesG1msReduced_treated_MB)  # details: DIscBIO:::prepExampleDataset
-sc <- valuesG1msReduced_treated_MB
-sc <- MB_Order(sc, export = FALSE)
-g <- 'ENSG00000001460'
-plotexptsneMB(sc, g)
-}
-}

@@ -4,10 +4,6 @@
 #' @param object \code{DISCBIO} class object.
 #' @param y_limits 2-length numeric vector with the limits for the gap plot
 #' @return A plot of the gap statistics
-#' @examples
-#' data(valuesG1msReduced_treated_K)  # DIscBIO:::prepExampleDataset for details
-#' sc <- valuesG1msReduced_treated_K
-#' plotGap(sc)
 setGeneric(
     "plotGap", function(object, y_limits = NULL) standardGeneric("plotGap")
 )

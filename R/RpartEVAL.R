@@ -12,19 +12,6 @@
 #' @param quiet If `TRUE`, suppresses intermediary output
 #' @importFrom stats predict
 #' @return Performance statistics of the model
-#' @examples
-#' data(valuesG1msReduced_treated_K)  # details: DIscBIO:::prepExampleDataset
-#' sc <- valuesG1msReduced_treated_K
-#' cdiff <- DEGanalysis2clust(
-#'     sc, Clustering="K-means", K=3, fdr=.2, name="Name", First="CL1",
-#'     Second="CL2", export=FALSE
-#' )
-#' sigDEG <- cdiff[[1]]
-#' DATAforDT <- ClassVectoringDT(
-#'     sc, Clustering="K-means", K=3, First="CL1", Second="CL2", sigDEG,
-#' )
-#' RpartEVAL(DATAforDT,num.folds=10,First="CL1",Second="CL2")
-
 RpartEVAL <- function(data, num.folds = 10, First = "CL1", Second = "CL2",
                         quiet = FALSE) {
         exp.imput.df <- as.data.frame(t(data))

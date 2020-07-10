@@ -18,8 +18,3 @@ A plot of the PCA.
 \description{
 Plot the model-based clustering results
 }
-\examples{
-data(valuesG1msReduced_treated_MB)  # details: DIscBIO:::prepExampleDataset
-sc <- valuesG1msReduced_treated_MB
-PlotmclustMB(sc)
-}

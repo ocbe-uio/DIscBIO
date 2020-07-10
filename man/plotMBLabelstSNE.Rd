@@ -18,8 +18,3 @@ A plot of the `object@MBtsne` values
 \description{
 Visualizing the Model-based clusters using tSNE maps
 }
-\examples{
-data(valuesG1msReduced_treated_MB)  # details: DIscBIO:::prepExampleDataset
-sc <- valuesG1msReduced_treated_MB
-plotMBLabelstSNE(sc)
-}

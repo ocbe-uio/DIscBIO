@@ -36,9 +36,3 @@ This function takes the exact output of exprmclust function and
   construct Pseudo-time ordering by mapping all cells onto the path that
   connects cluster centers.
 }
-\examples{
-data(valuesG1msReduced_treated_K)  # DIscBIO:::prepExampleDataset for details
-sc <- valuesG1msReduced_treated_K
-Order <- KmeanOrder(sc, export = FALSE)
-Order@kordering
-}

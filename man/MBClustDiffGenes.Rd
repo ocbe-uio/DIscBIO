@@ -59,12 +59,3 @@ A list containing two tables.
 \description{
 ClustDiffGenes
 }
-\examples{
-\donttest{
-data(valuesG1msReduced_treated_MB)  # details: DIscBIO:::prepExampleDataset
-sc <- valuesG1msReduced_treated_MB
-sc <- MB_Order(sc, export = FALSE)
-cdiff <- MBClustDiffGenes(sc, K=3, fdr=.1, export=FALSE)
-str(cdiff)
-}
-}

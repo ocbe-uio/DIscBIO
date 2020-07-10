@@ -14,17 +14,6 @@
 #' @param quiet If `TRUE`, suppresses intermediary output
 #' @importFrom biomaRt useDataset useMart getBM
 #' @return A data frame.
-#' @examples
-#' data(valuesG1msReduced_treated_K)  # DIscBIO:::prepExampleDataset for details
-#' sc <- valuesG1msReduced_treated_K
-#' cdiff <- DEGanalysis2clust(
-#'     sc, Clustering="K-means", K=2, fdr=.2, name="Name", First="CL1",
-#'     Second="CL2", export=FALSE
-#' )
-#' DATAforDT <- ClassVectoringDT(
-#'     sc, Clustering="K-means", K=2, First="CL1", Second="CL2", cdiff[[1]]
-#' )
-#' str(DATAforDT)
 setGeneric(
     "ClassVectoringDT",
     function(

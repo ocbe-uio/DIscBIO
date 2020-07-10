@@ -4,10 +4,6 @@
 #'   ordering.
 #' @param object \code{DISCBIO} class object.
 #' @return A plot of the pseudo-time ordering.
-#' @examples
-#' data(valuesG1msReduced_treated_MB)  # details: DIscBIO:::prepExampleDataset
-#' sc <- valuesG1msReduced_treated_MB
-#' plotOrderMBtsne(sc)
 setGeneric("plotOrderMBtsne", function(object)
     standardGeneric("plotOrderMBtsne"))
 

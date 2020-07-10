@@ -23,9 +23,3 @@ A plot of the PCA.
 The PCA representation can also be used to show the gene
   expression of a particular gene.
 }
-\examples{
-data(valuesG1msReduced_treated_MB)  # details: DIscBIO:::prepExampleDataset
-sc <- valuesG1msReduced_treated_MB
-g <- "ENSG00000010244" # Plotting the expression of MT-RNR2
-PlotMBexpPCA(sc, g)
-}

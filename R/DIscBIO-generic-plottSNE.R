@@ -3,10 +3,6 @@
 #' @param object \code{DISCBIO} class object.
 #' @importFrom graphics text
 #' @return A plot of t-SNEs.
-#' @examples
-#' data(valuesG1msReduced_treated_K)  # details: DIscBIO:::prepExampleDataset
-#' sc <- valuesG1msReduced_treated_K
-#' plottSNE(sc)
 setGeneric("plottSNE", function(object)
     standardGeneric("plottSNE"))
 

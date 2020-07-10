@@ -26,12 +26,6 @@
 #' @importFrom utils write.csv capture.output
 #' @importFrom AnnotationDbi keys
 #' @return A list containing two tables.
-#' @examples
-#' data(valuesG1msReduced_treated_K)  # DIscBIO:::prepExampleDataset for details
-#' sc <- valuesG1msReduced_treated_K
-#' DEGanalysis2clust(
-#'     sc, Clustering="K-means", K=3, fdr=0.1, name="Name", export = FALSE
-#' )
 setGeneric(
     "DEGanalysis2clust",
     function(

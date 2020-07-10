@@ -11,10 +11,6 @@
 #' @importFrom stats as.dist cor
 #' @importFrom cluster silhouette
 #' @return A silhouette plot
-#' @examples
-#' data(valuesG1msReduced_treated_K)  # details: DIscBIO:::prepExampleDataset
-#' sc <- valuesG1msReduced_treated_K
-#' plotSilhouette(sc, K=3)
 setGeneric(
     name = "plotSilhouette",
     def = function(object, K) standardGeneric("plotSilhouette")

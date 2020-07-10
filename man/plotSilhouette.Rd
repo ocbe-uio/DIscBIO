@@ -30,8 +30,3 @@ The silhouette provides a representation of how well each point
   take values between -1 and 1 with higher values reflecting better
   representation of a point by its cluster.
 }
-\examples{
-data(valuesG1msReduced_treated_K)  # details: DIscBIO:::prepExampleDataset
-sc <- valuesG1msReduced_treated_K
-plotSilhouette(sc, K=3)
-}

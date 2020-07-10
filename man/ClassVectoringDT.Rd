@@ -51,15 +51,3 @@ A data frame.
 This function generates a class vector for the input dataset so
   the decision tree analysis can be implemented afterwards.
 }
-\examples{
-data(valuesG1msReduced_treated_K)  # DIscBIO:::prepExampleDataset for details
-sc <- valuesG1msReduced_treated_K
-cdiff <- DEGanalysis2clust(
-    sc, Clustering="K-means", K=2, fdr=.2, name="Name", First="CL1",
-    Second="CL2", export=FALSE
-)
-DATAforDT <- ClassVectoringDT(
-    sc, Clustering="K-means", K=2, First="CL1", Second="CL2", cdiff[[1]]
-)
-str(DATAforDT)
-}

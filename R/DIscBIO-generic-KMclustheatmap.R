@@ -11,10 +11,6 @@
 #' @return Unless otherwise specified, a heatmap and a vector of the underlying
 #'   cluster order.
 #' @importFrom stats hclust as.dist cor
-#' @examples
-#' data(valuesG1msReduced_treated_K)  # DIscBIO:::prepExampleDataset for details
-#' sc <- valuesG1msReduced_treated_K
-#' KMclustheatmap(sc, hmethod="single")
 setGeneric(
     "KMclustheatmap",
     function(

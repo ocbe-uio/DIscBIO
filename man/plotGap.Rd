@@ -20,8 +20,3 @@ A plot of the gap statistics
 \description{
 Plotting Gap Statistics
 }
-\examples{
-data(valuesG1msReduced_treated_K)  # DIscBIO:::prepExampleDataset for details
-sc <- valuesG1msReduced_treated_K
-plotGap(sc)
-}

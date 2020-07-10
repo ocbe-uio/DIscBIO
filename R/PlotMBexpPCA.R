@@ -11,11 +11,6 @@
 #' @importFrom grDevices colorRampPalette
 #' @importFrom graphics layout par image
 #' @return A plot of the PCA.
-#' @examples
-#' data(valuesG1msReduced_treated_MB)  # details: DIscBIO:::prepExampleDataset
-#' sc <- valuesG1msReduced_treated_MB
-#' g <- "ENSG00000010244" # Plotting the expression of MT-RNR2
-#' PlotMBexpPCA(sc, g)
 #' @export
 
 PlotMBexpPCA <- function(object, g, n = NULL) {

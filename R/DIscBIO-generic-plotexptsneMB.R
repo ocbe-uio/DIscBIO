@@ -10,14 +10,6 @@
 #' @param n String of characters representing the title of the plot. Default is
 #'   NULL and the first element of \code{g} is chosen.
 #' @return t-SNE plot for one particular gene
-#' @examples
-#' \donttest{
-#' data(valuesG1msReduced_treated_MB)  # details: DIscBIO:::prepExampleDataset
-#' sc <- valuesG1msReduced_treated_MB
-#' sc <- MB_Order(sc, export = FALSE)
-#' g <- 'ENSG00000001460'
-#' plotexptsneMB(sc, g)
-#' }
 setGeneric("plotexptsneMB", function(object, g, n = NULL)
     standardGeneric("plotexptsneMB"))
 

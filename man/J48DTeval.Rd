@@ -27,16 +27,3 @@ Statistics about the J48 model
 This function evaluates the performance of the generated trees
   for error estimation by ten-fold cross validation assessment.
 }
-\examples{
-data(valuesG1msReduced_treated_K)  # details: DIscBIO:::prepExampleDataset
-sc <- valuesG1msReduced_treated_K
-cdiff <- DEGanalysis2clust(
-    sc, Clustering="K-means", K=3, fdr=.2, name="Name", First="CL1",
-    Second="CL2", export=FALSE
-)
-sigDEG <- cdiff[[1]]
-DATAforDT <- ClassVectoringDT(
-    sc, Clustering="K-means", K=3, First="CL1", Second="CL2", sigDEG
-)
-J48DTeval(DATAforDT, num.folds=10, First="CL1", Second="CL2")
-}

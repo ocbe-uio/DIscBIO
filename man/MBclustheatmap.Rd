@@ -44,11 +44,3 @@ This functions plots a heatmap of the distance matrix grouped
   by clusters. Individual clusters are highlighted with rainbow colors along
   the x and y-axes.
 }
-\examples{
-\donttest{
-data(valuesG1msReduced_treated_MB)  # details: DIscBIO:::prepExampleDataset
-sc <- valuesG1msReduced_treated_MB
-sc <- MB_Order(sc, export = FALSE)
-MBclustheatmap(sc, hmethod="single")
-}
-}

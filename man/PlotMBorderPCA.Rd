@@ -16,9 +16,3 @@ A plot of the PCA.
 The PCA representation can also be used to show the pseudo-time
   ordering.
 }
-\examples{
-data(valuesG1msReduced_treated_MB)  # details: DIscBIO:::prepExampleDataset
-sc <- valuesG1msReduced_treated_MB
-sc <- MB_Order(sc, export = FALSE)
-PlotMBorderPCA(sc)
-}

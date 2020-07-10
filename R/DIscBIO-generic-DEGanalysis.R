@@ -21,13 +21,6 @@
 #' @importFrom utils write.csv capture.output
 #' @param ... additional parameters to be passed to samr()
 #' @return A list containing two tables.
-#' @examples
-#' data(valuesG1msReduced_treated_K)  # DIscBIO:::prepExampleDataset for details
-#' sc <- valuesG1msReduced_treated_K
-#' DEGanalysis(
-#'     sc, Clustering="K-means", K=3, fdr=0.1, name="Name", export = FALSE,
-#'     nresamp=5, nperms=20
-#' )
 setGeneric(
     name = "DEGanalysis",
     def = function(

@@ -12,19 +12,6 @@
 #' @importFrom grid gpar
 #' @return Information about the J48 model and, by default, a plot of the
 #'   decision tree.
-#' @examples
-#' data(valuesG1msReduced_treated_K)  # details: DIscBIO:::prepExampleDataset
-#' sc <- valuesG1msReduced_treated_K
-#' cdiff <- DEGanalysis2clust(
-#'     sc, Clustering="K-means", K=3, fdr=.2, name="Name", First="CL1",
-#'     Second="CL2", export=FALSE,
-#'     nresamp=5, nperms=20
-#' )
-#' sigDEG <- cdiff[[1]]
-#' DATAforDT <- ClassVectoringDT(
-#'     sc, Clustering="K-means", K=3, First="CL1", Second="CL2", sigDEG,
-#' )
-#' J48DT(DATAforDT)
 J48DT <- function(data, quiet = FALSE, plot = TRUE) {
     msg <- NULL
     if (!is.data.frame(data)) {

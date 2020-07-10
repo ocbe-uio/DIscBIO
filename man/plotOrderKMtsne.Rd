@@ -20,9 +20,3 @@ A plot of the pseudo-time ordering.
 The tSNE representation can also be used to show the pseudo-time
   ordering.
 }
-\examples{
-data(valuesG1msReduced_treated_K)  # details: DIscBIO:::prepExampleDataset
-sc <- valuesG1msReduced_treated_K
-sc <- KmeanOrder(sc, export = FALSE)
-plotOrderKMtsne(sc)
-}

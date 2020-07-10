@@ -29,8 +29,3 @@ Robustness of the clusters can be assessed by Jaccard’s
   across bootstrapping runs. Jaccard’s similarity is the intersect of two
   clusters divided by the union.
 }
-\examples{
-data(valuesG1msReduced_treated_K)  # details: DIscBIO:::prepExampleDataset
-sc <- valuesG1msReduced_treated_K
-Jaccard(sc, Clustering="K-means", K=3)
-}

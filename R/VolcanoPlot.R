@@ -16,13 +16,6 @@
 #' @importFrom calibrate textxy
 #' @return A volcano plot
 #' @export
-#' @examples
-#' \donttest{
-#' data(valuesG1msReduced_treated_K)  # details: DIscBIO:::prepExampleDataset
-#' sc <- valuesG1msReduced_treated_K
-#' dff <- DEGanalysis2clust(sc, K=3, export=FALSE, quiet=TRUE, plot=FALSE)
-#' VolcanoPlot(dff$FinalDEGsU, value=0.05, FS=.4)
-#' }
 VolcanoPlot <- function(object, value = 0.05, name = NULL, fc = 0.5, FS = .4) {
     if (length(object[1, ]) > 8) {
         object <- object[, -1]

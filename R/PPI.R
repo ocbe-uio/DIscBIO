@@ -11,13 +11,6 @@
 #' @return Either a TSV file stored in the user's file system and its
 #' corresponding `data.frame` object in R or and R object containing that
 #' information.
-#' @examples
-#' \donttest{
-#' data(valuesG1msReduced_treated_K)  # details: DIscBIO:::prepExampleDataset
-#' sc <- valuesG1msReduced_treated_K
-#' dff <- DEGanalysis2clust(sc, K=3, export=FALSE, quiet=TRUE, plot=FALSE)
-#' PPI(dff$FinalDEGsU[, "Gene Name"])
-#' }
 PPI <- function(data, FileName = NULL, species = "9606") {
     # Save base enpoint as variable
     string_api_url <- "https://string-db.org/api/"

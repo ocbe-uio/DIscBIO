@@ -4,10 +4,6 @@
 #' @rdname plotKmeansLabelstSNE
 #' @importFrom graphics text
 #' @return Plot containing the ID of the cells in each cluster
-#' @examples
-#' data(valuesG1msReduced_treated_K)  # DIscBIO:::prepExampleDataset for details
-#' sc <- valuesG1msReduced_treated_K
-#' plotKmeansLabelstSNE(sc) # Plots the ID of the cells in each cluster
 setGeneric("plotKmeansLabelstSNE", function(object)
     standardGeneric("plotKmeansLabelstSNE"))
 

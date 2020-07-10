@@ -7,12 +7,6 @@
 #' @importFrom graphics layout par image
 #' @export
 #' @return A plot of the PCA.
-#' @examples
-#' data(valuesG1msReduced_treated_MB)  # details: DIscBIO:::prepExampleDataset
-#' sc <- valuesG1msReduced_treated_MB
-#' sc <- MB_Order(sc, export = FALSE)
-#' PlotMBorderPCA(sc)
-
 PlotMBorderPCA <- function(object) {
     data = object@MBclusters
     MBordertable <- cbind(data$pcareduceres, object@MBordering)

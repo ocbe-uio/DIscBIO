@@ -8,11 +8,6 @@
 #' @param filename Name of the exported file (if `export=TRUE`)
 #' @importFrom TSCAN TSCANorder
 #' @return The DISCBIO-class object input with the kordering slot filled.
-#' @examples
-#' data(valuesG1msReduced_treated_K)  # DIscBIO:::prepExampleDataset for details
-#' sc <- valuesG1msReduced_treated_K
-#' Order <- KmeanOrder(sc, export = FALSE)
-#' Order@kordering
 setGeneric("KmeanOrder", function(object, quiet = FALSE, export = FALSE,
     filename = "Cellular_pseudo-time_ordering_based_on_k-meansc-lusters")
     standardGeneric("KmeanOrder")

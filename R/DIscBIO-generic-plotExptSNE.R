@@ -9,11 +9,6 @@
 #' @param n String of characters representing the title of the plot. Default is
 #'   NULL and the first element of \code{g} is chosen.
 #' @return t-SNE plot for one particular gene
-#' @examples
-#' data(valuesG1msReduced_treated_K)  # DIscBIO:::prepExampleDataset for details
-#' sc <- valuesG1msReduced_treated_K
-#' g <- 'ENSG00000001460'
-#' plotExptSNE(sc, g)
 
 setGeneric("plotExptSNE", function(object, g, n = NULL)
     standardGeneric("plotExptSNE")

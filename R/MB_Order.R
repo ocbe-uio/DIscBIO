@@ -9,13 +9,6 @@
 #' @param filename Name of the exported file (if `export=TRUE`)
 #' @importFrom TSCAN TSCANorder
 #' @return The DISCBIO-class object input with the MBordering slot filled.
-#' @examples
-#' \donttest{
-#' data(valuesG1msReduced_treated_MB)  # details: DIscBIO:::prepExampleDataset
-#' sc <- valuesG1msReduced_treated_MB
-#' sc <- MB_Order(sc, export = FALSE)
-#' sc@MBordering
-#' }
 MB_Order <- function(
     object, quiet = FALSE, export = FALSE,
     filename = "Cellular_pseudo-time_ordering_based_on_Model-based_clusters"
