@@ -23,8 +23,7 @@
 #'   statistics. Default is 50
 #' @param cln Number of clusters to be used. Default is \code{NULL} and the
 #'   cluster number is inferred by the saturation criterion.
-#' @param rseed Integer number. Random seed to enforce reproducible clustering
-#'   results. Default is 17000.
+#' @param rseed Random integer to enforce reproducible clustering results.
 #' @param quiet if `TRUE`, intermediate output is suppressed
 #' @importFrom stats as.dist cor kmeans
 #' @importFrom cluster clusGap maxSE
@@ -39,7 +38,7 @@
 #' sc <- Clustexp(sc, cln=3)
 setGeneric("Clustexp", function(object, clustnr = 20, bootnr = 50,
     metric = "pearson", do.gap = TRUE, SE.method = "Tibs2001SEmax",
-    SE.factor = .25, B.gap = 50, cln = 0, rseed = 17000, quiet = FALSE)
+    SE.factor = .25, B.gap = 50, cln = 0, rseed = NULL, quiet = FALSE)
     {
         standardGeneric("Clustexp")
     }
@@ -51,7 +50,7 @@ setMethod(
     f = "Clustexp",
     signature = "DISCBIO",
     definition = function(object, clustnr, bootnr, metric, do.gap, SE.method,
-        SE.factor, B.gap, cln, rseed, quiet = FALSE)
+        SE.factor, B.gap, cln, rseed, quiet)
     {
         if (!is.numeric(clustnr))
             stop("clustnr has to be a positive integer")
@@ -97,8 +96,8 @@ setMethod(
             stop("cln has to be a non-negative integer")
         else if (round(cln) != cln | cln < 0)
             stop("cln has to be a non-negative integer")
-        if (!is.numeric(rseed))
-            stop("rseed has to be numeric")
+        if (!is.null(rseed) & !is.numeric(rseed))
+            stop("rseed has to be numeric or NULL")
         if (!do.gap & cln == 0)
             stop("cln has to be a positive integer or do.gap has to be TRUE")
 
@@ -134,7 +133,7 @@ setMethod(
                     SE.factor = .25,
                     B.gap = 50,
                     cln = 0,
-                    rseed = 17000,
+                    rseed = rseed,
                     quiet = FALSE) {
                 if (clustnr < 2)
                     stop("Choose clustnr > 1")
@@ -322,20 +321,19 @@ setMethod(
                             out
                         }
 
-                    clb <-
-                        clusterboot(
-                            di,
-                            B = bootnr,
-                            distances = FALSE,
-                            bootmethod = "boot",
-                            clustermethod = KmeansCBI,
-                            krange = cln,
-                            scaling = FALSE,
-                            multipleboot = FALSE,
-                            bscompare = TRUE,
-                            seed = rseed,
-                            count = !quiet
-                        )
+                    clb <- clusterboot(
+                        di,
+                        B = bootnr,
+                        distances = FALSE,
+                        bootmethod = "boot",
+                        clustermethod = KmeansCBI,
+                        krange = cln,
+                        scaling = FALSE,
+                        multipleboot = FALSE,
+                        bscompare = TRUE,
+                        seed = rseed,
+                        count = !quiet
+                    )
                     return(list(
                         x = x,
                         clb = clb,
@@ -344,30 +342,26 @@ setMethod(
                     ))
                 }
             }
-        y <-
-            clustfun(
-                object@fdata,
-                clustnr,
-                bootnr,
-                metric,
-                do.gap,
-                SE.method,
-                SE.factor,
-                B.gap,
-                cln,
-                rseed,
-                quiet = quiet
-            )
-        object@kmeans    <-
-            list(
-                kpart = y$clb$result$partition,
-                jaccard = y$clb$bootmean,
-                gap = y$gpr
-            )
+        y <- clustfun(
+            object@fdata,
+            clustnr,
+            bootnr,
+            metric,
+            do.gap,
+            SE.method,
+            SE.factor,
+            B.gap,
+            cln,
+            rseed = rseed,
+            quiet = quiet
+        )
+        object@kmeans <- list(
+            kpart = y$clb$result$partition,
+            jaccard = y$clb$bootmean,
+            gap = y$gpr
+        )
         object@distances <- as.matrix(y$di)
-        set.seed(111111) # fixed seed to keep the same colors
-        object@fcol <-
-            sample(rainbow(max(y$clb$result$partition)))
+        object@fcol <- rainbow(max(y$clb$result$partition))
         object@cpart <- object@kmeans$kpart
         return(object)
     }

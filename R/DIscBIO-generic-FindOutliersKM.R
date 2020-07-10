@@ -228,8 +228,7 @@ setMethod(
 
         object@cpart <- cpart
 
-        set.seed(111111)
-        object@fcol <- sample(rainbow(max(cpart)))
+        object@fcol <- rainbow(max(cpart))
         p <-
             object@kmeans$kpart[order(object@kmeans$kpart, decreasing = FALSE)]
         x <- object@out$cprobs[names(p)]

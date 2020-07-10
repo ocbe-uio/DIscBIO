@@ -7,7 +7,7 @@
 \usage{
 comptsneMB(
   object,
-  rseed = 15555,
+  rseed = NULL,
   max_iter = 5000,
   epoch = 500,
   quiet = FALSE,
@@ -16,7 +16,7 @@ comptsneMB(
 
 \S4method{comptsneMB}{DISCBIO}(
   object,
-  rseed = 15555,
+  rseed = NULL,
   max_iter = 5000,
   epoch = 500,
   quiet = FALSE,
@@ -26,16 +26,15 @@ comptsneMB(
 \arguments{
 \item{object}{\code{DISCBIO} class object.}
 
-\item{rseed}{Integer number. Random seed to to yield exactly reproducible
-maps across different runs. Default is 15555.}
+\item{rseed}{Random number to be set for reproducible results.}
 
 \item{max_iter}{maximum number of iterations to perform.}
 
 \item{epoch}{The number of iterations in between update messages.}
 
-\item{quiet}{if `TRUE`, suppresses intermediate output}
+\item{quiet}{if `TRUE`, suppresses intermediate output.}
 
-\item{...}{other parameters to be passed to `tsne::tsne`}
+\item{...}{other parameters to be passed to `tsne::tsne`.}
 }
 \value{
 The DISCBIO-class object input with the MBtsne slot filled.

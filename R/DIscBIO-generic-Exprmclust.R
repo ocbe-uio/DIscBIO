@@ -28,29 +28,28 @@
 #' sc <- FinalPreprocessing(sc, GeneFlitering="NoiseF", export=FALSE)
 #' sc <- Exprmclust(sc,K = 2)
 #' print(sc@MBclusters)
-    setGeneric(
-    name = "Exprmclust",
-    def = function(object,
+setGeneric(
+name = "Exprmclust",
+def = function(object,
+                K = 3,
+                modelNames = "VVV",
+                reduce = TRUE,
+                cluster = NULL,
+                quiet = FALSE)
+standardGeneric("Exprmclust")
+)
+
+#' @export
+#' @rdname Exprmclust
+setMethod(
+f = "Exprmclust",
+signature = "DISCBIO",
+definition = function(object,
                     K = 3,
                     modelNames = "VVV",
                     reduce = TRUE,
                     cluster = NULL,
-                    quiet = FALSE)
-    standardGeneric("Exprmclust")
-    )
-
-    #' @export
-    #' @rdname Exprmclust
-    setMethod(
-    f = "Exprmclust",
-    signature = "DISCBIO",
-    definition = function(object,
-                        K = 3,
-                        modelNames = "VVV",
-                        reduce = TRUE,
-                        cluster = NULL,
-                        quiet = FALSE) {
-    set.seed(12345)
+                    quiet = FALSE) {
     obj <- object@fdata
     if (reduce) {
         sdev <- prcomp(t(obj), scale = T)$sdev[1:20]
@@ -105,11 +104,11 @@
     object@MBclusters <- full_List
     return(object)
     }
-    )
+)
 
-    #' @export
-    #' @rdname Exprmclust
-    setMethod(
+#' @export
+#' @rdname Exprmclust
+setMethod(
     f = "Exprmclust",
     signature = "data.frame",
     definition = function(object,
@@ -118,7 +117,6 @@
                         reduce = TRUE,
                         cluster = NULL,
                         quiet = FALSE) {
-        set.seed(12345)
         obj <- object
         if (reduce) {
             sdev <- prcomp(t(obj), scale = T)$sdev[1:20]

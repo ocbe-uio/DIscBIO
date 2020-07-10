@@ -19,8 +19,8 @@
 #'   downsampled versions of the transcript count data. Default is 1 which means
 #'   that sampling noise should be comparable across cells. For high numbers of
 #'   dsn the data will become similar to the median normalization.
-#' @param rseed Integer number. Random seed to enforce reproducible clustering
-#'   results. Default is 17000.
+#' @param rseed Random integer to enforce reproducible clustering.
+#'   results
 #' @include DIscBIO-classes.R
 #' @return The DISCBIO-class object input with the ndata and fdata slots filled.
 #' @examples
@@ -36,7 +36,7 @@ setGeneric(
     "Normalizedata",
     function(
         object, mintotal = 1000, minexpr = 0, minnumber = 0, maxexpr = Inf,
-        downsample = FALSE, dsn = 1, rseed = 17000
+        downsample = FALSE, dsn = 1, rseed = NULL
     )
     standardGeneric("Normalizedata")
 )

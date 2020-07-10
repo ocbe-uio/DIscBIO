@@ -46,7 +46,7 @@ test_that("Data is normalized", {
 
 context("K-means clustering")
 
-sc <- Clustexp(sc, cln=2, quiet=TRUE) # K-means clustering
+sc <- Clustexp(sc, cln=2, quiet=TRUE, rseed=17000) # K-means clustering
 sc <- comptSNE(sc, rseed=15555, quiet=TRUE, max_iter=10)
 
 test_that("tSNE is computed", {
@@ -184,7 +184,7 @@ test_that("tSNE clustering works fine", {
 
 context("MB outliers")
 
-sc <- Clustexp(sc, cln=2, quiet=TRUE)
+sc <- Clustexp(sc, cln=2, quiet=TRUE, rseed=17000)
 
 Outliers <- FindOutliersMB(
     sc, K=2, outminc=5, outlg=2, probthr=.5*1e-3, thr=2 ^ (-1:-40),

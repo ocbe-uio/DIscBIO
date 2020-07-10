@@ -54,12 +54,8 @@ sammy <- function (data, resp.type = c("Quantitative", "Two class unpaired",
     resp.type.arg = match.arg(resp.type)
     assay.type = match.arg(assay.type)
     xl.mode = match.arg(xl.mode)
-    if (!is.null(random.seed)) {
-        set.seed(random.seed)
-    }
-    if (is.null(nresamp.perm)) {
-        nresamp.perm = nresamp
-    }
+    set.seed(random.seed)
+    if (is.null(nresamp.perm)) nresamp.perm <- nresamp
     nresamp.perm = min(nresamp, nresamp.perm)
     if (xl.mode == "regular" | xl.mode == "firsttime") {
         x = NULL

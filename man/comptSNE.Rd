@@ -7,7 +7,7 @@
 \usage{
 comptSNE(
   object,
-  rseed = 15555,
+  rseed = NULL,
   max_iter = 5000,
   epoch = 500,
   quiet = FALSE,
@@ -16,7 +16,7 @@ comptSNE(
 
 \S4method{comptSNE}{DISCBIO}(
   object,
-  rseed = 15555,
+  rseed = NULL,
   max_iter = 5000,
   epoch = 500,
   quiet = FALSE,
@@ -26,8 +26,8 @@ comptSNE(
 \arguments{
 \item{object}{\code{DISCBIO} class object.}
 
-\item{rseed}{Integer number. Random seed to to yield exactly reproducible
-maps across different runs. Default is 15555.}
+\item{rseed}{Random integer to to yield reproducible maps across different
+runs}
 
 \item{max_iter}{maximum number of iterations to perform.}
 

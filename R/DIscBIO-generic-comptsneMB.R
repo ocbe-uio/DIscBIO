@@ -2,12 +2,11 @@
 #' @description This function is used to compute the t-Distributed Stochastic
 #'   Neighbor Embedding (t-SNE).
 #' @param object \code{DISCBIO} class object.
-#' @param rseed Integer number. Random seed to to yield exactly reproducible
-#'   maps across different runs. Default is 15555.
 #' @param max_iter maximum number of iterations to perform.
 #' @param epoch The number of iterations in between update messages.
-#' @param quiet if `TRUE`, suppresses intermediate output
-#' @param ... other parameters to be passed to `tsne::tsne`
+#' @param quiet if `TRUE`, suppresses intermediate output.
+#' @param rseed Random number to be set for reproducible results.
+#' @param ... other parameters to be passed to `tsne::tsne`.
 #' @importFrom tsne tsne
 #' @importFrom stats as.dist cor
 #' @return The DISCBIO-class object input with the MBtsne slot filled.
@@ -24,7 +23,7 @@
 #' print(sc@MBtsne)
 setGeneric(
     name = "comptsneMB",
-    def = function(object, rseed = 15555, max_iter = 5000, epoch = 500,
+    def = function(object, rseed = NULL, max_iter = 5000, epoch = 500,
         quiet = FALSE, ...) {
         standardGeneric("comptsneMB")
     }

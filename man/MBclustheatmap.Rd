@@ -6,9 +6,21 @@
 \title{Plotting the Model-based clusters in a heatmap representation of the
   cell-to-cell distances}
 \usage{
-MBclustheatmap(object, hmethod = "single", plot = TRUE, quiet = FALSE)
+MBclustheatmap(
+  object,
+  hmethod = "single",
+  plot = TRUE,
+  quiet = FALSE,
+  rseed = NULL
+)
 
-\S4method{MBclustheatmap}{DISCBIO}(object, hmethod = "single", plot = TRUE, quiet = FALSE)
+\S4method{MBclustheatmap}{DISCBIO}(
+  object,
+  hmethod = "single",
+  plot = TRUE,
+  quiet = FALSE,
+  rseed = NULL
+)
 }
 \arguments{
 \item{object}{\code{DISCBIO} class object.}
@@ -20,6 +32,8 @@ from hierarchical clustering of the cluster medoids. This should be one of
 \item{plot}{if `TRUE`, plots the heatmap; otherwise, just prints cclmo}
 
 \item{quiet}{if `TRUE`, intermediary output is suppressed}
+
+\item{rseed}{Random integer to fix random results.}
 }
 \value{
 Unless otherwise specified, a heatmap and a vector of the underlying

@@ -9,6 +9,7 @@
 #'   "ward.D", "ward.D2", "single", "complete", "average". Default is "single".
 #' @param plot if `TRUE`, plots the heatmap; otherwise, just prints cclmo
 #' @param quiet if `TRUE`, intermediary output is suppressed
+#' @param rseed Random integer to fix random results.
 #' @importFrom stats hclust as.dist cor kmeans
 #' @importFrom cluster clusGap maxSE
 #' @importFrom fpc clusterboot kmeansCBI
@@ -23,10 +24,7 @@
 #' }
 setGeneric(
     "MBclustheatmap",
-    function(
-        object, hmethod="single", plot=TRUE, quiet=FALSE
-    )
-    {
+    function(object, hmethod="single", plot=TRUE, quiet=FALSE, rseed=NULL) {
         standardGeneric("MBclustheatmap")
     }
 )
@@ -36,7 +34,7 @@ setGeneric(
 setMethod(
     "MBclustheatmap",
     signature = "DISCBIO",
-    definition = function(object, hmethod, plot, quiet) {
+    definition = function(object, hmethod, plot, quiet, rseed) {
     x <- object@fdata
     object@clusterpar$metric <- "pearson"
     dist.gen <-
@@ -57,7 +55,7 @@ setMethod(
                 SE.factor = .25,
                 B.gap = 50,
                 cln = 0,
-                rseed = 17000,
+                rseed = rseed,
                 quiet = FALSE) {
         if (clustnr < 2)
             stop("Choose clustnr > 1")
@@ -122,7 +120,7 @@ setMethod(
         SE.factor = .25,
         B.gap = 50,
         cln = 0,
-        rseed = 17000,
+        rseed = rseed,
         quiet = quiet
         )
     object@distances <- as.matrix(y$di)

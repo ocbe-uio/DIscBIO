@@ -25,7 +25,9 @@ sc <- FinalPreprocessing(sc, GeneFlitering="ExpF", export=FALSE, quiet=TRUE)
 # ------------------------------------------------------------------------------
 # DEG Analysis
 # ------------------------------------------------------------------------------
-sc <- Clustexp(sc, clustnr=n_clust, quiet=TRUE, bootnr = 2, B.gap = 2)
+sc <- Clustexp(
+    sc, clustnr=n_clust, quiet=TRUE, bootnr = 2, B.gap = 2, rseed=17000
+)
 cdiff <- DEGanalysis(
     sc, Clustering="K-means", K=n_clust, fdr=0.10, name="all_clusters",
     export=FALSE, quiet=TRUE, plot=FALSE, nresamp=2, nperms=2
