@@ -12,14 +12,18 @@ prepExampleDataset(dataset, save = TRUE)
 \item{save}{save results?}
 }
 \value{
-rda file
+Two rda files, ones for K-means clustering and another for
+Model-based clustering.
 }
 \description{
 Internal function that prepares a pre-treated dataset for use in
 several examples
 }
-\examples{
-\donttest{
-    DIscBIO:::prepExampleDataset(valuesG1msReduced, save=FALSE)
+\details{
+This function serves the purpose of treating datasets such as
+valuesG1msReduced to reduce examples of other functions by bypassing some
+analysis steps covered in the vignettes.
 }
+\author{
+Waldir Leoncio
 }

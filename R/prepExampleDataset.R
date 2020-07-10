@@ -3,11 +3,12 @@
 #' several examples
 #' @param dataset Dataset used for transformation
 #' @param save save results?
-#' @examples
-#' \donttest{
-#'     DIscBIO:::prepExampleDataset(valuesG1msReduced, save=FALSE)
-#' }
-#' @return rda file
+#' @details This function serves the purpose of treating datasets such as
+#' valuesG1msReduced to reduce examples of other functions by bypassing some
+#' analysis steps covered in the vignettes.
+#' @return Two rda files, ones for K-means clustering and another for
+#' Model-based clustering.
+#' @author Waldir Leoncio
 prepExampleDataset <- function(dataset, save=TRUE) {
 	# ==========================================================================
 	# Initial data treatment
