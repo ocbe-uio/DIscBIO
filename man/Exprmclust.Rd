@@ -61,13 +61,13 @@ this function first uses principal component analysis (PCA) to
   clustering on the transformed expression values.
 }
 \examples{
-sc <- DISCBIO(valuesG1msReduced)
+sc <- DISCBIO(valuesG1msRed)
 sc <- NoiseFiltering(sc, percentile=0.9, CV=0.2, export=FALSE)
 sc <- Normalizedata(
     sc, mintotal=1000, minexpr=0, minnumber=0, maxexpr=Inf, downsample=FALSE,
     dsn=1, rseed=17000
 )
 sc <- FinalPreprocessing(sc, GeneFlitering="NoiseF", export=FALSE)
-sc <- Exprmclust(sc,K = 2)
+sc <- Exprmclust(sc,K=2)
 print(sc@MBclusters)
 }

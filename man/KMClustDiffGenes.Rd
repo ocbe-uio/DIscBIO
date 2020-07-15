@@ -60,7 +60,7 @@ A list containing two tables.
 description
 }
 \examples{
-sc <- DISCBIO(valuesG1msReduced)
+sc <- DISCBIO(valuesG1msRed)
 sc <- Clustexp(sc, cln=3, quiet=TRUE) # K-means clustering
 KMClustDiffGenes(sc, K=3, fdr=.3, export=FALSE)
 }

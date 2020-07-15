@@ -25,7 +25,7 @@ Additional parameters to pass to `list` include, if x is
 }
 \examples{
 g1_sce <- SingleCellExperiment::SingleCellExperiment(
-    list(counts=as.matrix(valuesG1msReduced))
+    list(counts=as.matrix(valuesG1msRed))
 )
 g1_disc <- as.DISCBIO(g1_sce)
 class(g1_disc)

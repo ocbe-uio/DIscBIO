@@ -65,7 +65,7 @@ A named vector of the genes containing outlying cells and the number
 This functions performs the outlier identification
 }
 \examples{
-sc <- DISCBIO(valuesG1msReduced)
+sc <- DISCBIO(valuesG1msRed)
 sc <- Clustexp(sc, cln=3) # K-means clustering
 Outliers <- FindOutliersKM(
     sc, K=3, outminc=5, outlg=2, probthr=.5*1e-3, thr=2**-(1:40),

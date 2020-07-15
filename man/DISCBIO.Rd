@@ -83,9 +83,9 @@ from running the noise filtering or/and the expression filtering.}
 }}
 
 \examples{
-class(valuesG1msReduced)
-G1_reclassified <- DISCBIO(valuesG1msReduced)
+class(valuesG1msRed)
+G1_reclassified <- DISCBIO(valuesG1msRed)
 class(G1_reclassified)
 str(G1_reclassified, max.level=2)
-identical(G1_reclassified@expdataAll, valuesG1msReduced)
+identical(G1_reclassified@expdataAll, valuesG1msRed)
 }

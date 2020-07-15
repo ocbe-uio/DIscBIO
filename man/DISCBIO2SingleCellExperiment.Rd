@@ -17,7 +17,7 @@ Extract the SingleCellExperiment input data from the corresponding input slot
 in a DISCBIO-class object
 }
 \examples{
-g1_disc <- DISCBIO(valuesG1msReduced)
+g1_disc <- DISCBIO(valuesG1msRed)
 class(g1_disc)
 g1_sce <- DISCBIO2SingleCellExperiment(g1_disc)
 class(g1_sce)

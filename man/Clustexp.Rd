@@ -77,6 +77,6 @@ This functions performs the initial clustering of the RaceID
   algorithm.
 }
 \examples{
-sc <- DISCBIO(valuesG1msReduced) # changes signature of data
+sc <- DISCBIO(valuesG1msRed) # changes signature of data
 sc <- Clustexp(sc, cln=3)
 }
