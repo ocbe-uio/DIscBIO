@@ -8,7 +8,7 @@ context("Converting other formats to DISCBIO")
 pmbc_seurat <- Seurat::pbmc_small # TODO: replace with library(Seurat); data(...) to better pass r-devel?
 pmbc_sce <- Seurat::as.SingleCellExperiment(pmbc_seurat)
 g1_sce <- SingleCellExperiment::SingleCellExperiment(
-    list(counts=as.matrix(valuesG1msReduced))
+    list(counts=as.matrix(valuesG1msRed))
 )
 # ------------------------------------------------------------------------------
 # Performing unit tests

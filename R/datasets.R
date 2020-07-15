@@ -6,7 +6,7 @@
 #'   part of a larger dataset containing 94 single cells. The complete dataset
 #'   is fully compatible with this package and an rda file can be obtained at
 #'   https://github.com/ocbe-uio/DIscBIO/blob/dev/data/valuesG1ms.rda
-#' @name valuesG1msReduced
+#' @name valuesG1msRed
 #' @docType data
 NULL
 

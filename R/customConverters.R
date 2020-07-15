@@ -82,7 +82,7 @@ customConvertFeats <- function(x, verbose = TRUE) {
 #'
 #' @examples
 #' g1_sce <- SingleCellExperiment::SingleCellExperiment(
-#'     list(counts=as.matrix(valuesG1msReduced))
+#'     list(counts=as.matrix(valuesG1msRed))
 #' )
 #' g1_disc <- as.DISCBIO(g1_sce)
 #' class(g1_disc)
@@ -157,7 +157,7 @@ as.DISCBIO <- function(x, ...) {
 #' @export
 #'
 #' @examples
-#' g1_disc <- DISCBIO(valuesG1msReduced)
+#' g1_disc <- DISCBIO(valuesG1msRed)
 #' class(g1_disc)
 #' g1_sce <- DISCBIO2SingleCellExperiment(g1_disc)
 #' class(g1_sce)

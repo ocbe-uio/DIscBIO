@@ -30,7 +30,7 @@ The dataset should be formatted in a data frame where columns refer to samples a
 
 
 ```{r}
-FileName<-data("valuesG1msReduced")
+FileName<-data("valuesG1msRed")
 DataSet<-get(FileName)
 ```
 

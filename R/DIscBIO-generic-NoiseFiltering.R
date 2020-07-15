@@ -27,7 +27,7 @@
 #' @note This function should be used only if the dataset has ERCC.
 #' @return The DISCBIO-class object input with the noiseF slot filled.
 #' @examples
-#' sc <- DISCBIO(valuesG1msReduced) # changes signature of data
+#' sc <- DISCBIO(valuesG1msRed) # changes signature of data
 #' sd_filtered <- NoiseFiltering(sc, export=FALSE)
 #' str(sd_filtered)
 setGeneric(

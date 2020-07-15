@@ -24,7 +24,7 @@
 #' @include DIscBIO-classes.R
 #' @return The DISCBIO-class object input with the ndata and fdata slots filled.
 #' @examples
-#' sc <- DISCBIO(valuesG1msReduced) # changes signature of data
+#' sc <- DISCBIO(valuesG1msRed) # changes signature of data
 #'
 #' # In this case this function is used to normalize the reads
 #' sc_normal <- Normalizedata(

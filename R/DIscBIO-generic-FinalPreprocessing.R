@@ -8,7 +8,7 @@
 #' @param quiet if `TRUE`, intermediary output is suppressed
 #' @return The DISCBIO-class object input with the FinalGeneList slot filled.
 #' @examples
-#' sc <- DISCBIO(valuesG1msReduced)
+#' sc <- DISCBIO(valuesG1msRed)
 #' sc <- NoiseFiltering(sc, percentile=0.9, CV=0.2, export=FALSE)
 #' sc <- FinalPreprocessing(sc, GeneFlitering="NoiseF", export=FALSE)
 setGeneric(

@@ -34,7 +34,7 @@
 #' @importFrom methods is
 #' @return The DISCBIO-class object input with the cpart slot filled.
 #' @examples
-#' sc <- DISCBIO(valuesG1msReduced) # changes signature of data
+#' sc <- DISCBIO(valuesG1msRed) # changes signature of data
 #' sc <- Clustexp(sc, cln=3)
 setGeneric("Clustexp", function(object, clustnr = 20, bootnr = 50,
     metric = "pearson", do.gap = TRUE, SE.method = "Tibs2001SEmax",

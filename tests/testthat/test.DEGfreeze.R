@@ -12,7 +12,7 @@ if (manual_test) {
     data(pan_indrop_matrix_8000cells_18556genes)
     sc <- DISCBIO(pan_indrop_matrix_8000cells_18556genes[, seq_len(n_genes)])
 } else {
-    sc <- DISCBIO(valuesG1msReduced)
+    sc <- DISCBIO(valuesG1msRed)
     sc <- NoiseFiltering(sc, plot=FALSE, export=FALSE, quiet=TRUE)
 }
 
