@@ -77,6 +77,7 @@ definition = function(object,
         warn = FALSE,
         verbose = !quiet
         )
+        if (is.null(res)) stop("Unable to cluster. Try a lower value for K.")
         clusterid <- apply(res$z, 1, which.max)
         clunum <- res$G
     } else {
@@ -143,6 +144,9 @@ setMethod(
                 warn = FALSE,
                 verbose = !quiet
             )
+            if (is.null(res)) {
+                stop("Unable to cluster. Try a lower value for K.")
+            }
             clusterid <- apply(res$z, 1, which.max)
             clunum <- res$G
         } else {

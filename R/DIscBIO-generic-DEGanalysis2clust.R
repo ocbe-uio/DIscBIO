@@ -121,6 +121,7 @@ setMethod(
         wm <- which.min(delta.table[, 5])
         if (delta.table[wm, 5] <= fdr) {
             w <- which(delta.table[, 5] <= fdr)
+            if (is.null (w)) stop("No suitable deltas. Try a lower FDR value.")
             delta <- delta.table[w[1], 1] - 0.001
             if (plot) {
                 samr.plot(samr.obj, delta)
@@ -193,18 +194,20 @@ setMethod(
                 gene_list <- geneList[, 3]
                 idx_genes <- is.element(gene_list, genes)
                 genes2 <- geneList[idx_genes, ]
-                FinalDEGsL <- merge(
-                    FinalDEGsL,
-                    genes2,
-                    by.x = "genes",
-                    by.y = "ENSEMBL",
-                    all.x = TRUE
-                )
-                FinalDEGsL[, 3] <- FinalDEGsL[, 11]
-                FinalDEGsL <- FinalDEGsL[, c(-1, -10, -11)]
-                FinalDEGsL <- FinalDEGsL[order(FinalDEGsL[, 8]), ]
-                FinalDEGsL[is.na(FinalDEGsL[, 2]), c(2, 3)] <-
-                    FinalDEGsL[is.na(FinalDEGsL[, 2]), 3]
+                if (!is.null(FinalDEGsL)) {
+                    FinalDEGsL <- merge(
+                        FinalDEGsL,
+                        genes2,
+                        by.x = "genes",
+                        by.y = "ENSEMBL",
+                        all.x = TRUE
+                    )
+                    FinalDEGsL[, 3] <- FinalDEGsL[, 11]
+                    FinalDEGsL <- FinalDEGsL[, c(-1, -10, -11)]
+                    FinalDEGsL <- FinalDEGsL[order(FinalDEGsL[, 8]), ]
+                    FinalDEGsL[is.na(FinalDEGsL[, 2]), c(2, 3)] <-
+                        FinalDEGsL[is.na(FinalDEGsL[, 2]), 3]
+                }
                 if (export) {
                     cat(
                         "The results of DEGs are saved in your directory",
@@ -260,18 +263,20 @@ setMethod(
                 gene_list <- geneList[, 3]
                 idx_genes <- is.element(gene_list, genes)
                 genes2 <- geneList[idx_genes, ]
-                FinalDEGsU <- merge(
-                    FinalDEGsU,
-                    genes2,
-                    by.x = "genes",
-                    by.y = "ENSEMBL",
-                    all.x = TRUE
-                )
-                FinalDEGsU[, 3] <- FinalDEGsU[, 11]
-                FinalDEGsU <- FinalDEGsU[, c(-1, -10, -11)]
-                FinalDEGsU <- FinalDEGsU[order(FinalDEGsU[, 8]), ]
-                FinalDEGsU[is.na(FinalDEGsU[, 2]), c(2, 3)] <-
-                    FinalDEGsU[is.na(FinalDEGsU[, 2]), 3]
+                if (!is.null(FinalDEGsU)) {
+                    FinalDEGsU <- merge(
+                        FinalDEGsU,
+                        genes2,
+                        by.x = "genes",
+                        by.y = "ENSEMBL",
+                        all.x = TRUE
+                    )
+                    FinalDEGsU[, 3] <- FinalDEGsU[, 11]
+                    FinalDEGsU <- FinalDEGsU[, c(-1, -10, -11)]
+                    FinalDEGsU <- FinalDEGsU[order(FinalDEGsU[, 8]), ]
+                    FinalDEGsU[is.na(FinalDEGsU[, 2]), c(2, 3)] <-
+                        FinalDEGsU[is.na(FinalDEGsU[, 2]), 3]
+                }
                 if (export) {
                     cat(
                         "The results of DEGs are saved in your directory",
