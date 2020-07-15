@@ -1,5 +1,5 @@
 ---
-title: "DIscBIO: a user-friendly pipeline for biomarker discovery in single-cell transcriptomics"
+title: "DIscBIO tutorial"
 author: "Salim Ghannoum"
 date: "`r Sys.Date()`"
 output: rmarkdown::html_vignette
@@ -8,30 +8,22 @@ vignette: >
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
-
-![DIscBIO](DiscBIO.png){width=80%}
-
-The pipeline consists of four successive steps: data pre-processing, cellular clustering and pseudo-temporal ordering, determining differential expressed genes and identifying biomarkers.
-
-## Required Packages
-
 ```{r options, echo=FALSE}
 knitr::opts_chunk$set(fig.width=7, fig.height=7, eval=FALSE)
 ```
 
-```{r}
-library(DIscBIO)
-library(enrichR)
-```
+The pipeline consists of four successive steps: data pre-processing, cellular clustering and pseudo-temporal ordering, determining differential expressed genes and identifying biomarkers.
+
+This vignette is a reduced version of the interactive notebook available [here](https://mybinder.org/v2/gh/SystemsBiologist/PSCAN/discbio-pub?filepath=DIscBIO.ipynb)
 
 ## Loading dataset
 
 The dataset should be formatted in a data frame where columns refer to samples and rows refer to genes.
 
-
 ```{r}
-FileName<-data("valuesG1msRed")
-DataSet<-get(FileName)
+library(DIscBIO)
+FileName <- data("valuesG1msRed")
+DataSet <- get(FileName)
 ```
 
 ## 1. Data Pre-processing
@@ -46,7 +38,7 @@ The key idea in filtering genes is to appoint the genes that manifest abundant v
 In case the raw data does not include ERCC spike-ins, genes will be only filtered based on minimum expression in certain number of cells.
 
 ```{r}
-sc<- DISCBIO(DataSet)
+sc <- DISCBIO(DataSet)
 ```
 
 ### 1.1. Filtering and normalizing the raw data that includes ERCCs
@@ -74,19 +66,19 @@ To Finalize the preprocessing the function FinalPreprocessing() should be implem
 
 
 ```{r}
-sc<-NoiseFiltering(sc,percentile=0.9, CV=0.2)
+sc <- NoiseFiltering(sc,percentile=0.9, CV=0.2)
 
 ####  Normalizing the reads without any further gene filtering
-sc<-Normalizedata(sc, mintotal=1000, minexpr=0, minnumber=0, maxexpr=Inf, downsample=FALSE, dsn=1, rseed=17000)
+sc <- Normalizedata(sc, mintotal=1000, minexpr=0, minnumber=0, maxexpr=Inf, downsample=FALSE, dsn=1, rseed=17000)
 
 ####  Additional gene filtering step based on gene expression
-#MIinExp<- mean(rowMeans(DataSet,na.rm=TRUE))
+#MIinExp <- mean(rowMeans(DataSet,na.rm=TRUE))
 #MIinExp
-#MinNumber<- round(length(DataSet[1,])/3)    # To be expressed in at least one third of the cells.
+#MinNumber <- round(length(DataSet[1,])/3) # To be expressed in at least one third of the cells.
 #MinNumber
-#sc<-Normalizedata(sc, mintotal=1000, minexpr=MIinExp, minnumber=MinNumber, maxexpr=Inf, downsample=FALSE, dsn=1, rseed=17000)
+#sc <- Normalizedata(sc, mintotal=1000, minexpr=MIinExp, minnumber=MinNumber, maxexpr=Inf, downsample=FALSE, dsn=1, rseed=17000)
 
-sc<-FinalPreprocessing(sc,GeneFlitering="NoiseF",export=TRUE) ### The GeneFiltering can be either "NoiseF" or"ExpF"
+sc <- FinalPreprocessing(sc,GeneFlitering="NoiseF",export=TRUE) ### The GeneFiltering can be either "NoiseF" or"ExpF"
 ```
 
 ### 1.2. Filtering and normalizing the raw data that does not include ERCCs
@@ -95,7 +87,7 @@ To normalize and filter the raw data that does not include ERCCs can be done by 
 
 To Finalize the preprocessing the function FinalPreprocessing() should be implemented by setting the parameter "GeneFlitering" to ExpF.
 
-###                                               ¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤ Running this cell will overwrite the previous cell ¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤
+**¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤ Running this cell will overwrite the previous cell ¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤**
 
 
 ```{r}
@@ -105,10 +97,10 @@ OnlyExpressionFiltering=FALSE
 if (OnlyExpressionFiltering==TRUE){
     MIinExp <- mean(rowMeans(DataSet,na.rm=TRUE))
     MIinExp
-    MinNumber<- round(length(DataSet[1,])/3)    # To be expressed in at least one third of the cells.
+    MinNumber <- round(length(DataSet[1,])/3) # To be expressed in at least one third of the cells.
     MinNumber
-    sc<-Normalizedata(sc, mintotal=1000, minexpr=MIinExp, minnumber=MinNumber, maxexpr=Inf, downsample=FALSE, dsn=1, rseed=17000) #### In this case this function is used to filter out genes and cells.
-    sc<-FinalPreprocessing(sc,GeneFlitering="ExpF",export=TRUE)
+    sc <- Normalizedata(sc, mintotal=1000, minexpr=MIinExp, minnumber=MinNumber, maxexpr=Inf, downsample=FALSE, dsn=1, rseed=17000) #### In this case this function is used to filter out genes and cells.
+    sc <- FinalPreprocessing(sc,GeneFlitering="ExpF",export=TRUE)
 }
 ```
 
@@ -136,15 +128,15 @@ The Clustexp() functions has several parameters:
 - quiet if `TRUE`, intermediate output is suppressed
 
 ```{r}
-sc<- Clustexp(sc,cln=2,quiet=TRUE)    #### K-means clustering to get three clusters
-plotGap(sc)        ### Plotting gap statisticssc<- Clustexp(sc, clustnr=20,bootnr=50,metric="pearson",do.gap=TRUE,SE.method="Tibs2001SEmax",SE.factor=.25,B.gap=50,cln=K,rseed=17000)
+sc <- Clustexp(sc,cln=2,quiet=TRUE) #### K-means clustering to get three clusters
+plotGap(sc) ### Plotting gap statisticssc <- Clustexp(sc, clustnr=20,bootnr=50,metric="pearson",do.gap=TRUE,SE.method="Tibs2001SEmax",SE.factor=.25,B.gap=50,cln=K,rseed=17000)
 ```
 
 #### 2.1.1. Defining the Cells in the clusters generated by k-means clustering
 
 
 ```{r}
-sc<- comptSNE(sc,rseed=15555,quiet=TRUE)
+sc <- comptSNE(sc,rseed=15555,quiet=TRUE)
 cat("\t","     Cell-ID"," Cluster Number","\n")
 sc@cpart
 ```
@@ -157,11 +149,11 @@ PSCAN enables the robustness assessment of the detected clusters in terms of sta
 ```{r}
 # Silhouette of k-means clusters
 # you might have to run "par(mar=c(6,2,4,2))" first so plot looks better
-plotSilhouette(sc,K=2)       # K is the number of clusters
+plotSilhouette(sc,K=2) # K is the number of clusters
 ```
 
 ```{r}
-Jaccard(sc,Clustering="K-means", K=2, plot=TRUE)     # Jaccard of k-means clusters
+Jaccard(sc,Clustering="K-means", K=2, plot=TRUE) # Jaccard of k-means clusters
 ```
 
 #### 2.1.3. Cluster plotting using tSNE maps
@@ -172,8 +164,8 @@ Here you visualize the K-means clusters using t-distributed stochastic neighbor 
 ```{r}
 ############ Plotting K-means clusters
 plottSNE(sc)
-plotKmeansLabelstSNE(sc)                                         # To plot the the ID of the cells in eacj cluster
-plotSymbolstSNE(sc,types=sub("(\\_\\d+)$","", names(sc@ndata)))  # To plot the the ID of the cells in eacj cluster
+plotKmeansLabelstSNE(sc) # To plot the the ID of the cells in eacj cluster
+plotSymbolstSNE(sc,types=sub("(\\_\\d+)$","", names(sc@ndata))) # To plot the the ID of the cells in eacj cluster
 ```
 
 ### Defining outlier cells based on K-means Clustering
@@ -184,8 +176,8 @@ In case the user decided to remove outlier cells, the user should set RemovingOu
 
 
 ```{r}
-outlg<-round(length(sc@fdata[,1])/200)     # The cell will be considered as an outlier if it has a minimum of 0.5% of the number of filtered genes as outlier genes.
-Outliers<- FindOutliersKM(sc, K=2, outminc=5,outlg=outlg,probthr=.5*1e-3,thr=2**-(1:40),outdistquant=.75, plot=TRUE, quiet=FALSE)
+outlg <- round(length(sc@fdata[,1])/200) # The cell will be considered as an outlier if it has a minimum of 0.5% of the number of filtered genes as outlier genes.
+Outliers <- FindOutliersKM(sc, K=2, outminc=5,outlg=outlg,probthr=.5*1e-3,thr=2**-(1:40),outdistquant=.75, plot=TRUE, quiet=FALSE)
 
 RemovingOutliers=FALSE
 # RemovingOutliers=TRUE                    # Removing the defined outlier cells based on K-means Clustering
@@ -203,7 +195,7 @@ if(RemovingOutliers==TRUE){
 #### 2.1.4. Cellular pseudo-time ordering based on k-means clusters
 
 ```{r}
-sc<-KmeanOrder(sc,quiet=FALSE, export=TRUE)
+sc <- KmeanOrder(sc,quiet=FALSE, export=TRUE)
 plotOrderKMtsne(sc)
 ```
 
@@ -238,29 +230,29 @@ The user can define DEGs between all clusters generated by either K-means or mod
 
 ```{r degKM}
 ####### differential expression analysis between cluster 1 and cluster 3 of the Model-Based clustering using FDR of 0.05
-cdiff<-DEGanalysis2clust(sc,Clustering="K-means",K=2,fdr=0.05,name="Name",First="CL1",Second="CL2",export=TRUE,quiet=TRUE)
+cdiff <- DEGanalysis2clust(sc,Clustering="K-means",K=2,fdr=0.05,name="Name",First="CL1",Second="CL2",export=TRUE,quiet=TRUE)
 ```
 
 ```{r}
 #### To show the result table
-head(cdiff[[1]])                  # The first component
-head(cdiff[[2]])                  # The second component
+head(cdiff[[1]]) # The first component
+head(cdiff[[2]]) # The second component
 ```
 
 ### 3.1.2 Determining DEGs between all clusters
 
 
-##                                         ¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤ Running this cell will overwrite the previous one ¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤
+**¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤ Running this cell will overwrite the previous one ¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤**
 
 
 ```{r}
-cdiff<-DEGanalysis(sc,Clustering="K-means",K=2,fdr=0.05,name="all_clusters",export=TRUE,quiet=TRUE)   ####### differential expression analysis between all clusters
+cdiff <- DEGanalysis(sc,Clustering="K-means",K=2,fdr=0.05,name="all_clusters",export=TRUE,quiet=TRUE) ####### differential expression analysis between all clusters
 ```
 
 ```{r}
 #### To show the result table
-head(cdiff[[1]])                  # The first component
-head(cdiff[[2]])                  # The second component
+head(cdiff[[1]]) # The first component
+head(cdiff[[2]]) # The second component
 ```
 
 #### 3.2 Identifying DEGs using binomial differential expression
@@ -270,10 +262,10 @@ comparison to the ensemble of all cells. It returns a list with a data.frame ele
 
 
 ```{r}
-cdiffBinomial<-KMClustDiffGenes(sc,K=2,fdr=.01,,quiet=TRUE)    ########## Binomial differential expression analysis
+cdiffBinomial <- KMClustDiffGenes(sc,K=2,fdr=.01,,quiet=TRUE) ########## Binomial differential expression analysis
 #### To show the result table
-head(cdiffBinomial[[1]])                  # The first component
-head(cdiffBinomial[[2]])                  # The second component
+head(cdiffBinomial[[1]]) # The first component
+head(cdiffBinomial[[2]]) # The second component
 ```
 
 ### Plotting the DEGs
@@ -297,18 +289,18 @@ There are several methods to identify biomarkers, among them are decision trees 
 Decision trees are one of the most efficient classification techniques in biomarkers discovery. Here we use it to predict the sub-population of a target cell based on transcriptomic data. Two types of decision trees can be performed: classification and regression trees (CART) and J48. The decision tree analysis is implemented over a training dataset, which consisted of the DEGs obtained by either SAMseq or the binomial differential expression. The performance of the generated trees can be evaluated for error estimation by ten-fold cross validation assessment using the "J48DTeval" and "RpartEVAL" functions. The decision tree analysis requires the dataset to be class vectored by applying the “ClassVectoringDT” function.
 
 ```{r}
-#sigDEG<-cdiff[[1]]             # DEGs gene list from SANseq
-sigDEG<-cdiffBinomial[[1]]      # DEGs gene list from Binomial analysis
+#sigDEG <- cdiff[[1]]             # DEGs gene list from SANseq
+sigDEG <- cdiffBinomial[[1]]      # DEGs gene list from Binomial analysis
 First="CL1"
 Second="CL2"
-DATAforDT<-ClassVectoringDT(sc,Clustering="K-means",K=3,First=First,Second=Second,sigDEG)
+DATAforDT <- ClassVectoringDT(sc,Clustering="K-means",K=3,First=First,Second=Second,sigDEG)
 ```
 
 ### 4.1. J48 Decision Tree
 
 
 ```{r}
-j48dt<-J48DT(DATAforDT)
+j48dt <- J48DT(DATAforDT)
 summary(j48dt)
 ```
 
@@ -316,7 +308,7 @@ summary(j48dt)
 
 
 ```{r}
-j48dt<-J48DTeval(DATAforDT,num.folds=10,First=First,Second=Second)
+j48dt <- J48DTeval(DATAforDT,num.folds=10,First=First,Second=Second)
 ```
 
 ### 4.2. RPART Decision Tree
@@ -330,7 +322,7 @@ rpartDT <- RpartDT(DATAforDT)
 
 
 ```{r}
-rpartEVAL<-RpartEVAL(DATAforDT,num.folds=10,First=First,Second=Second)
+rpartEVAL <- RpartEVAL(DATAforDT,num.folds=10,First=First,Second=Second)
 ```
 
 ### 4.3. Networking Analysis
@@ -344,18 +336,18 @@ To define protein-protein interactions (PPI) over a list of genes, STRING-api is
 DEGs="All DEGs"
 FileName=paste0(DEGs)
 
-data<-cdiffBinomial[[1]] [,2]           # DEGs gene list from Binomial analysis (taking only the firat 100 genes)
-#data<-cdiff[[1]] [,2]                  # From the table of the differential expression analysis between all pairs of clusters
+data <- cdiffBinomial[[1]] [,2]           # DEGs gene list from Binomial analysis (taking only the firat 100 genes)
+#data <- cdiff[[1]] [,2]                  # From the table of the differential expression analysis between all pairs of clusters
 
-ppi<-PPI(data,FileName)
+ppi <- PPI(data,FileName)
 
-networking<-NetAnalysis(ppi)
+networking <- NetAnalysis(ppi)
 networking                            ##### In case the Examine response components=200 and an error "linkmat[i, ]" appeared, that means there are no PPI.
 ```
 
 ```{r}
 data=networking[1:25,1]              # plotting the network of the top 25 highly connected genes
-network<-Networking(data,FileName,plot_width=25, plot_height=10)
+network <- Networking(data,FileName,plot_width=25, plot_height=10)
 ```
 
 ### 4.3.2 Particular set of DEGs
@@ -367,15 +359,15 @@ DEGs=cdiffBinomial[[2]][1,4]     # Up-regulated genes in cluster 1 (from the Bin
 #DEGs=cdiff[[2]][1,4]             # Up-regulated genes in cluster 1 (from SAMseq)
 FileName=paste0(DEGs)
 
-data<-read.csv(file=paste0(DEGs),head=TRUE,sep=",")
-data<-data[,3]
+data <- read.csv(file=paste0(DEGs),head=TRUE,sep=",")
+data <- data[,3]
 
-ppi<-PPI(data,FileName)
+ppi <- PPI(data,FileName)
 
-networking<-NetAnalysis(ppi)
+networking <- NetAnalysis(ppi)
 networking                            ##### In case the Examine response components=200 and an error "linkmat[i, ]" appeared, that means there are no PPI.
 
-network<-Networking(data,FileName)
+network <- Networking(data,FileName)
 ```
 
 ### 4.4 Gene Enrichment Analysis
@@ -391,16 +383,16 @@ head(dbs)
 DEGs=cdiffBinomial[[2]][1,4]     # Up-regulated genes in cluster 1 (from the Binomial analysis)
 #DEGs=cdiff[[2]][1,4]              # Up-regulated genes in cluster 1 (from SAMseq)
 
-data<-read.csv(file=paste0(DEGs),head=TRUE,sep=",")
-data<-as.character(data[,3])
+data <- read.csv(file=paste0(DEGs),head=TRUE,sep=",")
+data <- as.character(data[,3])
 
 dbs <- c("KEGG_2013","GO_Molecular_Function_2015", "GO_Biological_Process_2015")
 enriched <- enrichr(data, dbs)
-KEGG_2013<-enriched[[1]][,c(1,2,3,9)]
-GO_Molecular_Function_2015<-enriched[[2]][,c(1,2,3,9)]
-GO_Biological_Process_2015<-enriched[[3]][,c(1,2,3,9)]
+KEGG_2013 <- enriched[[1]][,c(1,2,3,9)]
+GO_Molecular_Function_2015 <- enriched[[2]][,c(1,2,3,9)]
+GO_Biological_Process_2015 <- enriched[[3]][,c(1,2,3,9)]
 
-GEA<-rbind(KEGG_2013,GO_Molecular_Function_2015,GO_Biological_Process_2015)
+GEA <- rbind(KEGG_2013,GO_Molecular_Function_2015,GO_Biological_Process_2015)
 GEA
 ```
 
@@ -429,7 +421,7 @@ PCAplotSymbols(sc)
 
 ```{r, eval=FALSE}
 # Plotting the model-based clusters in tSNE maps
-sc<- comptsneMB(sc,rseed=15555,quiet=TRUE)
+sc <- comptsneMB(sc,rseed=15555,quiet=TRUE)
 plottsneMB(sc,K=3)
 plotMBLabelstSNE(sc)
 ```
@@ -444,16 +436,16 @@ plotsilhouetteMB(sc,K=3)
 ```
 
 ```{r, eval=FALSE}
-sc<- Clustexp(sc,cln=3,quiet=TRUE)
-Jaccard(sc,Clustering="MB", K=3, plot=TRUE)    # Jaccard of Model based clusters
+sc <- Clustexp(sc,cln=3,quiet=TRUE)
+Jaccard(sc,Clustering="MB", K=3, plot=TRUE) # Jaccard of Model based clusters
 ```
 
 ### Defining outlier cells based on Model-Based Clustering
 
 
 ```{r, eval=FALSE}
-outlg<-round(length(sc@fdata[,1])/200)     # The cell will be considered as an outlier if it has a minimum of 0.5% of the number of filtered genes as outlier genes.
-Outliers<- FindOutliersMB(sc, K=3, outminc=5,outlg=outlg,probthr=.5*1e-3,thr=2**-(1:40),outdistquant=.75, plot=TRUE, quiet=TRUE)
+outlg <- round(length(sc@fdata[,1])/200) # The cell will be considered as an outlier if it has a minimum of 0.5% of the number of filtered genes as outlier genes.
+Outliers <- FindOutliersMB(sc, K=3, outminc=5,outlg=outlg,probthr=.5*1e-3,thr=2**-(1:40),outdistquant=.75, plot=TRUE, quiet=TRUE)
 
 RemovingOutliers=FALSE
 # RemovingOutliers=TRUE                    # Removing the defined outlier cells based on K-means Clustering
@@ -472,7 +464,7 @@ if(RemovingOutliers==TRUE){
 
 
 ```{r, eval=FALSE}
-sc<-MB_Order(sc,quiet=FALSE, export=TRUE)
+sc <- MB_Order(sc,quiet=FALSE, export=TRUE)
 ```
 
 #### 2.2.4.1 Plotting the  pseudo-time ordering in a PCA plot
@@ -512,187 +504,4 @@ plotexptsneMB(sc,g)
 ```{r, eval=FALSE}
 g <- "ENSG00000010244"       #### Plotting the expression of  MT-RNR2
 PlotMBexpPCA(sc,g)
-```
-
-# 3. Determining differentially expressed genes (DEGs)
-
-Differentially expressed genes between individual clusters are identified using the significance analysis of sequencing data (SAMseq), which is a new function in significance analysis of microarrays (Li and Tibshirani 2011) in the samr package v2.0 (Tibshirani et all., 2015). SAMseq is a non-parametric statistical function dependent on Wilcoxon rank statistic that equalizes the sizes of the library by a resampling method accounting for the various sequencing depths. The analysis is implemented over the pure raw dataset that has the unnormalized expression read counts after excluding the ERCCs. Furthermore, DEGs in each cluster comparing to all the remaining clusters are determined using binomial differential expression, which is based on binomial counting statistics.
-
-![DIsccBIO](MB2.png){width=80%}
-
-## 3.1 Identifying DEGs using SAMseq
-
-The user can define DEGs between all clusters generated by either K-means or model based clustering by applying the “DEGanalysis” function. Another alternative is to define DEGs between particular clusters generated by either K-means or model based clustering by applying the “DEGanalysis2clust” function. The outcome of these two functions is a list of two components:
-- The first component is a data frame showing the Ensembl gage name and the symbole of the detected DEGs
-- The second component is table showing the comparisons, Target cluster, Number of genes and the File name. This component will be used for the downstream analysis.
-
-### 3.1.1 Determining DEGs between two particular clusters
-
-
-```{r, eval=FALSE}
-####### differential expression analysis between cluster 2 and cluster 3 of the Model-Based clustering using FDR of 0.05
-MBcdiff<-DEGanalysis2clust(sc,Clustering="MB",K=3,fdr=0.1,name="Name",First="CL1",Second="CL2",export=TRUE,quiet=FALSE)
-#### To show the result table
-head(MBcdiff[[1]])                  # The first component
-head(MBcdiff[[2]])                  # The second component
-```
-
-### 3.1.2 Determining DEGs between all clusters
-
-##                                         ¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤ Running this cell will overwrite the previous one ¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤
-
-
-```{r, eval=FALSE}
-MBcdiff<-DEGanalysis(sc,Clustering="MB",K=3,fdr=0.05,name="all_clusters",export=TRUE,quiet=TRUE)   ####### differential expression analysis between all clusters
-#### To show the result table
-head(MBcdiff[[1]])                  # The first component
-head(MBcdiff[[2]])                  # The second component
-```
-
-```{r, eval=FALSE}
-#### To show the result table
-head(MBcdiff[[1]])                  # The first component
-head(MBcdiff[[2]])                  # The second component
-```
-
-#### 3.2 Identifying DEGs using binomial differential expression
-
-The function MBClustDiffGenes identifies differentially regulated genes for each cluster of the Model-Based clustering in
-comparison to the ensemble of all cells. It returns a list with a data.frame element for each cluster that contains the mean expression across all cells not in the cluster (mean.ncl) and in the cluster (mean.cl), the fold-change in the cluster versus all remaining cells (fc), and the p-value for differential expression between all cells in a cluster and all remaining cells. The p-value is computed based on the overlap of negative binomials fitted to the count distributions within the two groups akin to DESeq.
-
-
-```{r, eval=FALSE}
-MBcdiffBinomial<-MBClustDiffGenes(sc,K=3,fdr=.01,export=TRUE, quiet=TRUE)    ########## Binomial differential expression analysis
-#### To show the result table
-head(MBcdiffBinomial[[1]])                  # The first component
-head(MBcdiffBinomial[[2]])                  # The second component
-```
-
-### Plotting the DEGs
-
-Volcano plots are used to readily show the DEGs by plotting significance versus fold-change on the y and x axes, respectively.
-
-
-```{r, eval=FALSE}
-name<-MBcdiffBinomial[[2]][2,4]    ############ Selecting the "Up-DEG-cluster2.csv " from the DEGs' binomial table  ##############
-#name<-MBcdiff[[2]][4,6]    ############ Selecting the "Up-DEG-cluster2.csv " from the DEGs' SAMseq table  ##############
-U<-read.csv(file=paste0(name),head=TRUE,sep=",")
-Vplot<-VolcanoPlot(U,value=0.001,name=name,FS=.5,fc=0.5)
-#### In case the output of this function is an error "Error in plot.window(...): need finite 'ylim' values", the adj should be set to TRUE
-### In case the user would like to get the names of the significant DEGs then FS should be set to a value of 0.3 or higher.
-```
-
-## 4. Identifying biomarkers (decision trees and networking analysis)
-
-There are several methods to identify biomarkers, among them are decision trees and hub detection through networking analysis. The outcome of STRING analysis is stored in tab separated values (TSV) files. These TSV files served as an input to check both the connectivity degree and the betweenness centrality, which reflects the communication flow in the defined PPI networks
-
-![DIsccBIO](MB3.png){width=80%}
-
-Decision trees are one of the most efficient classification techniques in biomarkers discovery.  Here we use it to predict the sub-population of a target cell based on transcriptomic data. Two types of decision trees can be performed: classification and regression trees (CART) and J48. The decision tree analysis is implemented over a training dataset, which consisted of the DEGs obtained by either SAMseq or the binomial differential expression. The performance of the generated trees can be evaluated for error estimation by ten-fold cross validation assessment using the "J48DTeval" and "RpartEVAL" functions.
-The decision tree analysis requires the dataset to be class vectored by applying the “ClassVectoringDT” function.
-
-
-```{r, eval=FALSE}
-sigDEG<-cdiff[[1]]             # DEGs gene list from SANseq
-#sigDEG<-cdiffBinomial[[1]]      # DEGs gene list from Binomial analysis
-First="CL1"
-Second="CL2"
-DATAforDT<-ClassVectoringDT(sc,Clustering="MB",K=3,First=First,Second=Second,sigDEG)
-```
-
-### 4.1. J48 Decision Tree
-
-
-```{r, eval=FALSE}
-j48dt<-J48DT(DATAforDT)
-summary(j48dt)
-```
-
-#### 4.1.1. Evaluating the performance of the J48 Decision Tree
-
-
-```{r, eval=FALSE}
-j48dt<-J48DTeval(DATAforDT,num.folds=10,First=First,Second=Second)
-```
-
-### 4.2. RPART Decision Tree
-
-
-```{r, eval=FALSE}
-rpartDT<-RpartDT(DATAforDT)
-```
-
-#### 4.2.1. Evaluating the performance of the RPART Decision Tree
-
-
-```{r, eval=FALSE}
-rpartEVAL<-RpartEVAL(DATAforDT,num.folds=10,First=First,Second=Second)
-```
-
-### 4.3. Networking Analysis
-
-To define protein-protein interactions (PPI) over a list of genes, STRING-api is used. The outcome of STRING analysis was stored in tab separated values (TSV) files. These TSV files served as an input to check both the connectivity degree and the betweenness centrality, which reflects the communication flow in the defined PPI networks.
-
-### 4.3.1 All DEGs
-
-
-```{r, eval=FALSE}
-DEGs="All DEGs"
-FileName=paste0(DEGs)
-
-#data<-MBcdiffBinomial[[1]] [,2]    # DEGs gene list from Binomial analysis
-data<-MBcdiff[[1]] [,2]             # From the table of the differential expression analysis between all pairs of clusters
-
-ppi<-PPI(data,FileName)
-
-networking<-NetAnalysis(ppi)
-networking                            ##### In case the Examine response components=200 and an error "linkmat[i, ]" appeared, that means there are no PPI.
-
-network<-Networking(data,FileName)
-```
-
-### 4.3.2 Particular set of DEGs
-
-
-```{r, eval=FALSE}
-############ Selecting the DEGs' table  ##############
-DEGs=cdiffBinomial[[2]][2,4]     # UP-regulated genes in cluster 2 (from the Binomial analysis)
-#DEGs=MBcdiff[[2]][2,6]             # UP-regulated genes in cluster 2 (from SAMseq)
-FileName=paste0(DEGs)
-
-data<-read.csv(file=paste0(DEGs),head=TRUE,sep=",")
-data<-data[,3]
-
-ppi<-PPI(data,FileName)
-
-networking<-NetAnalysis(ppi)
-networking                            ##### In case the Examine response components=200 and an error "linkmat[i, ]" appeared, that means there are no PPI.
-
-network<-Networking(data,FileName)
-
-```
-
-### 4.4 Gene Enrichment Analysis
-
-```{r, eval=FALSE}
-dbs <- listEnrichrDbs()
-head(dbs)
-#print(dbs)
-```
-
-```{r, eval=FALSE}
-############ Selecting the DEGs' table  ##############
-DEGs=MBcdiffBinomial[[2]][2,4]     # Up-regulated genes in cluster 2 (from the Binomial analysis)
-#DEGs=MBcdiff[[2]][2,6]              # UP-regulated genes in cluster 2 (from SAMseq)
-data<-read.csv(file=paste0(DEGs),head=TRUE,sep=",")
-data<-as.character(data[,3])
-
-dbs <- c("KEGG_2013","GO_Molecular_Function_2015", "GO_Biological_Process_2015")
-enriched <- enrichr(data, dbs)
-KEGG_2013<-enriched[[1]][,c(1,2,3,9)]
-GO_Molecular_Function_2015<-enriched[[2]][,c(1,2,3,9)]
-GO_Biological_Process_2015<-enriched[[3]][,c(1,2,3,9)]
-
-GEA<-rbind(KEGG_2013,GO_Molecular_Function_2015,GO_Biological_Process_2015)
-GEA
 ```
