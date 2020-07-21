@@ -95,15 +95,19 @@ context("Differential Expression Analysis")
 cdiff1 <- KMClustDiffGenes(sc, K=1, fdr=.2, export=FALSE, quiet=TRUE)
 
 # differential expression analysis between all clusters
-cdiff2 <- DEGanalysis(
-    sc, Clustering="K-means", K=2, fdr=.2, name="Name", export=FALSE,
-    quiet=TRUE, plot=FALSE, nperms=5, nresamp=2
+cdiff2 <- suppressMessages(
+    DEGanalysis(
+        sc, Clustering="K-means", K=2, fdr=.2, name="Name", export=FALSE,
+        quiet=TRUE, plot=FALSE, nperms=5, nresamp=2
+    )
 )
 
 # differential expression analysis between two particular clusters.
-cdiff3 <- DEGanalysis2clust(
-    sc, Clustering="K-means", K=2, fdr=.2, name="Name", First="CL1",
-    Second="CL2", export=FALSE, quiet=TRUE, plot=FALSE, nperms=5, nresamp=2
+cdiff3 <- suppressMessages(
+    DEGanalysis2clust(
+        sc, Clustering="K-means", K=2, fdr=.2, name="Name", First="CL1",
+        Second="CL2", export=FALSE, quiet=TRUE, plot=FALSE, nperms=5, nresamp=2
+    )
 )
 
 test_that("DEGs are calculated", {
