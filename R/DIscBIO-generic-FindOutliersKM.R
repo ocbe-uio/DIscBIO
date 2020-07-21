@@ -24,11 +24,8 @@
 #'   of cells on each.
 #' @examples
 #' sc <- DISCBIO(valuesG1msRed)
-#' sc <- Clustexp(sc, cln=3) # K-means clustering
-#' Outliers <- FindOutliersKM(
-#'     sc, K=3, outminc=5, outlg=2, probthr=.5*1e-3, thr=2**-(1:40),
-#'     outdistquant=.75, plot = FALSE
-#' )
+#' sc <- Clustexp(sc, cln=2) # K-means clustering
+#' FindOutliersKM(sc, K=2)
 #'
 setGeneric(
     "FindOutliersKM",
@@ -45,8 +42,7 @@ setMethod(
     "FindOutliersKM",
     signature = "DISCBIO",
     definition = function(
-        object, K, outminc, outlg, probthr, thr, outdistquant, plot = TRUE,
-        quiet = FALSE
+        object, K, outminc, outlg, probthr, thr, outdistquant, plot, quiet
     )
     {
         if (length(object@kmeans$kpart) == 0)
