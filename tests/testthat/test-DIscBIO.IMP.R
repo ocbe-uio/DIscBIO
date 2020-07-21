@@ -91,17 +91,6 @@ test_that("Outliers are the expected", {
 
 context("Differential Expression Analysis")
 
-# Binomial differential expression analysis
-cdiff1 <- KMClustDiffGenes(sc, K=1, fdr=.2, export=FALSE, quiet=TRUE)
-
-# differential expression analysis between all clusters
-cdiff2 <- suppressMessages(
-    DEGanalysis(
-        sc, Clustering="K-means", K=2, fdr=.2, name="Name", export=FALSE,
-        quiet=TRUE, plot=FALSE, nperms=5, nresamp=2
-    )
-)
-
 # differential expression analysis between two particular clusters.
 cdiff3 <- suppressMessages(
     DEGanalysis2clust(
@@ -111,14 +100,6 @@ cdiff3 <- suppressMessages(
 )
 
 test_that("DEGs are calculated", {
-    expect_identical(
-        object = sapply(cdiff1, function(x) class(x)[1]),
-        expected = c("matrix", "data.frame")
-    )
-    expect_identical(
-        object = sapply(cdiff2, function(x) class(x)[1]),
-        expected = c("matrix", "data.frame")
-    )
     expect_equivalent(
         object = sapply(cdiff3, function(x) class(x)[1]),
         expected = c("matrix", "data.frame", "data.frame", "data.frame")
