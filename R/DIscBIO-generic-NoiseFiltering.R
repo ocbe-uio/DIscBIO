@@ -98,10 +98,10 @@ setMethod(
         )
 
         if (!quiet) {
-            cat(
+            message(
                 "Cut-off value for the ERCCs= ",
                 round(minMeanForFit, digits = 2),
-                "\n\n"
+                "\n"
             )
         }
 
@@ -117,7 +117,7 @@ setMethod(
         )
 
         if (!quiet) {
-            cat("Coefficients of the fit:", "\n")
+            message("Coefficients of the fit:")
             print(fit$coefficients)
         }
 
@@ -132,9 +132,11 @@ setMethod(
         total <- var(log(cv2ERCC[useForFit]))
 
         if (!quiet) {
-            cat("Explained variances of log CV^2 values= ",
+            message(
+                "Explained variances of log CV^2 values= ",
                 c(round(1 - residual / total, digits = 2)),
-                "\n\n")
+                "\n"
+            )
         }
 
         ## Pick out genes above noise line
@@ -157,17 +159,21 @@ setMethod(
         genes_test <- sapply(genes_test, paste0, collapse = "")
 
         if (!quiet) {
-            cat("Number of genes that passed the filtering= ",
+            message(
+                "Number of genes that passed the filtering = ",
                 length(genes_test),
-                "\n\n")
+                "\n"
+            )
         }
 
         if (export) {
             write.csv(genes_test, file = paste0(filename, ".csv"))
-            cat(
-                "The filtered gene list was saved as:",
-                "Noise_filtering_genes_test\n"
-            )
+            if (!quiet) {
+                message(
+                    "The filtered gene list was saved as ",
+                    paste0(filename, ".csv")
+                )
+            }
         }
 
         if (plot) {

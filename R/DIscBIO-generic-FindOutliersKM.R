@@ -273,8 +273,8 @@ setMethod(
             box()
         }
         if (!quiet) {
-            cat(
-                "The following cells are considered as outlier cells:",
+            message(
+                "The following cells are considered outliers: ",
                 which(object@cpart > K),
                 "\n"
             )

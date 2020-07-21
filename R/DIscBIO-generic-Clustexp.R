@@ -247,11 +247,9 @@ setMethod(
                                             ch = calinhara(data,
                                                         km[[k]]$cluster)
                                         )
-                                    if (critout)
-                                        cat(k,
-                                            " clusters ",
-                                            crit[k],
-                                            "\n")
+                                    if (critout) {
+                                        message(k, " clusters ", crit[k], "\n")
+                                    }
                                 }
                             }
                             if (cluster1)

@@ -91,7 +91,7 @@ setMethod(
         colnames(dataset) <- Nam
 
         if (!quiet) {
-            cat("The dataset is ready for differential expression analysis")
+            message("The dataset is ready for differential expression analysis")
         }
         num1 <- paste("CL", num, sep = "")
         clustName <- paste("Cl", num, sep = "")
@@ -191,7 +191,7 @@ setMethod(
         o <- c(1:K)
         oo <- o[-length(o)]
         com <- sum(oo)
-        if (!quiet) cat("Number of comparisons: ", com * 2, "\n")
+        if (!quiet) message("Number of comparisons: ", com * 2, "\n")
         comNUM <- paste("comp", c(1:com), sep = "")
         DEGsTable <- data.frame()
         DEGsE <- c()
@@ -330,11 +330,9 @@ setMethod(
                     FinalDEGsL[is.na(FinalDEGsL[, 2]), c(2, 3)] <-
                         FinalDEGsL[is.na(FinalDEGsL[, 2]), 3]
                     if (!quiet) {
-                        cat(
-                            paste0(
-                                "Low-regulated genes in the ", second[i],
-                                " in ", first[i], " VS ", second[i], "\n"
-                            )
+                        message(
+                            "Low-regulated genes in the ", second[i],
+                            " in ", first[i], " VS ", second[i], "\n"
                         )
                     }
                     if (export) {
@@ -395,11 +393,9 @@ setMethod(
                     FinalDEGsU[is.na(FinalDEGsU[, 2]), c(2, 3)] <-
                         FinalDEGsU[is.na(FinalDEGsU[, 2]), 3]
                     if (!quiet) {
-                        cat(
-                            paste0(
-                                "Up-regulated genes in the ", second[i], " in ",
-                                first[i], " VS ", second[i], "\n"
-                            )
+                        message(
+                            "Up-regulated genes in the ", second[i], " in ",
+                            first[i], " VS ", second[i], "\n"
                         )
                     }
                     if (export) {
@@ -440,7 +436,7 @@ setMethod(
         }
 
         if (!quiet & export) {
-            cat("The results of DEGs are saved in your directory", "\n")
+            message("The results of DEGs are saved in your directory")
         }
         colnames(DEGsTable) <- c(
             "Comparisons", "Target cluster", "Gene number", "File name",

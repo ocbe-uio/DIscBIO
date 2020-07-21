@@ -209,15 +209,10 @@ setMethod(
                         FinalDEGsL[is.na(FinalDEGsL[, 2]), 3]
                 }
                 if (export) {
-                    cat(
-                        "The results of DEGs are saved in your directory",
-                        "\n"
-                    )
-                    cat(
-                        paste0(
-                            "Low-regulated genes in the ", Second, " in ",
-                            First, " VS ", Second, "\n"
-                        )
+                    message("The results of DEGs are saved in your directory")
+                    message(
+                        "Low-regulated genes in the ", Second, " in ",
+                        First, " VS ", Second, "\n"
                     )
                     write.csv(
                         FinalDEGsL,
@@ -278,15 +273,10 @@ setMethod(
                         FinalDEGsU[is.na(FinalDEGsU[, 2]), 3]
                 }
                 if (export) {
-                    cat(
-                        "The results of DEGs are saved in your directory",
-                        "\n"
-                    )
-                    cat(
-                        paste0(
-                            "Up-regulated genes in the ", Second, " in ", First,
-                            " VS ", Second, "\n"
-                        )
+                    message("The results of DEGs are saved in your directory")
+                    message(
+                        "Up-regulated genes in the ", Second, " in ", First,
+                        " VS ", Second, "\n"
                     )
                     write.csv(
                         FinalDEGsU,

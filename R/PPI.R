@@ -33,12 +33,9 @@ PPI <- function(data, FileName = NULL, species = "9606") {
             species
         )
     )
-    cat(
-        "Examine response components =",
-        status_code(repos),
-        "\t",
-        "(200 means successful)",
-        "\n"
+    message(
+        "Examine response components = ", status_code(repos), "\t",
+        "(200 means successful)", "\n"
     )
     # Process API request content
     repo_content <- content(repos)

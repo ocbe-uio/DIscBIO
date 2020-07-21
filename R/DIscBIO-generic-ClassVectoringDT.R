@@ -74,13 +74,10 @@ setMethod(
         gene_names2 <- gene_names[idx_genes]
         DEGsfilteredDataset <- sg1[gene_names2, ]
         if (!quiet) {
-            cat(
+            message(
                 "The DEGs filtered normalized dataset contains:\n",
-                "Genes:",
-                length(DEGsfilteredDataset[, 1]),
-                "\n",
-                "cells:",
-                length(DEGsfilteredDataset[1, ])
+                "Genes: ", length(DEGsfilteredDataset[, 1]), "\n",
+                "cells: ", length(DEGsfilteredDataset[1, ])
             )
         }
         G_list = sigDEG

@@ -35,16 +35,12 @@ NetAnalysis <- function(
 
     test.graph.adj <- get.adjacency(gg, sparse = FALSE)
     test.graph.properties <- GenInd(test.graph.adj)
-    cat("Number of nodes: ", test.graph.properties$N, "\n")
-    V(gg)
-    cat("Number of links: ", test.graph.properties$Ltot, "\n")
-    E(gg)
-    cat("Link Density: ", test.graph.properties$LD, "\n")
-    cat("The connectance of the graph: ",
-        test.graph.properties$C,
-        "\n")
-    cat("Mean Distences", mean_distance(gg), "\n")
-    cat("Average Path Length", average.path.length(gg), "\n", "\n")
+    message("Number of nodes: ", test.graph.properties$N)
+    message("Number of links: ", test.graph.properties$Ltot)
+    message("Link Density: ", test.graph.properties$LD)
+    message("The connectance of the graph: ", test.graph.properties$C)
+    message("Mean Distences", mean_distance(gg))
+    message("Average Path Length", average.path.length(gg), "\n")
     AnalysisTable <-
         AnalysisTable[order(AnalysisTable[, 2], decreasing = TRUE), ]
     return(AnalysisTable)

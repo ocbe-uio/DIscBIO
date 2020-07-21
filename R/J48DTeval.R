@@ -26,8 +26,7 @@ J48DTeval <- function(
                 #Start cross validation loop
                 class1 <- levels(class.vec)[1]
                 for (fold in 1:length(segments)) {
-                    if (!quiet)
-                        cat("Fold", fold, "of", length(segments), "\n")
+                    if (!quiet) message("Fold ", fold, " of ", length(segments))
                     #Define training and test set
                     test.ind <- segments[[fold]]
                     training.set <- exp.df[-test.ind, ]
@@ -126,12 +125,11 @@ J48DTeval <- function(
         j48.mcc <- MCC(j48.confusion.matrix)
 
         if (!quiet) {
-            cat(
+            message(
                 "J48 SN: ", j48.sn, "\n",
                 "J48 SP: ", j48.sp, "\n",
                 "J48 ACC: ", j48.acc, "\n",
                 "J48 MCC: ", j48.mcc, "\n",
-                sep = ""
             )
         }
         return(j48.performance)

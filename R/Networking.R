@@ -46,9 +46,11 @@ Networking <- function(
                         species
                     )
                 )
-            cat(
-                "Examine response components =", status_code(repos), "\t",
-                "200 means successful", "\n"
+            message(
+                "Examine response components =",
+                status_code(repos),
+                "\t",
+                "(200 means successful)",
             )
             y <- repos$request$url
             if (!is.null(FileName)) {
@@ -70,7 +72,7 @@ Networking <- function(
 
             plot(0:1, 0:1, type = "n", ann = FALSE, axes = FALSE)
             rasterImage(Network, 0, 0, 1, 1)
-            cat(
+            message(
                 "\n",
                 "You can see the network with high resolution",
                 "by clicking on the following link:",

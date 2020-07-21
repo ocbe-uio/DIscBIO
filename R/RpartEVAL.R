@@ -23,7 +23,7 @@ RpartEVAL <- function(data, num.folds = 10, First = "CL1", Second = "CL2",
             #Start cross validation loop
             class1 <- levels(class.vec)[1]
             for (fold in 1:length(segments)) {
-                if (!quiet) cat("Fold", fold, "of", length(segments), "\n")
+                if (!quiet) message("Fold ", fold, " of ", length(segments))
                 #Define training and test set
                 test.ind <- segments[[fold]]
                 training.set <- exp.df[-test.ind, ]
@@ -126,12 +126,11 @@ RpartEVAL <- function(data, num.folds = 10, First = "CL1", Second = "CL2",
         Rpart.mcc <- MCC(Rpart.confusion.matrix)
 
         if (!quiet) {
-            cat(
+            message(
                 "Rpart SN: ", Rpart.sn, "\n",
                 "Rpart SP: ", Rpart.sp, "\n",
                 "Rpart ACC: ", Rpart.acc, "\n",
                 "Rpart MCC: ", Rpart.mcc, "\n",
-                sep = ""
             )
         }
         return(Rpart.performance)
