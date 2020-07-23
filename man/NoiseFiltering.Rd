@@ -74,8 +74,3 @@ Given a matrix or data frame of count data, this function
 \note{
 This function should be used only if the dataset has ERCC.
 }
-\examples{
-sc <- DISCBIO(valuesG1msRed) # changes signature of data
-sd_filtered <- NoiseFiltering(sc, export=FALSE)
-str(sd_filtered)
-}

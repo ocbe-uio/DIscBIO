@@ -76,7 +76,3 @@ The DISCBIO-class object input with the cpart slot filled.
 This functions performs the initial clustering of the RaceID
   algorithm.
 }
-\examples{
-sc <- DISCBIO(valuesG1msRed) # changes signature of data
-sc <- Clustexp(sc, cln=3)
-}

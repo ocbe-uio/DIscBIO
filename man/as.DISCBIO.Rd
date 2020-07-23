@@ -23,11 +23,3 @@ Additional parameters to pass to `list` include, if x is
   a Seurat object, "assay", which is a string indicating the assay slot
   used to obtain data from (defaults to 'RNA')
 }
-\examples{
-g1_sce <- SingleCellExperiment::SingleCellExperiment(
-    list(counts=as.matrix(valuesG1msRed))
-)
-g1_disc <- as.DISCBIO(g1_sce)
-class(g1_disc)
-
-}
