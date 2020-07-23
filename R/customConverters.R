@@ -80,13 +80,6 @@ customConvertFeats <- function(x, verbose = TRUE) {
 #'
 #' @export
 #'
-#' @examples
-#' g1_sce <- SingleCellExperiment::SingleCellExperiment(
-#'     list(counts=as.matrix(valuesG1msRed))
-#' )
-#' g1_disc <- as.DISCBIO(g1_sce)
-#' class(g1_disc)
-#'
 as.DISCBIO <- function(x, ...) {
     if ("Seurat" %in% class(x)) {
         # Get Arguments and parse out what we want

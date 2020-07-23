@@ -50,13 +50,6 @@
 #' @exportClass DISCBIO
 #'
 #' @importClassesFrom SingleCellExperiment SingleCellExperiment
-#'
-#' @examples
-#' class(valuesG1msRed)
-#' G1_reclassified <- DISCBIO(valuesG1msRed)
-#' class(G1_reclassified)
-#' str(G1_reclassified, max.level=2)
-#' identical(G1_reclassified@expdataAll, valuesG1msRed)
 #' @export
 DISCBIO <- setClass(
     Class = "DISCBIO",

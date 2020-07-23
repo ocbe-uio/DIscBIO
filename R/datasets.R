@@ -18,10 +18,6 @@ NULL
 #' @source Data were imported, modified, and formatted from the
 #' Mus.musculus (ver 1.3.1) and the Homo.sapiens (ver 1.3.1)
 #' BioConductor libraries.
-#'
-#' @examples
-#' data(HumanMouseGeneIds)
-#' print(HumanMouseGeneIds[1:6,])
 #' @name HumanMouseGeneIds
 #' @docType data
 NULL

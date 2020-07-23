@@ -33,9 +33,6 @@
 #' @importFrom fpc cluster.stats calinhara dudahart2
 #' @importFrom methods is
 #' @return The DISCBIO-class object input with the cpart slot filled.
-#' @examples
-#' sc <- DISCBIO(valuesG1msRed) # changes signature of data
-#' sc <- Clustexp(sc, cln=3)
 setGeneric("Clustexp", function(object, clustnr = 20, bootnr = 50,
     metric = "pearson", do.gap = TRUE, SE.method = "Tibs2001SEmax",
     SE.factor = .25, B.gap = 50, cln = 0, rseed = NULL, quiet = FALSE)

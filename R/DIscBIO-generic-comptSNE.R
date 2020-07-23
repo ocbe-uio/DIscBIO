@@ -13,7 +13,7 @@
 #' @return The DISCBIO-class object input with the tsne slot filled.
 #' @examples
 #' sc <- DISCBIO(valuesG1msRed) # changes signature of data
-#' sc <- Clustexp(sc, cln=3) # data must be clustered before plottin
+#' sc <- Clustexp(sc, cln=2) # data must be clustered before plottin
 #' sc <- comptSNE(sc, max_iter=30)
 #' head(sc@tsne)
     setGeneric(
