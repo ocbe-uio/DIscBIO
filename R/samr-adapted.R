@@ -816,15 +816,15 @@ foldchange.twoclass = function(x, y, logged2) {
     return(fc)
 }
 #' @title Foldchange of twoclass unpaired sequencing data
-#' @importFrom matrixStats rowMedians
 #' @param x x
 #' @param y y
 #' @param depth depth
 foldchange.seq.twoclass.unpaired <- function(x, y, depth)
 {
     x.norm <- scale(x, center = F, scale = depth) + 1e-08
-    fc <- rowMedians(x.norm[, y == 2])/rowMedians(x.norm[, y ==
-        1])
+    fc <- apply(x.norm[, y == 2], 1, median) /
+        apply(x.norm[, y ==
+        1], 1, median)
     return(fc)
 }
 foldchange.seq.twoclass.paired <- function(x, y, depth) {
@@ -836,7 +836,7 @@ foldchange.seq.twoclass.paired <- function(x, y, depth) {
     }
     x.norm <- scale(x, center = F, scale = depth) + 1e-08
     d <- x.norm[, o2, drop = F]/x.norm[, o1, drop = F]
-    fc <- rowMedians(d, na.rm = T)
+    fc <- lapply(d, 1, function(x) median(x, na.rm = T))
     return(fc)
 }
 permute <- function(elem) {
@@ -1150,8 +1150,8 @@ foldchange.paired = function(x, y, logged2) {
 foldchange.seq.twoclass.unpaired <- function(x, y, depth)
 {
     x.norm <- scale(x, center = F, scale = depth) + 1e-08
-    fc <- rowMedians(x.norm[, y == 2])/rowMedians(x.norm[, y ==
-        1])
+    fc <- apply(x.norm[, y == 2], 1, median) /
+        apply(x.norm[, y == 1, 1, median])
     return(fc)
 }
 integer.base.b <- function(x, b = 2) {

@@ -27,10 +27,8 @@
 #' @param quiet if `TRUE`, intermediate output is suppressed
 #' @importFrom stats as.dist cor kmeans
 #' @importFrom cluster clusGap maxSE
-#' @importFrom fpc clusterboot
-#' @importFrom amap Kmeans
+#' @importFrom fpc clusterboot cluster.stats calinhara dudahart2
 #' @importFrom graphics pairs
-#' @importFrom fpc cluster.stats calinhara dudahart2
 #' @importFrom methods is
 #' @return The DISCBIO-class object input with the cpart slot filled.
 setGeneric("Clustexp", function(object, clustnr = 20, bootnr = 50,
@@ -204,16 +202,8 @@ setMethod(
                                         opar <- options(show.error.messages = FALSE)
                                         on.exit(options(opar))
                                         repeat {
-                                            kmm <- try(Kmeans(
-                                                data,
-                                                k,
-                                                iter.max = iter.max,
-                                                method = method,
-                                                ...
-                                            ))
-                                            if (!is(kmm,
-                                                    "try-error"))
-                                                break
+                                            kmm <- try(kmeans(data, k))
+                                            if (!is(kmm, "try-error")) break
                                         }
                                         opar <- options(show.error.messages = TRUE)
                                         on.exit(options(opar))

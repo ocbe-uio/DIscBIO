@@ -37,10 +37,10 @@ Description: An open, multi-algorithmic pipeline for easy, fast and efficient
 	<doi:10.1101/700989>.
 License: MIT + file LICENSE
 Encoding: UTF-8
-Imports: methods, TSCAN, boot, httr, mclust, statmod, biomaRt, samr, igraph,
-	RWeka, partykit, grid, philentropy, NetIndices, png, matrixStats, grDevices,
-	readr, RColorBrewer, ggplot2, rpart, fpc, cluster, rpart.plot, amap, dplyr,
-	tsne, AnnotationDbi, org.Hs.eg.db, calibrate, graphics, stats, utils, impute
+Imports: methods, TSCAN, boot, httr, mclust, statmod, samr, igraph,
+	RWeka, philentropy, NetIndices, png, grDevices,
+	readr, RColorBrewer, ggplot2, rpart, fpc, cluster, rpart.plot,
+	tsne, AnnotationDbi, org.Hs.eg.db, graphics, stats, utils, impute
 Depends:
 	R (>= 4.0), SingleCellExperiment
 Suggests:
@@ -104,5 +104,4 @@ Collate:
     'prepExampleDataset.R'
     'reformatSiggenes.R'
     'replaceDecimals.R'
-    'retrieveBiomart.R'
     'samr-adapted.R'

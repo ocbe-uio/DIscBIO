@@ -20,7 +20,6 @@
 #'   excel file. Default is TRUE.
 #' @param quiet if `TRUE`, suppresses printed output
 #' @param filename Name of the exported file (if `export=TRUE`)
-#' @importFrom matrixStats rowVars
 #' @importFrom stats quantile var fitted.values pchisq p.adjust median aggregate
 #' @importFrom graphics plot axis abline points lines
 #' @importFrom statmod glmgam.fit
@@ -84,10 +83,10 @@ setMethod(
 
         # perform fit, define sample moments per gene
         meansG1ms <- rowMeans(nCountsG1ms)
-        varsG1ms <- rowVars(nCountsG1ms)
+        varsG1ms <- apply(nCountsG1ms, 1, var)
         cv2G1ms <- varsG1ms / meansG1ms ^ 2
         meansERCC <- rowMeans(nCountsERCC)
-        varsERCC <- rowVars(nCountsERCC)
+        varsERCC <- apply(nCountsERCC, 1, var)
         cv2ERCC <- varsERCC / meansERCC ^ 2
         minMeanForFit <- unname(
             quantile(meansERCC[which(cv2ERCC > CV)], percentile)

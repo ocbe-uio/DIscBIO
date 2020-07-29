@@ -13,7 +13,6 @@
 #'   samr.compute.siggenes.table
 #' @importFrom graphics title
 #' @importFrom utils write.csv
-#' @importFrom calibrate textxy
 #' @return A volcano plot
 #' @export
 VolcanoPlot <- function(object, value = 0.05, name = NULL, fc = 0.5, FS = .4) {
@@ -63,7 +62,7 @@ VolcanoPlot <- function(object, value = 0.05, name = NULL, fc = 0.5, FS = .4) {
         col = "blue"
     ))
     with(sigFC,
-        textxy(
+        text(
             abs(sigFC[, 7]),
             -log10(sigFC[, 8]),
             labs = sigFC[, 2],

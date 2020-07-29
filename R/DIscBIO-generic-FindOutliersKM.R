@@ -19,7 +19,6 @@
 #' @param plot if `TRUE`, produces a plot of -log10prob per K
 #' @param quiet if `TRUE`, intermediary output is suppressed
 #' @importFrom stats coef pnbinom
-#' @importFrom amap K
 #' @return A named vector of the genes containing outlying cells and the number
 #'   of cells on each.
 #'
