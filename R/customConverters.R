@@ -149,12 +149,6 @@ as.DISCBIO <- function(x, ...) {
 #'
 #' @export
 #'
-#' @examples
-#' g1_disc <- DISCBIO(valuesG1msRed)
-#' class(g1_disc)
-#' g1_sce <- DISCBIO2SingleCellExperiment(g1_disc)
-#' class(g1_sce)
-#'
 DISCBIO2SingleCellExperiment <- function(x) {
     return(x@SingleCellExperiment)
 }

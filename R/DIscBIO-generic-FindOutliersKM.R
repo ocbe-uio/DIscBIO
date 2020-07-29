@@ -22,10 +22,6 @@
 #' @importFrom amap K
 #' @return A named vector of the genes containing outlying cells and the number
 #'   of cells on each.
-#' @examples
-#' sc <- DISCBIO(valuesG1msRed)
-#' sc <- Clustexp(sc, cln=2) # K-means clustering
-#' FindOutliersKM(sc, K=2)
 #'
 setGeneric(
     "FindOutliersKM",
