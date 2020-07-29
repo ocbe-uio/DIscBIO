@@ -1151,7 +1151,7 @@ foldchange.seq.twoclass.unpaired <- function(x, y, depth)
 {
     x.norm <- scale(x, center = F, scale = depth) + 1e-08
     fc <- apply(x.norm[, y == 2], 1, median) /
-        apply(x.norm[, y == 1, 1, median])
+        apply(x.norm[, y == 1], 1, median)
     return(fc)
 }
 integer.base.b <- function(x, b = 2) {
