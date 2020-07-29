@@ -118,18 +118,15 @@ j48dt <- J48DT(DATAforDT, quiet = TRUE, plot = FALSE)
 j48dt_eval <- J48DTeval(
     DATAforDT, num.folds=10, First="CL1", Second="CL2", quiet=TRUE
 )
-rpartDT <- RpartDT(DATAforDT, quiet = TRUE, plot = FALSE)
 rpartEVAL <- RpartEVAL(
     DATAforDT, num.folds=10, First="CL1", Second="CL2", quiet = TRUE
 )
 
 test_that("Decision tree elements are defined", {
     expect_output(str(DATAforDT), "5 obs. of  21 variables")
-    expect_s3_class(j48dt, "J48")
     expect_identical(
         attributes(j48dt)$class, c("J48", "Weka_tree", "Weka_classifier")
     )
     expect_identical(j48dt_eval, c(TP = 7, FN = 4, FP = 5, TN = 5))
-    expect_s3_class(rpartDT, "rpart")
     expect_identical(rpartEVAL, c(TP = 5, FN = 6, FP = 10, TN = 0))
 })
