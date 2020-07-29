@@ -30,12 +30,6 @@ setMethod(
     }
     col <- c("black", "blue", "green", "red", "yellow", "gray")
     kpart <- object@kmeans$kpart
-    dist.gen <-
-        function(x, method = "euclidean", ...)
-        if (method %in% c("spearman", "pearson", "kendall"))
-            as.dist(1 - cor(t(x), method = method, ...))
-    else
-        dist(x, method = method, ...)
     distances <- dist.gen(object@distances)
     si <- silhouette(kpart, distances)
     plot(si, col = col[1:K])

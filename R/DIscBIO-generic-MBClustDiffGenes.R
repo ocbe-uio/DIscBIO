@@ -52,12 +52,6 @@ setMethod(
         x     <- object@ndata
         y     <- object@expdata[, names(object@ndata)]
         part  <- object@MBclusters$clusterid
-        binompval <- function(p, N, n) {
-            pval   <- pbinom(n, round(N, 0), p, lower.tail = TRUE)
-            filter <- !is.na(pval) & pval > 0.5
-            pval[filter] <- 1 - pval[filter]
-            return(pval)
-        }
         for (i in 1:max(part)) {
             if (sum(part == i) == 0)
                 next

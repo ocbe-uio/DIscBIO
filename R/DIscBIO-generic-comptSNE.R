@@ -29,12 +29,6 @@
     if (length(object@kmeans$kpart) == 0)
         stop("run Clustexp before comptSNE")
     set.seed(rseed)
-    dist.gen <-
-        function(x, method = "euclidean")
-        if (method %in% c("spearman", "pearson", "kendall"))
-            as.dist(1 - cor(t(x), method = method))
-    else
-        dist(x, method = method)
     di <- dist.gen(as.matrix(object@distances))
     if (quiet) {
         ts <- suppressMessages(
