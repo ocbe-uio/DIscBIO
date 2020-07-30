@@ -1,5 +1,5 @@
 Package: DIscBIO
-Date: 2020-07-29
+Date: 2020-07-30
 Title: A User-Friendly Pipeline for Biomarker Discovery in Single-Cell Transcriptomics
 Version: 1.0.0
 Authors@R:
@@ -50,7 +50,6 @@ Suggests:
 	enrichR,
 	Seurat,
 	BiocManager
-VignetteBuilder: knitr
 LazyData: true
 RoxygenNote: 7.1.1
 URL: https://github.com/ocbe-uio/DIscBIO#usage
