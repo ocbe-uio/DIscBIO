@@ -64,7 +64,6 @@ Collate:
     'DIscBIO-generic-Exprmclust.R'
     'DIscBIO-generic-FinalPreprocessing.R'
     'DIscBIO-generic-FindOutliers.R'
-    'DIscBIO-generic-KMclustheatmap.R'
     'DIscBIO-generic-KmeanOrder.R'
     'DIscBIO-generic-NoiseFiltering.R'
     'DIscBIO-generic-Normalizedata.R'

@@ -9,15 +9,12 @@ clustheatmap(
   object,
   clustering_method = "k-means",
   hmethod = "single",
+  rseed = NULL,
+  quiet = FALSE,
   plot = TRUE
 )
 
-\S4method{clustheatmap}{DISCBIO}(
-  object,
-  clustering_method = "k-means",
-  hmethod = "single",
-  plot = TRUE
-)
+\S4method{clustheatmap}{DISCBIO}(object, clustering_method, hmethod, plot)
 }
 \arguments{
 \item{object}{\code{DISCBIO} class object.}
@@ -27,6 +24,10 @@ clustheatmap(
 \item{hmethod}{Agglomeration method used for determining the cluster order
 from hierarchical clustering of the cluster medoids. This should be one of
 "ward.D", "ward.D2", "single", "complete", "average". Default is "single".}
+
+\item{rseed}{Random integer to fix random results.}
+
+\item{quiet}{if `TRUE`, intermediary output is suppressed}
 
 \item{plot}{if `TRUE`, plots the heatmap; otherwise, just prints cclmo}
 }
