@@ -32,7 +32,9 @@ setGeneric(
 setMethod(
     "clustheatmap",
     signature = "DISCBIO",
-    definition = function(object, clustering_method, hmethod, plot)
+    definition = function(
+        object, clustering_method, hmethod, rseed, quiet, plot
+    )
 	{
         x <- object@fdata
 		if (tolower(clustering_method) %in% c("k-means", "k")) {

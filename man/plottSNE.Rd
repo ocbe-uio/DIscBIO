@@ -2,9 +2,12 @@
 % Please edit documentation in R/DIscBIO-generic-plottSNE.R
 \name{plottSNE}
 \alias{plottSNE}
-\title{tSNE map for K-means clustering}
+\alias{plottSNE,DISCBIO-method}
+\title{tSNE map}
 \usage{
 plottSNE(object)
+
+\S4method{plottSNE}{DISCBIO}(object)
 }
 \arguments{
 \item{object}{\code{DISCBIO} class object.}
@@ -13,5 +16,5 @@ plottSNE(object)
 A plot of t-SNEs.
 }
 \description{
-Visualizing the K-means clusters using tSNE maps
+Visualizing the k-means or model-based clusters using tSNE maps
 }

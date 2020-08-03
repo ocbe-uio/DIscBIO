@@ -1,23 +1,37 @@
-#' @title tSNE map for K-means clustering
-#' @description Visualizing the K-means clusters using tSNE maps
+#' @title tSNE map
+#' @description Visualizing the k-means or model-based clusters using tSNE maps
 #' @param object \code{DISCBIO} class object.
 #' @importFrom graphics text
 #' @return A plot of t-SNEs.
 setGeneric("plottSNE", function(object)
     standardGeneric("plottSNE"))
 
-#' @rdname plotSilhouette
+#' @rdname plottSNE
 #' @export
 setMethod(
     "plottSNE",
     signature = "DISCBIO",
     definition = function(object) {
-        if (length(object@tsne) == 0)
-            stop("run comptsne before plottsne")
+        # ======================================================================
+        # Validating
+        # ======================================================================
+		ran_k <- length(object@tsne) > 0
+        ran_m <- length(object@MBtsne) > 0
+        if (ran_k) {
+            part <- object@kmeans$kpart
+            x <- object@tsne
+        } else if (ran_m) {
+            part <- object@MBclusters$clusterid
+            x <- object@MBtsne
+        } else {
+            stop("run comptsne before plottSNE")
+        }
+        # ======================================================================
+        # Plotting
+        # ======================================================================
         col <- c("black", "blue", "green", "red", "yellow", "gray")
-        part <- object@kmeans$kpart
         plot(
-            object@tsne,
+            x,
             las = 1,
             xlab = "Dim 1",
             ylab = "Dim 2",
@@ -25,11 +39,11 @@ setMethod(
             cex = 1.5,
             col = "lightgrey"
         )
-        for (i in 1:max(part)) {
+        for (i in seq_len(part)) {
             if (sum(part == i) > 0) {
                 text(
-                    object@tsne[part == i, 1],
-                    object@tsne[part == i, 2],
+                    x[part == i, 1],
+                    x[part == i, 2],
                     i,
                     col = col[i],
                     cex = .75,
