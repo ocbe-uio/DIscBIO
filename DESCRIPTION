@@ -44,10 +44,7 @@ Imports: methods, TSCAN, boot, httr, mclust, statmod, igraph,
 Depends:
 	R (>= 4.0), SingleCellExperiment
 Suggests:
-	knitr,
-	rmarkdown,
 	testthat,
-	enrichR,
 	Seurat,
 	BiocManager
 LazyData: true
