@@ -1,31 +1,43 @@
-#' @title Plotting the pseudo-time ordering based on Model-based clusters in the
-#'   t-SNE map
+#' @title Plotting the pseudo-time ordering in the t-SNE map
 #' @description The tSNE representation can also be used to show the pseudo-time
 #'   ordering.
 #' @param object \code{DISCBIO} class object.
 #' @return A plot of the pseudo-time ordering.
-setGeneric("plotOrderMBtsne", function(object)
-    standardGeneric("plotOrderMBtsne"))
+setGeneric("plotOrderTsne", function(object)
+    standardGeneric("plotOrderTsne"))
 
 #' @export
-#' @rdname plotOrderMBtsne
+#' @rdname plotOrderTsne
 setMethod(
-    "plotOrderMBtsne",
+    "plotOrderTsne",
     signature = "DISCBIO",
     definition = function(object) {
-        if (length(object@MBtsne) == 0)
-            stop("run comptsneMB before plotOrderMBtsne")
-        total <- rbind(object@ndata, object@MBordering)
-        rownames(total)[nrow(total)] <-
-            "Pseudo-time ordering of MBclustering"
+		ran_k <- length(object@tsne) > 0
+		ran_m <- length(object@MBtsne) > 0
+		if (ran_k) {
+			total <- rbind(object@ndata, object@kordering)
+			clustering_method <- "k-means"
+			x <- object@tsne
+		} else if (ran_m) {
+			total <- rbind(object@ndata, object@MBordering)
+			clustering_method <- "model-based"
+			x <- object@MBtsne
+		} else {
+			stop("run comptsne or comptsneMB before plotOrderTsne")
+		}
+
+        rownames(total)[nrow(total)] <- paste(
+			"Pseudo-time ordering of", clustering_method, "clustering"
+		)
         g <- rownames(total)[nrow(total)]
         n <- g[1]
         l <- apply(total[g, ] - .1, 2, sum) + .1
 
         mi <- min(l, na.rm = TRUE)
         ma <- max(l, na.rm = TRUE)
-        ColorRamp <-
-            colorRampPalette(rev(brewer.pal(n = 7, name = "RdYlBu")))(100)
+        ColorRamp <- colorRampPalette(
+			rev(brewer.pal(n = 7, name = "RdYlBu"))
+		)(100)
         ColorLevels <- seq(mi, ma, length = length(ColorRamp))
         v <- round((l - mi) / (ma - mi) * 99 + 1, 0)
         layout(
@@ -40,7 +52,7 @@ setMethod(
         opar <- par(mar = c(3, 5, 2.5, 2))
         on.exit(par(opar))
         plot(
-            object@MBtsne,
+            x,
             xlab = "Dim 1",
             ylab = "Dim 2",
             main = n,
@@ -51,8 +63,8 @@ setMethod(
         )
         for (k in 1:length(v)) {
             points(
-                object@MBtsne[k, 1],
-                object@MBtsne[k, 2],
+                x[k, 1],
+                x[k, 2],
                 col = ColorRamp[v[k]],
                 pch = 20,
                 cex = 1.5
