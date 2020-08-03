@@ -84,7 +84,6 @@ Collate:
     'DIscBIO-generic-plotSilhouette.R'
     'DIscBIO-generic-plotSymbolstSNE.R'
     'DIscBIO-generic-plotexptsneMB.R'
-    'DIscBIO-generic-plotsilhouetteMB.R'
     'DIscBIO-generic-plottSNE.R'
     'DIscBIO-generic-plottsneMB.R'
     'J48DT.R'

@@ -22,16 +22,27 @@ setMethod(
     f = "plotSilhouette",
     signature = "DISCBIO",
     definition = function(object, K) {
-    if (length(object@kmeans$kpart) == 0) {
-        stop("run clustexp before plotsilhouette")
-    }
-    if (length(unique(object@kmeans$kpart)) < 2) {
-        stop("only a single cluster: no silhouette plot")
-    }
-    col <- c("black", "blue", "green", "red", "yellow", "gray")
-    kpart <- object@kmeans$kpart
-    distances <- dist.gen(object@distances)
-    si <- silhouette(kpart, distances)
-    plot(si, col = col[1:K])
+        # ======================================================================
+        # Validation
+        # ======================================================================
+        ran_clustexp <- length(object@kmeans$kpart) > 0
+        ran_exprmclust <- length(object@MBclusters$clusterid) > 0
+        if (ran_clustexp) {
+            kpart <- object@kmeans$kpart
+        } else if (ran_exprmclust) {
+            kpart <- object@MBclusters$clusterid
+        } else {
+            stop("run clustexp or exprmclust before plotSilhouette")
+        }
+        if (length(unique(kpart)) < 2) {
+            stop("only a single cluster: no silhouette plot")
+        }
+        # ======================================================================
+        # Plotting
+        # ======================================================================
+        col <- c("black", "blue", "green", "red", "yellow", "gray")
+        distances <- dist.gen(object@distances)
+        si <- silhouette(kpart, distances)
+        plot(si, col = col[1:K])
     }
 )
