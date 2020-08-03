@@ -244,7 +244,6 @@ setMethod(
 
     object@cpart <- cpart
 
-    set.seed(111111)
     object@fcol <- sample(rainbow(max(cpart)))
     p <- object@MBclusters$clusterid[order(
         object@MBclusters$clusterid, decreasing = FALSE
