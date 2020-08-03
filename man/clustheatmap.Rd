@@ -14,7 +14,14 @@ clustheatmap(
   plot = TRUE
 )
 
-\S4method{clustheatmap}{DISCBIO}(object, clustering_method, hmethod, plot)
+\S4method{clustheatmap}{DISCBIO}(
+  object,
+  clustering_method = "k-means",
+  hmethod = "single",
+  rseed = NULL,
+  quiet = FALSE,
+  plot = TRUE
+)
 }
 \arguments{
 \item{object}{\code{DISCBIO} class object.}
