@@ -12,6 +12,7 @@
 #' @param filename_binom Name of the exported binomial file
 #' @param filename_sigdeg Name of the exported sigDEG file
 #' @importFrom stats pbinom median
+#' @import org.Hs.eg.db
 #' @rdname ClustDiffGenes
 #' @return A list containing two tables.
 #' @export

@@ -43,8 +43,8 @@ setMethod(
 		# ======================================================================
 		# Validating
 		# ======================================================================
-		ran_k <- length(object@kmeans$kpart) > 0
-		ran_m <- length(object@MBclusters$clusterid) > 0
+		ran_k <- length(object@kmeans) > 0
+		ran_m <- length(object@MBclusters) > 0
 		if (ran_k) {
 			clusters <- object@kmeans$kpart
 		} else if (ran_m) {
@@ -86,14 +86,13 @@ setMethod(
         else if (outdistquant < 0 | outdistquant > 1)
             stop("outdistquant has to be a number between 0 and 1")
 
-        object@outlierpar <-
-            list(
-                outminc = outminc,
-                outlg = outlg,
-                probthr = probthr,
-                thr = thr,
-                outdistquant = outdistquant
-            )
+        object@outlierpar <- list(
+            outminc = outminc,
+            outlg = outlg,
+            probthr = probthr,
+            thr = thr,
+            outdistquant = outdistquant
+        )
         ### calibrate background model
         m <- log2(apply(object@fdata, 1, mean))
         v <- log2(apply(object@fdata, 1, var))
@@ -243,8 +242,7 @@ setMethod(
         object@cpart <- cpart
 
         object@fcol <- rainbow(max(cpart))
-        p <-
-            clusters[order(clusters, decreasing = FALSE)]
+        p <- clusters[order(clusters, decreasing = FALSE)]
         x <- object@out$cprobs[names(p)]
         fcol <- c("black", "blue", "green", "red", "yellow", "gray")
         if (plot) {
