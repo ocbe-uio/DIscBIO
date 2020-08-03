@@ -70,7 +70,7 @@ test_that("Cluster plots output is as expexted", {
 
 context("Outliers")
 
-Outliers <- FindOutliersKM(
+Outliers <- FindOutliers(
     sc, K=2, outminc=5, outlg=2, probthr=.5*1e-3, thr=2 ^ (-1:-40),
     outdistquant=.75, plot = FALSE, quiet = TRUE
 )

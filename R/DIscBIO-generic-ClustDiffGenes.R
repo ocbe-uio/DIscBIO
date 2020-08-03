@@ -1,5 +1,5 @@
 #' @title ClustDiffGenes
-#' @rdname MBClustDiffGenes
+#' @description description
 #' @param object \code{DISCBIO} class object.
 #' @param K A numeric value of the number of clusters.
 #' @param pValue A numeric value of the p-value. Default is 0.05.
@@ -12,31 +12,37 @@
 #' @param filename_binom Name of the exported binomial file
 #' @param filename_sigdeg Name of the exported sigDEG file
 #' @importFrom stats pbinom median
-#' @importFrom AnnotationDbi select
-#' @import org.Hs.eg.db
-#' @export
+#' @rdname ClustDiffGenes
 #' @return A list containing two tables.
+#' @export
+#'
 setGeneric(
-    "MBClustDiffGenes",
+    "ClustDiffGenes",
     function(
         object, K, pValue = 0.05, fdr = .01, export = FALSE, quiet = FALSE,
         filename_up = "Up-DEG-cluster",
         filename_down = "Down-DEG-cluster",
         filename_binom = "binomial-DEGsTable",
         filename_sigdeg = "binomial-sigDEG"
-        ) {
-            standardGeneric("MBClustDiffGenes")
-        }
+    ) {
+        standardGeneric("ClustDiffGenes")
+    }
 )
 #' @export
-#' @rdname MBClustDiffGenes
+#' @rdname ClustDiffGenes
 setMethod(
-    "MBClustDiffGenes",
+    "ClustDiffGenes",
     signature = "DISCBIO",
     definition = function(
         object, K, pValue, fdr, export, quiet, filename_up, filename_down,
         filename_binom, filename_sigdeg
-    ) {
+    )
+	{
+        # ======================================================================
+        # Validating
+        # ======================================================================
+        ran_k <- length(object@kmeans$kpart) > 0
+        ran_m <- length(object@MBclusters) > 0
         if (!is.numeric(fdr)) {
             stop("fdr has to be a number between 0 and 1")
         } else if (fdr < 0 | fdr > 1) {
@@ -47,11 +53,22 @@ setMethod(
         } else if (pValue < 0 | pValue > 1) {
             stop("pValue has to be a number between 0 and 1")
         }
-
+        if (length(object@kmeans$kpart) == 0) {
+            stop("run Clustexp before ClustDiffGenes")
+        }
         cdiff <- list()
         x     <- object@ndata
         y     <- object@expdata[, names(object@ndata)]
-        part  <- object@MBclusters$clusterid
+        if (ran_k) {
+            part  <- object@kmeans$kpart
+        } else if (ran_m) {
+            part  <- object@MBclusters$clusterid
+        } else {
+            stop("Run Clustexp() before running this function")
+        }
+        # ======================================================================
+        # Operating
+        # ======================================================================
         for (i in 1:max(part)) {
             if (sum(part == i) == 0)
                 next
@@ -157,8 +174,13 @@ setMethod(
                     Up[, 6] <- log2(Up[, 6])
                     Up[, 1] <- Up[, 2]
                     colnames(Up) <- c(
-                        "Genes", "genes", "E.genes", "mean.all", "mean.cl",
-                        "log2.fc", "p.adj"
+                        "Genes",
+                        "genes",
+                        "E.genes",
+                        "mean.all",
+                        "mean.cl",
+                        "log2.fc",
+                        "p.adj"
                     )
                     if (export) {
                         write.csv(
@@ -200,11 +222,9 @@ setMethod(
                     DEGsTable[n, 1] <- paste0("Cluster ", n)
                     DEGsTable[n, 2] <- "Remaining Clusters"
                     DEGsTable[n, 3] <- length(Up[, 1])
-                    DEGsTable[n, 4] <-
-                        paste0(filename_up, n, ".csv")
+                    DEGsTable[n, 4] <- paste0(filename_up, n, ".csv")
                     DEGsTable[n, 5] <- length(Down[, 1])
-                    DEGsTable[n, 6] <-
-                        paste0(filename_down, n, ".csv")
+                    DEGsTable[n, 6] <- paste0(filename_down, n, ".csv")
                 }
             }
         }
@@ -218,7 +238,7 @@ setMethod(
             }
             return(list(sigDEG, DEGsTable))
         } else{
-            print(paste0("There are no DEGs with fdr=", fdr))
+            print(paste("There are no DEGs with fdr =", fdr))
         }
     }
 )
