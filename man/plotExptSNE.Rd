@@ -3,7 +3,7 @@
 \name{plotExptSNE}
 \alias{plotExptSNE}
 \alias{plotExptSNE,DISCBIO-method}
-\title{Highlighting gene expression in K-means clustering in the t-SNE map}
+\title{Highlighting gene expression in the t-SNE map}
 \usage{
 plotExptSNE(object, g, n = NULL)
 

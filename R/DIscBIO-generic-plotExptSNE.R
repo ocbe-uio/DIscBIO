@@ -1,4 +1,4 @@
-#' @title Highlighting gene expression in K-means clustering in the t-SNE map
+#' @title Highlighting gene expression in the t-SNE map
 #' @description The t-SNE map representation can also be used to analyze
 #'   expression of a gene or a group of genes, to investigate cluster specific
 #'   gene expression patterns
@@ -20,20 +20,33 @@ setMethod(
     "plotExptSNE",
     signature = "DISCBIO",
     definition = function(object, g, n = NULL) {
-        if (length(object@tsne) == 0)
+        # ======================================================================
+        # Validation
+        # ======================================================================
+        ran_k <- length(object@tsne) > 0
+        ran_m <- length(object@MBtsne) > 0
+        if (ran_k) {
+            x <- object@tsne
+        } else if (ran_m) {
+            x <- object@MBtsne
+        } else {
             stop("run comptSNE before plotExptSNE")
+        }
         if (length(intersect(g, rownames(object@ndata))) < length(unique(g)))
             stop(
                 "second argument does not correspond to set of rownames slot",
                 "ndata of SCseq object"
             )
-        if (is.null(n))
-            n <- g[1]
+        if (is.null(n)) n <- g[1]
+        # ======================================================================
+        # Plotting
+        # ======================================================================
         l <- apply(object@ndata[g, ] - .1, 2, sum) + .1
         mi <- min(l, na.rm = TRUE)
         ma <- max(l, na.rm = TRUE)
-        ColorRamp <-
-            colorRampPalette(rev(brewer.pal(n = 7, name = "RdYlBu")))(100)
+        ColorRamp <- colorRampPalette(
+            rev(brewer.pal(n = 7, name = "RdYlBu"))
+        )(100)
         ColorLevels <- seq(mi, ma, length = length(ColorRamp))
         v <- round((l - mi) / (ma - mi) * 99 + 1, 0)
         layout(
@@ -59,8 +72,8 @@ setMethod(
         )
         for (k in 1:length(v)) {
             points(
-                object@tsne[k, 1],
-                object@tsne[k, 2],
+                x[k, 1],
+                x[k, 2],
                 col = ColorRamp[v[k]],
                 pch = 20,
                 cex = 1.5
