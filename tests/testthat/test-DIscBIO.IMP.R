@@ -46,8 +46,8 @@ test_that("Data is normalized", {
 
 context("K-means clustering")
 
-sc <- Clustexp(sc, cln=2, quiet=TRUE, rseed=17000) # K-means clustering
-sc <- comptSNE(sc, rseed=15555, quiet=TRUE, max_iter=10)
+sc <- Clustexp(sc, clustnr=2, cln=2, bootnr=10, quiet=TRUE, rseed=17000)
+sc <- comptSNE(sc, rseed=15555, quiet=TRUE, max_iter=1, epoch=10)
 
 test_that("tSNE is computed", {
     expect_equal(class(sc@tsne), "data.frame")
@@ -95,7 +95,7 @@ context("Differential Expression Analysis")
 cdiff3 <- suppressMessages(
     DEGanalysis2clust(
         sc, Clustering="K-means", K=2, fdr=.2, name="Name", First="CL1",
-        Second="CL2", export=FALSE, quiet=TRUE, plot=FALSE, nperms=5, nresamp=2
+        Second="CL2", export=FALSE, quiet=TRUE, plot=FALSE, nperms=2, nresamp=2
     )
 )
 
@@ -104,29 +104,4 @@ test_that("DEGs are calculated", {
         object = sapply(cdiff3, function(x) class(x)[1]),
         expected = c("matrix", "data.frame", "data.frame", "data.frame")
     )
-})
-
-# Decision tree
-sigDEG <- cdiff3[[1]]
-
-DATAforDT <- ClassVectoringDT(
-    sc, Clustering="K-means", K=2, First="CL1", Second="CL2", sigDEG,
-    quiet = TRUE
-)
-
-j48dt <- J48DT(DATAforDT, quiet = TRUE, plot = FALSE)
-j48dt_eval <- J48DTeval(
-    DATAforDT, num.folds=10, First="CL1", Second="CL2", quiet=TRUE
-)
-rpartEVAL <- RpartEVAL(
-    DATAforDT, num.folds=10, First="CL1", Second="CL2", quiet = TRUE
-)
-
-test_that("Decision tree elements are defined", {
-    expect_output(str(DATAforDT), "5 obs. of  21 variables")
-    expect_identical(
-        attributes(j48dt)$class, c("J48", "Weka_tree", "Weka_classifier")
-    )
-    expect_identical(j48dt_eval, c(TP = 7, FN = 4, FP = 5, TN = 5))
-    expect_identical(rpartEVAL, c(TP = 5, FN = 6, FP = 10, TN = 0))
 })
