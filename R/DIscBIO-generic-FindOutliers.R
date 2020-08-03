@@ -1,5 +1,5 @@
-#' @title Inference of outlier cells in K-means clustering
-#' @description This functions performs the outlier identification
+#' @title Inference of outlier cells
+#' @description This functions performs the outlier identification for k-means and model-based clustering
 #' @param object \code{DISCBIO} class object.
 #' @param outminc minimal transcript count of a gene in a clusters to be tested
 #'   for being an outlier gene. Default is 5.
@@ -10,7 +10,7 @@
 #'   binomial background model of expression in a cluster. Default is 0.001.
 #' @param thr probability values for which the number of outliers is computed in
 #'   order to plot the dependence of the number of outliers on the probability
-#'   threshold. Default is 2**-(1:40).
+#'   threshold. Default is 2**-(1:40).set
 #' @param outdistquant Real number between zero and one. Outlier cells are
 #'   merged to outlier clusters if their distance smaller than the
 #'   outdistquant-quantile of the distance distribution of  pairs of cells in
@@ -23,25 +23,48 @@
 #'   of cells on each.
 #'
 setGeneric(
-    "FindOutliersKM",
+    "FindOutliers",
     function(
         object, K, outminc = 5, outlg = 2, probthr = 1e-3, thr = 2 ** -(1:40),
         outdistquant = .75, plot = TRUE, quiet = FALSE
     )
-    standardGeneric("FindOutliersKM")
+    standardGeneric("FindOutliers")
 )
 
-#' @rdname FindOutliersKM
+#' @rdname FindOutliers
 #' @export
 setMethod(
-    "FindOutliersKM",
+    "FindOutliers",
     signature = "DISCBIO",
     definition = function(
         object, K, outminc, outlg, probthr, thr, outdistquant, plot, quiet
     )
     {
-        if (length(object@kmeans$kpart) == 0)
-            stop("run Clustexp before FindOutliersKM")
+		# ======================================================================
+		# Validating
+		# ======================================================================
+		ran_k <- length(object@kmeans$kpart) > 0
+		ran_m <- length(object@MBclusters$clusterid) > 0
+		if (ran_k) {
+			clusters <- object@kmeans$kpart
+		} else if (ran_m) {
+			object <- Clustexp(
+				object,
+				clustnr = 20,
+				bootnr = 50,
+				metric = "pearson",
+				do.gap = T,
+				SE.method = "Tibs2001SEmax",
+				SE.factor = .25,
+				B.gap = 50,
+				cln = K,
+				rseed = 17000,
+				quiet = quiet
+			)
+			clusters <- object@MBclusters$clusterid
+		} else {
+			stop("run Clustexp before FindOutliers")
+		}
         if (!is.numeric(outminc))
             stop("outminc has to be a non-negative integer")
         else if (round(outminc) != outminc | outminc < 0)
@@ -105,15 +128,15 @@ setMethod(
         out   <- c()
         stest <- rep(0, length(thr))
         cprobs <- c()
-        for (n in 1:max(object@kmeans$kpart)) {
-            if (sum(object@kmeans$kpart == n) == 1) {
+        for (n in 1:max(clusters)) {
+            if (sum(clusters == n) == 1) {
                 cprobs <-
                     append(cprobs, .5)
                 names(cprobs)[length(cprobs)] <-
-                    names(object@kmeans$kpart)[object@kmeans$kpart == n]
+                    names(clusters)[clusters == n]
                 next
             }
-            x <- object@fdata[, object@kmeans$kpart == n]
+            x <- object@fdata[, clusters == n]
             x <- x[apply(x, 1, max) > outminc, ]
             z <-
                 t(apply(x, 1, function(x) {
@@ -156,8 +179,8 @@ setMethod(
         clp2p.cl <- c()
         cols <- names(object@fdata)
         di <- as.data.frame(object@distances)
-        for (i in 1:max(object@kmeans$kpart)) {
-            tcol <- cols[object@kmeans$kpart == i]
+        for (i in 1:max(clusters)) {
+            tcol <- cols[clusters == i]
             if (sum(!(tcol %in% out)) > 1)
                 clp2p.cl <- append(
                     clp2p.cl,
@@ -168,7 +191,7 @@ setMethod(
         }
         clp2p.cl <- clp2p.cl[clp2p.cl > 0]
 
-        cpart <- object@kmeans$kpart
+        cpart <- clusters
         cadd  <- list()
         if (length(out) > 0) {
             if (length(out) == 1) {
@@ -221,7 +244,7 @@ setMethod(
 
         object@fcol <- rainbow(max(cpart))
         p <-
-            object@kmeans$kpart[order(object@kmeans$kpart, decreasing = FALSE)]
+            clusters[order(clusters, decreasing = FALSE)]
         x <- object@out$cprobs[names(p)]
         fcol <- c("black", "blue", "green", "red", "yellow", "gray")
         if (plot) {
