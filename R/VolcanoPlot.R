@@ -9,8 +9,6 @@
 #' @param fc A numeric value of the fold change. Default is 0.5.
 #' @param FS A numeric value of the font size. Default is 0.4.
 #' @param name A string vector showing the name to be used on the plot title
-#' @importFrom samr samr samr.compute.delta.table samr.plot
-#'   samr.compute.siggenes.table
 #' @importFrom graphics title
 #' @importFrom utils write.csv
 #' @return A volcano plot

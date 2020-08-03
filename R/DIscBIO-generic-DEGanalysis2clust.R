@@ -20,8 +20,6 @@
 #' @param filename_deg Name of the exported DEG table
 #' @param filename_sigdeg Name of the exported sigDEG table
 #' @param ... additional parameters to be passed to samr()
-#' @importFrom samr samr samr.compute.delta.table samr.plot
-#'   samr.compute.siggenes.table
 #' @importFrom graphics title
 #' @importFrom utils write.csv capture.output
 #' @importFrom AnnotationDbi keys

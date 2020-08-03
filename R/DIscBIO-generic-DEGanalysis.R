@@ -15,8 +15,6 @@
 #' @param plot if `TRUE`, plots are generated
 #' @param filename_deg Name of the exported DEG table
 #' @param filename_sigdeg Name of the exported sigDEG table
-#' @importFrom samr samr samr.compute.delta.table samr.plot
-#'   samr.compute.siggenes.table
 #' @importFrom graphics title
 #' @importFrom utils write.csv capture.output
 #' @param ... additional parameters to be passed to samr()

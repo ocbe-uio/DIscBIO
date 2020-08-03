@@ -37,7 +37,7 @@ Description: An open, multi-algorithmic pipeline for easy, fast and efficient
 	<doi:10.1101/700989>.
 License: MIT + file LICENSE
 Encoding: UTF-8
-Imports: methods, TSCAN, boot, httr, mclust, statmod, samr, igraph,
+Imports: methods, TSCAN, boot, httr, mclust, statmod, igraph,
 	RWeka, philentropy, NetIndices, png, grDevices,
 	readr, RColorBrewer, ggplot2, rpart, fpc, cluster, rpart.plot,
 	tsne, AnnotationDbi, org.Hs.eg.db, graphics, stats, utils, impute

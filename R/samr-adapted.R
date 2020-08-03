@@ -1378,3 +1378,742 @@ multiclass.seq.func <- function(xresamp, y)
     return(list(tt = tt, numer = tt, sd = rep(1, length(tt)),
         stand.contrasts = stand.contrasts))
 }
+
+# ==============================================================================
+# samr.compute.delta.table
+# ==============================================================================
+## Jun added starts
+samr.compute.delta.table <- function(samr.obj, min.foldchange = 0,
+	dels = NULL, nvals = 50) {
+	res <- NULL
+	if (samr.obj$assay.type == "array") {
+		res <- samr.compute.delta.table.array(samr.obj, min.foldchange,
+			dels, nvals)
+	}
+	else if (samr.obj$assay.type == "seq") {
+		res <- samr.compute.delta.table.seq(samr.obj, min.foldchange,
+			dels)
+	}
+	return(res)
+}
+## Jun added ends
+
+## Jun added the first row below, and commented the row
+#   after it
+samr.compute.delta.table.array <- function(samr.obj,
+	min.foldchange = 0, dels = NULL, nvals = 50) {
+	#samr.compute.delta.table <- function(samr.obj,
+	#   min.foldchange=0, dels=NULL, nvals=50) {
+	# computes delta table, starting with samr object 'a', for
+	#   nvals values of delta
+	lmax = sqrt(max(abs(sort(samr.obj$tt) - samr.obj$evo)))
+	if (is.null(dels)) {
+		dels = (seq(0, lmax, length = nvals)^2)
+	}
+	col = matrix(1, nrow = length(samr.obj$evo), ncol = nvals)
+	ttstar0 <- samr.obj$ttstar0
+	tt <- samr.obj$tt
+	n <- samr.obj$n
+	evo <- samr.obj$evo
+	nsim <- ncol(ttstar0)
+	res1 <- NULL
+	foldchange.cond.up = matrix(T, nrow = nrow(samr.obj$ttstar),
+		ncol = ncol(samr.obj$ttstar))
+	foldchange.cond.lo = matrix(T, nrow = nrow(samr.obj$ttstar),
+		ncol = ncol(samr.obj$ttstar))
+	if (!is.null(samr.obj$foldchange[1]) & (min.foldchange >
+		0)) {
+		foldchange.cond.up = samr.obj$foldchange.star >= min.foldchange
+		foldchange.cond.lo = samr.obj$foldchange.star <= 1/min.foldchange
+	}
+	cutup = rep(NA, length(dels))
+	cutlow = rep(NA, length(dels))
+	g2 = rep(NA, length(dels))
+	errup = matrix(NA, ncol = length(dels), nrow = ncol(samr.obj$ttstar0))
+	errlow = matrix(NA, ncol = length(dels), nrow = ncol(samr.obj$ttstar0))
+	cat("", fill = T)
+	cat("Computing delta table", fill = T)
+	for (ii in 1:length(dels)) {
+		cat(ii, fill = TRUE)
+		ttt <- detec.slab(samr.obj, dels[ii], min.foldchange)
+		cutup[ii] <- 1e+10
+		if (length(ttt$pup > 0)) {
+			cutup[ii] <- min(samr.obj$tt[ttt$pup])
+		}
+		cutlow[ii] <- -1e+10
+		if (length(ttt$plow) > 0) {
+			cutlow[ii] <- max(samr.obj$tt[ttt$plow])
+		}
+		g2[ii] = sumlengths(ttt)
+		errup[, ii] = colSums(samr.obj$ttstar0 > cutup[ii] &
+			foldchange.cond.up)
+		errlow[, ii] = colSums(samr.obj$ttstar0 < cutlow[ii] &
+			foldchange.cond.lo)
+	}
+	s <- sqrt(apply(errup, 2, var)/nsim + apply(errlow, 2, var)/nsim)
+	gmed <- apply(errup + errlow, 2, median)
+	g90 = apply(errup + errlow, 2, quantile, 0.9)
+	res1 <- cbind(samr.obj$pi0 * gmed, samr.obj$pi0 * g90, g2,
+		samr.obj$pi0 * gmed/g2, samr.obj$pi0 * g90/g2, cutlow,
+		cutup)
+	res1 <- cbind(dels, res1)
+	# remove rows with #called=0
+	#om=res1[,4]==0
+	#res1=res1[!om,,drop=F]
+	# remove duplicate rows with same # of genes called
+	#omm=!duplicated(res1[,4])
+	#res1=res1[omm,,drop=F]
+	dimnames(res1) <- list(NULL, c("delta", "# med false pos",
+		"90th perc false pos", "# called", "median FDR", "90th perc FDR",
+		"cutlo", "cuthi"))
+	return(res1)
+}
+
+#######################################################################
+#\tcompute the delta table for sequencing data
+#######################################################################
+samr.compute.delta.table.seq <- function(samr.obj,
+	min.foldchange = 0, dels = NULL) {
+	res1 <- NULL
+	flag <- T
+	## check whether any gene satisfies the foldchange
+	#   restrictions
+	if ((samr.obj$resp.type == samr.const.twoclass.unpaired.response |
+		samr.obj$resp.type == samr.const.twoclass.paired.response) &
+		(min.foldchange > 0)) {
+		sat.up <- (samr.obj$foldchange >= min.foldchange) & (samr.obj$evo >
+			0)
+		sat.dn <- (samr.obj$foldchange <= 1/min.foldchange) &
+			(samr.obj$evo < 0)
+		if (sum(sat.up) + sum(sat.dn) == 0) {
+			flag <- F
+		}
+	}
+	if (flag) {
+		if (is.null(dels)) {
+			dels <- generate.dels(samr.obj, min.foldchange = min.foldchange)
+		}
+		cat("Number of thresholds chosen (all possible thresholds) =",
+			length(dels), fill = T)
+		if (length(dels) > 0) {
+			## sort delta to make the fast calculation right
+			dels <- sort(dels)
+			## get the upper and lower cutoffs
+			cat("Getting all the cutoffs for the thresholds...\n")
+			slabs <- samr.seq.detec.slabs(samr.obj, dels, min.foldchange)
+			cutup <- slabs$cutup
+			cutlow <- slabs$cutlow
+			g2 <- slabs$g2
+			## get the number of errors under the null hypothesis
+			cat("Getting number of false positives in the permutation...\n")
+			errnum <- samr.seq.null.err(samr.obj, min.foldchange,
+				cutup, cutlow)
+			res1 <- NULL
+			gmed <- apply(errnum, 2, median)
+			g90 = apply(errnum, 2, quantile, 0.9)
+			res1 <- cbind(samr.obj$pi0 * gmed, samr.obj$pi0 *
+				g90, g2, samr.obj$pi0 * gmed/g2, samr.obj$pi0 *
+				g90/g2, cutlow, cutup)
+			res1 <- cbind(dels, res1)
+			dimnames(res1) <- list(NULL, c("delta", "# med false pos",
+				"90th perc false pos", "# called", "median FDR",
+				"90th perc FDR", "cutlo", "cuthi"))
+		}
+	}
+	return(res1)
+}
+
+# ==============================================================================
+# samr.plot
+# ==============================================================================
+samr.plot <- function(samr.obj, del = NULL, min.foldchange = 0) {
+	## make observed-expected plot
+	## takes foldchange into account too
+	if (is.null(del)) {
+		del = sqrt(max(abs(sort(samr.obj$tt) - samr.obj$evo)))
+	}
+	LARGE = 1e+10
+	b <- detec.slab(samr.obj, del, min.foldchange)
+	bb <- c(b$pup, b$plow)
+	b1 = LARGE
+	b0 = -LARGE
+	if (!is.null(b$pup)) {
+		b1 <- min(samr.obj$tt[b$pup])
+	}
+	if (!is.null(b$plow)) {
+		b0 <- max(samr.obj$tt[b$plow])
+	}
+	c1 <- (1:samr.obj$n)[sort(samr.obj$tt) >= b1]
+	c0 <- (1:samr.obj$n)[sort(samr.obj$tt) <= b0]
+	c2 <- c(c0, c1)
+	foldchange.cond.up = rep(T, length(samr.obj$evo))
+	foldchange.cond.lo = rep(T, length(samr.obj$evo))
+	if (!is.null(samr.obj$foldchange[1]) & (min.foldchange >
+		0)) {
+		foldchange.cond.up = samr.obj$foldchange >= min.foldchange
+		foldchange.cond.lo = samr.obj$foldchange <= 1/min.foldchange
+	}
+	col = rep(1, length(samr.obj$evo))
+	col[b$plow] = 3
+	col[b$pup] = 2
+	if (!is.null(samr.obj$foldchange[1]) & (min.foldchange >
+		0)) {
+		col[!foldchange.cond.lo & !foldchange.cond.up] = 1
+	}
+	col.ordered = col[order(samr.obj$tt)]
+	ylims <- range(samr.obj$tt)
+	xlims <- range(samr.obj$evo)
+	plot(samr.obj$evo, sort(samr.obj$tt), xlab = "expected score",
+		ylab = "observed score", ylim = ylims, xlim = xlims,
+		type = "n")
+	points(samr.obj$evo, sort(samr.obj$tt), col = col.ordered)
+	abline(0, 1)
+	abline(del, 1, lty = 2)
+	abline(-del, 1, lty = 2)
+}
+
+# ==============================================================================
+# samr.compute.siggenes.table
+# ==============================================================================
+samr.compute.siggenes.table = function(samr.obj, del,
+	data, delta.table, min.foldchange = 0, all.genes = FALSE,
+	compute.localfdr = FALSE)
+{
+	## computes significant genes table, starting with samr
+	#   object 'a' and 'delta.table'
+	##  for a  **single** value del
+	## if all.genes is true, all genes are printed (and value
+	#   of del is ignored)
+	if (is.null(data$geneid))
+	{
+		data$geneid = paste("g", 1:nrow(data$x), sep = "")
+	}
+	if (is.null(data$genenames))
+	{
+		data$genenames = paste("g", 1:nrow(data$x), sep = "")
+	}
+	if (!all.genes)
+	{
+		sig = detec.slab(samr.obj, del, min.foldchange)
+	}
+	if (all.genes)
+	{
+		p = length(samr.obj$tt)
+		pup = (1:p)[samr.obj$tt >= 0]
+		plo = (1:p)[samr.obj$tt < 0]
+		sig = list(pup = pup, plo = plo)
+	}
+	if (compute.localfdr)
+	{
+		aa = localfdr(samr.obj, min.foldchange)
+		if (length(sig$pup) > 0)
+		{
+			fdr.up = predictlocalfdr(aa$smooth.object, samr.obj$tt[sig$pup])
+		}
+		if (length(sig$plo) > 0)
+		{
+			fdr.lo = predictlocalfdr(aa$smooth.object, samr.obj$tt[sig$plo])
+		}
+	}
+	qvalues = NULL
+	if (length(sig$pup) > 0 | length(sig$plo) > 0)
+	{
+		qvalues = qvalue.func(samr.obj, sig, delta.table)
+	}
+	res.up = NULL
+	res.lo = NULL
+	done = FALSE
+
+	# two class unpaired or paired  (foldchange is reported)
+	if ((samr.obj$resp.type == samr.const.twoclass.unpaired.response |
+		samr.obj$resp.type == samr.const.twoclass.paired.response))
+	{
+		if (!is.null(sig$pup))
+		{
+			res.up = cbind(sig$pup + 1, data$genenames[sig$pup],
+				data$geneid[sig$pup], samr.obj$tt[sig$pup], samr.obj$numer[sig$pup],
+				samr.obj$sd[sig$pup], samr.obj$foldchange[sig$pup],
+				qvalues$qvalue.up)
+			if (compute.localfdr)
+			{
+				res.up = cbind(res.up, fdr.up)
+			}
+			temp.names = list(NULL, c("Row", "Gene ID", "Gene Name",
+				"Score(d)", "Numerator(r)", "Denominator(s+s0)",
+				"Fold Change", "q-value(%)"))
+			if (compute.localfdr)
+			{
+				temp.names[[2]] = c(temp.names[[2]], "localfdr(%)")
+			}
+			dimnames(res.up) = temp.names
+		}
+		if (!is.null(sig$plo))
+		{
+			res.lo = cbind(sig$plo + 1, data$genenames[sig$plo],
+				data$geneid[sig$plo], samr.obj$tt[sig$plo], samr.obj$numer[sig$plo],
+				samr.obj$sd[sig$plo], samr.obj$foldchange[sig$plo],
+				qvalues$qvalue.lo)
+			if (compute.localfdr)
+			{
+				res.lo = cbind(res.lo, fdr.lo)
+			}
+			temp.names = list(NULL, c("Row", "Gene ID", "Gene Name",
+				"Score(d)", "Numerator(r)", "Denominator(s+s0)",
+				"Fold Change", "q-value(%)"))
+			if (compute.localfdr)
+			{
+				temp.names[[2]] = c(temp.names[[2]], "localfdr(%)")
+			}
+			dimnames(res.lo) = temp.names
+		}
+		done = TRUE
+	}
+
+	# multiclass
+	if (samr.obj$resp.type == samr.const.multiclass.response)
+	{
+		if (!is.null(sig$pup))
+		{
+			res.up = cbind(sig$pup + 1, data$genenames[sig$pup],
+			data$geneid[sig$pup], samr.obj$tt[sig$pup], samr.obj$numer[sig$pup],
+			samr.obj$sd[sig$pup], samr.obj$stand.contrasts[sig$pup, ], qvalues$qvalue.up)
+
+			if (compute.localfdr)
+			{
+				res.up = cbind(res.up, fdr.up)
+			}
+
+			collabs.contrast = paste("contrast-", as.character(1:ncol(samr.obj$stand.contrasts)),
+				sep = "")
+			temp.names = list(NULL, c("Row", "Gene ID", "Gene Name",
+			"Score(d)", "Numerator(r)", "Denominator(s+s0)",
+			collabs.contrast, "q-value(%)"))
+
+			if (compute.localfdr)
+			{
+				temp.names[[2]] = c(temp.names[[2]], "localfdr(%)")
+			}
+			dimnames(res.up) = temp.names
+		}
+		res.lo = NULL
+		done = TRUE
+	}
+
+	#all other cases
+	if (!done)
+	{
+		if (!is.null(sig$pup))
+		{
+			res.up = cbind(sig$pup + 1, data$genenames[sig$pup],
+				data$geneid[sig$pup], samr.obj$tt[sig$pup], samr.obj$numer[sig$pup],
+				samr.obj$sd[sig$pup], samr.obj$foldchange[sig$pup],
+				qvalues$qvalue.up)
+			if (compute.localfdr)
+			{
+				res.up = cbind(res.up, fdr.up)
+			}
+			temp.names = list(NULL, c("Row", "Gene ID", "Gene Name",
+				"Score(d)", "Numerator(r)", "Denominator(s+s0)",
+				"q-value(%)"))
+			if (compute.localfdr)
+			{
+				temp.names[[2]] = c(temp.names[[2]], "localfdr(%)")
+			}
+			dimnames(res.up) = temp.names
+		}
+		if (!is.null(sig$plo))
+		{
+			res.lo = cbind(sig$plo + 1, data$genenames[sig$plo],
+				data$geneid[sig$plo], samr.obj$tt[sig$plo], samr.obj$numer[sig$plo],
+				samr.obj$sd[sig$plo], samr.obj$foldchange[sig$plo],
+				qvalues$qvalue.lo)
+			if (compute.localfdr)
+			{
+				res.lo = cbind(res.lo, fdr.lo)
+			}
+			temp.names = list(NULL, c("Row", "Gene ID", "Gene Name",
+				"Score(d)", "Numerator(r)", "Denominator(s+s0)",
+				"q-value(%)"))
+			if (compute.localfdr)
+			{
+				temp.names[[2]] = c(temp.names[[2]], "localfdr(%)")
+			}
+			dimnames(res.lo) = temp.names
+		}
+		done = TRUE
+	}
+	if (!is.null(res.up))
+	{
+		o1 = order(-samr.obj$tt[sig$pup])
+		res.up = res.up[o1, , drop = F]
+	}
+	if (!is.null(res.lo))
+	{
+		o2 = order(samr.obj$tt[sig$plo])
+		res.lo = res.lo[o2, , drop = F]
+	}
+	color.ind.for.multi = NULL
+	if (samr.obj$resp.type == samr.const.multiclass.response & !is.null(sig$pup))
+	{
+		color.ind.for.multi = 1 * (samr.obj$stand.contrasts[sig$pup,
+			] > samr.obj$stand.contrasts.95[2]) + (-1) * (samr.obj$stand.contrasts[sig$pup,
+			] < samr.obj$stand.contrasts.95[1])
+	}
+	ngenes.up = nrow(res.up)
+	if (is.null(ngenes.up))
+	{
+		ngenes.up = 0
+	}
+	ngenes.lo = nrow(res.lo)
+	if (is.null(ngenes.lo))
+	{
+		ngenes.lo = 0
+	}
+	return(list(genes.up = res.up, genes.lo = res.lo, color.ind.for.multi = color.ind.for.multi,
+		ngenes.up = ngenes.up, ngenes.lo = ngenes.lo))
+}
+generate.dels <- function(samr.obj, min.foldchange = 0) {
+	dels <- NULL
+	## initialize calculation
+	tag <- order(samr.obj$tt)
+	if ((samr.obj$resp.type == samr.const.twoclass.unpaired.response |
+		samr.obj$resp.type == samr.const.twoclass.paired.response) &
+		(min.foldchange > 0)) {
+		res.mat <- data.frame(tt = samr.obj$tt[tag], fc = samr.obj$foldchange[tag],
+			evo = samr.obj$evo, dif = samr.obj$tt[tag] - samr.obj$evo)
+		res.up <- res.mat[res.mat$evo > 0, ]
+		res.lo <- res.mat[res.mat$evo < 0, ]
+		res.up <- res.up[res.up$fc >= min.foldchange, ]
+		res.lo <- res.lo[res.lo$fc <= 1/min.foldchange, ]
+	}
+	else {
+		res.mat <- data.frame(tt = samr.obj$tt[tag], evo = samr.obj$evo,
+			dif = samr.obj$tt[tag] - samr.obj$evo)
+		res.up <- res.mat[res.mat$evo > 0, ]
+		res.lo <- res.mat[res.mat$evo < 0, ]
+	}
+	## for the upper part
+	up.vec <- rep(NA, nrow(res.up))
+	if (nrow(res.up) > 0) {
+		st <- 1e-08
+		i.cur <- 1
+		for (i in 1:nrow(res.up)) {
+			if (res.up$dif[i] > st) {
+				st <- res.up$dif[i]
+				up.vec[i.cur] <- st
+				i.cur <- i.cur + 1
+			}
+		}
+	}
+	## for the lower part
+	lo.vec <- rep(NA, nrow(res.lo))
+	if (nrow(res.lo) > 0) {
+		st <- -1e-08
+		i.cur <- 1
+		for (i in nrow(res.lo):1) {
+			if (res.lo$dif[i] < st) {
+				st <- res.lo$dif[i]
+				lo.vec[i.cur] <- st
+				i.cur <- i.cur + 1
+			}
+		}
+	}
+	## combine them
+	vec <- c(up.vec, -lo.vec)
+	vec <- vec[!is.na(vec)]
+	vec <- vec - 1e-08
+	dels <- sort(unique(vec))
+	return(dels)
+}
+samr.seq.detec.slabs <- function(samr.obj, dels, min.foldchange) {
+	## initialize calculation
+	tag <- order(samr.obj$tt)
+	if ((samr.obj$resp.type == samr.const.twoclass.unpaired.response |
+		samr.obj$resp.type == samr.const.twoclass.paired.response) &
+		(min.foldchange > 0)) {
+		res.mat <- data.frame(tt = samr.obj$tt[tag], fc = samr.obj$foldchange[tag],
+			evo = samr.obj$evo, dif = samr.obj$tt[tag] - samr.obj$evo)
+		res.up <- res.mat[res.mat$evo > 0, ]
+		res.lo <- res.mat[res.mat$evo < 0, ]
+		res.up <- res.up[res.up$fc >= min.foldchange, ]
+		res.lo <- res.lo[res.lo$fc <= 1/min.foldchange, ]
+	}
+	else {
+		res.mat <- data.frame(tt = samr.obj$tt[tag], evo = samr.obj$evo,
+			dif = samr.obj$tt[tag] - samr.obj$evo)
+		res.up <- res.mat[res.mat$evo > 0, ]
+		res.lo <- res.mat[res.mat$evo < 0, ]
+	}
+	## begin calculating
+	cutup <- rep(1e+10, length(dels))
+	cutlow <- rep(-1e+10, length(dels))
+	g2.up <- g2.lo <- rep(0, length(dels))
+	if (nrow(res.up) > 0) {
+		res.up <- data.frame(dif = res.up$dif, tt = res.up$tt,
+			num = nrow(res.up):1)
+		## get the upper part
+		j <- 1
+		ii <- 1
+		while (j <= nrow(res.up) & ii <= length(dels)) {
+			if (res.up$dif[j] > dels[ii]) {
+				cutup[ii] <- res.up$tt[j]
+				g2.up[ii] <- res.up$num[j]
+				ii <- ii + 1
+			}
+			else {
+				j <- j + 1
+			}
+		}
+	}
+	if (nrow(res.lo) > 0) {
+		res.lo <- data.frame(dif = res.lo$dif, tt = res.lo$tt,
+			num = 1:nrow(res.lo))
+		## get the lower part
+		j <- nrow(res.lo)
+		ii <- 1
+		while (j >= 1 & ii <= length(dels)) {
+			if (res.lo$dif[j] < -dels[ii]) {
+				cutlow[ii] <- res.lo$tt[j]
+				g2.lo[ii] <- res.lo$num[j]
+				ii <- ii + 1
+			}
+			else {
+				j <- j - 1
+			}
+		}
+	}
+	g2 <- g2.up + g2.lo
+	return(list(cutup = cutup, cutlow = cutlow, g2 = g2))
+}
+sumlengths <- function(aa) {
+	length(aa$pl) + length(aa$pu)
+}
+
+samr.seq.null.err <- function(samr.obj, min.foldchange,
+	cutup, cutlow) {
+	errup = matrix(NA, ncol = length(cutup), nrow = ncol(samr.obj$ttstar0))
+	errlow = matrix(NA, ncol = length(cutlow), nrow = ncol(samr.obj$ttstar0))
+	cutup.rank <- rank(cutup, ties.method = "min")
+	cutlow.rank <- rank(-cutlow, ties.method = "min")
+	for (jj in 1:ncol(samr.obj$ttstar0)) {
+		#cat(jj, fill=TRUE)
+		keep.up <- keep.dn <- samr.obj$ttstar0[, jj]
+		if ((samr.obj$resp.type == samr.const.twoclass.unpaired.response |
+			samr.obj$resp.type == samr.const.twoclass.paired.response) &
+			(min.foldchange > 0)) {
+			keep.up <- keep.up[samr.obj$foldchange.star[, jj] >=
+				min.foldchange]
+			keep.dn <- keep.dn[samr.obj$foldchange.star[, jj] <=
+				1/min.foldchange]
+		}
+		errup[jj, ] <- length(keep.up) - (rank(c(cutup, keep.up),
+			ties.method = "min")[1:length(cutup)] - cutup.rank)
+		errlow[jj, ] <- length(keep.dn) - (rank(c(-cutlow, -keep.dn),
+			ties.method = "min")[1:length(cutlow)] - cutlow.rank)
+	}
+	errnum <- errup + errlow
+	return(errnum)
+}
+detec.slab <- function(samr.obj, del, min.foldchange) {
+	## find genes above and below the slab of half-width del
+	# this calculation is tricky- for consistency, the slab
+	#   condition picks
+	# all genes that are beyond the first departure from the
+	#   slab
+	# then the fold change condition is applied (if applicable)
+	n <- length(samr.obj$tt)
+	tt <- samr.obj$tt
+	evo <- samr.obj$evo
+	numer <- samr.obj$tt * (samr.obj$sd + samr.obj$s0)
+	tag <- order(tt)
+	pup <- NULL
+	foldchange.cond.up = rep(T, length(evo))
+	foldchange.cond.lo = rep(T, length(evo))
+	if (!is.null(samr.obj$foldchange[1]) & (min.foldchange >
+		0)) {
+		foldchange.cond.up = samr.obj$foldchange >= min.foldchange
+		foldchange.cond.lo = samr.obj$foldchange <= 1/min.foldchange
+	}
+	o1 <- (1:n)[(tt[tag] - evo > del) & evo > 0]
+	if (length(o1) > 0) {
+		o1 <- o1[1]
+		o11 <- o1:n
+		o111 <- rep(F, n)
+		o111[tag][o11] <- T
+		pup <- (1:n)[o111 & foldchange.cond.up]
+	}
+	plow <- NULL
+	o2 <- (1:n)[(evo - tt[tag] > del) & evo < 0]
+	if (length(o2) > 0) {
+		o2 <- o2[length(o2)]
+		o22 <- 1:o2
+		o222 <- rep(F, n)
+		o222[tag][o22] <- T
+		plow <- (1:n)[o222 & foldchange.cond.lo]
+	}
+	return(list(plow = plow, pup = pup))
+}
+
+#' @importFrom stats smooth.spline
+localfdr <- function(samr.obj, min.foldchange, perc = 0.01,
+	df = 10) {
+	## estimates compute.localfdr at score 'd', using SAM
+	#   object 'samr.obj'
+	## 'd' can be a vector of d scores
+	## returns estimate of symmetric fdr  as a percentage
+	# this version uses a 1% symmetric window, and does not
+	#   estimate fdr in
+	# windows  having fewer than 100 genes
+	## to use: first run samr and then pass the resulting fit
+	#   object to
+	## localfdr
+	## NOTE: at most 20 of the perms are used to estimate the
+	#   fdr (for speed sake)
+	# I try two window shapes: symmetric and an assymetric one
+	# currently I use the symmetric window to estimate the
+	#   compute.localfdr
+	ngenes = length(samr.obj$tt)
+	mingenes = 50
+	# perc is increased, in order to get at least mingenes in a
+	#   window
+	perc = max(perc, mingenes/length(samr.obj$tt))
+	nperms.to.use = min(20, ncol(samr.obj$ttstar))
+	nperms = ncol(samr.obj$ttstar)
+	d = seq(sort(samr.obj$tt)[1], sort(samr.obj$tt)[ngenes],
+		length = 100)
+	ndscore <- length(d)
+	dvector <- rep(NA, ndscore)
+	ind.foldchange = rep(T, length(samr.obj$tt))
+	if (!is.null(samr.obj$foldchange[1]) & min.foldchange > 0) {
+		ind.foldchange = (samr.obj$foldchange >= min.foldchange) |
+			(samr.obj$foldchange <= min.foldchange)
+	}
+	fdr.temp = function(temp, dlow, dup, pi0, ind.foldchange) {
+		return(sum(pi0 * (temp >= dlow & temp <= dup & ind.foldchange)))
+	}
+	for (i in 1:ndscore) {
+		pi0 <- samr.obj$pi0
+		r <- sum(samr.obj$tt < d[i])
+		r22 <- round(max(r - length(samr.obj$tt) * perc/2, 1))
+		dlow.sym <- sort(samr.obj$tt)[r22]
+		#      if(d[i]<0)
+		#       {
+		#         r2 <- max(r-length(samr.obj$tt)*perc/2, 1)
+		# r22= min(r+length(samr.obj$tt)*perc/2,
+		#   length(samr.obj$tt))
+		#
+		#          dlow <- sort(samr.obj$tt)[r2]
+		#          dup=sort(samr.obj$tt)[r22]
+		#       }
+		r22 <- min(r + length(samr.obj$tt) * perc/2, length(samr.obj$tt))
+		dup.sym <- sort(samr.obj$tt)[r22]
+		#     if(d[i]>0)
+		#      {
+		# r2 <- min(r+length(samr.obj$tt)*perc/2,
+		#   length(samr.obj$tt))
+		#        r22 <- max(r-length(samr.obj$tt)*perc/2, 1)
+		#        dup <- sort(samr.obj$tt)[r2]
+		#        dlow <- sort(samr.obj$tt)[r22]
+		#
+		#       }
+		# o <- samr.obj$tt>=dlow & samr.obj$tt<= dup &
+		#   ind.foldchange
+		oo <- samr.obj$tt >= dlow.sym & samr.obj$tt <= dup.sym &
+			ind.foldchange
+		nsim <- ncol(samr.obj$ttstar)
+		fdr <- rep(NA, nsim)
+		fdr2 <- fdr
+		if (!is.null(samr.obj$foldchange[1]) & min.foldchange >
+			0) {
+			temp = as.vector(samr.obj$foldchange.star[, 1:nperms.to.use])
+			ind.foldchange = (temp >= min.foldchange) | (temp <=
+				min.foldchange)
+		}
+		temp = samr.obj$ttstar0[, sample(1:nperms, size = nperms.to.use)]
+		# fdr <-median(apply(temp,2,fdr.temp,dlow, dup, pi0,
+		#   ind.foldchange))
+		fdr.sym <- median(apply(temp, 2, fdr.temp, dlow.sym,
+			dup.sym, pi0, ind.foldchange))
+		#      fdr <- 100*fdr/sum(o)
+		fdr.sym <- 100 * fdr.sym/sum(oo)
+		dlow.sym <- dlow.sym
+		dup.sym <- dup.sym
+		dvector[i] <- fdr.sym
+	}
+	om = !is.na(dvector) & (dvector != Inf)
+	aa = smooth.spline(d[om], dvector[om], df = df)
+	return(list(smooth.object = aa, perc = perc, df = df))
+}
+
+predictlocalfdr = function(smooth.object, d) {
+	yhat = predict(smooth.object, d)$y
+	yhat = pmin(yhat, 100)
+	yhat = pmax(yhat, 0)
+	return(yhat)
+}
+
+qvalue.func = function(samr.obj, sig, delta.table) {
+	# returns q-value as a percentage (out of 100)
+	LARGE = 1e+10
+	qvalue.up = rep(NA, length(sig$pup))
+	o1 = sig$pup
+	cutup = delta.table[, 8]
+	FDR = delta.table[, 5]
+	ii = 0
+	for (i in o1) {
+		o = abs(cutup - samr.obj$tt[i])
+		o[is.na(o)] = LARGE
+		oo = (1:length(o))[o == min(o)]
+		oo = oo[length(oo)]
+		ii = ii + 1
+		qvalue.up[ii] = FDR[oo]
+	}
+	qvalue.lo = rep(NA, length(sig$plo))
+	o2 = sig$plo
+	cutlo = delta.table[, 7]
+	ii = 0
+	for (i in o2) {
+		o = abs(cutlo - samr.obj$tt[i])
+		o[is.na(o)] = LARGE
+		oo = (1:length(o))[o == min(o)]
+		oo = oo[length(oo)]
+		ii = ii + 1
+		qvalue.lo[ii] = FDR[oo]
+	}
+	# any qvalues that are missing, are set to 1 (the highest
+	#   value)
+	qvalue.lo[is.na(qvalue.lo)] = 1
+	qvalue.up[is.na(qvalue.up)] = 1
+	# ensure that each qvalue vector is monotone non-increasing
+	o1 = order(samr.obj$tt[sig$plo])
+	qv1 = qvalue.lo[o1]
+	qv11 = qv1
+	if (length(qv1) > 1) {
+		for (i in 2:length(qv1)) {
+			if (qv11[i] < qv11[i - 1]) {
+				qv11[i] = qv11[i - 1]
+			}
+		}
+		qv111 = qv11
+		qv111[o1] = qv11
+	}
+	else {
+		qv111 = qv1
+	}
+	o2 = order(samr.obj$tt[sig$pup])
+	qv2 = qvalue.up[o2]
+	qv22 = qv2
+	if (length(qv2) > 1) {
+		for (i in 2:length(qv2)) {
+			if (qv22[i] > qv22[i - 1]) {
+				qv22[i] = qv22[i - 1]
+			}
+		}
+		qv222 = qv22
+		qv222[o2] = qv22
+	}
+	else {
+		qv222 = qv2
+	}
+	return(list(qvalue.lo = 100 * qv111, qvalue.up = 100 * qv222))
+}
