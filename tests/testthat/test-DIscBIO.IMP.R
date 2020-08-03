@@ -61,7 +61,7 @@ test_that("Cluster plots output is as expexted", {
         tolerance = .01
     )
     expect_equal(
-        object = KMclustheatmap(sc, hmethod = "single", plot = FALSE),
+        object = clustheatmap(sc, hmethod = "single", plot = FALSE),
         expected = c(1, 2)
     )
 })
