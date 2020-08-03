@@ -4,10 +4,10 @@
 
 context("Data loading and pre-processing")
 
-sc <- DISCBIO(valuesG1msRed)  # Reduced dataset used for testing
+sc <- DISCBIO(valuesG1msTest)  # Reduced dataset used for testing
 
 test_that("Loading datasets generate the expected output", {
-    expect_equal(dim(valuesG1msRed), c(1000, 21))
+    expect_equal(dim(valuesG1msTest), c(800, 15))
 })
 
 test_that("Data signature changes", {
@@ -19,7 +19,7 @@ test_that("Data signature changes", {
 sc <- NoiseFiltering(sc, plot=FALSE, export=FALSE, quiet=TRUE)
 
 test_that("Noise filtering is added", {
-    expect_equal(length(sc@noiseF), 272)
+    expect_equal(length(sc@noiseF), 163)
 })
 
 # In this case this function is used to normalize the reads
@@ -30,14 +30,14 @@ sc <- Normalizedata(
 
 test_that("Data is normalized", {
     expect_equal(class(sc@fdata), "data.frame")
-    expect_output(str(sc@fdata), "908 obs. of  21 variables")
+    expect_output(str(sc@fdata), "708 obs. of  15 variables")
 })
 
 # This function can be used for: 1- filtering and normalizing the dataset that has no ERCC. 2- to normalize and filter genes and cells after the noise filtering.
 sc <- FinalPreprocessing(sc, GeneFlitering="NoiseF", export=FALSE, quiet=TRUE)
 
 test_that("Data is normalized", {
-    expect_equal(dim(sc@fdata), c(272, 21))
+    expect_equal(dim(sc@fdata), c(163, 15))
 })
 
 # ---------------------------------------------------------------------------- #
@@ -51,13 +51,13 @@ sc <- comptSNE(sc, rseed=15555, quiet=TRUE, max_iter=1, epoch=10)
 
 test_that("tSNE is computed", {
     expect_equal(class(sc@tsne), "data.frame")
-    expect_output(str(sc@tsne), "21 obs. of  2 variables")
+    expect_output(str(sc@tsne), "15 obs. of  2 variables")
 })
 
 test_that("Cluster plots output is as expexted", {
     expect_equivalent(
         object = Jaccard(sc, Clustering="K-means", K=2, plot=FALSE, R=5),
-        expected = c(.327, .425),
+        expected = c(.417, .413),
         tolerance = .01
     )
     expect_equal(
@@ -77,31 +77,11 @@ Outliers <- FindOutliers(
 Order <- KmeanOrder(sc, quiet = TRUE, export = FALSE)
 
 test_that("Outliers are the expected", {
-    expect_equivalent(Outliers, c(3, 7, 14))
+    expect_equivalent(Outliers, c(3, 10))
     expect_equivalent(
         object = Order@kordering,
         expected = c(
-            15, 13, 5, 14, 20, 18, 16, 21, 17, 9, 8, 12, 3, 10, 2, 11, 7, 19,
-            6, 4, 1
+            5, 6, 13, 2, 3, 1, 4, 7, 12, 9, 15, 8, 10, 11, 14
         )
-    )
-})
-
-# --------------------- Differential Expression Analysis --------------------- #
-
-context("Differential Expression Analysis")
-
-# differential expression analysis between two particular clusters.
-cdiff3 <- suppressMessages(
-    DEGanalysis2clust(
-        sc, Clustering="K-means", K=2, fdr=.2, name="Name", First="CL1",
-        Second="CL2", export=FALSE, quiet=TRUE, plot=FALSE, nperms=2, nresamp=2
-    )
-)
-
-test_that("DEGs are calculated", {
-    expect_equivalent(
-        object = sapply(cdiff3, function(x) class(x)[1]),
-        expected = c("matrix", "data.frame", "data.frame", "data.frame")
     )
 })
