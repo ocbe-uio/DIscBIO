@@ -14,7 +14,7 @@ setMethod(
     signature = "DISCBIO",
     definition = function(object) {
         if (length(object@MBtsne) == 0)
-            stop("run comptsneMB before plotMBLabelstSNE")
+            stop("run comptsne before plotMBLabelstSNE")
         Clusters <- object@MBclusters$clusterid
         ClustersFactor <- as.factor(Clusters)
         ClustersFactor <- gsub("1", "black", ClustersFactor)

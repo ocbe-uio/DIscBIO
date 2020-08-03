@@ -23,7 +23,7 @@ setMethod(
 			clustering_method <- "model-based"
 			x <- object@MBtsne
 		} else {
-			stop("run comptsne or comptsneMB before plotOrderTsne")
+			stop("run comptsne before plotOrderTsne")
 		}
 
         rownames(total)[nrow(total)] <- paste(

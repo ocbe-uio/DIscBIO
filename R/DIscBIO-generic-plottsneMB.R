@@ -18,7 +18,7 @@ setMethod(
     signature = "DISCBIO",
     definition = function(object, K) {
         if (length(object@MBtsne) == 0)
-            stop("run comptsneMB before plottsneMB")
+            stop("run comptsne before plottsneMB")
         col = c("black", "blue", "green", "red", "yellow", "gray")
         part <- object@MBclusters$clusterid
         plot(

@@ -3,7 +3,7 @@
 \name{comptSNE}
 \alias{comptSNE}
 \alias{comptSNE,DISCBIO-method}
-\title{Computing tSNE for K-means clustering}
+\title{Computing tSNE}
 \usage{
 comptSNE(
   object,

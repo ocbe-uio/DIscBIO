@@ -74,7 +74,6 @@ Collate:
     'DIscBIO-generic-PCAplotSymbols.R'
     'DIscBIO-generic-PlotmclustMB.R'
     'DIscBIO-generic-comptSNE.R'
-    'DIscBIO-generic-comptsneMB.R'
     'DIscBIO-generic-plotExptSNE.R'
     'DIscBIO-generic-plotGap.R'
     'DIscBIO-generic-plotKmeansLabelstSNE.R'

@@ -29,7 +29,7 @@ prepExampleDataset <- function(dataset, save=TRUE) {
 	valuesG1msReduced_treated_K <- sc_k
 	message("Model-based clustering")
 	sc_mb <- Exprmclust(sc, quiet=TRUE)
-	sc_mb <- comptsneMB(sc_mb, rseed=15555, quiet=TRUE)
+	sc_mb <- comptSNE(sc_mb, rseed=15555, quiet=TRUE)
 	valuesG1msReduced_treated_MB <- sc_mb
 	# ==========================================================================
 	# Output

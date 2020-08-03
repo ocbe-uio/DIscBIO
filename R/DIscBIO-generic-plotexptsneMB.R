@@ -20,7 +20,7 @@ setMethod(
     signature = "DISCBIO",
     definition = function(object, g, n = NULL) {
         if (length(object@MBtsne) == 0)
-            stop("run comptsneMB before plotexptsneMB")
+            stop("run comptsne before plotexptsneMB")
         if (length(intersect(g, rownames(object@ndata))) < length(unique(g)))
             stop(
                 "second argument does not correspond to set of rownames",
