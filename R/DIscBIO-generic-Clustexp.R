@@ -30,7 +30,10 @@
 #' @importFrom graphics pairs
 #' @importFrom methods is
 #' @return The DISCBIO-class object input with the cpart slot filled.
-setGeneric("Clustexp", function(object, clustnr = 20, bootnr = 50,
+#' @examples
+#' sc <- DISCBIO(valuesG1msTest) # changes signature of data
+#' sc <- Clustexp(sc, cln=2)
+setGeneric("Clustexp", function(object, clustnr = 3, bootnr = 50,
     metric = "pearson", do.gap = TRUE, SE.method = "Tibs2001SEmax",
     SE.factor = .25, B.gap = 50, cln = 0, rseed = NULL, quiet = FALSE)
     {
