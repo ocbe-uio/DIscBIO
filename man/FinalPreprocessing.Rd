@@ -40,3 +40,9 @@ The DISCBIO-class object input with the FinalGeneList slot filled.
 \description{
 This function generates the final filtered normalized dataset.
 }
+\examples{
+sc <- DISCBIO(valuesG1msTest)
+sc <- NoiseFiltering(sc, percentile=0.9, CV=0.2, export=FALSE)
+sc <- FinalPreprocessing(sc, GeneFlitering="NoiseF", export=FALSE)
+
+}

@@ -1,5 +1,5 @@
 #' @title ClustDiffGenes
-#' @description description
+#' @description Creates a table of cluster differences
 #' @param object \code{DISCBIO} class object.
 #' @param K A numeric value of the number of clusters.
 #' @param pValue A numeric value of the p-value. Default is 0.05.

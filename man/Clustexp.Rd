@@ -8,7 +8,7 @@
 \usage{
 Clustexp(
   object,
-  clustnr = 20,
+  clustnr = 3,
   bootnr = 50,
   metric = "pearson",
   do.gap = TRUE,
@@ -22,7 +22,7 @@ Clustexp(
 
 \S4method{Clustexp}{DISCBIO}(
   object,
-  clustnr = 20,
+  clustnr = 3,
   bootnr = 50,
   metric = "pearson",
   do.gap = TRUE,
@@ -75,4 +75,8 @@ The DISCBIO-class object input with the cpart slot filled.
 \description{
 This functions performs the initial clustering of the RaceID
   algorithm.
+}
+\examples{
+sc <- DISCBIO(valuesG1msTest) # changes signature of data
+sc <- Clustexp(sc, cln=2)
 }
