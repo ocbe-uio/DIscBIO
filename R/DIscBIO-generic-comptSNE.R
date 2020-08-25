@@ -11,6 +11,11 @@
 #' @importFrom tsne tsne
 #' @importFrom stats as.dist cor
 #' @return The DISCBIO-class object input with the tsne slot filled.
+#' @examples
+#' sc <- DISCBIO(valuesG1msTest) # changes signature of data
+#' sc <- Clustexp(sc, cln=2) # data must be clustered before plottin
+#' sc <- comptSNE(sc, max_iter=30)
+#' head(sc@tsne)
 #'
     setGeneric(
     name = "comptSNE",

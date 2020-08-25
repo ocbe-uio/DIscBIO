@@ -21,6 +21,10 @@
 #' @importFrom stats coef pnbinom
 #' @return A named vector of the genes containing outlying cells and the number
 #'   of cells on each.
+#' @examples
+#' sc <- DISCBIO(valuesG1msTest)
+#' sc <- Clustexp(sc, cln=2) # K-means clustering
+#' FindOutliers(sc, K=2)
 #'
 setGeneric(
     "FindOutliers",

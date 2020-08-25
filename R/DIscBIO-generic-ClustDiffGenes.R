@@ -16,7 +16,13 @@
 #' @rdname ClustDiffGenes
 #' @return A list containing two tables.
 #' @export
-#'
+#' @examples
+#' sc <- DISCBIO(valuesG1msTest)
+#' sc <- Clustexp(sc, cln=3, quiet=TRUE)
+#' cdiff <- ClustDiffGenes(sc, K=3, fdr=.3, export=FALSE)
+#' str(cdiff)
+#' cdiff[[2]]
+
 setGeneric(
     "ClustDiffGenes",
     function(
