@@ -45,6 +45,7 @@ Depends:
 	R (>= 4.0), SingleCellExperiment
 Suggests:
 	testthat,
+    BiocManager,
 	Seurat
 LazyData: true
 RoxygenNote: 7.1.1
