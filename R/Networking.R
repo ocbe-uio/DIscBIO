@@ -3,7 +3,8 @@
 #' @export
 #' @param data A gene list.
 #' @param FileName A string vector showing the name to be used to save the
-#'   resulted network.
+#' resulted network. If `NULL`, the network will be saved to a temporary
+#' directory
 #' @param species The taxonomy name/id. Default is "9606" for Homo sapiens.
 #' @param plot_width Plot width
 #' @param plot_height Plot height
@@ -12,29 +13,12 @@
 #' @importFrom png readPNG
 #' @importFrom graphics plot rasterImage
 #' @return A plot of the network
-#' @examples
-#' \dontrun{
-#' sc <- DISCBIO(valuesG1msReduced)
-#' sc <- NoiseFiltering(sc, export=FALSE)
-#' sc <- Normalizedata(
-#'     sc, mintotal=1000, minexpr=0, minnumber=0, maxexpr=Inf, downsample=FALSE,
-#'     dsn=1, rseed=17000
-#' )
-#' sc <- FinalPreprocessing(sc, GeneFlitering="NoiseF")
-#' sc <- Clustexp(sc, cln=3) # K-means clustering
-#' sc <- comptSNE(sc, max_iter=100)
-#' dff <- DEGanalysis2clust(sc, Clustering="K-means", K=3, fdr=0.1, name="Name")
-#' DEGs <- dff[[2]][1, 6]
-#' data <- read.csv(file=paste0(DEGs),head=TRUE,sep=",")
-#' data <- data[,3]
-#' FileName <- paste0(DEGs)
-#' ppi <- PPI(data, FileName)
-#' networking <- NetAnalysis(ppi)
-#' FileName <- "Up.DownDEG"
-#' Networking(data, FileName)
-#' }
 Networking <- function(
-    data, FileName, species = "9606", plot_width = 25, plot_height = 15
+    data,
+    FileName    = NULL,
+    species     = "9606",
+    plot_width  = 25,
+    plot_height = 15
     )
     {
         if (length(data) > 600) {
@@ -62,24 +46,33 @@ Networking <- function(
                         species
                     )
                 )
-            cat(
-                "Examine response components =", status_code(repos), "\t",
-                "200 means successful", "\n"
+            message(
+                "Examine response components =",
+                status_code(repos),
+                "\t",
+                "(200 means successful)",
             )
-            y = repos$request$url
-            download.file(y, paste0("network", FileName, ".png"), mode = 'wb')
-            Network <-
-                readPNG(paste0("network", FileName, ".png"), native = TRUE)
+            y <- repos$request$url
+            if (!is.null(FileName)) {
+                FileName <- paste0("network", FileName, ".png")
+            } else {
+                FileName <- tempfile()
+            }
+            download.file(y, FileName, mode = 'wb')
+            Network <- readPNG(FileName, native=TRUE)
             set_plot_dimensions <-
                 function(width_choice, height_choice) {
-                    options(repr.plot.width = width_choice,
-                            repr.plot.height = height_choice)
+                    opar <- options(
+                        repr.plot.width = width_choice,
+                        repr.plot.height = height_choice
+                    )
+                    on.exit(options(opar))
                 }
             set_plot_dimensions(plot_width, plot_height)
 
             plot(0:1, 0:1, type = "n", ann = FALSE, axes = FALSE)
             rasterImage(Network, 0, 0, 1, 1)
-            cat(
+            message(
                 "\n",
                 "You can see the network with high resolution",
                 "by clicking on the following link:",

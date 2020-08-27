@@ -11,26 +11,9 @@
 #'   average.path.length get.adjacency V E mean_distance betweenness
 #' @importFrom NetIndices GenInd
 #' @return A network analysis table
-#' @examples
-#' \dontrun{
-#' sc <- DISCBIO(valuesG1msReduced)
-#' sc <- NoiseFiltering(sc, percentile=0.9, CV=0.2, export=FALSE)
-#' sc <- Normalizedata(
-#'     sc, mintotal=1000, minexpr=0, minnumber=0, maxexpr=Inf, downsample=FALSE,
-#'     dsn=1, rseed=17000
-#' )
-#' sc <- FinalPreprocessing(sc, GeneFlitering="NoiseF")
-#' sc <- Clustexp(sc, cln=3) # K-means clustering
-#' sc <- comptSNE(sc, max_iter=100)
-#' dff <- DEGanalysis2clust(sc, Clustering="K-means", K=3, fdr=0.1, name="Name")
-#' DEGs <- dff[[2]][1, 6]
-#' data <- read.csv(file=paste0(DEGs),head=TRUE,sep=",")
-#' data <- data[,3]
-#' FileName <- paste0(DEGs)
-#' ppi <- PPI(data, FileName)
-#' NetAnalysis(ppi)
-#' }
-NetAnalysis <- function(data, export = TRUE, FileName = "1") {
+NetAnalysis <- function(
+    data, export = FALSE, FileName = "NetworkAnalysisTable-1"
+) {
     if (length(data[, 1]) < 1)
         stop("No Protein-Protein Interactions")
     df <- data[, -c(1, 2)]
@@ -46,24 +29,18 @@ NetAnalysis <- function(data, export = TRUE, FileName = "1") {
     AnalysisTable <- cbind(names, degree.table, betweenness.table)
 
     if (export) {
-        write.csv(
-            AnalysisTable,
-            file = paste0("NetworkAnalysisTable-", FileName, ".csv")
+        write.csv(AnalysisTable, file = paste0(FileName, ".csv")
         )
     }
 
     test.graph.adj <- get.adjacency(gg, sparse = FALSE)
     test.graph.properties <- GenInd(test.graph.adj)
-    cat("Number of nodes: ", test.graph.properties$N, "\n")
-    V(gg)
-    cat("Number of links: ", test.graph.properties$Ltot, "\n")
-    E(gg)
-    cat("Link Density: ", test.graph.properties$LD, "\n")
-    cat("The connectance of the graph: ",
-        test.graph.properties$C,
-        "\n")
-    cat("Mean Distences", mean_distance(gg), "\n")
-    cat("Average Path Length", average.path.length(gg), "\n", "\n")
+    message("Number of nodes: ", test.graph.properties$N)
+    message("Number of links: ", test.graph.properties$Ltot)
+    message("Link Density: ", test.graph.properties$LD)
+    message("The connectance of the graph: ", test.graph.properties$C)
+    message("Mean Distences", mean_distance(gg))
+    message("Average Path Length", average.path.length(gg), "\n")
     AnalysisTable <-
         AnalysisTable[order(AnalysisTable[, 2], decreasing = TRUE), ]
     return(AnalysisTable)

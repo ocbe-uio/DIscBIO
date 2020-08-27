@@ -19,12 +19,12 @@
 #'   downsampled versions of the transcript count data. Default is 1 which means
 #'   that sampling noise should be comparable across cells. For high numbers of
 #'   dsn the data will become similar to the median normalization.
-#' @param rseed Integer number. Random seed to enforce reproducible clustering
-#'   results. Default is 17000.
+#' @param rseed Random integer to enforce reproducible clustering.
+#'   results
 #' @include DIscBIO-classes.R
 #' @return The DISCBIO-class object input with the ndata and fdata slots filled.
 #' @examples
-#' sc <- DISCBIO(valuesG1msReduced) # changes signature of data
+#' sc <- DISCBIO(valuesG1msTest) # changes signature of data
 #'
 #' # In this case this function is used to normalize the reads
 #' sc_normal <- Normalizedata(
@@ -32,11 +32,12 @@
 #'     dsn=1, rseed=17000
 #' )
 #' summary(sc_normal@fdata)
+#'
 setGeneric(
     "Normalizedata",
     function(
         object, mintotal = 1000, minexpr = 0, minnumber = 0, maxexpr = Inf,
-        downsample = FALSE, dsn = 1, rseed = 17000
+        downsample = FALSE, dsn = 1, rseed = NULL
     )
     standardGeneric("Normalizedata")
 )
@@ -78,35 +79,6 @@ setMethod(
         cols <- apply(object@expdata, 2, sum, na.rm = TRUE) >= mintotal
         object@ndata <- object@expdata[, cols]
         if (downsample) {
-            downsample <- function(x, n, dsn) {
-                x <- round(x[, apply(x, 2, sum, na.rm = TRUE) >= n], 0)
-                nn <- min(apply(x, 2, sum))
-                for (j in 1:dsn) {
-                    z  <- data.frame(GENEID = rownames(x))
-                    rownames(z) <- rownames(x)
-                    initv <- rep(0, nrow(z))
-                    for (i in 1:dim(x)[2]) {
-                        y <-
-                            aggregate(rep(1, nn), list(sample(
-                                rep(rownames(x), x[, i]), nn
-                            )), sum)
-                        na <- names(x)[i]
-                        names(y) <- c("GENEID", na)
-                        rownames(y) <- y$GENEID
-                        z[, na] <- initv
-                        k <- intersect(rownames(z), y$GENEID)
-                        z[k, na] <- y[k, na]
-                        z[is.na(z[, na]), na] <- 0
-                    }
-                    rownames(z) <- as.vector(z$GENEID)
-                    ds <- if (j == 1)
-                        z[, -1]
-                    else
-                        ds + z[, -1]
-                }
-                ds <- ds / dsn + .1
-                return(ds)
-            }
             set.seed(rseed)
             object@ndata <- downsample(object@expdata, n = mintotal, dsn = dsn)
         } else{

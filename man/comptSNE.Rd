@@ -3,11 +3,11 @@
 \name{comptSNE}
 \alias{comptSNE}
 \alias{comptSNE,DISCBIO-method}
-\title{Computing tSNE for K-means clustering}
+\title{Computing tSNE}
 \usage{
 comptSNE(
   object,
-  rseed = 15555,
+  rseed = NULL,
   max_iter = 5000,
   epoch = 500,
   quiet = FALSE,
@@ -16,7 +16,7 @@ comptSNE(
 
 \S4method{comptSNE}{DISCBIO}(
   object,
-  rseed = 15555,
+  rseed = NULL,
   max_iter = 5000,
   epoch = 500,
   quiet = FALSE,
@@ -26,8 +26,8 @@ comptSNE(
 \arguments{
 \item{object}{\code{DISCBIO} class object.}
 
-\item{rseed}{Integer number. Random seed to to yield exactly reproducible
-maps across different runs. Default is 15555.}
+\item{rseed}{Random integer to to yield reproducible maps across different
+runs}
 
 \item{max_iter}{maximum number of iterations to perform.}
 
@@ -45,8 +45,9 @@ This function is used to compute the t-Distributed Stochastic
   Neighbor Embedding (t-SNE).
 }
 \examples{
-sc <- DISCBIO(valuesG1msReduced) # changes signature of data
-sc <- Clustexp(sc, cln=3) # data must be clustered before plottin
-sc <- comptSNE(sc, max_iter=1000)
+sc <- DISCBIO(valuesG1msTest) # changes signature of data
+sc <- Clustexp(sc, cln=2) # data must be clustered before plottin
+sc <- comptSNE(sc, max_iter=30)
 head(sc@tsne)
+
 }

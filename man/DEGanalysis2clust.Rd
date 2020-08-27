@@ -8,39 +8,43 @@
 \usage{
 DEGanalysis2clust(
   object,
-  Clustering = "K-means",
   K,
+  Clustering = "K-means",
   fdr = 0.05,
   name = "Name",
   First = "CL1",
   Second = "CL2",
-  export = TRUE,
+  export = FALSE,
   quiet = FALSE,
   plot = TRUE,
+  filename_deg = "DEGsTable",
+  filename_sigdeg = "sigDEG",
   ...
 )
 
 \S4method{DEGanalysis2clust}{DISCBIO}(
   object,
-  Clustering = "K-means",
   K,
+  Clustering = "K-means",
   fdr = 0.05,
   name = "Name",
   First = "CL1",
   Second = "CL2",
-  export = TRUE,
+  export = FALSE,
   quiet = FALSE,
   plot = TRUE,
+  filename_deg = "DEGsTable",
+  filename_sigdeg = "sigDEG",
   ...
 )
 }
 \arguments{
 \item{object}{\code{DISCBIO} class object.}
 
+\item{K}{A numeric value of the number of clusters.}
+
 \item{Clustering}{Clustering has to be one of the following:
 ["K-means","MB"]. Default is "K-means"}
-
-\item{K}{A numeric value of the number of clusters.}
 
 \item{fdr}{A numeric value of the false discovery rate. Default is 0.05.}
 
@@ -60,6 +64,10 @@ excel file. Default is TRUE.}
 
 \item{plot}{if `TRUE`, plots are generated}
 
+\item{filename_deg}{Name of the exported DEG table}
+
+\item{filename_sigdeg}{Name of the exported sigDEG table}
+
 \item{...}{additional parameters to be passed to samr()}
 }
 \value{
@@ -68,18 +76,4 @@ A list containing two tables.
 \description{
 This function defines DEGs between particular clusters generated
   by either K-means or model based clustering.
-}
-\examples{
-sc <- DISCBIO(valuesG1msReduced)
-sc <- NoiseFiltering(sc, percentile=0.9, CV=0.2, export=FALSE)
-sc <- Normalizedata(
-    sc, mintotal=1000, minexpr=0, minnumber=0, maxexpr=Inf, downsample=FALSE,
-    dsn=1, rseed=17000
-)
-sc <- FinalPreprocessing(sc, GeneFlitering="NoiseF", export=FALSE)
-sc <- Clustexp(sc, cln=3) # K-means clustering
-sc <- comptSNE(sc, max_iter=100)
-DEGanalysis2clust(
-    sc, Clustering="K-means", K=3, fdr=0.1, name="Name", export = FALSE
-)
 }

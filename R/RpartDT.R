@@ -10,25 +10,6 @@
 #' @importFrom rpart.plot rpart.plot
 #' @return Information about the model and, by default, a plot of the decision
 #'   tree.
-#' @examples
-#' sc <- DISCBIO(valuesG1msReduced)
-#' sc <- NoiseFiltering(sc, percentile=0.9, CV=0.2, export=FALSE)
-#' sc <- Normalizedata(
-#'     sc, mintotal=1000, minexpr=0, minnumber=0, maxexpr=Inf, downsample=FALSE,
-#'     dsn=1, rseed=17000
-#' )
-#' sc <- FinalPreprocessing(sc, GeneFlitering="NoiseF", export=FALSE)
-#' sc <- Clustexp(sc, cln=3) # K-means clustering
-#' sc <- comptSNE(sc, max_iter=100)
-#' cdiff <- DEGanalysis2clust(
-#'     sc, Clustering="K-means", K=3, fdr=.2, name="Name", First="CL1",
-#'     Second="CL2", export=FALSE
-#' )
-#' sigDEG <- cdiff[[1]]
-#' DATAforDT <- ClassVectoringDT(
-#'     sc, Clustering="K-means", K=3, First="CL1", Second="CL2", sigDEG,
-#' )
-#' RpartDT(DATAforDT)
 RpartDT <- function(data, quiet = FALSE, plot = TRUE) {
     exp.df <- as.data.frame(t(data))
     classVector <- factor(colnames(data))

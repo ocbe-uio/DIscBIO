@@ -17,32 +17,20 @@
 #'   excel file. Default is TRUE.
 #' @param quiet if `TRUE`, suppresses intermediate text output
 #' @param plot if `TRUE`, plots are generated
+#' @param filename_deg Name of the exported DEG table
+#' @param filename_sigdeg Name of the exported sigDEG table
 #' @param ... additional parameters to be passed to samr()
-#' @importFrom samr samr samr.compute.delta.table samr.plot
-#'   samr.compute.siggenes.table
 #' @importFrom graphics title
 #' @importFrom utils write.csv capture.output
 #' @importFrom AnnotationDbi keys
 #' @return A list containing two tables.
-#' @examples
-#' sc <- DISCBIO(valuesG1msReduced)
-#' sc <- NoiseFiltering(sc, percentile=0.9, CV=0.2, export=FALSE)
-#' sc <- Normalizedata(
-#'     sc, mintotal=1000, minexpr=0, minnumber=0, maxexpr=Inf, downsample=FALSE,
-#'     dsn=1, rseed=17000
-#' )
-#' sc <- FinalPreprocessing(sc, GeneFlitering="NoiseF", export=FALSE)
-#' sc <- Clustexp(sc, cln=3) # K-means clustering
-#' sc <- comptSNE(sc, max_iter=100)
-#' DEGanalysis2clust(
-#'     sc, Clustering="K-means", K=3, fdr=0.1, name="Name", export = FALSE
-#' )
 setGeneric(
     "DEGanalysis2clust",
     function(
-        object, Clustering = "K-means", K, fdr = 0.05, name = "Name",
-        First = "CL1", Second = "CL2",  export = TRUE, quiet = FALSE,
-        plot = TRUE, ...
+        object, K, Clustering = "K-means", fdr = 0.05, name = "Name",
+        First = "CL1", Second = "CL2",  export = FALSE, quiet = FALSE,
+        plot = TRUE, filename_deg = "DEGsTable", filename_sigdeg = "sigDEG",
+        ...
     )
     standardGeneric("DEGanalysis2clust")
 )
@@ -53,9 +41,8 @@ setMethod(
     "DEGanalysis2clust",
     signature = "DISCBIO",
     definition = function(
-        object, Clustering = "K-means", K, fdr = 0.05, name = "Name",
-        First = "CL1", Second = "CL2", export = TRUE, quiet = FALSE,
-        plot = TRUE, ...)
+        object, K, Clustering, fdr, name, First, Second, export, quiet, plot,
+        filename_deg, filename_sigdeg, ...)
     {
         if (!(Clustering %in% c("K-means", "MB"))) {
             stop("Clustering has to be either K-means or MB")
@@ -132,6 +119,7 @@ setMethod(
         wm <- which.min(delta.table[, 5])
         if (delta.table[wm, 5] <= fdr) {
             w <- which(delta.table[, 5] <= fdr)
+            if (is.null (w)) stop("No suitable deltas. Try a lower FDR value.")
             delta <- delta.table[w[1], 1] - 0.001
             if (plot) {
                 samr.plot(samr.obj, delta)
@@ -140,6 +128,11 @@ setMethod(
             siggenes.table <- samr.compute.siggenes.table(
                 samr.obj, delta, data, delta.table
             )
+            # ------------------------------------------------------------------
+            # Reformat siggenes.table as data.frame
+            # ------------------------------------------------------------------
+            siggenes.table$genes.lo <- reformatSiggenes(siggenes.table$genes.lo)
+            siggenes.table$genes.up <- reformatSiggenes(siggenes.table$genes.up)
 
             FDRl <- as.numeric(siggenes.table$genes.lo[, 8]) / 100
             FDRu <- as.numeric(siggenes.table$genes.up[, 8]) / 100
@@ -171,6 +164,7 @@ setMethod(
                 "Up-regulated-", name, First, "in", First, "VS", Second,
                 ".csv"
             )
+            FinalDEGsL <- data.frame()
             if (length(FDRl) > 0) {
                 genes <- siggenes.table$genes.lo[, 3]
                 if (quiet) {
@@ -198,28 +192,25 @@ setMethod(
                 gene_list <- geneList[, 3]
                 idx_genes <- is.element(gene_list, genes)
                 genes2 <- geneList[idx_genes, ]
-                FinalDEGsL <- merge(
-                    FinalDEGsL,
-                    genes2,
-                    by.x = "genes",
-                    by.y = "ENSEMBL",
-                    all.x = TRUE
-                )
-                FinalDEGsL[, 3] <- FinalDEGsL[, 11]
-                FinalDEGsL <- FinalDEGsL[, c(-1, -10, -11)]
-                FinalDEGsL <- FinalDEGsL[order(FinalDEGsL[, 8]), ]
-                FinalDEGsL[is.na(FinalDEGsL[, 2]), c(2, 3)] <-
-                    FinalDEGsL[is.na(FinalDEGsL[, 2]), 3]
-                if (export) {
-                    cat(
-                        "The results of DEGs are saved in your directory",
-                        "\n"
+                if (!is.null(FinalDEGsL)) {
+                    FinalDEGsL <- merge(
+                        FinalDEGsL,
+                        genes2,
+                        by.x = "genes",
+                        by.y = "ENSEMBL",
+                        all.x = TRUE
                     )
-                    cat(
-                        paste0(
-                            "Low-regulated genes in the ", Second, " in ",
-                            First, " VS ", Second, "\n"
-                        )
+                    FinalDEGsL[, 3] <- FinalDEGsL[, 11]
+                    FinalDEGsL <- FinalDEGsL[, c(-1, -10, -11)]
+                    FinalDEGsL <- FinalDEGsL[order(FinalDEGsL[, 8]), ]
+                    FinalDEGsL[is.na(FinalDEGsL[, 2]), c(2, 3)] <-
+                        FinalDEGsL[is.na(FinalDEGsL[, 2]), 3]
+                }
+                if (export) {
+                    message("The results of DEGs are saved in your directory")
+                    message(
+                        "Low-regulated genes in the ", Second, " in ",
+                        First, " VS ", Second, "\n"
                     )
                     write.csv(
                         FinalDEGsL,
@@ -239,7 +230,7 @@ setMethod(
                 DEGsS <- c(DEGsS, FinalDEGsL[, 2])
                 DEGsE <- c(DEGsE, as.character(FinalDEGsL[, 3]))
             }
-
+            FinalDEGsU <- data.frame()
             if (length(FDRu) > 0) {
                 genes <- siggenes.table$genes.up[, 3]
                 if (quiet) {
@@ -265,28 +256,25 @@ setMethod(
                 gene_list <- geneList[, 3]
                 idx_genes <- is.element(gene_list, genes)
                 genes2 <- geneList[idx_genes, ]
-                FinalDEGsU <- merge(
-                    FinalDEGsU,
-                    genes2,
-                    by.x = "genes",
-                    by.y = "ENSEMBL",
-                    all.x = TRUE
-                )
-                FinalDEGsU[, 3] <- FinalDEGsU[, 11]
-                FinalDEGsU <- FinalDEGsU[, c(-1, -10, -11)]
-                FinalDEGsU <- FinalDEGsU[order(FinalDEGsU[, 8]), ]
-                FinalDEGsU[is.na(FinalDEGsU[, 2]), c(2, 3)] <-
-                    FinalDEGsU[is.na(FinalDEGsU[, 2]), 3]
-                if (export) {
-                    cat(
-                        "The results of DEGs are saved in your directory",
-                        "\n"
+                if (!is.null(FinalDEGsU)) {
+                    FinalDEGsU <- merge(
+                        FinalDEGsU,
+                        genes2,
+                        by.x = "genes",
+                        by.y = "ENSEMBL",
+                        all.x = TRUE
                     )
-                    cat(
-                        paste0(
-                            "Up-regulated genes in the ", Second, " in ", First,
-                            " VS ", Second, "\n"
-                        )
+                    FinalDEGsU[, 3] <- FinalDEGsU[, 11]
+                    FinalDEGsU <- FinalDEGsU[, c(-1, -10, -11)]
+                    FinalDEGsU <- FinalDEGsU[order(FinalDEGsU[, 8]), ]
+                    FinalDEGsU[is.na(FinalDEGsU[, 2]), c(2, 3)] <-
+                        FinalDEGsU[is.na(FinalDEGsU[, 2]), 3]
+                }
+                if (export) {
+                    message("The results of DEGs are saved in your directory")
+                    message(
+                        "Up-regulated genes in the ", Second, " in ", First,
+                        " VS ", Second, "\n"
                     )
                     write.csv(
                         FinalDEGsU,
@@ -332,9 +320,17 @@ setMethod(
         if (!quiet) print(DEGsTable)
         sigDEG <- cbind(DEGsE, DEGsS)
         if (export) {
-            write.csv(DEGsTable, file = "DEGsTable.csv")
-            write.csv(sigDEG, file = "sigDEG.csv")
+            write.csv(DEGsTable, file = paste0(filename_deg, ".csv"))
+            write.csv(sigDEG, file = paste0(filename_sigdeg, ".csv"))
         }
-        return(list(sigDEG, DEGsTable))
+        return(
+            list(
+                sigDEG = sigDEG,
+                DEGsTable = DEGsTable,
+                FinalDEGsL = FinalDEGsL,
+                FinalDEGsU = FinalDEGsU
+
+            )
+        )
     }
 )

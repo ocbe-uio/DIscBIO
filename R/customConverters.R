@@ -25,7 +25,6 @@ customConvertFeats <- function(x, verbose = TRUE) {
 
     # uncomment
     myDict <- DIscBIO::HumanMouseGeneIds
-    # myDict <- HumanMouseGeneIds
     myDict <- myDict[!is.na(myDict[, "ENSEMBL"]), ]
 
     #
@@ -79,13 +78,6 @@ customConvertFeats <- function(x, verbose = TRUE) {
 #' @return a DISCBIO-class object
 #'
 #' @export
-#'
-#' @examples
-#' g1_sce <- SingleCellExperiment::SingleCellExperiment(
-#'     list(counts=as.matrix(valuesG1msReduced))
-#' )
-#' g1_disc <- as.DISCBIO(g1_sce)
-#' class(g1_disc)
 #'
 as.DISCBIO <- function(x, ...) {
     if ("Seurat" %in% class(x)) {
@@ -155,12 +147,12 @@ as.DISCBIO <- function(x, ...) {
 #' @return a SingleCellExperiment-class object
 #'
 #' @export
-#'
 #' @examples
-#' g1_disc <- DISCBIO(valuesG1msReduced)
+#' g1_disc <- DISCBIO(valuesG1msTest)
 #' class(g1_disc)
 #' g1_sce <- DISCBIO2SingleCellExperiment(g1_disc)
 #' class(g1_sce)
+#'
 #'
 DISCBIO2SingleCellExperiment <- function(x) {
     return(x@SingleCellExperiment)

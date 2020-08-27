@@ -8,7 +8,7 @@
 \usage{
 Clustexp(
   object,
-  clustnr = 20,
+  clustnr = 3,
   bootnr = 50,
   metric = "pearson",
   do.gap = TRUE,
@@ -16,13 +16,13 @@ Clustexp(
   SE.factor = 0.25,
   B.gap = 50,
   cln = 0,
-  rseed = 17000,
+  rseed = NULL,
   quiet = FALSE
 )
 
 \S4method{Clustexp}{DISCBIO}(
   object,
-  clustnr = 20,
+  clustnr = 3,
   bootnr = 50,
   metric = "pearson",
   do.gap = TRUE,
@@ -30,7 +30,7 @@ Clustexp(
   SE.factor = 0.25,
   B.gap = 50,
   cln = 0,
-  rseed = 17000,
+  rseed = NULL,
   quiet = FALSE
 )
 }
@@ -65,8 +65,7 @@ statistics. Default is 50}
 \item{cln}{Number of clusters to be used. Default is \code{NULL} and the
 cluster number is inferred by the saturation criterion.}
 
-\item{rseed}{Integer number. Random seed to enforce reproducible clustering
-results. Default is 17000.}
+\item{rseed}{Random integer to enforce reproducible clustering results.}
 
 \item{quiet}{if `TRUE`, intermediate output is suppressed}
 }
@@ -78,6 +77,6 @@ This functions performs the initial clustering of the RaceID
   algorithm.
 }
 \examples{
-sc <- DISCBIO(valuesG1msReduced) # changes signature of data
-sc <- Clustexp(sc, cln=3)
+sc <- DISCBIO(valuesG1msTest) # changes signature of data
+sc <- Clustexp(sc, cln=2)
 }

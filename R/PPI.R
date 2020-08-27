@@ -4,31 +4,14 @@
 #' @export
 #' @param data A gene list.
 #' @param FileName A string vector showing the name to be used to save the
-#'   resulted table.
+#'   resulted table. If null, no file will be exported
 #' @param species The taxonomy name/id. Default is "9606" for Homo sapiens.
 #' @importFrom httr content
 #' @importFrom readr read_tsv
-#' @return A TSV file stored in the user's file system and its corresponding
-#'   `data.frame` object in R.
-#' @examples
-#' \dontrun{
-#' sc <- DISCBIO(valuesG1msReduced)
-#' sc <- NoiseFiltering(sc, percentile=0.9, CV=0.2, export=FALSE)
-#' sc <- Normalizedata(
-#'     sc, mintotal=1000, minexpr=0, minnumber=0, maxexpr=Inf, downsample=FALSE,
-#'     dsn=1, rseed=17000
-#' )
-#' sc <- FinalPreprocessing(sc, GeneFlitering="NoiseF")
-#' sc <- Clustexp(sc, cln=3) # K-means clustering
-#' sc <- comptSNE(sc, max_iter=100)
-#' dff <- DEGanalysis2clust(sc, Clustering="K-means", K=3, fdr=0.1, name="Name")
-#' DEGs <- dff[[2]][1, 6]
-#' data <- read.csv(file=paste0(DEGs),head=TRUE,sep=",")
-#' data <- data[,3]
-#' FileName <- paste0(DEGs)
-#' PPI(data, FileName)
-#' }
-PPI <- function(data, FileName, species = "9606") {
+#' @return Either a TSV file stored in the user's file system and its
+#' corresponding `data.frame` object in R or and R object containing that
+#' information.
+PPI <- function(data, FileName = NULL, species = "9606") {
     # Save base enpoint as variable
     string_api_url <- "https://string-db.org/api/"
     output_format <- "tsv" #"json", "tsv-no-header", "tsv", "xml"
@@ -50,16 +33,15 @@ PPI <- function(data, FileName, species = "9606") {
             species
         )
     )
-    cat(
-        "Examine response components =",
-        status_code(repos),
-        "\t",
-        "200 means successful",
-        "\n"
+    message(
+        "Examine response components = ", status_code(repos), "\t",
+        "(200 means successful)", "\n"
     )
     # Process API request content
     repo_content <- content(repos)
-    results  <- read_tsv(repo_content)
-    write.csv(results, file = paste0("PPI-", FileName, ".csv"))
+    results <- read_tsv(repo_content)
+    if (!is.null(FileName)) {
+        write.csv(results, file = paste0("PPI-", FileName, ".csv"))
+    }
     return(results)
 }
