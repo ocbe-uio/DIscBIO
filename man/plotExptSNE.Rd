@@ -3,7 +3,7 @@
 \name{plotExptSNE}
 \alias{plotExptSNE}
 \alias{plotExptSNE,DISCBIO-method}
-\title{Highlighting gene expression in K-means clustering in the t-SNE map}
+\title{Highlighting gene expression in the t-SNE map}
 \usage{
 plotExptSNE(object, g, n = NULL)
 
@@ -26,11 +26,4 @@ t-SNE plot for one particular gene
 The t-SNE map representation can also be used to analyze
   expression of a gene or a group of genes, to investigate cluster specific
   gene expression patterns
-}
-\examples{
-sc <- DISCBIO(valuesG1msReduced)
-sc <- Clustexp(sc, cln=3, quiet=TRUE) # K-means clustering
-sc <- comptSNE(sc, max_iter=100)
-g <- 'ENSG00000001460'
-plotExptSNE(sc, g)
 }

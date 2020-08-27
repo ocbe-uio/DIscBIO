@@ -6,9 +6,13 @@ CONTRIBUTING.md
 DIscBIOlogo.png
 README.md
 notebook
+data/valuesG1msReduced.rda
+data/valuesG1msRed.rda
 data/valuesG1ms.rda
 data/genes20k.rda
 data/pan_indrop_matrix_8000cells_18556genes.rda
+data/valuesG1msReduced_treated_K.rda
+data/valuesG1msReduced_treated_MB.rda
 apt.txt
 install.R
 postBuild
@@ -16,3 +20,4 @@ runtime.txt
 .travis.yml
 .github
 .git
+Aux

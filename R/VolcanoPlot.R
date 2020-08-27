@@ -8,40 +8,24 @@
 #'   Default is 0.05
 #' @param fc A numeric value of the fold change. Default is 0.5.
 #' @param FS A numeric value of the font size. Default is 0.4.
-#' @param name A string vector showing the name to be used to save the resulted
-#'   tables.
-#' @importFrom samr samr samr.compute.delta.table samr.plot
-#'   samr.compute.siggenes.table
+#' @param name A string vector showing the name to be used on the plot title
 #' @importFrom graphics title
 #' @importFrom utils write.csv
-#' @importFrom calibrate textxy
 #' @return A volcano plot
 #' @export
-#' @examples
-#' \dontrun{
-#' sc <- DISCBIO(valuesG1msReduced)
-#' sc <- NoiseFiltering(sc, percentile=0.9, CV=0.2, export=FALSE)
-#' sc <- Normalizedata(
-#'     sc, mintotal=1000, minexpr=0, minnumber=0, maxexpr=Inf, downsample=FALSE,
-#'     dsn=1, rseed=17000
-#' )
-#' sc <- FinalPreprocessing(sc, GeneFlitering="NoiseF")
-#' sc <- Clustexp(sc, cln=3) # K-means clustering
-#' sc <- comptSNE(sc, max_iter=100)
-#' dff <- DEGanalysis2clust(sc, Clustering="K-means", K=3, fdr=0.1, name="Name")
-#' name <- dff[[2]][1, 6]
-#' U <- read.csv(file = paste0(name), head=TRUE, sep=",")
-#' VolcanoPlot(U, value=0.05, name=name, adj=FALSE, FS=.4)
-#' }
-VolcanoPlot <- function(object, value = 0.05, name, fc = 0.5, FS = .4) {
+VolcanoPlot <- function(object, value = 0.05, name = NULL, fc = 0.5, FS = .4) {
     if (length(object[1, ]) > 8) {
         object <- object[, -1]
     }
     NO0 <- object[, 8]
-    NO0 <- NO0[-which(NO0 == 0)]
+    NO0 <- NO0[which(NO0 != 0)]
     w <- which.min(NO0)
     adjV <- NO0[w] / 100
-    object[, 8] <- ifelse(object[, 8] == 0, adjV, object[, 8])
+    object[, 8] <- ifelse(object[, 8] == 0 & length(adjV) > 0, adjV, object[, 8])
+    if (all(object[, 8] == 0)) {
+        message("All q-values are 0. Adjusting")
+        object[, 8] <- object[, 8] + 1e-10
+    }
     with(
         object,
         plot(
@@ -52,12 +36,12 @@ VolcanoPlot <- function(object, value = 0.05, name, fc = 0.5, FS = .4) {
             las = 1,
             xlab = "log2 Fold Change",
             ylab = "-log10 FDR",
-            sub = paste0("Volcano plot ", name),
+            sub = paste("Volcano plot", name),
             font.sub = 4,
             col.sub = "black"
         )
     )
-    FC <- subset(object, abs(object[, 7]) > fc)    # Fold Change
+    FC <- subset(object, abs(object[, 7]) > fc) # Fold Change
     sigFC <- subset(
         object, object[, 8] < value & abs(object[, 7]) > fc
     ) # Significant genes
@@ -76,7 +60,7 @@ VolcanoPlot <- function(object, value = 0.05, name, fc = 0.5, FS = .4) {
         col = "blue"
     ))
     with(sigFC,
-        textxy(
+        text(
             abs(sigFC[, 7]),
             -log10(sigFC[, 8]),
             labs = sigFC[, 2],
@@ -84,24 +68,6 @@ VolcanoPlot <- function(object, value = 0.05, name, fc = 0.5, FS = .4) {
             col = "blue"
         )
     )
-    add_legend <- function(...) {
-        opar <- par(
-            fig = c(0, 1, 0, 1),
-            oma = c(0, 0, 0, 0),
-            mar = c(0, 0, 0, 0),
-            new = TRUE
-        )
-        on.exit(par(opar))
-        plot(
-            0,
-            0,
-            type = 'n',
-            bty = 'n',
-            xaxt = 'n',
-            yaxt = 'n'
-        )
-        legend(...)
-    }
     add_legend(
         "topleft",
         legend = c(

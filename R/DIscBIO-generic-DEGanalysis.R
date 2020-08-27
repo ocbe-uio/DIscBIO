@@ -13,37 +13,28 @@
 #'   excel file. Default is TRUE.
 #' @param quiet if `TRUE`, suppresses intermediate text output
 #' @param plot if `TRUE`, plots are generated
-#' @importFrom samr samr samr.compute.delta.table samr.plot
-#'   samr.compute.siggenes.table
+#' @param filename_deg Name of the exported DEG table
+#' @param filename_sigdeg Name of the exported sigDEG table
 #' @importFrom graphics title
 #' @importFrom utils write.csv capture.output
 #' @param ... additional parameters to be passed to samr()
 #' @return A list containing two tables.
-#' @examples
-#' sc <- DISCBIO(valuesG1msReduced)
-#' sc <- NoiseFiltering(sc, percentile=0.9, CV=0.2, export=FALSE)
-#' sc <- Normalizedata(
-#'     sc, mintotal=1000, minexpr=0, minnumber=0, maxexpr=Inf, downsample=FALSE,
-#'     dsn=1, rseed=17000
-#' )
-#' sc <- Clustexp(sc, cln=3) # K-means clustering
-#' sc <- FinalPreprocessing(sc, GeneFlitering="NoiseF", export=FALSE)
-#' sc <- comptSNE(sc, max_iter=100)
-#' DEGanalysis(
-#'     sc, Clustering="K-means", K=3, fdr=0.1, name="Name", export = FALSE
-#' )
 setGeneric(
     name = "DEGanalysis",
-    def = function(object,
-                Clustering = "K-means",
-                K,
-                fdr = 0.05,
-                name = "Name",
-                export = TRUE,
-                quiet = FALSE,
-                plot = TRUE,
-                ...)
-        standardGeneric("DEGanalysis")
+    def = function(
+        object,
+        K,
+        Clustering = "K-means",
+        fdr = 0.05,
+        name = "Name",
+        export = FALSE,
+        quiet = FALSE,
+        plot = TRUE,
+        filename_deg = "DEGsTable",
+        filename_sigdeg = "sigDEG",
+        ...) {
+            standardGeneric("DEGanalysis")
+        }
 )
 
 #' @export
@@ -51,16 +42,19 @@ setGeneric(
 setMethod(
     f = "DEGanalysis",
     signature = "DISCBIO",
-    definition = function(object,
-                        Clustering = "K-means",
-                        K,
-                        fdr = 0.05,
-                        name = "Name",
-                        export = TRUE,
-                        quiet = FALSE,
-                        plot = TRUE,
-                        ...)
-    {
+    definition = function(
+        object,
+        K,
+        Clustering = "K-means",
+        fdr = 0.05,
+        name = "Name",
+        export = FALSE,
+        quiet = FALSE,
+        plot = TRUE,
+        filename_deg,
+        filename_sigdeg,
+        ...
+    ) {
         # Validation
         if (!(Clustering %in% c("K-means", "MB"))) {
             stop("Clustering has to be either K-means or MB")
@@ -95,7 +89,7 @@ setMethod(
         colnames(dataset) <- Nam
 
         if (!quiet) {
-            cat("The dataset is ready for differential expression analysis")
+            message("The dataset is ready for differential expression analysis")
         }
         num1 <- paste("CL", num, sep = "")
         clustName <- paste("Cl", num, sep = "")
@@ -195,13 +189,12 @@ setMethod(
         o <- c(1:K)
         oo <- o[-length(o)]
         com <- sum(oo)
-        if (!quiet)
-            cat("Number of comparisons: ", com * 2, "\n")
+        if (!quiet) message("Number of comparisons: ", com * 2, "\n")
         comNUM <- paste("comp", c(1:com), sep = "")
         DEGsTable <- data.frame()
         DEGsE <- c()
         DEGsS <- c()
-        for (i in 1:com) {
+        for (i in seq_len(com)) {
             FinalDEGsL <- data.frame()
             FinalDEGsU <- data.frame()
             FDRl <- c()
@@ -219,7 +212,7 @@ setMethod(
             data <- list(x = x, y = y, geneid = gname)
             if (quiet) {
                 invisible(capture.output(
-                    samr.obj <- samr(
+                    samr.obj <- sammy(
                         data,
                         resp.type = "Two class unpaired",
                         assay.type = "seq",
@@ -229,7 +222,7 @@ setMethod(
                     )
                 ))
             } else {
-                samr.obj <- samr(
+                samr.obj <- sammy(
                     data,
                     resp.type = "Two class unpaired",
                     assay.type = "seq",
@@ -335,11 +328,9 @@ setMethod(
                     FinalDEGsL[is.na(FinalDEGsL[, 2]), c(2, 3)] <-
                         FinalDEGsL[is.na(FinalDEGsL[, 2]), 3]
                     if (!quiet) {
-                        cat(
-                            paste0(
-                                "Low-regulated genes in the ", second[i],
-                                " in ", first[i], " VS ", second[i], "\n"
-                            )
+                        message(
+                            "Low-regulated genes in the ", second[i],
+                            " in ", first[i], " VS ", second[i], "\n"
                         )
                     }
                     if (export) {
@@ -400,11 +391,9 @@ setMethod(
                     FinalDEGsU[is.na(FinalDEGsU[, 2]), c(2, 3)] <-
                         FinalDEGsU[is.na(FinalDEGsU[, 2]), 3]
                     if (!quiet) {
-                        cat(
-                            paste0(
-                                "Up-regulated genes in the ", second[i], " in ",
-                                first[i], " VS ", second[i], "\n"
-                            )
+                        message(
+                            "Up-regulated genes in the ", second[i], " in ",
+                            first[i], " VS ", second[i], "\n"
                         )
                     }
                     if (export) {
@@ -445,19 +434,16 @@ setMethod(
         }
 
         if (!quiet & export) {
-            cat("The results of DEGs are saved in your directory", "\n")
+            message("The results of DEGs are saved in your directory")
         }
         colnames(DEGsTable) <- c(
             "Comparisons", "Target cluster", "Gene number", "File name",
             "Gene number", "File name"
         )
-        if (export)
-            write.csv(DEGsTable, file = "DEGsTable.csv")
-        if (!quiet)
-            print(DEGsTable)
+        if (export) write.csv(DEGsTable, file = paste0(filename_deg, ".csv"))
+        if (!quiet) print(DEGsTable)
         sigDEG <- cbind(DEGsE, DEGsS)
-        if (export)
-            write.csv(sigDEG, file = "sigDEG.csv")
+        if (export) write.csv(sigDEG, file = paste0(filename_sigdeg, ".csv"))
         return(list(sigDEG, DEGsTable))
     }
 )

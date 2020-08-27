@@ -11,11 +11,6 @@
 #' @importFrom stats as.dist cor
 #' @importFrom cluster silhouette
 #' @return A silhouette plot
-#' @examples
-#' sc <- DISCBIO(valuesG1msReduced) # changes signature of data
-#' sc <- Clustexp(sc, cln=3) # data must be clustered before plottin
-#' sc <- comptSNE(sc, max_iter=100)
-#' plotSilhouette(sc, K=3)
 setGeneric(
     name = "plotSilhouette",
     def = function(object, K) standardGeneric("plotSilhouette")
@@ -27,22 +22,27 @@ setMethod(
     f = "plotSilhouette",
     signature = "DISCBIO",
     definition = function(object, K) {
-    if (length(object@kmeans$kpart) == 0) {
-        stop("run clustexp before plotsilhouette")
-    }
-    if (length(unique(object@kmeans$kpart)) < 2) {
-        stop("only a single cluster: no silhouette plot")
-    }
-    col <- c("black", "blue", "green", "red", "yellow", "gray")
-    kpart <- object@kmeans$kpart
-    dist.gen <-
-        function(x, method = "euclidean", ...)
-        if (method %in% c("spearman", "pearson", "kendall"))
-            as.dist(1 - cor(t(x), method = method, ...))
-    else
-        dist(x, method = method, ...)
-    distances <- dist.gen(object@distances)
-    si <- silhouette(kpart, distances)
-    plot(si, col = col[1:K])
+        # ======================================================================
+        # Validation
+        # ======================================================================
+        ran_clustexp <- length(object@kmeans$kpart) > 0
+        ran_exprmclust <- length(object@MBclusters$clusterid) > 0
+        if (ran_clustexp) {
+            kpart <- object@kmeans$kpart
+        } else if (ran_exprmclust) {
+            kpart <- object@MBclusters$clusterid
+        } else {
+            stop("run clustexp or exprmclust before plotSilhouette")
+        }
+        if (length(unique(kpart)) < 2) {
+            stop("only a single cluster: no silhouette plot")
+        }
+        # ======================================================================
+        # Plotting
+        # ======================================================================
+        col <- c("black", "blue", "green", "red", "yellow", "gray")
+        distances <- dist.gen(object@distances)
+        si <- silhouette(kpart, distances)
+        plot(si, col = col[1:K])
     }
 )

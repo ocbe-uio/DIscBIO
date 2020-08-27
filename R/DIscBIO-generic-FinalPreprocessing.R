@@ -6,15 +6,21 @@
 #' @param export A logical vector that allows writing the final gene list in
 #'   excel file. Default is TRUE.
 #' @param quiet if `TRUE`, intermediary output is suppressed
+#' @param fileName File name for exporting (if `export = TRUE`)
 #' @return The DISCBIO-class object input with the FinalGeneList slot filled.
 #' @examples
-#' sc <- DISCBIO(valuesG1msReduced)
+#' sc <- DISCBIO(valuesG1msTest)
 #' sc <- NoiseFiltering(sc, percentile=0.9, CV=0.2, export=FALSE)
 #' sc <- FinalPreprocessing(sc, GeneFlitering="NoiseF", export=FALSE)
+#'
 setGeneric(
     "FinalPreprocessing",
     function(
-        object, GeneFlitering = "NoiseF", export = TRUE, quiet = FALSE
+        object,
+        GeneFlitering = "NoiseF",
+        export = FALSE,
+        quiet = FALSE,
+        fileName = "filteredDataset"
     )
     standardGeneric("FinalPreprocessing")
 )
@@ -24,9 +30,7 @@ setGeneric(
 setMethod(
     "FinalPreprocessing",
     signature = "DISCBIO",
-    definition = function(
-        object, GeneFlitering, export = TRUE, quiet = FALSE
-    )
+    definition = function(object, GeneFlitering, export, quiet, fileName)
     {
         if (GeneFlitering == "NoiseF") {
             if (length(object@noiseF) < 1)
@@ -40,52 +44,30 @@ setMethod(
             filteredDataset <- object@fdata[gene_names2, ]
             object@fdata <- filteredDataset
             object@FinalGeneList <- rownames(filteredDataset)
-
-            if (!quiet) {
-                cat(
-                    "The gene filtering method= Noise filtering\n\n",
-                    "The Filtered Normalized dataset contains:\n",
-                    "Genes:",
-                    length(filteredDataset[, 1]),
-                    "\n",
-                    "cells:",
-                    length(filteredDataset[1, ]),
-                    "\n\n"
-                )
-            }
-            if (export) {
-                cat(
-                    "The Filtered Normalized dataset was saved as: ",
-                    "filteredDataset.Rdata\n"
-                )
-                save(filteredDataset, file = "filteredDataset.Rdata")
-            }
         }
         if (GeneFlitering == "ExpF") {
             if (nrow(object@fdata) < 1)
                 stop("run Normalizedata before running FinalPreprocessing")
             filteredDataset <- object@fdata
             object@FinalGeneList <- rownames(filteredDataset)
-
+        }
+        if (!quiet) {
+            message(
+                "The gene filtering method = Noise filtering\n\n",
+                "The Filtered Normalized dataset contains:\n",
+                "Genes: ", length(filteredDataset[, 1]), "\n",
+                "cells: ", length(filteredDataset[1, ]), "\n\n"
+            )
+        }
+        if (export) {
+            fileNameExt <- paste0(fileName, ".Rdata")
             if (!quiet) {
-                cat(
-                    "The gene filtering method= Expression filtering\n\n",
-                    "The Filtered Normalized dataset contains:\n",
-                    "Genes:",
-                    length(filteredDataset[, 1]),
-                    "\n",
-                    "cells:",
-                    length(filteredDataset[1,]),
-                    "\n\n"
-                )
-            }
-            if (export) {
-                cat(
+                message(
                     "The Filtered Normalized dataset was saved as: ",
-                    "filteredDataset.Rdata\n"
+                    fileNameExt
                 )
-                save(filteredDataset, file = "filteredDataset.Rdata")
             }
+            save(filteredDataset, file = fileNameExt)
         }
         return(object)
     }

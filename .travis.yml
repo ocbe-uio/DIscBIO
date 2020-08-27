@@ -5,5 +5,7 @@ cache:
   packages: true
   timeout: 3000
 r:
-  - bioc-release
-  - bioc-devel
+  - release
+  - devel
+bioc_required: true
+use_bioc: true

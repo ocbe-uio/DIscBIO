@@ -13,7 +13,3 @@ BioConductor libraries.
 Data.frame including ENTREZID, SYMBOL, and ENSEMBL gene identifiers
 of human and mouse genes.
 }
-\examples{
-data(HumanMouseGeneIds)
-print(HumanMouseGeneIds[1:6,])
-}

@@ -50,14 +50,14 @@
 #' @exportClass DISCBIO
 #'
 #' @importClassesFrom SingleCellExperiment SingleCellExperiment
+#' @export
 #'
 #' @examples
-#' class(valuesG1msReduced)
-#' G1_reclassified <- DISCBIO(valuesG1msReduced)
+#' class(valuesG1msTest)
+#' G1_reclassified <- DISCBIO(valuesG1msTest)
 #' class(G1_reclassified)
 #' str(G1_reclassified, max.level=2)
-#' identical(G1_reclassified@expdataAll, valuesG1msReduced)
-#' @export
+#' identical(G1_reclassified@expdataAll, valuesG1msTest)
 DISCBIO <- setClass(
     Class = "DISCBIO",
     slots = c(

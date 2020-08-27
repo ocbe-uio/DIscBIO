@@ -8,15 +8,17 @@
 FinalPreprocessing(
   object,
   GeneFlitering = "NoiseF",
-  export = TRUE,
-  quiet = FALSE
+  export = FALSE,
+  quiet = FALSE,
+  fileName = "filteredDataset"
 )
 
 \S4method{FinalPreprocessing}{DISCBIO}(
   object,
   GeneFlitering = "NoiseF",
-  export = TRUE,
-  quiet = FALSE
+  export = FALSE,
+  quiet = FALSE,
+  fileName = "filteredDataset"
 )
 }
 \arguments{
@@ -29,6 +31,8 @@ FinalPreprocessing(
 excel file. Default is TRUE.}
 
 \item{quiet}{if `TRUE`, intermediary output is suppressed}
+
+\item{fileName}{File name for exporting (if `export = TRUE`)}
 }
 \value{
 The DISCBIO-class object input with the FinalGeneList slot filled.
@@ -37,7 +41,8 @@ The DISCBIO-class object input with the FinalGeneList slot filled.
 This function generates the final filtered normalized dataset.
 }
 \examples{
-sc <- DISCBIO(valuesG1msReduced)
+sc <- DISCBIO(valuesG1msTest)
 sc <- NoiseFiltering(sc, percentile=0.9, CV=0.2, export=FALSE)
 sc <- FinalPreprocessing(sc, GeneFlitering="NoiseF", export=FALSE)
+
 }

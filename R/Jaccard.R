@@ -15,10 +15,6 @@
 #' @importFrom boot boot
 #' @importFrom graphics barplot box
 #' @return A plot of the mean Jaccard similarity coefficient per cluster.
-#' @examples
-#' sc <- DISCBIO(valuesG1msReduced)
-#' sc <- Clustexp(sc, cln=3, quiet=TRUE) # K-means clustering
-#' Jaccard(sc, Clustering="K-means", K=3)
 Jaccard <- function(
     object,
     Clustering = "K-means",
@@ -51,6 +47,7 @@ Jaccard <- function(
     } else if (Clustering == "MB") {
         target_col <- object@MBclusters$clusterid
     }
+    # TODO: replace with in-house code to eliminate boot package dependency
     results <- boot(
         data      = object@fdata[, which(target_col == i)],
         statistic = JS,

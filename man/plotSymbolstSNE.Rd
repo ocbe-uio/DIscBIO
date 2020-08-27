@@ -25,9 +25,3 @@ Plot of tsne objet slot, grouped by gene.
 \description{
 Visualizing the K-means clusters using tSNE maps
 }
-\examples{
-sc <- DISCBIO(valuesG1msReduced) # changes signature of data
-sc <- Clustexp(sc, cln=3) # data must be clustered before plottin
-sc <- comptSNE(sc, max_iter=100, quiet=TRUE)
-plotSymbolstSNE(sc,types=sub("(\\\\_\\\\d+)$","", names(sc@ndata)))
-}

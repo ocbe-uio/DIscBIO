@@ -20,8 +20,3 @@ A plot of the gap statistics
 \description{
 Plotting Gap Statistics
 }
-\examples{
-sc <- DISCBIO(valuesG1msReduced) # changes signature of data
-sc <- Clustexp(sc, cln=3) # data must be clustered before plotting
-plotGap(sc)
-}

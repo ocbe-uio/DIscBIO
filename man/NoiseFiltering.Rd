@@ -14,8 +14,9 @@ NoiseFiltering(
   erccCol = "blue",
   Val = TRUE,
   plot = TRUE,
-  export = TRUE,
-  quiet = FALSE
+  export = FALSE,
+  quiet = FALSE,
+  filename = "Noise_filtering_genes_test"
 )
 
 \S4method{NoiseFiltering}{DISCBIO}(
@@ -27,8 +28,9 @@ NoiseFiltering(
   erccCol = "blue",
   Val = TRUE,
   plot = TRUE,
-  export = TRUE,
-  quiet = FALSE
+  export = FALSE,
+  quiet = FALSE,
+  filename = "Noise_filtering_genes_test"
 )
 }
 \arguments{
@@ -56,6 +58,8 @@ Default is TRUE.}
 excel file. Default is TRUE.}
 
 \item{quiet}{if `TRUE`, suppresses printed output}
+
+\item{filename}{Name of the exported file (if `export=TRUE`)}
 }
 \value{
 The DISCBIO-class object input with the noiseF slot filled.
@@ -71,7 +75,8 @@ Given a matrix or data frame of count data, this function
 This function should be used only if the dataset has ERCC.
 }
 \examples{
-sc <- DISCBIO(valuesG1msReduced) # changes signature of data
+sc <- DISCBIO(valuesG1msTest) # changes signature of data
 sd_filtered <- NoiseFiltering(sc, export=FALSE)
 str(sd_filtered)
+
 }

@@ -19,22 +19,24 @@
 #' @param export A logical vector that allows writing the final gene list in
 #'   excel file. Default is TRUE.
 #' @param quiet if `TRUE`, suppresses printed output
-#' @importFrom matrixStats rowVars
+#' @param filename Name of the exported file (if `export=TRUE`)
 #' @importFrom stats quantile var fitted.values pchisq p.adjust median aggregate
 #' @importFrom graphics plot axis abline points lines
 #' @importFrom statmod glmgam.fit
 #' @note This function should be used only if the dataset has ERCC.
 #' @return The DISCBIO-class object input with the noiseF slot filled.
 #' @examples
-#' sc <- DISCBIO(valuesG1msReduced) # changes signature of data
+#' sc <- DISCBIO(valuesG1msTest) # changes signature of data
 #' sd_filtered <- NoiseFiltering(sc, export=FALSE)
 #' str(sd_filtered)
+#'
 setGeneric(
     name = "NoiseFiltering",
     def = function(
         object, percentile = 0.8, CV = 0.3, geneCol = "yellow",
         FgeneCol = "black", erccCol = "blue", Val = TRUE, plot = TRUE,
-        export = TRUE, quiet = FALSE
+        export = FALSE, quiet = FALSE,
+        filename = "Noise_filtering_genes_test"
     )
         standardGeneric("NoiseFiltering")
 )
@@ -46,7 +48,7 @@ setMethod(
     signature = "DISCBIO",
     definition = function(
         object, percentile, CV, geneCol, FgeneCol, erccCol, Val, plot,
-        export, quiet
+        export, quiet, filename
     )
     {
         if (!is.numeric(percentile))
@@ -86,20 +88,20 @@ setMethod(
 
         # perform fit, define sample moments per gene
         meansG1ms <- rowMeans(nCountsG1ms)
-        varsG1ms <- rowVars(nCountsG1ms)
+        varsG1ms <- apply(nCountsG1ms, 1, var)
         cv2G1ms <- varsG1ms / meansG1ms ^ 2
         meansERCC <- rowMeans(nCountsERCC)
-        varsERCC <- rowVars(nCountsERCC)
+        varsERCC <- apply(nCountsERCC, 1, var)
         cv2ERCC <- varsERCC / meansERCC ^ 2
         minMeanForFit <- unname(
             quantile(meansERCC[which(cv2ERCC > CV)], percentile)
         )
 
         if (!quiet) {
-            cat(
+            message(
                 "Cut-off value for the ERCCs= ",
                 round(minMeanForFit, digits = 2),
-                "\n\n"
+                "\n"
             )
         }
 
@@ -115,7 +117,7 @@ setMethod(
         )
 
         if (!quiet) {
-            cat("Coefficients of the fit:", "\n")
+            message("Coefficients of the fit:")
             print(fit$coefficients)
         }
 
@@ -130,9 +132,11 @@ setMethod(
         total <- var(log(cv2ERCC[useForFit]))
 
         if (!quiet) {
-            cat("Explained variances of log CV^2 values= ",
+            message(
+                "Explained variances of log CV^2 values= ",
                 c(round(1 - residual / total, digits = 2)),
-                "\n\n")
+                "\n"
+            )
         }
 
         ## Pick out genes above noise line
@@ -155,17 +159,21 @@ setMethod(
         genes_test <- sapply(genes_test, paste0, collapse = "")
 
         if (!quiet) {
-            cat("Number of genes that passed the filtering= ",
+            message(
+                "Number of genes that passed the filtering = ",
                 length(genes_test),
-                "\n\n")
+                "\n"
+            )
         }
 
         if (export) {
-            write.csv(genes_test, file = "Noise_filtering_genes_test.csv")
-            cat(
-                "The filtered gene list was saved as:",
-                "Noise_filtering_genes_test\n"
-            )
+            write.csv(genes_test, file = paste0(filename, ".csv"))
+            if (!quiet) {
+                message(
+                    "The filtered gene list was saved as ",
+                    paste0(filename, ".csv")
+                )
+            }
         }
 
         if (plot) {
@@ -239,24 +247,6 @@ setMethod(
                     cex = 2,
                     col = erccCol
                 ) # Showing all the valied ERCCs
-            }
-            add_legend <- function(...) {
-                opar <- par(
-                    fig = c(0, 1, 0, 1),
-                    oma = c(0, 0, 0, 0),
-                    mar = c(0, 0, 0, 0),
-                    new = TRUE
-                )
-                on.exit(par(opar))
-                plot(
-                    0,
-                    0,
-                    type = 'n',
-                    bty = 'n',
-                    xaxt = 'n',
-                    yaxt = 'n'
-                )
-                legend(...)
             }
             add_legend(
                 "topleft",
