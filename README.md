@@ -1,4 +1,4 @@
-![Current CRAN release](https://www.r-pkg.org/badges/version/DIscBIO) [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/ocbe-uio/DIscBIO/dev?filepath=notebook) [![Build Status](https://travis-ci.org/ocbe-uio/DIscBIO.svg?branch=dev)](https://travis-ci.org/ocbe-uio/DIscBIO)
+![Current CRAN release](https://www.r-pkg.org/badges/version/DIscBIO) [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/ocbe-uio/DIscBIO/dev?filepath=notebook) [![Build Status](https://travis-ci.org/ocbe-uio/DIscBIO.svg?branch=dev)](https://travis-ci.org/ocbe-uio/DIscBIO) [![DOI](https://zenodo.org/badge/225632936.svg)](https://zenodo.org/badge/latestdoi/225632936)
 
 # DIscBIO
 
@@ -12,6 +12,18 @@ Software for single-cell transcriptomics are too abundant, with [scRNAtools](htt
 
 # Installation
 
+## Stable version
+
+[DIscBIO has been published to the Comprehensive R Archive Network (CRAN)](https://cran.r-project.org/package=DIscBIO), and the latest stable version of the package can be installed by running
+
+```r
+install.packages("DIscBIO")
+```
+
+from any interactive R session.
+
+## Development version
+
 The development version of the DIscBIO R package can be installed by running
 
 ```r
@@ -22,7 +34,7 @@ on an interactive R session. For a faster installation, the `build_vignettes=TRU
 
 There is also a standalone, interactive Jupyter notebook demo of DIscBIO on Binder, which you can access [here](https://mybinder.org/v2/gh/SystemsBiologist/PSCAN/discbio-pub?filepath=DIscBIO.ipynb).
 
-Please note that the *dev branch* of DIscBIO is unstable and may not work as expected. This repository **currently does not have a master branch**, which will be created once the package releases a stable version.
+Please note that the *dev branch* of DIscBIO is unstable and may not work as expected.
 
 Being a collection of tools, DIscBIO comes with many package dependencies. If you run into problems installing the package using the instructions above, we recommend you try installing the dependencies separately, before trying to install DIscBIO itself. A code for installing the dependencies can be found below:
 
@@ -30,14 +42,11 @@ Being a collection of tools, DIscBIO comes with many package dependencies. If yo
 if (!requireNamespace("BiocManager", quietly = TRUE)) install.packages("BiocManager")
 BiocManager::install(
     c(
-        "pheatmap**currentlyMASS", "cluster", "mclust", "flexmix",
-        "lattice", "fpc", "amap", "RColorBrewer", "locfit", "TSCAN",
-        "genefilter", "statmod", "ggplot2", "gplots", "DESeq2",
-        "matrixStats", "robustbase", "philentropy", "igraph", "boot",
-        "biomaRt", "tidyr", "calibrate", "partykit", "RWeka", "rpart",
-        "rpart.plot", "imager", "png", "NetIndices", "httr", "jsonlite",
-        "tidyverse", "samr", "tidyverse", "org.Hs.eg.db", "AnnotationDbi",
-        "enrichR", "tsne", "SingleCellExperiment"
+        "SingleCellExperimentmethods", "TSCAN", "boot", "httr", "mclust",
+        "statmod", "igraph", "RWeka,"philentropy", "NetIndices", "png",
+        "grDevices", "readr", "RColorBrewer", "ggplot2", "rpart", "fpc",
+        "cluster", "rpart.plot", "tsne", "AnnotationDbi", "org.Hs.eg.db",
+        "graphics", "stats", "utils", "impute"
     )
 )
 ```
@@ -71,11 +80,7 @@ citation("DIscBIO")
 in R and you should get a pure text and a BibTeX entry similar to the one below (please prefer the output you see in your R session to the one below, as the former will reflect the latest version of the package code and documentation):
 
 ```
-To cite package ‘DIscBIO’ in publications use:
 
-  Salim Ghannoum, Alvaro Köhn-Luque and Waldir Leoncio (2020)
-  DIscBIO: A User-Friendly Pipeline for Biomarker Discovery in Single-Cell Transcriptomics.
-  R package version 0.0.0.9004.
 
 A BibTeX entry for LaTeX users is
 
@@ -84,7 +89,8 @@ A BibTeX entry for LaTeX users is
 Transcriptomics},
     author = {Salim Ghannoum and Alvaro Köhn-Luque and Waldir Leoncio},
     year = {2020},
-    note = {R package version 0.0.0.9004},
+    note = {R package version 1.0.0},
+    url = {https://CRAN.R-project.org/package=DIscBIO},
   }
 ```
 
