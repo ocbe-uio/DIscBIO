@@ -1,18 +1,11 @@
-# Minimum requirements for the next stable release
+# Tasks for the next release
 
-Before reaching the first stable release of DIscBIO, the following tasks must be addressed:
+## Critical issues
 
-- [x] Create unit test script based on notebook pipeline
-- [x] Resolve variable scope errors
-- [x] Resolve variable scope warnings
-- [x] Complete function documentation
+- [ ] Address all opened [issues](https://github.com/ocbe-uio/DIscBIO/issues)
 
-# Wishlist for the next stable release
+## Non-critical issues
 
-Ideally, the non-critical tasks below would also be addressed before release:
-
-- [x] Reduce data folder size
 - [ ] Standardize capitalization of function names and arguments
-- [x] Remove unessential variable assignments from [test.reproduceNotebook.R](tests/testthat/test.reproduceNotebook.R)
-- [x] Shorten examples with CPU or elapsed time > 5s
-- [x] Reduce unit test length
+- [ ] Adapt vignette code
+- [ ] Incorporate vignette to package (as long as it doesn't make the Win-build check pass 10 minutes)
