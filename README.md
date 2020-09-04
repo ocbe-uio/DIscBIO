@@ -22,6 +22,14 @@ install.packages("DIscBIO")
 
 from any interactive R session.
 
+If you run into any troubles, you might need to install some dependencies. In that case, try the following:
+
+```r
+install.packages("DIscBIO", dependencies=TRUE)
+```
+
+If you still can't install DIscBIO, please let us know by opening an issue [here](https://github.com/ocbe-uio/DIscBIO/issues).
+
 ## Development version
 
 The development version of the DIscBIO R package can be installed by running
@@ -67,7 +75,7 @@ In order to use the Binder version of DIscBIO, just click on the badge below:
 
 # Development
 
-DIscBIO is Open Source software licensed under the [MIT license](https://tldrlegal.com/license/mit-license), so all contributions are welcome. Please read the [TODO](TODO.md) document for a list of issues we are currently working on for the next stable release of the package and [CONTRIBUTING.md](CONTRIBUTING.md) for some guidelines on how to contribute to the package.
+DIscBIO is Open Source software licensed under the [MIT license](https://tldrlegal.com/license/mit-license), so all contributions are welcome. Please read the [TODO](TODO.md) document and visit [the Issues page](https://github.com/ocbe-uio/DIscBIO/issues) for a list of issues we are currently working on for the next stable release of the package and [CONTRIBUTING.md](CONTRIBUTING.md) for some guidelines on how to contribute to the package.
 
 # Citation
 
