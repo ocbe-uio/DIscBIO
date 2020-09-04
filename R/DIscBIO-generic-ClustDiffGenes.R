@@ -119,7 +119,7 @@ setMethod(
                 if (length(out[, 1]) > 0) {
                     Regulation <- c()
                     for (i in 1:length(out[, 1])) {
-                        if (out[i, 1] > out[i, 2]) {
+                        if (out[i, 1] < out[i, 2]) {
                             Regulation[i] = "Down"
                         } else{
                             Regulation[i] = "Up"
