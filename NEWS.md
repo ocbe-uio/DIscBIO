@@ -1,6 +1,10 @@
 This file documents the changes between stable releases of DIscBIO.
 
-The next stable release of DIscBIO will contain several changes from the [original work](https://github.com/SystemsBiologist/PSCAN), the most relevant of which are listed below:
+# Next version
+
+# Version 1.0.0
+
+Contains several changes from the [original work](https://github.com/SystemsBiologist/PSCAN), the most relevant of which are listed below:
 
 - Several functions have been enhanced with a `quiet` argument to suppress intermediate output (essential to obtain cleaner output in batch scripts and unit tests)
 - Functions have been isolated into their own R files
