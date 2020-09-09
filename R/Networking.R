@@ -50,7 +50,7 @@ Networking <- function(
                 "Examine response components =",
                 status_code(repos),
                 "\t",
-                "(200 means successful)",
+                "(200 means successful)"
             )
             y <- repos$request$url
             if (!is.null(FileName)) {
