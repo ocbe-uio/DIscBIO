@@ -41,7 +41,7 @@ setMethod(
         # Plotting
         # ======================================================================
         col <- c("black", "blue", "green", "red", "yellow", "gray")
-        distances <- dist.gen(object@distances)
+        distances <- object@distances
         si <- silhouette(kpart, distances)
         plot(si, col = col[1:K])
     }
