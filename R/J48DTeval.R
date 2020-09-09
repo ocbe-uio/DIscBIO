@@ -74,17 +74,17 @@ J48DTeval <- function(
         )
         colnames(j48.confusion.matrix) <- c(First, Second)
         if (!quiet) print(j48.confusion.matrix)
-        j48.sn <- SN(j48.confusion.matrix)
-        j48.sp <- SP(j48.confusion.matrix)
-        j48.acc <- ACC(j48.confusion.matrix)
-        j48.mcc <- MCC(j48.confusion.matrix)
+        j48.sn <- round(SN(j48.confusion.matrix),digits=2)
+        j48.sp <- round(SP(j48.confusion.matrix),digits=2)
+        j48.acc <- round(ACC(j48.confusion.matrix),digits=2)
+        j48.mcc <- round(MCC(j48.confusion.matrix),digits=2)
 
         if (!quiet) {
             message(
                 "J48 SN: ", j48.sn, "\n",
                 "J48 SP: ", j48.sp, "\n",
                 "J48 ACC: ", j48.acc, "\n",
-                "J48 MCC: ", j48.mcc, "\n",
+                "J48 MCC: ", j48.mcc, "\n"
             )
         }
         return(j48.performance)
