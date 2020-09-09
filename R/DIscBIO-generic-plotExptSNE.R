@@ -41,7 +41,8 @@ setMethod(
         # ======================================================================
         # Plotting
         # ======================================================================
-        l <- apply(object@ndata[g, ] - .1, 2, sum) + .1
+        logObj <- log(object@ndata)
+        l <- apply(logObj[g, ] - .1, 2, sum) + .1
         mi <- min(l, na.rm = TRUE)
         ma <- max(l, na.rm = TRUE)
         ColorRamp <- colorRampPalette(
