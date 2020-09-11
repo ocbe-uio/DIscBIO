@@ -34,7 +34,7 @@ setMethod(
             kpart <- object@MBclusters$clusterid
             y <- clustfun(object@fdata, clustnr = 3, bootnr = 50,
                  metric = "pearson", do.gap = TRUE, SE.method = "Tibs2001SEmax",
-                 SE.factor = .25, B.gap = 50, cln = 0, rseed = NULL, quiet = FALSE )
+                 SE.factor = .25, B.gap = 50, cln = 0, rseed = NULL, quiet = TRUE )
             DIS <- as.matrix(y$di)
         } else {
             stop("run clustexp or exprmclust before plotSilhouette")
