@@ -55,7 +55,7 @@ setMethod(
         FinalOrder <- orderTable[match(sampleNames, orderTable$orderID), ]
         out_order <- FinalOrder[, 1]
         names(out_order) <- names(Names)
-        object@kordering <- out_order
+        object@MBordering <- out_order
         return(object)
     }
 )
