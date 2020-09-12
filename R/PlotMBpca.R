@@ -32,7 +32,8 @@ PlotMBpca <- function(object, type="order", g=NULL, n=NULL) {
         if (is.null(n)) {
             n <- g[1]
         }
-        l <- apply(object@ndata[g,] - .1, 2, sum) + .1
+        logObj <- log(object@ndata)
+        l <- apply(logObj[g,] - .1, 2, sum) + .1
         x <- data$pcareduceres
     } else if (type == "order") {
         MBordertable <- cbind(data$pcareduceres, object@MBordering)
