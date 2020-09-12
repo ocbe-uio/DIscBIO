@@ -62,7 +62,8 @@ setMethod(
         opar <- par(mar = c(3, 5, 2.5, 2))
         on.exit(par(opar))
         plot(
-            object@tsne,
+#            object@tsne,
+            x,
             xlab = "Dim 1",
             ylab = "Dim 2",
             main = n,
