@@ -74,7 +74,7 @@ Networking <- function(
             rasterImage(Network, 0, 0, 1, 1)
             message(
                 "\n",
-                "You can see the network with high resolution",
+                "You can see the network with high resolution ",
                 "by clicking on the following link:",
                 "\n",
                 paste0(y)
