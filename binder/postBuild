@@ -1,0 +1,19 @@
+#!/usr/bin/env Rscript
+
+mran = "https://mran.microsoft.com/snapshot/2020-09-13"
+
+if (!requireNamespace("BiocManager", quietly = TRUE)) {
+    install.packages("BiocManager", repos=mran)
+}
+
+BiocManager::install(
+    c(
+        "SingleCellExperimentmethods", "TSCAN", "boot", "httr", "mclust",
+        "statmod", "igraph", "RWeka", "philentropy", "NetIndices", "png",
+        "grDevices", "readr", "RColorBrewer", "ggplot2", "rpart", "fpc",
+        "cluster", "rpart.plot", "tsne", "AnnotationDbi", "org.Hs.eg.db",
+        "graphics", "stats", "utils", "impute"
+    )
+)
+
+devtools::install_local(getwd(), repos=mran)
