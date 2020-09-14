@@ -48,10 +48,11 @@ Being a collection of tools, DIscBIO comes with many package dependencies. If yo
 
 ```r
 if (!requireNamespace("BiocManager", quietly = TRUE)) install.packages("BiocManager")
+
 BiocManager::install(
     c(
         "SingleCellExperimentmethods", "TSCAN", "boot", "httr", "mclust",
-        "statmod", "igraph", "RWeka,"philentropy", "NetIndices", "png",
+        "statmod", "igraph", "RWeka", "philentropy", "NetIndices", "png",
         "grDevices", "readr", "RColorBrewer", "ggplot2", "rpart", "fpc",
         "cluster", "rpart.plot", "tsne", "AnnotationDbi", "org.Hs.eg.db",
         "graphics", "stats", "utils", "impute"
