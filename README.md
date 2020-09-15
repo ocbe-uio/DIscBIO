@@ -10,6 +10,10 @@ This is an R package based on the software available at https://github.com/Syste
 
 Software for single-cell transcriptomics are too abundant, with [scRNAtools](https://www.scrna-tools.org/) listing over 500 different software to perform the task. DIscBIO is aims to facilitate the selection and usage of such tools by combining a collection of them in a single R package, which includes instructions on the workflow of transcriptomics.
 
+
+The CTCdataset, which is used as input data in the DIscBIO-CTCs-Notebook, contains information from GEO database [GSE51827](https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE51827), which is made available
+here under the [Open Database License (ODbL)](https://opendatacommons.org/licenses/odbl/1-0/).
+
 # Installation
 
 ## Stable version
