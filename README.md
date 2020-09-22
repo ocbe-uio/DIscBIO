@@ -44,7 +44,7 @@ remotes::install_github("ocbe-uio/DIscBIO", "dev", build_vignettes=TRUE)
 
 on an interactive R session. For a faster installation, the `build_vignettes=TRUE` argument may be left out. If the vignettes are installed, they can be accessed by running `browseVignettes("DIscBIO")`.
 
-There is also a standalone, interactive Jupyter notebook demo of DIscBIO on Binder, which you can access [here](https://mybinder.org/v2/gh/SystemsBiologist/PSCAN/discbio-pub?filepath=DIscBIO.ipynb).
+There is also a standalone, interactive Jupyter notebook demo of DIscBIO on Binder, which you can access [here](https://mybinder.org/v2/gh/ocbe-uio/DIscBIO/dev?filepath=/notebooks).
 
 Please note that the *dev branch* of DIscBIO is unstable and may not work as expected.
 
