@@ -6,14 +6,15 @@ if (!requireNamespace("BiocManager", quietly = TRUE)) {
     install.packages("BiocManager", repos=mran)
 }
 
+# install dependencies
+# copied from README, only those not available through conda
+# most dependencies expressed in environment.yml
 BiocManager::install(
     c(
-        "SingleCellExperimentmethods", "TSCAN", "boot", "httr", "mclust",
-        "statmod", "igraph", "RWeka", "philentropy", "NetIndices", "png",
-        "grDevices", "readr", "RColorBrewer", "ggplot2", "rpart", "fpc",
-        "cluster", "rpart.plot", "tsne", "AnnotationDbi", "org.Hs.eg.db",
-        "graphics", "stats", "utils", "impute"
+        "philentropy", "imager", "NetIndices"
     )
 )
 
+# install DIscBIO itself
+# remotes::install_github("ocbe-uio/DIscBIO", "dev", repos=mran, build_vignettes=F)
 devtools::install_local(getwd(), repos=mran)

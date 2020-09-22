@@ -1,2 +1,57 @@
+channels:
+  - conda-forge
+  - bioconda
 dependencies:
-  - r-base=4.0
+  - r-base 4.0.*
+  - r-irkernel
+  - r-biocmanager
+
+  # copy biocmanager install from README
+  - r-pheatmap
+  - r-mass
+  - r-cluster
+  - r-mclust
+  - r-flexmix
+  - r-lattice
+  - r-fpc
+
+  - r-amap
+  - r-rcolorbrewer
+  - r-locfit
+  - bioconductor-tscan
+  - bioconductor-genefilter
+  - r-statmod
+
+  - r-ggplot2
+  - r-gplots
+  - bioconductor-deseq2
+  - r-matrixstats
+  - r-robustbase
+  # - r-philentropy not on conda-forge or bioconda
+
+  - r-igraph
+  - r-boot
+  - bioconductor-biomart
+  - r-tidyr
+  - r-calibrate
+  - r-partykit
+  - r-rweka
+
+  - r-rpart
+  - r-rpart.plot
+  # - r-imager not on conda
+  - r-png
+  # - r-netindices
+  - r-httr
+  - r-jsonlite
+  - r-tidyverse
+
+  - r-samr
+  - r-enrichr
+  - r-zeallot
+  - r-remotes
+  - r-foreign
+
+  - bioconductor-org.hs.eg.db
+  - bioconductor-annotationdbi
+  - bioconductor-singlecellexperiment
