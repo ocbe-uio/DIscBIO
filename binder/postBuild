@@ -2,18 +2,21 @@
 
 mran = "https://mran.microsoft.com/snapshot/2020-09-13"
 
-if (!requireNamespace("BiocManager", quietly = TRUE)) {
-    install.packages("BiocManager", repos=mran)
-}
-
 # install dependencies
 # copied from README, only those not available through conda
 # most dependencies expressed in environment.yml
-BiocManager::install(
+install.packages(
     c(
-        "philentropy", "imager", "NetIndices"
-    )
+        "philentropy",
+        "NetIndices"
+    ),
+    repos=mran
 )
+
+# no bioconductor packages are missing,
+# but use this if any are added
+# requireNamespace("BiocManager")
+# BiocManager::install(...)
 
 # install DIscBIO itself
 # remotes::install_github("ocbe-uio/DIscBIO", "dev", repos=mran, build_vignettes=F)

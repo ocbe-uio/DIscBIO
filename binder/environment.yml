@@ -7,51 +7,36 @@ dependencies:
   - r-biocmanager
 
   # copy biocmanager install from README
-  - r-pheatmap
-  - r-mass
-  - r-cluster
+  - bioconductor-SingleCellExperiment
+  - bioconductor-tscan
+  - r-boot
+  - r-httr
   - r-mclust
-  - r-flexmix
-  - r-lattice
+
+  - r-statmod
+  - r-igraph
+  - r-rweka
+  # - r-philentropy not on conda-forge or bioconda
+  # - r-netindices
+  - r-png
+
+  # r-grdevices not on conda
+  - r-readr
+  - r-rcolorbrewer
+  - r-ggplot2
+  - r-rpart
   - r-fpc
 
-  - r-amap
-  - r-rcolorbrewer
-  - r-locfit
-  - bioconductor-tscan
-  - bioconductor-genefilter
-  - r-statmod
-
-  - r-ggplot2
-  - r-gplots
-  - bioconductor-deseq2
-  - r-matrixstats
-  - r-robustbase
-  # - r-philentropy not on conda-forge or bioconda
-
-  - r-igraph
-  - r-boot
-  - bioconductor-biomart
-  - r-tidyr
-  - r-calibrate
-  - r-partykit
-  - r-rweka
-
-  - r-rpart
+  - r-cluster
   - r-rpart.plot
-  # - r-imager not on conda
-  - r-png
-  # - r-netindices
-  - r-httr
-  - r-jsonlite
-  - r-tidyverse
-
-  - r-samr
-  - r-enrichr
-  - r-zeallot
-  - r-remotes
-  - r-foreign
-
-  - bioconductor-org.hs.eg.db
+  - r-tsne
   - bioconductor-annotationdbi
-  - bioconductor-singlecellexperiment
+  - bioconductor-org.hs.eg.db
+
+  # graphics, stats, utils are part of core
+  - bioconductor-impute
+  - r-enrichr
+
+  # additional dependencies for packages not found on conda
+  - r-dplyr
+  - bioconductor-biocversion
