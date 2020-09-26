@@ -8,8 +8,7 @@ A user-friendly pipeline for biomarker discovery in single-cell transcriptomics.
 
 This is an R package based on the software available at https://github.com/SystemsBiologist/PSCAN.
 
-Software for single-cell transcriptomics are too abundant, with [scRNAtools](https://www.scrna-tools.org/) listing over 500 different software to perform the task. DIscBIO is aims to facilitate the selection and usage of such tools by combining a collection of them in a single R package, which includes instructions on the workflow of transcriptomics.
-
+Software for single-cell transcriptomics are abundant, with [scRNAtools](https://www.scrna-tools.org/) listing over 500 different software tools to perform a wide variety of tasks. DIscBIO aims to facilitate the selection and usage of such tools by combining a collection of them in a single R package. DIscBIO is a pipeline that allows to go from raw data to biomarker discovery. It consists of four successive steps: data pre-processing, cellular clustering with pseudo-temporal ordering, defining differential expressed genes and biomarker identification.
 
 The CTCdataset, which is used as input data in the DIscBIO-CTCs-Notebook, contains information from GEO database [GSE51827](https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE51827), which is made available
 here under the [Open Database License (ODbL)](https://opendatacommons.org/licenses/odbl/1-0/).
