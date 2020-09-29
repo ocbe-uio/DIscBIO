@@ -37,6 +37,9 @@ dependencies:
   - bioconductor-impute
   - r-enrichr
 
+  # additional unlisted dependencies
+  - r-partykit
+
   # additional dependencies for packages not found on conda
   - r-dplyr
   - bioconductor-biocversion
