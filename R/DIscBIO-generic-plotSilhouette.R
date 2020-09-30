@@ -26,7 +26,7 @@ setMethod(
         # Validation
         # ======================================================================
         ran_clustexp <- length(object@kmeans$kpart) > 0
-        ran_exprmclust <- length(object@MBclusters$clusterid) > 0
+        ran_exprmclust <- length(object@MBclusters) > 0
         if (ran_clustexp) {
             kpart <- object@kmeans$kpart
             DIS <- object@distances
