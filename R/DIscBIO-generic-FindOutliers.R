@@ -98,8 +98,9 @@ setMethod(
             outdistquant = outdistquant
         )
         ### calibrate background model
-        m <- log2(apply(object@fdata, 1, mean))
-        v <- log2(apply(object@fdata, 1, var))
+	EXP<-object@expdata + 0.1
+        m <- log2(apply(EXP, 1, mean))
+        v <- log2(apply(EXP, 1, var))
         f <- m > -Inf & v > -Inf
         m <- m[f]
         v <- v[f]
