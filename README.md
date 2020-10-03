@@ -71,9 +71,16 @@ After installing DIscBIO, you can load it into an R session by running the follo
 library(DIscBIO)
 ```
 
-A step-by-step tutorial of DIscBIO is under construction as a standalone R vignette. In the meantime, you can use the interactive Jupyter notebook available [here](notebook/DIscBIO.ipynb).
+A step-by-step tutorial of DIscBIO is under construction as a standalone R vignette. In the meantime, you can use the interactive Jupyter notebook available [here](notebook/DIscBIO-MLS-Notebook.ipynb).
 
-In order to use the Binder version of DIscBIO, just click on the badge below:
+There are five Binder notebooks:
+   DIscBIO-MLS-Binder.ipynb
+   DIscBIO-CTCs-Binder-Part1.ipynb
+   DIscBIO-CTCs-Binder-Part2.ipynb
+   DIscBIO-CTCs-Binder-Part3.ipynb
+   DIscBIO-CTCs-Binder-Part4.ipynb
+
+In order to use the Binder versions of DIscBIO, just click on the badge below:
 
 [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/ocbe-uio/DIscBIO/dev?filepath=notebook)
 
