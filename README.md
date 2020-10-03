@@ -74,11 +74,17 @@ library(DIscBIO)
 A step-by-step tutorial of DIscBIO is under construction as a standalone R vignette. In the meantime, you can use the interactive Jupyter notebook available [here](notebook/DIscBIO-MLS-Notebook.ipynb).
 
 There are five Binder notebooks:
+
    DIscBIO-MLS-Binder.ipynb
+   
    DIscBIO-CTCs-Binder-Part1.ipynb
+   
    DIscBIO-CTCs-Binder-Part2.ipynb
+   
    DIscBIO-CTCs-Binder-Part3.ipynb
+   
    DIscBIO-CTCs-Binder-Part4.ipynb
+   
 
 In order to use the Binder versions of DIscBIO, just click on the badge below:
 
