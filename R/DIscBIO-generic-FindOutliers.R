@@ -260,7 +260,7 @@ setMethod(
                         y,
                         ylim = c(0, max(-log10(
                             x + 2.2e-16
-                        )) * 1.1),
+                        )) * 2.1),
                         col = fcol[i],
                         border = fcol[i],
                         names.arg = FALSE,
