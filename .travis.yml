@@ -7,6 +7,8 @@ cache:
 addons:
   apt:
     packages:
+      - default-jre
+      - default-jdk
       - r-cran-rjava
 script:
   - R CMD javareconf -e
