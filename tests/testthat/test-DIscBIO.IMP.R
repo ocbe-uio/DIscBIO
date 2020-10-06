@@ -77,7 +77,7 @@ Outliers <- FindOutliers(
 Order <- KmeanOrder(sc, quiet = TRUE, export = FALSE)
 
 test_that("Outliers are the expected", {
-    expect_equivalent(Outliers, c(3, 10))
+    expect_equivalent(Outliers, c(3, 10, 13))
     expect_equivalent(
         object = Order@kordering,
         expected = c(
