@@ -151,8 +151,6 @@ setMethod(
         }
 
         # Proceed
-        #tmpFeats <- rownames(expdataAll)
-        #tmpExpdataAll <- expdataAll
         tmpFeats <- rownames(.Object@expdataAll)
         tmpExpdataAll <- .Object@expdataAll
 
