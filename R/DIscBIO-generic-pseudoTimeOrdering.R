@@ -57,7 +57,7 @@ setMethod(
         names(out_order) <- names(Names)
         if (ran_k) {
             object@kordering <- out_order
-        } else if {ran_m} {
+        } else if (ran_m) {
             object@MBordering <- out_order
         }
         return(object)
