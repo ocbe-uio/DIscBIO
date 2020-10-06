@@ -4,6 +4,10 @@ cache:
   apt: true
   packages: true
   timeout: 3000
+addons:
+  apt:
+    packages:
+      - r-cran-rjava
 r:
   - release
   - devel
