@@ -7,6 +7,9 @@
 #' @param export if `TRUE`, exports order table to csv
 #' @param filename Name of the exported file (if `export=TRUE`)
 #' @importFrom TSCAN TSCANorder
+#' @note This function has been replaced by pseudoTimeOrdering(), but it is
+#'   being kept for legacy purposes. It will, however, be removed from future
+#'   versions of DIscBIO.
 #' @return The DISCBIO-class object input with the kordering slot filled.
 setGeneric("KmeanOrder", function(object, quiet = FALSE, export = FALSE,
     filename = "Cellular_pseudo-time_ordering_based_on_k-meansc-lusters")
@@ -19,6 +22,15 @@ setMethod(
     "KmeanOrder",
     signature = "DISCBIO",
     definition = function(object, quiet, export, filename) {
+        # TODO: update Notebook not to depend on pseudoTimeOrdering instead
+        warning(
+            "KmeanOrder() has been replaced with pseudoTimeOrdering(), ",
+            "which performs pseudo-time ordering for both k-means ",
+            "and model-based clustering. ",
+            "This function is being kept for legacy purposes, ",
+            "but will be removed in future versions of DIscBIO. ",
+            "Please adapt your scripts accordingly."
+        )
         # Validation
         if (length(object@kmeans$kpart) == 0) {
             stop("run Clustexp before KmeanOrder")
