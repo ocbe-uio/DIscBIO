@@ -123,7 +123,7 @@ A BibTeX entry for LaTeX users is
 Transcriptomics},
     author = {Salim Ghannoum and Alvaro Köhn-Luque and Waldir Leoncio},
     year = {2020},
-    note = {R package version 1.0.0},
+    note = {R package version 1.0.1}, # please check the actual version you used
     url = {https://CRAN.R-project.org/package=DIscBIO},
   }
 ```
