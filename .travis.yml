@@ -11,8 +11,6 @@ addons:
       - openjdk-9-jdk
       - openjdk-9-source
       - r-cran-rjava
-script:
-  - R CMD javareconf -e
 r:
   - release
   - devel
