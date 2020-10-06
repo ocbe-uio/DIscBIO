@@ -6,7 +6,7 @@ cache:
   timeout: 3000
 before_install:
   - sudo apt-get update
-  - sudo apt-get -y install openjdk-9-jre-headless openjdk-9-jdk-headless openjdk-9-source
+  - sudo apt-get -y install openjdk-9-jre-headless openjdk-9-source
   - sudo apt-get -y install r-cran-rjava
 r:
   - release
