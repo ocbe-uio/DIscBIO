@@ -60,9 +60,6 @@ setMethod(
         } else if (pValue < 0 | pValue > 1) {
             stop("pValue has to be a number between 0 and 1")
         }
-        if (length(object@kmeans$kpart) == 0) {
-            stop("run Clustexp before ClustDiffGenes")
-        }
         cdiff <- list()
         x     <- object@ndata
         y     <- object@expdata[, names(object@ndata)]
@@ -71,7 +68,7 @@ setMethod(
         } else if (ran_m) {
             part  <- object@MBclusters$clusterid
         } else {
-            stop("Run Clustexp() before running this function")
+            stop("Run clustering before running this function")
         }
         # ======================================================================
         # Operating

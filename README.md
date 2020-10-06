@@ -8,7 +8,10 @@ A user-friendly pipeline for biomarker discovery in single-cell transcriptomics.
 
 This is an R package based on the software available at https://github.com/SystemsBiologist/PSCAN.
 
-Software for single-cell transcriptomics are too abundant, with [scRNAtools](https://www.scrna-tools.org/) listing over 500 different software to perform the task. DIscBIO is aims to facilitate the selection and usage of such tools by combining a collection of them in a single R package, which includes instructions on the workflow of transcriptomics.
+Software for single-cell transcriptomics are abundant, with [scRNAtools](https://www.scrna-tools.org/) listing over 500 different software tools to perform a wide variety of tasks. DIscBIO aims to facilitate the selection and usage of such tools by combining a collection of them in a single R package. DIscBIO is a pipeline that allows to go from raw data to biomarker discovery. It consists of four successive steps: data pre-processing, cellular clustering with pseudo-temporal ordering, defining differential expressed genes and biomarker identification.
+
+The CTCdataset, which is used as input data in the DIscBIO-CTCs-Notebook, contains information from GEO database [GSE51827](https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE51827), which is made available
+here under the [Open Database License (ODbL)](https://opendatacommons.org/licenses/odbl/1-0/).
 
 # Installation
 
@@ -22,6 +25,25 @@ install.packages("DIscBIO")
 
 from any interactive R session.
 
+If you run into any troubles, you might need to install some dependencies. Several DIscBIO dependencies are not available on CRAN, but on Bioconductor, so if
+
+```r
+install.packages("DIscBIO", dependencies=TRUE)
+```
+
+still doesn't solve the issue, try the following:
+
+```r
+install.packages("BiocManager")
+BiocManager::install("DIscBIO")
+```
+
+The latter should automatically take care of downloading DIscBIO and its dependencies from the appropriate repository.
+
+Your installation issues might also be related to rJava. Please find our solution to this problem [here](https://github.com/ocbe-uio/DIscBIO/issues/21).
+
+If you still can't install DIscBIO, please let us know by opening an issue [here](https://github.com/ocbe-uio/DIscBIO/issues).
+
 ## Development version
 
 The development version of the DIscBIO R package can be installed by running
@@ -32,7 +54,7 @@ remotes::install_github("ocbe-uio/DIscBIO", "dev", build_vignettes=TRUE)
 
 on an interactive R session. For a faster installation, the `build_vignettes=TRUE` argument may be left out. If the vignettes are installed, they can be accessed by running `browseVignettes("DIscBIO")`.
 
-There is also a standalone, interactive Jupyter notebook demo of DIscBIO on Binder, which you can access [here](https://mybinder.org/v2/gh/SystemsBiologist/PSCAN/discbio-pub?filepath=DIscBIO.ipynb).
+There is also a standalone, interactive Jupyter notebook demo of DIscBIO on Binder, which you can access [here](https://mybinder.org/v2/gh/ocbe-uio/DIscBIO/dev?filepath=/notebook).
 
 Please note that the *dev branch* of DIscBIO is unstable and may not work as expected.
 
@@ -40,13 +62,14 @@ Being a collection of tools, DIscBIO comes with many package dependencies. If yo
 
 ```r
 if (!requireNamespace("BiocManager", quietly = TRUE)) install.packages("BiocManager")
+
 BiocManager::install(
     c(
         "SingleCellExperimentmethods", "TSCAN", "boot", "httr", "mclust",
-        "statmod", "igraph", "RWeka,"philentropy", "NetIndices", "png",
+        "statmod", "igraph", "RWeka", "philentropy", "NetIndices", "png",
         "grDevices", "readr", "RColorBrewer", "ggplot2", "rpart", "fpc",
         "cluster", "rpart.plot", "tsne", "AnnotationDbi", "org.Hs.eg.db",
-        "graphics", "stats", "utils", "impute"
+        "graphics", "stats", "utils", "impute", "enrichR"
     )
 )
 ```
@@ -59,15 +82,26 @@ After installing DIscBIO, you can load it into an R session by running the follo
 library(DIscBIO)
 ```
 
-A step-by-step tutorial of DIscBIO is under construction as a standalone R vignette. In the meantime, you can use the interactive Jupyter notebook available [here](notebook/DIscBIO.ipynb).
+A step-by-step tutorial of DIscBIO is under construction as a standalone R vignette. In the meantime, you can use the interactive Jupyter notebook available [here](notebook/DIscBIO-MLS-Notebook.ipynb).
 
-In order to use the Binder version of DIscBIO, just click on the badge below:
+There are two main Binder notebooks; the "DIscBIO-MLS-Binder.ipynb" and "DIscBIO-CTCs-Binder". Due to a memory addressable limit of 2 GB, the "DIscBIO-CTCs-Binder" is divided into 4 sub-notebooks:
+
+   DIscBIO-CTCs-Binder-Part1.ipynb
+
+   DIscBIO-CTCs-Binder-Part2.ipynb
+
+   DIscBIO-CTCs-Binder-Part3.ipynb
+
+   DIscBIO-CTCs-Binder-Part4.ipynb
+
+
+In order to use the Binder versions of DIscBIO, just click on the badge below:
 
 [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/ocbe-uio/DIscBIO/dev?filepath=notebook)
 
 # Development
 
-DIscBIO is Open Source software licensed under the [MIT license](https://tldrlegal.com/license/mit-license), so all contributions are welcome. Please read the [TODO](TODO.md) document for a list of issues we are currently working on for the next stable release of the package and [CONTRIBUTING.md](CONTRIBUTING.md) for some guidelines on how to contribute to the package.
+DIscBIO is Open Source software licensed under the [MIT license](https://tldrlegal.com/license/mit-license), so all contributions are welcome. Please read the [TODO](TODO.md) document and visit [the Issues page](https://github.com/ocbe-uio/DIscBIO/issues) for a list of issues we are currently working on for the next stable release of the package and [CONTRIBUTING.md](CONTRIBUTING.md) for some guidelines on how to contribute to the package.
 
 # Citation
 
@@ -89,7 +123,7 @@ A BibTeX entry for LaTeX users is
 Transcriptomics},
     author = {Salim Ghannoum and Alvaro Köhn-Luque and Waldir Leoncio},
     year = {2020},
-    note = {R package version 1.0.0},
+    note = {R package version 1.0.1}, # please check the actual version you used
     url = {https://CRAN.R-project.org/package=DIscBIO},
   }
 ```

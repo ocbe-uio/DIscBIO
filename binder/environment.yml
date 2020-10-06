@@ -1,0 +1,45 @@
+channels:
+  - conda-forge
+  - bioconda
+dependencies:
+  - r-base 4.0.*
+  - r-irkernel
+  - r-biocmanager
+
+  # copy biocmanager install from README
+  - bioconductor-SingleCellExperiment
+  - bioconductor-tscan
+  - r-boot
+  - r-httr
+  - r-mclust
+
+  - r-statmod
+  - r-igraph
+  - r-rweka
+  # - r-philentropy not on conda-forge or bioconda
+  # - r-netindices
+  - r-png
+
+  # r-grdevices not on conda
+  - r-readr
+  - r-rcolorbrewer
+  - r-ggplot2
+  - r-rpart
+  - r-fpc
+
+  - r-cluster
+  - r-rpart.plot
+  - r-tsne
+  - bioconductor-annotationdbi
+  - bioconductor-org.hs.eg.db
+
+  # graphics, stats, utils are part of core
+  - bioconductor-impute
+  - r-enrichr
+
+  # additional unlisted dependencies
+  - r-partykit
+
+  # additional dependencies for packages not found on conda
+  - r-dplyr
+  - bioconductor-biocversion

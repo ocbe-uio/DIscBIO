@@ -26,9 +26,6 @@ Jaccard <- function(
     JACCARD <- c()
 
     # Validation
-    if (length(object@kmeans$kpart) == 0) {
-        stop("run Clustexp before Jaccard")
-    }
     if (!(Clustering %in% c("K-means", "MB"))) {
         stop("Clustering has to be either K-means or MB")
     }

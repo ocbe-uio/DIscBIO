@@ -98,8 +98,9 @@ setMethod(
             outdistquant = outdistquant
         )
         ### calibrate background model
-        m <- log2(apply(object@fdata, 1, mean))
-        v <- log2(apply(object@fdata, 1, var))
+	EXP<-object@expdata + 0.1
+        m <- log2(apply(EXP, 1, mean))
+        v <- log2(apply(EXP, 1, var))
         f <- m > -Inf & v > -Inf
         m <- m[f]
         v <- v[f]
@@ -259,7 +260,7 @@ setMethod(
                         y,
                         ylim = c(0, max(-log10(
                             x + 2.2e-16
-                        )) * 1.1),
+                        )) * 2.1),
                         col = fcol[i],
                         border = fcol[i],
                         names.arg = FALSE,

@@ -55,7 +55,11 @@ setMethod(
         FinalOrder <- orderTable[match(sampleNames, orderTable$orderID), ]
         out_order <- FinalOrder[, 1]
         names(out_order) <- names(Names)
-        object@kordering <- out_order
+        if (ran_k) {
+            object@kordering <- out_order
+        } else if (ran_m) {
+            object@MBordering <- out_order
+        }
         return(object)
     }
 )

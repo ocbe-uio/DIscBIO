@@ -41,7 +41,8 @@ setMethod(
         # ======================================================================
         # Plotting
         # ======================================================================
-        l <- apply(object@ndata[g, ] - .1, 2, sum) + .1
+        logObj <- log(object@ndata)
+        l <- apply(logObj[g, ] - .1, 2, sum) + .1
         mi <- min(l, na.rm = TRUE)
         ma <- max(l, na.rm = TRUE)
         ColorRamp <- colorRampPalette(
@@ -61,7 +62,7 @@ setMethod(
         opar <- par(mar = c(3, 5, 2.5, 2))
         on.exit(par(opar))
         plot(
-            object@tsne,
+            x,
             xlab = "Dim 1",
             ylab = "Dim 2",
             main = n,

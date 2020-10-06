@@ -57,7 +57,6 @@ setMethod(
 			object@distances <- as.matrix(y$di)
     		part <- object@MBclusters$clusterid
 		}
-        part <- object@kmeans$kpart
         na <- c()
         j <- 0
         for (i in 1:max(part)) {

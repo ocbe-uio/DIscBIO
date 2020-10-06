@@ -30,6 +30,7 @@ setMethod(
         # Plotting
         # ======================================================================
         col <- c("black", "blue", "green", "red", "yellow", "gray")
+	LEN<-length(levels(factor(part)))
         plot(
             x,
             las = 1,
@@ -39,7 +40,7 @@ setMethod(
             cex = 1.5,
             col = "lightgrey"
         )
-        for (i in seq_len(part)) {
+        for (i in seq_len(LEN)) {
             if (sum(part == i) > 0) {
                 text(
                     x[part == i, 1],

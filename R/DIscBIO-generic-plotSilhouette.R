@@ -26,11 +26,16 @@ setMethod(
         # Validation
         # ======================================================================
         ran_clustexp <- length(object@kmeans$kpart) > 0
-        ran_exprmclust <- length(object@MBclusters$clusterid) > 0
+        ran_exprmclust <- length(object@MBclusters) > 0
         if (ran_clustexp) {
             kpart <- object@kmeans$kpart
+            DIS <- object@distances
         } else if (ran_exprmclust) {
             kpart <- object@MBclusters$clusterid
+            y <- clustfun(object@fdata, clustnr = 3, bootnr = 50,
+                 metric = "pearson", do.gap = TRUE, SE.method = "Tibs2001SEmax",
+                 SE.factor = .25, B.gap = 50, cln = 0, rseed = NULL, quiet = TRUE )
+            DIS <- as.matrix(y$di)
         } else {
             stop("run clustexp or exprmclust before plotSilhouette")
         }
@@ -41,7 +46,7 @@ setMethod(
         # Plotting
         # ======================================================================
         col <- c("black", "blue", "green", "red", "yellow", "gray")
-        distances <- dist.gen(object@distances)
+        distances <- DIS
         si <- silhouette(kpart, distances)
         plot(si, col = col[1:K])
     }
