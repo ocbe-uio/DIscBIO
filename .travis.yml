@@ -8,6 +8,8 @@ addons:
   apt:
     packages:
       - r-cran-rjava
+script:
+  - R CMD javareconf -e
 r:
   - release
   - devel
