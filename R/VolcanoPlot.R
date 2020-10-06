@@ -59,15 +59,6 @@ VolcanoPlot <- function(object, value = 0.05, name = NULL, fc = 0.5, FS = .4) {
         cex = 2,
         col = "blue"
     ))
-#    with(sigFC,
-#        text(
-#            abs(sigFC[, 7]),
-#            -log10(sigFC[, 8]),
-#            labs = sigFC[, 2],
-#            cex = FS,
-#            col = "blue"
-#        )
-#    )
     add_legend(
         "topleft",
         legend = c(

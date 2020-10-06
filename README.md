@@ -25,11 +25,22 @@ install.packages("DIscBIO")
 
 from any interactive R session.
 
-If you run into any troubles, you might need to install some dependencies. In that case, try the following:
+If you run into any troubles, you might need to install some dependencies. Several DIscBIO dependencies are not available on CRAN, but on Bioconductor, so if
 
 ```r
 install.packages("DIscBIO", dependencies=TRUE)
 ```
+
+still doesn't solve the issue, try the following:
+
+```r
+install.packages("BiocManager")
+BiocManager::install("DIscBIO")
+```
+
+The latter should automatically take care of downloading DIscBIO and its dependencies from the appropriate repository.
+
+Your installation issues might also be related to rJava. Please find our solution to this problem [here](https://github.com/ocbe-uio/DIscBIO/issues/21).
 
 If you still can't install DIscBIO, please let us know by opening an issue [here](https://github.com/ocbe-uio/DIscBIO/issues).
 
@@ -74,15 +85,15 @@ library(DIscBIO)
 A step-by-step tutorial of DIscBIO is under construction as a standalone R vignette. In the meantime, you can use the interactive Jupyter notebook available [here](notebook/DIscBIO-MLS-Notebook.ipynb).
 
 There are two main Binder notebooks; the "DIscBIO-MLS-Binder.ipynb" and "DIscBIO-CTCs-Binder". Due to a memory addressable limit of 2 GB, the "DIscBIO-CTCs-Binder" is divided into 4 sub-notebooks:
-   
+
    DIscBIO-CTCs-Binder-Part1.ipynb
-   
+
    DIscBIO-CTCs-Binder-Part2.ipynb
-   
+
    DIscBIO-CTCs-Binder-Part3.ipynb
-   
+
    DIscBIO-CTCs-Binder-Part4.ipynb
-   
+
 
 In order to use the Binder versions of DIscBIO, just click on the badge below:
 
@@ -112,7 +123,7 @@ A BibTeX entry for LaTeX users is
 Transcriptomics},
     author = {Salim Ghannoum and Alvaro Köhn-Luque and Waldir Leoncio},
     year = {2020},
-    note = {R package version 1.0.0},
+    note = {R package version 1.0.1}, # please check the actual version you used
     url = {https://CRAN.R-project.org/package=DIscBIO},
   }
 ```
