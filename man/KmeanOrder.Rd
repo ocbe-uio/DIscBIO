@@ -36,3 +36,8 @@ This function takes the exact output of exprmclust function and
   construct Pseudo-time ordering by mapping all cells onto the path that
   connects cluster centers.
 }
+\note{
+This function has been replaced by pseudoTimeOrdering(), but it is
+  being kept for legacy purposes. It will, however, be removed from future
+  versions of DIscBIO.
+}

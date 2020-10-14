@@ -35,7 +35,7 @@ Description: An open, multi-algorithmic pipeline for easy, fast and efficient
 	differential expressed genes and biomarker identification. This package
 	implements extensions of the work published by Ghannoum et. al. (2019)
 	<doi:10.1101/700989>.
-License: MIT + file LICENSE
+License: LGPL-3 + file LICENSE
 Encoding: UTF-8
 Imports: methods, TSCAN, boot, httr, mclust, statmod, igraph,
 	RWeka, philentropy, NetIndices, png, grDevices,
