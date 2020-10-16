@@ -40,6 +40,10 @@ dependencies:
   # additional unlisted dependencies
   - r-partykit
 
+  # latest additions
+  - bioconductor-summarizedexperiment
+  - bioconductor-multiassayexperiment
+
   # additional dependencies for packages not found on conda
   - r-dplyr
   - bioconductor-biocversion
