@@ -2,6 +2,11 @@ channels:
   - conda-forge
   - bioconda
 dependencies:
+  # specify minimum compilers
+  # not sure why 7.3 is getting installed
+  - gcc_impl_linux-64 >=7.5
+  - gxx_impl_linux-64 >=7.5
+
   - r-base 4.0.*
   - r-irkernel
   - r-biocmanager
