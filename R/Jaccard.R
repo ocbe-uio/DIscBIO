@@ -44,7 +44,6 @@ Jaccard <- function(
     } else if (Clustering == "MB") {
         target_col <- object@MBclusters$clusterid
     }
-    # TODO: replace with in-house code to eliminate boot package dependency
     results <- boot(
         data      = object@fdata[, which(target_col == i)],
         statistic = JS,

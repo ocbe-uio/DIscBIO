@@ -22,7 +22,6 @@ setMethod(
     "KmeanOrder",
     signature = "DISCBIO",
     definition = function(object, quiet, export, filename) {
-        # TODO: update Notebook not to depend on pseudoTimeOrdering instead
         warning(
             "KmeanOrder() has been replaced with pseudoTimeOrdering(), ",
             "which performs pseudo-time ordering for both k-means ",
