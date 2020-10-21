@@ -59,7 +59,7 @@ Networking <- function(
                 FileName <- tempfile()
             }
             download.file(y, FileName, mode = 'wb')
-             message(
+            message(
                 "\n",
                 "You can see the network with high resolution ",
                 "by clicking on the following link:",
