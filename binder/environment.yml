@@ -39,7 +39,7 @@ dependencies:
   - bioconductor-org.hs.eg.db
 
   # graphics, stats, utils are part of core
-  - bioconductor-impute
+  - bioconductor-impute >=1.62
   - r-enrichr
 
   # additional unlisted dependencies
