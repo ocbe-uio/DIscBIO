@@ -13,6 +13,11 @@ Software for single-cell transcriptomics are abundant, with [scRNAtools](https:/
 The CTCdataset, which is used as input data in the DIscBIO-CTCs-Notebook, contains information from GEO database [GSE51827](https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE51827), which is made available
 here under the [Open Database License (ODbL)](https://opendatacommons.org/licenses/odbl/1-0/).
 
+The CONQUER dataset, which is used as input data in the DIscBIO-CONQUER Notebook, contains information from GEO database [GSE41265](https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE41265), which is made available
+here under the [Open Database License (ODbL)](https://opendatacommons.org/licenses/odbl/1-0/).
+The conquer repository is available at http://imlspenticton.uzh.ch:3838/conquer/.
+
+
 # Installation
 
 ## Stable version
@@ -84,7 +89,9 @@ library(DIscBIO)
 
 A step-by-step tutorial of DIscBIO is under construction as a standalone R vignette. In the meantime, you can use the interactive Jupyter notebook available [here](notebook/DIscBIO-CTCs-Notebook.ipynb).
 
-There are THREE main Binder notebooks; the "DIscBIO-MLS-Binder.ipynb", "DIscBIO-CTCs-Binder" and "DIscBIO-CONQUER Notebook". Due to a memory addressable limit of 2 GB, the "DIscBIO-CTCs-Binder" is divided into 4 sub-notebooks:
+There are THREE main Binder notebooks; the "DIscBIO-MLS-Binder.ipynb", "DIscBIO-CTCs-Binder" and "DIscBIO-CONQUER Notebook". 
+
+Due to a memory addressable limit of 2 GB, the "DIscBIO-CTCs-Binder" is divided into 4 sub-notebooks:
 
    DIscBIO-CTCs-Binder-Part1.ipynb
 
