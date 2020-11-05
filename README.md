@@ -89,7 +89,7 @@ library(DIscBIO)
 
 A step-by-step tutorial of DIscBIO is under construction as a standalone R vignette. In the meantime, you can use the interactive Jupyter notebook available [here](notebook/DIscBIO-CTCs-Notebook.ipynb).
 
-There are THREE main Binder notebooks; the "DIscBIO-MLS-Binder.ipynb", "DIscBIO-CTCs-Binder" and "DIscBIO-CONQUER Notebook".
+There are THREE main Binder notebooks; the [DIscBIO-MLS-Binder.Binder](notebook/DIscBIO-MLS-Binder.ipynb), [DIscBIO-CTCs-Binder](notebook/DIscBIO-CTCs-Notebook.ipynb) and "DIscBIO-CONQUER-Binder".
 
 Due to a memory addressable limit of 2 GB, the "DIscBIO-CTCs-Binder" is divided into 4 sub-notebooks:
 
