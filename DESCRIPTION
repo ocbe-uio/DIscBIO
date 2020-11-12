@@ -1,7 +1,7 @@
 Package: DIscBIO
 Date: 2020-10-06
 Title: A User-Friendly Pipeline for Biomarker Discovery in Single-Cell Transcriptomics
-Version: 1.0.1.9001
+Version: 1.0.1.9002
 Authors@R:
 	c(
 		person(
@@ -87,8 +87,5 @@ Collate:
     'VolcanoPlot.R'
     'customConverters.R'
     'datasets.R'
+    'internal-functions-samr-adapted.R'
     'internal-functions.R'
-    'prepExampleDataset.R'
-    'reformatSiggenes.R'
-    'replaceDecimals.R'
-    'samr-adapted.R'
