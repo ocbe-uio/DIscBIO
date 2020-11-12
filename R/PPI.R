@@ -8,6 +8,7 @@
 #' @param species The taxonomy name/id. Default is "9606" for Homo sapiens.
 #' @importFrom httr content
 #' @importFrom readr read_tsv
+#' @importFrom utils read.table write.table
 #' @return Either a TSV file stored in the user's file system and its
 #' corresponding `data.frame` object in R or and R object containing that
 #' information.
