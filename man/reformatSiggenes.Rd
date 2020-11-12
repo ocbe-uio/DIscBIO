@@ -15,3 +15,6 @@ Reformats the Siggenes table output from the SAMR package
 \seealso{
 replaceDecimals
 }
+\author{
+Waldir Leoncio
+}
