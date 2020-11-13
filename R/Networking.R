@@ -10,7 +10,6 @@
 #' @param plot_width Plot width
 #' @param plot_height Plot height
 #' @param retries maximum number of attempts to connect to the STRING api.
-#' @importFrom httr GET status_code
 #' @importFrom utils download.file
 #' @importFrom png readPNG
 #' @importFrom graphics plot rasterImage
@@ -32,40 +31,7 @@ Networking <- function(
 	# ======================================================== #
 	# Processing                                               #
 	# ======================================================== #
-	string_api_url <- "https://string-db.org/api/"
-	output_format <- "highres_image"
-	method <- "network"
-	your_identifiers <- ""
-	optional_parameters <- ""
-
-	# Constructing API request ------------------------------- #
-	genes <- data
-	url <- paste0(
-		string_api_url, output_format, '/', method, '?identifiers=',
-		paste(as.character(data), collapse = "%0d"), "&species=",
-		species
-	)
-
-	# Retrieving URL ----------------------------------------- #
-	message("Retrieving URL. Please wait...")
-	repos <- GET(url)
-	failedGET <- status_code(repos) != 200
-	r <- 1
-	while (failedGET & (r <= retries)) {
-		message("Failed retrieval. Retry ", r, " out of ", retries, ".")
-		repos <- GET(url)
-		failedGET <- status_code(repos) != 200
-		r <- r + 1
-	}
-	if (failedGET) {
-		stop(
-			"Unable to retrieve URL. Please check the parameters ",
-			"passed to the Networking() function, increase the ",
-			"'retries' parameter or try again later."
-		)
-	} else {
-		message("Successful retrieval.")
-	}
+	repos <- retrieveURL(data, species, "highres_image")
 	y <- repos$request$url
 	if (!is.null(FileName)) {
 		FileName <- paste0("network", FileName, ".png")
