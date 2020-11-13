@@ -12,13 +12,13 @@
 #' corresponding `data.frame` object in R or and R object containing that
 #' information.
 PPI <- function(data, FileName = NULL, species = "9606") {
-    repos <- retrieveURL(data, species, "tsv")
-    # Process API request content
-    repo_content <- content(repos)
-    write.table(repo_content, file = "data.csv", sep = ",")
-    results <- read.table(file = "data.csv", sep = ",")
-    if (!is.null(FileName)) {
-        write.csv(results, file = paste0("PPI-", FileName, ".csv"))
-    }
-    return(results)
+	repos <- retrieveURL(data, species, "tsv")
+	# Process API request content
+	repo_content <- content(repos)
+	write.table(repo_content, file = "data.csv", sep = ",")
+	results <- read.table(file = "data.csv", sep = ",")
+	if (!is.null(FileName)) {
+		write.csv(results, file = paste0("PPI-", FileName, ".csv"))
+	}
+	return(results)
 }
