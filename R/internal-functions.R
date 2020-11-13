@@ -368,6 +368,10 @@ prepExampleDataset <- function(dataset, save=TRUE) {
 
 #' @title Retries a URL
 #' @description Retries a URL
+#' @param data A gene list
+#' @param species The taxonomy name/id. Default is "9606" for Homo sapiens
+#' @param outputFormat format of the output. Can be "highres_image", "tsv",
+#' "json", "tsv-no-header", "xml"
 #' @param maxRetries maximum number of attempts to connect to the STRING api.
 #' @param successCode Status code number that represents success
 #' @return either the output of httr::GET or an error message

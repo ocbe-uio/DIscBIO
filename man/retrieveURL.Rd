@@ -7,6 +7,13 @@
 retrieveURL(data, species, outputFormat, maxRetries = 3, successCode = 200)
 }
 \arguments{
+\item{data}{A gene list}
+
+\item{species}{The taxonomy name/id. Default is "9606" for Homo sapiens}
+
+\item{outputFormat}{format of the output. Can be "highres_image", "tsv",
+"json", "tsv-no-header", "xml"}
+
 \item{maxRetries}{maximum number of attempts to connect to the STRING api.}
 
 \item{successCode}{Status code number that represents success}
