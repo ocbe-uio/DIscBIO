@@ -380,10 +380,9 @@ retrieveURL <- function(
 	# Setting up retrieval                                     #
 	# ======================================================== #
 	string_api_url <- "https://string-db.org/api/"
-	output_format <- "highres_image"
 	method <- "network"
 	url <- paste0(
-		string_api_url, output_format, '/', method, '?identifiers=',
+		string_api_url, outputFormat, '/', method, '?identifiers=',
 		paste(as.character(data), collapse = "%0d"), "&species=",
 		species
 	)
