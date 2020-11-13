@@ -6,7 +6,7 @@ A user-friendly pipeline for biomarker discovery in single-cell transcriptomics.
 
 ![DIscBIO](DIscBIOlogo.png)
 
-This is an R package based on the software available at https://github.com/SystemsBiologist/PSCAN.
+DIscBIO is an R package based on the software available at https://github.com/SystemsBiologist/PSCAN.
 
 Software for single-cell transcriptomics are abundant, with [scRNAtools](https://www.scrna-tools.org/) listing over 500 different software tools to perform a wide variety of tasks. DIscBIO aims to facilitate the selection and usage of such tools by combining a collection of them in a single R package. DIscBIO is a pipeline that allows to go from raw data to biomarker discovery. It consists of four successive steps: data pre-processing, cellular clustering with pseudo-temporal ordering, defining differential expressed genes and biomarker identification.
 
@@ -108,28 +108,17 @@ DIscBIO is Open Source software licensed under the [MIT license](https://tldrleg
 
 # Citation
 
+## R package
+
 In order to cite the DIscBIO R package, install and load the package as instructed above. Then, run
 
-```R
+```r
 citation("DIscBIO")
 ```
 
-in R and you should get a pure text and a BibTeX entry similar to the one below (please prefer the output you see in your R session to the one below, as the former will reflect the latest version of the package code and documentation):
+## DIscBIO universe
 
-```
-
-
-A BibTeX entry for LaTeX users is
-
-  @Manual{,
-    title = {DIscBIO: A User-Friendly Pipeline for Biomarker Discovery in Single-Cell
-Transcriptomics},
-    author = {Salim Ghannoum and Alvaro Köhn-Luque and Waldir Leoncio},
-    year = {2020},
-    note = {R package version 1.0.1}, # please check the actual version you used
-    url = {https://CRAN.R-project.org/package=DIscBIO},
-  }
-```
+The DIscBIO universe is comprised of the R package and the aforementioned Binder notebook. The GitHub repository contains the source code for this universe. Proper citation of it can be found [here](https://zenodo.org/badge/latestdoi/225632936).
 
 # Reference
 
