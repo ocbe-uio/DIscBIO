@@ -15,8 +15,7 @@ PPI <- function(data, FileName = NULL, species = "9606") {
 	repos <- retrieveURL(data, species, "tsv")
 	# Process API request content
 	repo_content <- content(repos)
-	write.table(repo_content, file = "data.csv", sep = ",") # FIXME: handle internally!
-	results <- read.table(file = "data.csv", sep = ",") # FIXME: handle internally!
+	results <- data.frame(repo_content[, , 1])
 	if (!is.null(FileName)) {
 		write.csv(results, file = paste0("PPI-", FileName, ".csv"))
 	}
