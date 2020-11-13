@@ -1,5 +1,6 @@
 #' @title Plotting the network.
-#' @description This function uses STRING-api to plot the network.
+#' @description This function uses STRING API to plot the network.
+#' @references https://string-db.org/api/
 #' @export
 #' @param data A gene list.
 #' @param FileName A string vector showing the name to be used to save the
@@ -8,6 +9,7 @@
 #' @param species The taxonomy name/id. Default is "9606" for Homo sapiens.
 #' @param plot_width Plot width
 #' @param plot_height Plot height
+#' @param retries maximum number of attempts to connect to the STRING api.
 #' @importFrom httr GET status_code
 #' @importFrom utils download.file
 #' @importFrom png readPNG
@@ -18,7 +20,8 @@ Networking <- function(
 	FileName    = NULL,
 	species     = "9606",
 	plot_width  = 25,
-	plot_height = 15
+	plot_height = 15,
+	retries     = 3
 ) {
 
 	# ======================================================== #
@@ -37,25 +40,32 @@ Networking <- function(
 
 	# Constructing API request ------------------------------- #
 	genes <- data
-	repos <- GET(
-		url = paste0(
-			string_api_url,
-			output_format,
-			'/',
-			method,
-			'?identifiers=',
-			paste(as.character(data), collapse = "%0d"),
-			"&",
-			"species=",
-			species
+	url <- paste0(
+		string_api_url, output_format, '/', method, '?identifiers=',
+		paste(as.character(data), collapse = "%0d"), "&species=",
+		species
+	)
+
+	# Retrieving URL ----------------------------------------- #
+	message("Retrieving URL. Please wait...")
+	repos <- GET(url)
+	failedGET <- status_code(repos) != 200
+	r <- 1
+	while (failedGET & (r <= retries)) {
+		message("Failed retrieval. Retry ", r, " out of ", retries, ".")
+		repos <- GET(url)
+		failedGET <- status_code(repos) != 200
+		r <- r + 1
+	}
+	if (failedGET) {
+		stop(
+			"Unable to retrieve URL. Please check the parameters ",
+			"passed to the Networking() function, increase the ",
+			"'retries' parameter or try again later."
 		)
-	)
-	message(
-		"Examine response components =",
-		status_code(repos),
-		"\t",
-		"(200 means successful)"
-	)
+	} else {
+		message("Successful retrieval.")
+	}
 	y <- repos$request$url
 	if (!is.null(FileName)) {
 		FileName <- paste0("network", FileName, ".png")
