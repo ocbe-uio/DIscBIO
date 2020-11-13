@@ -72,7 +72,7 @@ BiocManager::install(
     c(
         "SingleCellExperimentmethods", "TSCAN", "boot", "httr", "mclust",
         "statmod", "igraph", "RWeka", "philentropy", "NetIndices", "png",
-        "grDevices", "readr", "RColorBrewer", "ggplot2", "rpart", "fpc",
+        "grDevices", "RColorBrewer", "ggplot2", "rpart", "fpc",
         "cluster", "rpart.plot", "tsne", "AnnotationDbi", "org.Hs.eg.db",
         "graphics", "stats", "utils", "impute", "enrichR"
     )
