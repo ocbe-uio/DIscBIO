@@ -1,4 +1,5 @@
 # This script contains customized versions of functions found in the samr package. This is necessary because samr seems to have been abandoned, so an upstream collaboration doesn't seem possible at the time of writing.
+# ATTENTION: The source code in this file is licensed under LGPL-3.
 
 # ==============================================================================
 # Constants
