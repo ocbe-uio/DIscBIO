@@ -2,6 +2,11 @@ channels:
   - conda-forge
   - bioconda
 dependencies:
+  # specify minimum compilers
+  # not sure why 7.3 is getting installed
+  - gcc_impl_linux-64 >=7.5
+  - gxx_impl_linux-64 >=7.5
+
   - r-base 4.0.*
   - r-irkernel
   - r-biocmanager
@@ -34,11 +39,15 @@ dependencies:
   - bioconductor-org.hs.eg.db
 
   # graphics, stats, utils are part of core
-  - bioconductor-impute
+  - bioconductor-impute >=1.62
   - r-enrichr
 
   # additional unlisted dependencies
   - r-partykit
+
+  # latest additions
+  - bioconductor-summarizedexperiment
+  - bioconductor-multiassayexperiment
 
   # additional dependencies for packages not found on conda
   - r-dplyr

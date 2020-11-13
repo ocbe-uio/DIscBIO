@@ -59,6 +59,13 @@ Networking <- function(
                 FileName <- tempfile()
             }
             download.file(y, FileName, mode = 'wb')
+            message(
+                "\n",
+                "You can see the network with high resolution ",
+                "by clicking on the following link:",
+                "\n",
+                paste0(y)
+            )
             Network <- readPNG(FileName, native=TRUE)
             set_plot_dimensions <-
                 function(width_choice, height_choice) {
@@ -72,13 +79,6 @@ Networking <- function(
 
             plot(0:1, 0:1, type = "n", ann = FALSE, axes = FALSE)
             rasterImage(Network, 0, 0, 1, 1)
-            message(
-                "\n",
-                "You can see the network with high resolution ",
-                "by clicking on the following link:",
-                "\n",
-                paste0(y)
-            )
             set_plot_dimensions(8, 8) # resets to default values
         }
     }

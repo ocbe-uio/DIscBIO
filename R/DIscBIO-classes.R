@@ -154,9 +154,9 @@ setMethod(
         tmpFeats <- rownames(.Object@expdataAll)
         tmpExpdataAll <- .Object@expdataAll
 
-        shortNames <- substr(rownames(tmpExpdataAll), 1, 4)
+        shortNames <- substr(rownames(tmpExpdataAll), 1, 3)
         geneTypes <- factor(
-            c(ENSG = "ENSG", ERCC = "ERCM", ENSG = "ENSM")[shortNames]
+            c(ENS = "ENS", ERC = "ERC")[shortNames]
         )
         expdata <- tmpExpdataAll[which(grepl("^ENS", geneTypes)), ]
         .Object@expdata <- expdata

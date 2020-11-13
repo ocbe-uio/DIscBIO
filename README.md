@@ -1,4 +1,4 @@
-![Current CRAN release](https://www.r-pkg.org/badges/version/DIscBIO) [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/ocbe-uio/DIscBIO/dev?filepath=notebook) [![Build Status](https://travis-ci.org/ocbe-uio/DIscBIO.svg?branch=dev)](https://travis-ci.org/ocbe-uio/DIscBIO) [![DOI](https://zenodo.org/badge/225632936.svg)](https://zenodo.org/badge/latestdoi/225632936)
+[![Current CRAN release](https://www.r-pkg.org/badges/version/DIscBIO)](https://cran.r-project.org/package=DIscBIO) [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/ocbe-uio/DIscBIO/dev?filepath=notebook) [![Build Status](https://travis-ci.org/ocbe-uio/DIscBIO.svg?branch=dev)](https://travis-ci.org/ocbe-uio/DIscBIO) [![DOI](https://zenodo.org/badge/225632936.svg)](https://zenodo.org/badge/latestdoi/225632936)
 
 # DIscBIO
 
@@ -12,6 +12,11 @@ Software for single-cell transcriptomics are abundant, with [scRNAtools](https:/
 
 The CTCdataset, which is used as input data in the DIscBIO-CTCs-Notebook, contains information from GEO database [GSE51827](https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE51827), which is made available
 here under the [Open Database License (ODbL)](https://opendatacommons.org/licenses/odbl/1-0/).
+
+The CONQUER dataset, which is used as input data in the DIscBIO-CONQUER Notebook, contains information from GEO database [GSE41265](https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE41265), which is made available
+here under the [Open Database License (ODbL)](https://opendatacommons.org/licenses/odbl/1-0/).
+The conquer repository is available at http://imlspenticton.uzh.ch:3838/conquer/.
+
 
 # Installation
 
@@ -82,18 +87,16 @@ After installing DIscBIO, you can load it into an R session by running the follo
 library(DIscBIO)
 ```
 
-A step-by-step tutorial of DIscBIO is under construction as a standalone R vignette. In the meantime, you can use the interactive Jupyter notebook available [here](notebook/DIscBIO-MLS-Notebook.ipynb).
+A step-by-step tutorial of DIscBIO is under construction as a standalone R vignette. In the meantime, you can use the interactive Jupyter notebook available here:
 
-There are two main Binder notebooks; the "DIscBIO-MLS-Binder.ipynb" and "DIscBIO-CTCs-Binder". Due to a memory addressable limit of 2 GB, the "DIscBIO-CTCs-Binder" is divided into 4 sub-notebooks:
+There are THREE main Binder notebooks; the [DIscBIO-MLS-Binder](notebook/DIscBIO-MLS-Binder.ipynb), [DIscBIO-CTCs-Notebook](notebook/DIscBIO-CTCs-Notebook.ipynb) and [DIscBIO-CONQUER-Binder](notebook/DIscBIO-CONQUER-Binder.ipynb)".
 
-   DIscBIO-CTCs-Binder-Part1.ipynb
+Due to Binder memory addressable limit of 2 GB, the [DIscBIO-CTCs-Notebook](notebook/DIscBIO-CTCs-Notebook.ipynb) is divided into 4 sub-notebooks:
 
-   DIscBIO-CTCs-Binder-Part2.ipynb
-
-   DIscBIO-CTCs-Binder-Part3.ipynb
-
-   DIscBIO-CTCs-Binder-Part4.ipynb
-
+- [DIscBIO-CTCs-Binder-Part1.ipynb](https://nbviewer.jupyter.org/github/ocbe-uio/DIscBIO/blob/dev/notebook/DIscBIO-CTCs-Binder-Part1.ipynb)
+- [DIscBIO-CTCs-Binder-Part2.ipynb](https://nbviewer.jupyter.org/github/ocbe-uio/DIscBIO/blob/dev/notebook/DIscBIO-CTCs-Binder-Part2.ipynb)
+- [DIscBIO-CTCs-Binder-Part3.ipynb](https://nbviewer.jupyter.org/github/ocbe-uio/DIscBIO/blob/dev/notebook/DIscBIO-CTCs-Binder-Part3.ipynb)
+- [DIscBIO-CTCs-Binder-Part4.ipynb](https://nbviewer.jupyter.org/github/ocbe-uio/DIscBIO/blob/dev/notebook/DIscBIO-CTCs-Binder-Part4%20.ipynb)
 
 In order to use the Binder versions of DIscBIO, just click on the badge below:
 
@@ -101,7 +104,7 @@ In order to use the Binder versions of DIscBIO, just click on the badge below:
 
 # Development
 
-DIscBIO is Open Source software licensed under the [MIT license](https://tldrlegal.com/license/mit-license), so all contributions are welcome. Please read the [TODO](TODO.md) document and visit [the Issues page](https://github.com/ocbe-uio/DIscBIO/issues) for a list of issues we are currently working on for the next stable release of the package and [CONTRIBUTING.md](CONTRIBUTING.md) for some guidelines on how to contribute to the package.
+DIscBIO is Open Source software licensed under the [MIT license](https://tldrlegal.com/license/mit-license), so all contributions are welcome. Please visit [the Issues page](https://github.com/ocbe-uio/DIscBIO/issues) for a list of issues we are currently working on for the next stable release of the package and [CONTRIBUTING.md](CONTRIBUTING.md) for some guidelines on how to contribute to the package.
 
 # Citation
 

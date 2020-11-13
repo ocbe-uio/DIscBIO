@@ -8,6 +8,7 @@
 #' @param species The taxonomy name/id. Default is "9606" for Homo sapiens.
 #' @importFrom httr content
 #' @importFrom readr read_tsv
+#' @importFrom utils read.table write.table
 #' @return Either a TSV file stored in the user's file system and its
 #' corresponding `data.frame` object in R or and R object containing that
 #' information.
@@ -39,7 +40,9 @@ PPI <- function(data, FileName = NULL, species = "9606") {
     )
     # Process API request content
     repo_content <- content(repos)
-    results <- read_tsv(repo_content)
+    #results <- read_tsv(repo_content)
+    write.table(repo_content, file = "data.csv", sep = ",")
+    results <- read.table(file = "data.csv", sep = ",")
     if (!is.null(FileName)) {
         write.csv(results, file = paste0("PPI-", FileName, ".csv"))
     }
