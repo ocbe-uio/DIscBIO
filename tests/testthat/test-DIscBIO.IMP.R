@@ -74,7 +74,7 @@ Outliers <- FindOutliers(
     sc, K=2, outminc=5, outlg=2, probthr=.5*1e-3, thr=2 ^ (-1:-40),
     outdistquant=.75, plot = FALSE, quiet = TRUE
 )
-Order <- KmeanOrder(sc, quiet = TRUE, export = FALSE)
+Order <- pseudoTimeOrdering(sc, quiet = TRUE, export = FALSE)
 
 test_that("Outliers are the expected", {
     expect_equivalent(Outliers, c(3, 10, 13))
