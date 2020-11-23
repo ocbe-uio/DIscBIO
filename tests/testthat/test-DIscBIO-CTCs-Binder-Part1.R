@@ -1,73 +1,54 @@
-library(DIscBIO)
+FileName <- "CTCdataset"
+load(paste0("../../notebook/", FileName,".rda"))
+DataSet <- get(FileName)
 
-FileName<-"CTCdataset"        # Name of the dataset
-#CSV=TRUE                     # If the dataset has ".csv", the user shoud set CSV to TRUE
-CSV=FALSE                     # If the dataset has ".rda", the user shoud set CSV to FALSE
+context("Data loading and pre-processing")
 
-if (CSV==TRUE){
-    DataSet <- read.csv(file = paste0(FileName,".csv"), sep = ",",header=T)
-    rownames(DataSet)<-DataSet[,1]
-    DataSet<-DataSet[,-1]
-} else{
-    load(paste0(FileName,".rda"))
-    DataSet<-get(FileName)
-}
-cat(paste0("The ", FileName," contains:","\n","Genes: ",length(DataSet[,1]),"\n","cells: ",length(DataSet[1,]),"\n"))
+test_that("Loading CTC dataset", {
+	expect_equal(length(DataSet[, 1]), 13181)
+	expect_equal(length(DataSet[1,]), 1462)
+})
 
-sc<- DISCBIO(DataSet)       # The DISCBIO class is the central object storing all information generated throughout the pipeline 
+sc <- DISCBIO(DataSet)
+S1 <- summary(colSums(DataSet, na.rm=TRUE))
+S2 <- summary(rowMeans(DataSet,na.rm=TRUE))
+minexpr <- S2[3]
+minnumber <- round(length(DataSet[1, ]) / 10)
 
-# Estimating a value for the "mintotal" parameters
-# As a common practice, mintotal is set to 1000
-S1<-summary(colSums(DataSet,na.rm=TRUE))            # It gives an idea about the number of reads across cells
-print(S1) 
+test_that("Handling datasets", {
+	expect_true(is(sc, "DISCBIO"))
+	expect_output(
+		str(S1), " 'summaryDefault' Named num"
+	)
+	expect_equal(minnumber, 146)
+})
 
-# Estimating a value for the "minexpr" parameter
-S2<-summary(rowMeans(DataSet,na.rm=TRUE))            # It gives an idea about the overall expression of the genes
-print(S2)                                                 
-minexpr= S2[3]                                       # S2[3] is referring to the median whereas S2[4] is referring to the mean
+sc <- Normalizedata(sc, minexpr=minexpr, minnumber=minnumber, rseed=17000)
+sc <- suppressMessages(FinalPreprocessing(sc, GeneFlitering="ExpF"))
 
-# Estimating a value for the "minnumber" parameters
-minnumber= round(length(DataSet[1,])/10)                             # To be expressed in at 10% of the cells.
-print(minnumber)
+load("../../notebook/SC.RData")
+load("../../notebook/Ndata.RData")
+load("../../notebook/expdata.RData")
+sc <- SC
+sc@ndata <- Ndata
+sc@expdata <- expdata
 
-sc<-Normalizedata(sc, mintotal=1000, minexpr=minexpr, minnumber=minnumber, maxexpr=Inf, downsample=FALSE, dsn=1, rseed=17000) 
-sc<-FinalPreprocessing(sc,GeneFlitering="ExpF",export = TRUE)        # The GeneFiltering should be set to "ExpF"
-
-load("SC.RData")           # Loading the "SC" object that has include the data of the k-means clustering 
-load("Ndata.RData")        # Loading the "Ndata" object and stored in the @ndata will be used to plot the expression of genes 
-load("expdata.RData")      # Loading the "expdata" object and stored in the @expdata will be used to plot the expression of genes 
-sc<-SC                     # Storing the data of SC in the sc 
-sc@ndata<-Ndata
-sc@expdata<-expdata
-
-########## Removing the unneeded objects
+# Removing the unneeded objects
 rm(Ndata)
 rm(expdata)
 rm(DataSet)
 rm(SC)
-                                                    
-#sc<- Clustexp(sc,cln=4,quiet=T,clustnr=6,rseed=17000)    
-plotGap(sc)                                               ### Plotting gap statistics
 
-outlg<-round(length(sc@fdata[,1]) * 0.05)     # The cell will be considered as an outlier if it has a minimum of 5% of the number of filtered genes as outlier genes.
-Outliers<- FindOutliers(sc, K=4, outminc=5,outlg=outlg,plot = TRUE, quiet = FALSE)
+sc <- Clustexp(sc, 4, quiet=TRUE, rseed=17000)
+outlg <- round(length(sc@fdata[,1]) * 0.05)
+Outliers <- FindOutliers(sc, 4, outlg=outlg, plot=FALSE, quiet=TRUE)
+jcrd <- Jaccard(sc, K=4, plot=FALSE)
+sc <- pseudoTimeOrdering(sc, quiet=TRUE)
 
-# Silhouette plot
-options(repr.plot.width=12, repr.plot.height=25)
-plotSilhouette(sc,K=4)       # K is the number of clusters
-
-# Jaccard Plot
-options(repr.plot.width=10, repr.plot.height=12)
-Jaccard(sc,Clustering="K-means", K=4, plot = TRUE)     # Jaccard 
-
-############ Plotting the clusters
-plottSNE(sc)
-
-sc<-pseudoTimeOrdering(sc,quiet = TRUE, export = FALSE)
-plotOrderTsne(sc)
-
-g='ENSG00000104413'                   #### Plotting the log expression of  ESRP1
-plotExptSNE(sc,g)
-
-g='ENSG00000251562'                   #### Plotting the log expression of  MALAT1
-plotExptSNE(sc,g)
+test_that("Post-processing", {
+	expect_equivalent(jcrd, c(.426, .648, .323, .602))
+	expect_output(
+		object = str(sc, max.level=1),
+		expected = 'Formal class \'DISCBIO\' [package "DIscBIO"] with 21 slots'
+	)
+})
