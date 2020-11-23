@@ -1,90 +1,112 @@
-library(DIscBIO)
-library(partykit)
-library(enrichR)
+# ======================================================== #
+# Loading and rearranging files                            #
+# ======================================================== #
 
-load("SC.RData")           # Loading the "SC" object that has include the data of the k-means clustering 
-load("Ndata.RData")        # Loading the "Ndata" object and stored in the @ndata will be used to plot the expression of genes 
-load("expdata.RData")      # Loading the "expdata" object and stored in the @expdata will be used to plot the expression of genes 
-sc<-SC                     # Storing the data of SC in the sc 
-sc@ndata<-Ndata
-sc@expdata<-expdata
+load("../../notebook/SC.RData")
+load("../../notebook/Ndata.RData")
+load("../../notebook/expdata.RData")
+load("../../notebook/DATAforDT.RData")
 
-########## Removing the unneeded objects
+sc <- SC
+sc@ndata <- Ndata
+sc@expdata <- expdata
+
 rm(Ndata)
 rm(expdata)
 rm(SC)
-####### differential expression analysis between cluster 1 and cluster 4 using FDR of 0.05
-cdiff<-DEGanalysis2clust(sc,Clustering="K-means",K=4,fdr=0.05,name="Name",First="CL1",Second="CL4",export = TRUE,quiet=T)     
 
-#### To show the result table
-head(cdiff[[1]])                  # The first component 
-head(cdiff[[2]])                  # The second component 
+# ======================================================== #
+# differential expression analysis                         #
+# ======================================================== #
 
-cdiffBinomial<-ClustDiffGenes(sc,K=4,export = T,fdr=.01,quiet=T)    ########## Binomial differential expression analysis
-#### To show the result table
-head(cdiffBinomial[[1]])                  # The first component 
-head(cdiffBinomial[[2]])                  # The second component
+context("Differential expression analysis")
 
-name<-cdiffBinomial[[2]][1,6]    ############ Selecting the DEGs' ############## Down-DEG-cluster1.csv
-U<-read.csv(file=paste0(name),head=TRUE,sep=",")
-Vplot<-VolcanoPlot(U,value=0.0001,name=name,FS=0.7,fc=0.75)
+cdiff <- DEGanalysis2clust(sc, 4, quiet=TRUE, plot=FALSE)
 
-###################### Finding biomarker genes between cluster 1 and cluster 4
-First="CL1"
-Second="CL4"
-load("DATAforDT.RData")
+test_that("DEG analysis between 2 clusters", {
+	expect_equal(
+		object = head(cdiff[[1]])[, 1],
+		expected = c(
+			'ENSG00000008988', 'ENSG00000010278', 'ENSG00000034510',
+			'ENSG00000071082', 'ENSG00000071127', 'ENSG00000075624'
+		)
+	)
+	expect_equal(
+		object = head(cdiff[[1]])[, 2],
+		expected = c('RPS20', 'CD9', 'TMSB10', 'RPL31', 'WDR1', 'ACTB')
+	)
+	expect_equivalent(
+		object = as.character(head(cdiff[[2]])[1, ]),
+		expected = c(
+			'CL1 VS CL2', 'CL2', '106', 'Up-regulated-NameCL2inCL1VSCL2.csv',
+			'82', 'Low-regulated-NameCL2inCL1VSCL2.csv'
+		)
+	)
+	expect_equal(
+		object = as.character(head(cdiff[[2]])[2, ]),
+		expected = c(
+			'CL1 VS CL2', 'CL1', '106', 'Low-regulated-NameCL1inCL1VSCL2.csv',
+			'82', 'Up-regulated-NameCL1inCL1VSCL2.csv'
+		)
+	)
+})
 
-j48dt<-J48DT(DATAforDT)           #J48 Decision Tree
-summary(j48dt) 
-rm(j48dt)
+cdiffBinomial <- ClustDiffGenes(sc, 4, quiet=TRUE)
 
-rpartDT<-RpartDT(DATAforDT)
-rm(rpartDT)
-
-DEGs="All_DEGs"
-FileName=paste0(DEGs)
-
-data<-cdiffBinomial[[1]] [1:200,2]       # DEGs gene list from Binomial analysis (taking only the firat 200 genes)
-
-ppi<-PPI(data,FileName)
-
-networking<-NetAnalysis(ppi)
-networking                            ##### In case the Examine response components = 200 and an error "linkmat[i, ]" appeared, that means there are no PPI.
-
-data=networking[1:25,1]              # plotting the network of the top 25 highly connected genes 
-network<-Networking(data,FileName,plot_width = 25, plot_height = 10)
-
-
-############ Selecting the DEGs' table  ##############
-DEGs=cdiff[[2]][1,4]             # Up-regulated genes in cluster 4 (from SAMseq)
-FileName=paste0(DEGs)
-
-data<-read.csv(file=paste0(DEGs),head=TRUE,sep=",")
-data<-data[,3]
-ppi<-PPI(data,FileName)
-networking<-NetAnalysis(ppi)
-networking                            ##### In case the Examine response components = 200 and an error "linkmat[i, ]" appeared, that means there are no PPI.
-
-data=networking[1:25,1]              # plotting the network of the top 25 highly connected genes 
-network<-Networking(data,FileName,plot_width = 25, plot_height = 10)
-
-dbs <- listEnrichrDbs()
-head(dbs)
-#print(dbs)
-
-############ Selecting the DEGs' table  ##############
-DEGs=cdiff[[2]][1,4]             # Up-regulated genes in cluster 4 (from SAMseq)
-FileName=paste0(DEGs)
-
-data<-read.csv(file=paste0(DEGs),head=TRUE,sep=",")
-data<-as.character(data[,3])
-
-dbs <- c("KEGG_2019_Human","GO_Biological_Process_2015")
-enriched <- enrichr(data, dbs)
-KEGG_2019_Human<-enriched[[1]][,c(1,2,3,9)]
-GO_Biological_Process_2015<-enriched[[2]][,c(1,2,3,9)]
-
-GEA<-rbind(KEGG_2019_Human,GO_Biological_Process_2015)
-GEA
+test_that("Cluster differences", {
+		expect_equal(
+		object = head(cdiffBinomial[[1]])[, 1],
+		expected = c(
+			'ENSG00000001630', 'ENSG00000002586', 'ENSG00000003402',
+			'ENSG00000003436', 'ENSG00000003756', 'ENSG00000004059'
+		)
+	)
+	expect_equal(
+		object = head(cdiffBinomial[[1]])[, 2],
+		expected = c('CYP51A1', 'CD99', 'CFLAR', 'TFPI', 'RBM5', 'ARF5')
+	)
+	expect_equivalent(
+		object = as.character(head(cdiffBinomial[[2]])[1, ]),
+		expected = c(
+			'Cluster 1', 'Remaining Clusters', '1052', 'Up-DEG-cluster1.csv',
+			'678', 'Down-DEG-cluster1.csv'
+		)
+	)
+	expect_equal(
+		object = as.character(head(cdiffBinomial[[2]])[2, ]),
+		expected = c(
+			'Cluster 2', 'Remaining Clusters', '0', 'Up-DEG-cluster2.csv', '1',
+			'Down-DEG-cluster2.csv'
+		)
+	)
+})
 
 
+# ======================================================== #
+# Decision trees                                           #
+# ======================================================== #
+
+context("Decision trees")
+
+j48dt <- J48DT(DATAforDT, plot=FALSE, quiet=TRUE)
+rpartDT <- RpartDT(DATAforDT, plot=FALSE, quiet=TRUE)
+
+test_that("J48 trees", {
+	expect_true(is(summary(j48dt), "Weka_classifier_evaluation"))
+	expect_output(str(rpartDT), "List of 14")
+})
+
+# ======================================================== #
+# Networking                                               #
+# ======================================================== #
+
+context("Networking")
+
+data <- cdiffBinomial[[1]] [1:200,2] # only the firat 200 genes
+ppi <- suppressMessages(PPI(data))
+networking <- suppressMessages(NetAnalysis(ppi))
+
+test_that("Networks", {
+	expect_equal(dim(ppi), c(902, 13))
+	expect_equal(dim(networking), c(174, 3))
+})
