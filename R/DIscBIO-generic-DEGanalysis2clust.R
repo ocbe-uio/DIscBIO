@@ -91,17 +91,19 @@ setMethod(
         x <- L
         data = list(x = x, y = y, geneid = gname)
         if (quiet) {
-            invisible(capture.output({
-                samr.obj <- sammy(
-                    data,
-                    resp.type = "Two class unpaired",
-                    assay.type = "seq",
-                    testStatistic = "wilcoxon",
-                    random.seed = 15,
-                    ...
-                )
-                delta.table <- samr.compute.delta.table(samr.obj)
-            }))
+            suppressMessages(
+                invisible(capture.output({
+                    samr.obj <- sammy(
+                        data,
+                        resp.type = "Two class unpaired",
+                        assay.type = "seq",
+                        testStatistic = "wilcoxon",
+                        random.seed = 15,
+                        ...
+                    )
+                    delta.table <- samr.compute.delta.table(samr.obj)
+                }))
+            )
         } else {
             samr.obj <- sammy(
                 data,
