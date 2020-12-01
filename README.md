@@ -99,7 +99,7 @@ Due to Binder memory addressable limit of 2 GB, the [DIscBIO-CTCs-Notebook](note
 - [DIscBIO-CTCs-Binder-Part2.ipynb](https://nbviewer.jupyter.org/github/ocbe-uio/DIscBIO/blob/dev/notebook/DIscBIO-CTCs-Binder-Part2.ipynb)
 - [DIscBIO-CTCs-Binder-Part3.ipynb](https://nbviewer.jupyter.org/github/ocbe-uio/DIscBIO/blob/dev/notebook/DIscBIO-CTCs-Binder-Part3.ipynb)
 - [DIscBIO-CTCs-Binder-Part4.ipynb](https://nbviewer.jupyter.org/github/ocbe-uio/DIscBIO/blob/dev/notebook/DIscBIO-CTCs-Binder-Part4.ipynb)
-- [DIscBIO-CTCs-Binder-Part5.ipynb](https://github.com/ocbe-uio/DIscBIO/blob/dev/notebook/DIscBIO-CTCs-Binder-Part5.ipynb)
+- [DIscBIO-CTCs-Binder-Part5.ipynb](https://nbviewer.jupyter.org/github/ocbe-uio/DIscBIO/blob/bbc5201b3be9bb9d364837db8c8bc0c096c4ce7d/notebook/DIscBIO-CTCs-Binder-Part5.ipynb)
 
 Using binder for the first time might take about 15 min to load the environment. 
 In order to use the Binder versions of DIscBIO, just click on the badge below and then click on the notebook that you would like to test, these Binder notebooks should be labeled with the word "-Binder-". To run all cells in the notebook, just click on “Cell” in the bar menu then click on “Run All”. 
