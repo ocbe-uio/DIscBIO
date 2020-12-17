@@ -7,7 +7,7 @@ dependencies:
   - gcc_impl_linux-64 >=7.5
   - gxx_impl_linux-64 >=7.5
 
-  - r-base 4.0.*
+  - r-base 4.0.*,>=4.0.3
   - r-irkernel
   - r-biocmanager
 
@@ -39,7 +39,7 @@ dependencies:
   - bioconductor-org.hs.eg.db
 
   # graphics, stats, utils are part of core
-  - bioconductor-impute >=1.62
+  # - bioconductor-impute >=1.62 # impute build isn't compatible with 4.0.3 yet
   - r-enrichr
 
   # additional unlisted dependencies
