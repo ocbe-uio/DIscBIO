@@ -49,6 +49,14 @@ dependencies:
   - bioconductor-summarizedexperiment
   - bioconductor-multiassayexperiment
 
+  - bioconductor-m3drop
+  - r-leiden
+  - r-reticulate
+
+  - leidenalg
+  - numpy
+  - python-igraph
+
   # additional dependencies for packages not found on conda
   - r-dplyr
   - bioconductor-biocversion
