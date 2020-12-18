@@ -53,8 +53,10 @@ dependencies:
   - r-leiden
   - r-reticulate
 
+  # latest Python additions
   - leidenalg
   - numpy
+  - pandas
   - python-igraph
 
   # additional dependencies for packages not found on conda
