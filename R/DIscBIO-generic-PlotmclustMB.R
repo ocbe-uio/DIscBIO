@@ -51,7 +51,7 @@ setMethod(
                 )
                 if (showcluster) {
                     g <- g + geom_point(
-                        aes_string(color = color_by), na.rm = TRUE
+                        aes_string(color = lib_info_with_pseudo$State), na.rm = TRUE
                     )
                     g <- g + scale_colour_manual(
                         values = c(
@@ -77,7 +77,7 @@ setMethod(
                     )
                 if (showcluster) {
                     g <- g + geom_point(
-                        aes_string(color = color_by), na.rm = TRUE, size = 3
+                        aes_string(color = lib_info_with_pseudo$State), na.rm = TRUE, size = 3
                     )
                     g <- g + scale_colour_manual(
                         values = c(
