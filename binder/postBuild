@@ -17,6 +17,11 @@ install.packages(
 # but use this if any are added
 # requireNamespace("BiocManager")
 # BiocManager::install(...)
+BiocManager::install(
+    c(
+        "impute"
+    )
+)
 
 # install DIscBIO itself
 # remotes::install_github("ocbe-uio/DIscBIO", "dev", repos=mran, build_vignettes=F)

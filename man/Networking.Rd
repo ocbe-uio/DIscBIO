@@ -9,7 +9,8 @@ Networking(
   FileName = NULL,
   species = "9606",
   plot_width = 25,
-  plot_height = 15
+  plot_height = 15,
+  retries = 3
 )
 }
 \arguments{
@@ -24,10 +25,15 @@ directory}
 \item{plot_width}{Plot width}
 
 \item{plot_height}{Plot height}
+
+\item{retries}{maximum number of attempts to connect to the STRING api.}
 }
 \value{
 A plot of the network
 }
 \description{
-This function uses STRING-api to plot the network.
+This function uses STRING API to plot the network.
+}
+\references{
+https://string-db.org/api/
 }

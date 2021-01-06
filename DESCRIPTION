@@ -1,7 +1,7 @@
 Package: DIscBIO
 Date: 2020-11-13
 Title: A User-Friendly Pipeline for Biomarker Discovery in Single-Cell Transcriptomics
-Version: 1.1.0
+Version: 1.1.0.9001
 Authors@R:
 	c(
 		person(
@@ -39,7 +39,7 @@ License: MIT + file LICENSE
 Encoding: UTF-8
 Imports: methods, TSCAN, boot, httr, mclust, statmod, igraph,
 	RWeka, philentropy, NetIndices, png, grDevices,
-	readr, RColorBrewer, ggplot2, rpart, fpc, cluster, rpart.plot,
+	RColorBrewer, ggplot2, rpart, fpc, cluster, rpart.plot,
 	tsne, AnnotationDbi, org.Hs.eg.db, graphics, stats, utils, impute
 Depends:
 	R (>= 4.0), SingleCellExperiment
