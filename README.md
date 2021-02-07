@@ -10,7 +10,7 @@ DIscBIO is an R package based on the software available at https://github.com/Sy
 
 Software for single-cell transcriptomics are abundant, with [scRNAtools](https://www.scrna-tools.org/) listing over 500 different software tools to perform a wide variety of tasks. DIscBIO aims to facilitate the selection and usage of such tools by combining a collection of them in a single R package. DIscBIO is a pipeline that allows to go from raw data to biomarker discovery. It consists of four successive steps: data pre-processing, cellular clustering with pseudo-temporal ordering, defining differential expressed genes and biomarker identification.
 
-The CTCdataset, which is used as input data in the DIscBIO-CTCs-Notebook, contains information from GEO database [GSE51827](https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE51827), which is made available
+The CTCdataset, which is used as input data in the DIscBIO-CTCs-Notebook, contains information from GEO databases GSE51827, GSE55807, GSE67939, GSE75367, GSE109761, GSE111065 and GSE86978, which are made available
 here under the [Open Database License (ODbL)](https://opendatacommons.org/licenses/odbl/1-0/).
 
 The CONQUER dataset, which is used as input data in the DIscBIO-CONQUER Notebook, contains information from GEO database [GSE41265](https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE41265), which is made available
@@ -130,8 +130,4 @@ The DIscBIO universe is comprised of the R package and the aforementioned Binder
 
 # Reference
 
-The DIscBIO package is an extension of the work of Ghannoum et.al. (full citation below).
-
-*DIscBIO: a user-friendly pipeline for biomarker discovery in single-cell transcriptomics*<br>
-Salim Ghannoum, Benjamin Ragan-Kelley, Emma Jonasson, Anders Ståhlberg, Alvaro Köhn-Luque<br>
-bioRxiv 700989; doi: https://doi.org/10.1101/700989
+Ghannoum, S., Netto, W. L., Fantini, D., Ragan-Kelley, B., Parizadeh, A., Jonasson, E., ... & Köhn-Luque, A. (2021). DIscBIO: a user-friendly pipeline for biomarker discovery in single-cell transcriptomics. International Journal of Molecular Sciences, 22(3), 1399. https://doi.org/10.3390/ijms22031399
