@@ -6,7 +6,7 @@ A user-friendly pipeline for biomarker discovery in single-cell transcriptomics.
 
 ![DIscBIO](DIscBIOlogo.png)
 
-DIscBIO is an R package based on the software available at https://github.com/SystemsBiologist/PSCAN.
+DIscBIO is an R package based on the software available at https://github.com/SystemsBiologist/PSCAN. It is also listed on [scRNAtools](https://www.scrna-tools.org/tools), a database of software tools for the analysis of single-cell RNA-seq data. 
 
 Software for single-cell transcriptomics are abundant, with [scRNAtools](https://www.scrna-tools.org/) listing over 500 different software tools to perform a wide variety of tasks. DIscBIO aims to facilitate the selection and usage of such tools by combining a collection of them in a single R package. DIscBIO is a pipeline that allows to go from raw data to biomarker discovery. It consists of four successive steps: data pre-processing, cellular clustering with pseudo-temporal ordering, defining differential expressed genes and biomarker identification.
 
@@ -101,13 +101,13 @@ Due to Binder memory addressable limit of 2 GB, the [DIscBIO-CTCs-Notebook](note
 - [DIscBIO-CTCs-Binder-Part4.ipynb](https://nbviewer.jupyter.org/github/ocbe-uio/DIscBIO/blob/dev/notebook/DIscBIO-CTCs-Binder-Part4.ipynb)
 - [DIscBIO-CTCs-Binder-Part5.ipynb](https://nbviewer.jupyter.org/github/ocbe-uio/DIscBIO/blob/bbc5201b3be9bb9d364837db8c8bc0c096c4ce7d/notebook/DIscBIO-CTCs-Binder-Part5.ipynb)
 
-Using binder for the first time might take about 15 min to load the environment. 
-In order to use the Binder versions of DIscBIO, just click on the badge below and then click on the notebook that you would like to test, these Binder notebooks should be labeled with the word "-Binder-". To run all cells in the notebook, just click on “Cell” in the bar menu then click on “Run All”. 
+Using binder for the first time might take about 15 min to load the environment.
+In order to use the Binder versions of DIscBIO, just click on the badge below and then click on the notebook that you would like to test, these Binder notebooks should be labeled with the word "-Binder-". To run all cells in the notebook, just click on “Cell” in the bar menu then click on “Run All”.
 
 [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/ocbe-uio/DIscBIO/dev?filepath=notebook)
 
 # Jupyter Notebook
-A step-by-step tutorial of how to install Jupyter Notebook is available [HERE](https://docs.anaconda.com/anaconda/navigator/tutorials/r-lang/) 
+A step-by-step tutorial of how to install Jupyter Notebook is available [HERE](https://docs.anaconda.com/anaconda/navigator/tutorials/r-lang/)
 
 
 # Development
@@ -127,6 +127,12 @@ citation("DIscBIO")
 ## DIscBIO universe
 
 The DIscBIO universe is comprised of the R package and the aforementioned Binder notebook. The GitHub repository contains the source code for this universe. Proper citation of it can be found [here](https://zenodo.org/badge/latestdoi/225632936).
+
+## Peer-reviewed article
+
+Ghannoum _et. al._ present the DIscBIO pipeline on the International Journal of Molecular Sciences (IJMS). A link to the Open Access paper can be found [here](https://www.mdpi.com/1422-0067/22/3/1399). To cite the publication in APA format, please use the format below:
+
+> Ghannoum S, Leoncio Netto W, Fantini D, Ragan-Kelley B, Parizadeh A, Jonasson E, Ståhlberg A, Farhan H, Köhn-Luque A. DIscBIO: A User-Friendly Pipeline for Biomarker Discovery in Single-Cell Transcriptomics. International Journal of Molecular Sciences. 2021; 22(3):1399. https://doi.org/10.3390/ijms22031399
 
 # Reference
 
