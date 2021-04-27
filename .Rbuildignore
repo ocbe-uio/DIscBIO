@@ -22,4 +22,5 @@ runtime.txt
 .git
 Aux
 binder
+^\.github$
 tests/
