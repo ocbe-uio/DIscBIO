@@ -17,7 +17,6 @@ The CONQUER dataset, which is used as input data in the DIscBIO-CONQUER Notebook
 here under the [Open Database License (ODbL)](https://opendatacommons.org/licenses/odbl/1-0/).
 The conquer repository is available at http://imlspenticton.uzh.ch:3838/conquer/.
 
-
 # Installation
 
 ## Stable version
@@ -109,7 +108,6 @@ In order to use the Binder versions of DIscBIO, just click on the badge below an
 # Jupyter Notebook
 A step-by-step tutorial of how to install Jupyter Notebook is available [HERE](https://docs.anaconda.com/anaconda/navigator/tutorials/r-lang/)
 
-
 # Development
 
 DIscBIO is Open Source software licensed under the [MIT license](https://tldrlegal.com/license/mit-license), so all contributions are welcome. Please visit [the Issues page](https://github.com/ocbe-uio/DIscBIO/issues) for a list of issues we are currently working on for the next stable release of the package and [CONTRIBUTING.md](CONTRIBUTING.md) for some guidelines on how to contribute to the package.
@@ -133,7 +131,3 @@ The DIscBIO universe is comprised of the R package and the aforementioned Binder
 Ghannoum _et. al._ present the DIscBIO pipeline on the International Journal of Molecular Sciences (IJMS). A link to the Open Access paper can be found [here](https://www.mdpi.com/1422-0067/22/3/1399). To cite the publication in APA format, please use the format below:
 
 > Ghannoum S, Leoncio Netto W, Fantini D, Ragan-Kelley B, Parizadeh A, Jonasson E, Ståhlberg A, Farhan H, Köhn-Luque A. DIscBIO: A User-Friendly Pipeline for Biomarker Discovery in Single-Cell Transcriptomics. International Journal of Molecular Sciences. 2021; 22(3):1399. https://doi.org/10.3390/ijms22031399
-
-# Reference
-
-Ghannoum, S., Netto, W. L., Fantini, D., Ragan-Kelley, B., Parizadeh, A., Jonasson, E., ... & Köhn-Luque, A. (2021). DIscBIO: a user-friendly pipeline for biomarker discovery in single-cell transcriptomics. International Journal of Molecular Sciences, 22(3), 1399. https://doi.org/10.3390/ijms22031399
