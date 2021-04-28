@@ -1,5 +1,11 @@
 This file documents the changes between stable releases of DIscBIO.
 
+# Version 1.1.0
+
+- Added support for more gene types
+- Improved I/O behavior
+- Updated Binder notebooks
+
 # Version 1.0.1
 
 - Bug fixes
