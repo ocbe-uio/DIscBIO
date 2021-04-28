@@ -365,3 +365,57 @@ prepExampleDataset <- function(dataset, save=TRUE) {
 		message("Not saving dataset because (save == FALSE)")
 	}
 }
+
+#' @title Retries a URL
+#' @description Retries a URL
+#' @param data A gene list
+#' @param species The taxonomy name/id. Default is "9606" for Homo sapiens
+#' @param outputFormat format of the output. Can be "highres_image", "tsv",
+#' "json", "tsv-no-header", "xml"
+#' @param maxRetries maximum number of attempts to connect to the STRING api.
+#' @param successCode Status code number that represents success
+#' @return either the output of httr::GET or an error message
+#' @importFrom httr GET status_code
+#' @author Waldir Leoncio
+retrieveURL <- function(
+	data, species, outputFormat, maxRetries=3, successCode=200
+) {
+	# ======================================================== #
+	# Setting up retrieval                                     #
+	# ======================================================== #
+	string_api_url <- "https://string-db.org/api/"
+	method <- "network"
+	url <- paste0(
+		string_api_url, outputFormat, '/', method, '?identifiers=',
+		paste(as.character(data), collapse = "%0d"), "&species=",
+		species
+	)
+
+	# ======================================================== #
+	# Retrieving URL                                           #
+	# ======================================================== #
+	message("Retrieving URL. Please wait...")
+	repos <- GET(url)
+	failedGET <- status_code(repos) != successCode
+	r <- 1
+	while (failedGET & (r <= maxRetries)) {
+		message("Failed retrieval. Retry ", r, " out of ", maxRetries, ".")
+		repos <- GET(url)
+		failedGET <- status_code(repos) != successCode
+		r <- r + 1
+	}
+
+	# ======================================================== #
+	# Final output                                             #
+	# ======================================================== #
+	if (failedGET) {
+		stop(
+			"Unable to retrieve URL. Please check the parameters ",
+			"passed to the Networking() function, increase the ",
+			"'maxRetries' parameter or try again later."
+		)
+	} else {
+		message("Successful retrieval.")
+		return(repos)
+	}
+}

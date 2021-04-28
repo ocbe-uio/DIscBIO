@@ -22,3 +22,4 @@ runtime.txt
 .git
 Aux
 binder
+tests

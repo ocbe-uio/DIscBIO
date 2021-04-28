@@ -6,17 +6,16 @@ A user-friendly pipeline for biomarker discovery in single-cell transcriptomics.
 
 ![DIscBIO](DIscBIOlogo.png)
 
-This is an R package based on the software available at https://github.com/SystemsBiologist/PSCAN.
+DIscBIO is an R package based on [PSCAN](https://github.com/SystemsBiologist/PSCAN). It is available on [CRAN](https://cran.r-project.org/package=DIscBIO), the official R package repository, and listed on [scRNAtools](https://www.scrna-tools.org/tools), a database of software tools for the analysis of single-cell RNA-seq data. 
 
 Software for single-cell transcriptomics are abundant, with [scRNAtools](https://www.scrna-tools.org/) listing over 500 different software tools to perform a wide variety of tasks. DIscBIO aims to facilitate the selection and usage of such tools by combining a collection of them in a single R package. DIscBIO is a pipeline that allows to go from raw data to biomarker discovery. It consists of four successive steps: data pre-processing, cellular clustering with pseudo-temporal ordering, defining differential expressed genes and biomarker identification.
 
-The CTCdataset, which is used as input data in the DIscBIO-CTCs-Notebook, contains information from GEO database [GSE51827](https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE51827), which is made available
+The CTCdataset, which is used as input data in the DIscBIO-CTCs-Notebook, contains information from GEO databases GSE51827, GSE55807, GSE67939, GSE75367, GSE109761, GSE111065 and GSE86978, which are made available
 here under the [Open Database License (ODbL)](https://opendatacommons.org/licenses/odbl/1-0/).
 
 The CONQUER dataset, which is used as input data in the DIscBIO-CONQUER Notebook, contains information from GEO database [GSE41265](https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE41265), which is made available
 here under the [Open Database License (ODbL)](https://opendatacommons.org/licenses/odbl/1-0/).
 The conquer repository is available at http://imlspenticton.uzh.ch:3838/conquer/.
-
 
 # Installation
 
@@ -72,7 +71,7 @@ BiocManager::install(
     c(
         "SingleCellExperimentmethods", "TSCAN", "boot", "httr", "mclust",
         "statmod", "igraph", "RWeka", "philentropy", "NetIndices", "png",
-        "grDevices", "readr", "RColorBrewer", "ggplot2", "rpart", "fpc",
+        "grDevices", "RColorBrewer", "ggplot2", "rpart", "fpc",
         "cluster", "rpart.plot", "tsne", "AnnotationDbi", "org.Hs.eg.db",
         "graphics", "stats", "utils", "impute", "enrichR"
     )
@@ -87,20 +86,27 @@ After installing DIscBIO, you can load it into an R session by running the follo
 library(DIscBIO)
 ```
 
+# Binder Notebooks
+
 A step-by-step tutorial of DIscBIO is under construction as a standalone R vignette. In the meantime, you can use the interactive Jupyter notebook available here:
 
 There are THREE main Binder notebooks; the [DIscBIO-MLS-Binder](notebook/DIscBIO-MLS-Binder.ipynb), [DIscBIO-CTCs-Notebook](notebook/DIscBIO-CTCs-Notebook.ipynb) and [DIscBIO-CONQUER-Binder](notebook/DIscBIO-CONQUER-Binder.ipynb)".
 
-Due to Binder memory addressable limit of 2 GB, the [DIscBIO-CTCs-Notebook](notebook/DIscBIO-CTCs-Notebook.ipynb) is divided into 4 sub-notebooks:
+Due to Binder memory addressable limit of 2 GB, the [DIscBIO-CTCs-Notebook](notebook/DIscBIO-CTCs-Notebook.ipynb) is divided into 5 sub-notebooks:
 
 - [DIscBIO-CTCs-Binder-Part1.ipynb](https://nbviewer.jupyter.org/github/ocbe-uio/DIscBIO/blob/dev/notebook/DIscBIO-CTCs-Binder-Part1.ipynb)
 - [DIscBIO-CTCs-Binder-Part2.ipynb](https://nbviewer.jupyter.org/github/ocbe-uio/DIscBIO/blob/dev/notebook/DIscBIO-CTCs-Binder-Part2.ipynb)
 - [DIscBIO-CTCs-Binder-Part3.ipynb](https://nbviewer.jupyter.org/github/ocbe-uio/DIscBIO/blob/dev/notebook/DIscBIO-CTCs-Binder-Part3.ipynb)
-- [DIscBIO-CTCs-Binder-Part4.ipynb](https://nbviewer.jupyter.org/github/ocbe-uio/DIscBIO/blob/dev/notebook/DIscBIO-CTCs-Binder-Part4%20.ipynb)
+- [DIscBIO-CTCs-Binder-Part4.ipynb](https://nbviewer.jupyter.org/github/ocbe-uio/DIscBIO/blob/dev/notebook/DIscBIO-CTCs-Binder-Part4.ipynb)
+- [DIscBIO-CTCs-Binder-Part5.ipynb](https://nbviewer.jupyter.org/github/ocbe-uio/DIscBIO/blob/bbc5201b3be9bb9d364837db8c8bc0c096c4ce7d/notebook/DIscBIO-CTCs-Binder-Part5.ipynb)
 
-In order to use the Binder versions of DIscBIO, just click on the badge below:
+Using binder for the first time might take about 15 min to load the environment.
+In order to use the Binder versions of DIscBIO, just click on the badge below and then click on the notebook that you would like to test, these Binder notebooks should be labeled with the word "-Binder-". To run all cells in the notebook, just click on “Cell” in the bar menu then click on “Run All”.
 
 [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/ocbe-uio/DIscBIO/dev?filepath=notebook)
+
+# Jupyter Notebook
+A step-by-step tutorial of how to install Jupyter Notebook is available [HERE](https://docs.anaconda.com/anaconda/navigator/tutorials/r-lang/)
 
 # Development
 
@@ -108,33 +114,20 @@ DIscBIO is Open Source software licensed under the [MIT license](https://tldrleg
 
 # Citation
 
+## R package
+
 In order to cite the DIscBIO R package, install and load the package as instructed above. Then, run
 
-```R
+```r
 citation("DIscBIO")
 ```
 
-in R and you should get a pure text and a BibTeX entry similar to the one below (please prefer the output you see in your R session to the one below, as the former will reflect the latest version of the package code and documentation):
+## DIscBIO universe
 
-```
+The DIscBIO universe is comprised of the R package and the aforementioned Binder notebook. The GitHub repository contains the source code for this universe. Proper citation of it can be found [here](https://zenodo.org/badge/latestdoi/225632936).
 
+## Peer-reviewed article
 
-A BibTeX entry for LaTeX users is
+Ghannoum _et. al._ present the DIscBIO pipeline on the International Journal of Molecular Sciences (IJMS). A link to the Open Access paper can be found [here](https://www.mdpi.com/1422-0067/22/3/1399). To cite the publication in APA format, please use the format below:
 
-  @Manual{,
-    title = {DIscBIO: A User-Friendly Pipeline for Biomarker Discovery in Single-Cell
-Transcriptomics},
-    author = {Salim Ghannoum and Alvaro Köhn-Luque and Waldir Leoncio},
-    year = {2020},
-    note = {R package version 1.0.1}, # please check the actual version you used
-    url = {https://CRAN.R-project.org/package=DIscBIO},
-  }
-```
-
-# Reference
-
-The DIscBIO package is an extension of the work of Ghannoum et.al. (full citation below).
-
-*DIscBIO: a user-friendly pipeline for biomarker discovery in single-cell transcriptomics*<br>
-Salim Ghannoum, Benjamin Ragan-Kelley, Emma Jonasson, Anders Ståhlberg, Alvaro Köhn-Luque<br>
-bioRxiv 700989; doi: https://doi.org/10.1101/700989
+> Ghannoum S, Leoncio Netto W, Fantini D, Ragan-Kelley B, Parizadeh A, Jonasson E, Ståhlberg A, Farhan H, Köhn-Luque A. DIscBIO: A User-Friendly Pipeline for Biomarker Discovery in Single-Cell Transcriptomics. International Journal of Molecular Sciences. 2021; 22(3):1399. https://doi.org/10.3390/ijms22031399

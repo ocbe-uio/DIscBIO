@@ -15,11 +15,11 @@ resulted table. If null, no file will be exported}
 \item{species}{The taxonomy name/id. Default is "9606" for Homo sapiens.}
 }
 \value{
-Either a TSV file stored in the user's file system and its
+Either CSV files stored in the user's file system and its
 corresponding `data.frame` object in R or and R object containing that
 information.
 }
 \description{
 This function uses STRING-api. The outcome of STRING analysis
-  will be stored in tab separated values (TSV) files.
+  will be stored in comma-separated values files.
 }
