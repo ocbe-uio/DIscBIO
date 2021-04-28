@@ -1,7 +1,7 @@
 Package: DIscBIO
-Date: 2020-11-13
+Date: 2021-04-28
 Title: A User-Friendly Pipeline for Biomarker Discovery in Single-Cell Transcriptomics
-Version: 1.1.0.9001
+Version: 1.2.0
 Authors@R:
 	c(
 		person(
@@ -32,8 +32,9 @@ Description: An open, multi-algorithmic pipeline for easy, fast and efficient
 	analysis of cellular sub-populations and the molecular signatures that
 	characterize them. The pipeline consists of four successive steps: data
 	pre-processing, cellular clustering with pseudo-temporal ordering, defining
-	differential expressed genes and biomarker identification. This package
-	implements extensions of the work published by Ghannoum et. al. (2019)
+	differential expressed genes and biomarker identification. More details on
+	Ghannoum et. al. (2021) <doi:10.3390/ijms22031399>. This package implements
+	extensions of the work published by Ghannoum et. al. (2019)
 	<doi:10.1101/700989>.
 License: MIT + file LICENSE
 Encoding: UTF-8

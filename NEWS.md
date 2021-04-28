@@ -1,5 +1,14 @@
 This file documents the changes between stable releases of DIscBIO.
 
+# Version 1.2.0
+
+- Added support for retrying to retrieve URLs (issue #29)
+- Removed duplicated (legacy) function
+- Improved detection of duplicated data on `NetAnalysis()`
+- Improved I/O behavior
+- Improved validation
+- Bug fixes
+
 # Version 1.1.0
 
 - Added support for more gene types
