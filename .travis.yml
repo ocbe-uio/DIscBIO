@@ -1,5 +1,8 @@
 # Source: https://docs.travis-ci.com/user/languages/r
 language: r
+sudo: required
+apt_packages:
+ - r-cran-rjava
 cache:
   apt: true
   packages: true
