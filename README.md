@@ -1,5 +1,3 @@
-[![Current CRAN release](https://www.r-pkg.org/badges/version/DIscBIO)](https://cran.r-project.org/package=DIscBIO) [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/ocbe-uio/DIscBIO/dev?filepath=notebook) [![R build status](https://github.com/ocbe-uio/DIscBIO/workflows/R-CMD-check/badge.svg)](https://github.com/ocbe-uio/DIscBIO/actions) [![DOI](https://zenodo.org/badge/225632936.svg)](https://zenodo.org/badge/latestdoi/225632936)
-
 # DIscBIO
 
 A user-friendly pipeline for biomarker discovery in single-cell transcriptomics.
@@ -53,7 +51,7 @@ If you still can't install DIscBIO, please let us know by opening an issue [here
 The development version of the DIscBIO R package can be installed by running
 
 ```r
-remotes::install_github("ocbe-uio/DIscBIO", "dev", build_vignettes=TRUE)
+remotes::install_github("ocbe-uio/DIscBIO", build_vignettes=TRUE)
 ```
 
 on an interactive R session. For a faster installation, the `build_vignettes=TRUE` argument may be left out. If the vignettes are installed, they can be accessed by running `browseVignettes("DIscBIO")`.
@@ -131,3 +129,23 @@ The DIscBIO universe is comprised of the R package and the aforementioned Binder
 Ghannoum _et. al._ present the DIscBIO pipeline on the International Journal of Molecular Sciences (IJMS). A link to the Open Access paper can be found [here](https://www.mdpi.com/1422-0067/22/3/1399). To cite the publication in APA format, please use the format below:
 
 > Ghannoum S, Leoncio Netto W, Fantini D, Ragan-Kelley B, Parizadeh A, Jonasson E, Ståhlberg A, Farhan H, Köhn-Luque A. DIscBIO: A User-Friendly Pipeline for Biomarker Discovery in Single-Cell Transcriptomics. International Journal of Molecular Sciences. 2021; 22(3):1399. https://doi.org/10.3390/ijms22031399
+
+# Badges
+
+## Stable version
+
+[![Current CRAN release](https://www.r-pkg.org/badges/version/DIscBIO)](https://cran.r-project.org/package=DIscBIO) [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/ocbe-uio/DIscBIO/dev?filepath=notebook)
+[![Total downloads](http://cranlogs.r-pkg.org/badges/grand-total/DIscBIO)](https://cran.r-project.org/package=DIscBIO)
+[![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](https://cran.r-project.org/web/licenses/MIT)
+[![DOI](https://zenodo.org/badge/225632936.svg)](https://zenodo.org/badge/latestdoi/225632936)
+
+## Development version
+
+[![Project Status: Active - The project has reached a stable, usable
+state and is being actively
+developed.](https://www.repostatus.org/badges/latest/active.svg)](https://www.repostatus.org/#active)
+[![Last commit](https://img.shields.io/github/last-commit/ocbe-uio/DIscBIO.svg)](https://github.com/ocbe-uio/DIscBIO/commits/dev)
+[![Code size](https://img.shields.io/github/languages/code-size/ocbe-uio/DIscBIO.svg)](https://github.com/ocbe-uio/DIscBIO)
+[![Codecov](https://app.codecov.io/gh/ocbe-uio/DIscBIO/branch/dev/graph/badge.svg)](https://app.codecov.io/gh/ocbe-uio/DIscBIO)
+[![R build status](https://github.com/ocbe-uio/DIscBIO/workflows/R-CMD-check/badge.svg)](https://github.com/ocbe-uio/DIscBIO/actions)
+[![CodeFactor](https://www.codefactor.io/repository/github/ocbe-uio/DIscBIO/badge)](https://www.codefactor.io/repository/github/ocbe-uio/DIscBIO)
