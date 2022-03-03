@@ -42,13 +42,16 @@ jobs:
       GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
 
     steps:
-      - uses: actions/checkout@v2
+      - name: Check out repository
+        uses: actions/checkout@v2
 
-      - uses: r-lib/actions/setup-r@v1
+      - name: Set up R ${{ matrix.config.r }} on ${{ matrix.config.os }}
+        uses: r-lib/actions/setup-r@v1
         with:
           r-version: ${{ matrix.config.r }}
 
-      - uses: r-lib/actions/setup-pandoc@v1
+      - name: Install Pandoc
+        uses: r-lib/actions/setup-pandoc@v1
 
       - name: Query dependencies
         run: |
@@ -58,7 +61,7 @@ jobs:
           install.packages("BiocManager")
         shell: Rscript {0}
 
-      - name: Cache R packages
+      - name: Restore cache, if available
         if: runner.os != 'Windows'
         uses: actions/cache@v2
         with:
