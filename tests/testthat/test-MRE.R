@@ -33,7 +33,9 @@ test_that("Data is normalized", {
     expect_output(str(sc@fdata), "708 obs. of  15 variables")
 })
 
-# This function can be used for: 1- filtering and normalizing the dataset that has no ERCC. 2- to normalize and filter genes and cells after the noise filtering.
+# This function can be used for:
+# 1 - filtering and normalizing the dataset that has no ERCC.
+# 2 - to normalize and filter genes and cells after the noise filtering.
 sc <- FinalPreprocessing(sc, GeneFlitering="NoiseF", export=FALSE, quiet=TRUE)
 
 test_that("Data is normalized", {

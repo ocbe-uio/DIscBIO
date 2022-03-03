@@ -1,16 +1,16 @@
-notebook_path <- ifelse(interactive(), "notebook", "../../notebook")
-FileName <- "CTCdataset"
-load(file.path(notebook_path, paste0(FileName,".rda")))
-load(file.path(notebook_path, "SC.RData"))
-load(file.path(notebook_path, "Ndata.RData"))
-load(file.path(notebook_path, "expdata.RData"))
-DataSet <- get(FileName)
-
 context("Binder tests, part 1")
+
+notebook_data_path <- ifelse(interactive(), "../../notebook", ".")
+FileName <- "CTCdataset"
+load(file.path(notebook_data_path, paste0(FileName,".rda")))
+load(file.path(notebook_data_path, "SC.RData"))
+load(file.path(notebook_data_path, "Ndata.RData"))
+load(file.path(notebook_data_path, "expdata.RData"))
+DataSet <- get(FileName)
 
 test_that("Loading CTC dataset", {
 	expect_equal(length(DataSet[, 1]), 13181)
-	expect_equal(length(DataSet[1,]), 1462)
+	expect_equal(length(DataSet[1, ]), 1462)
 })
 
 sc <- DISCBIO(DataSet)

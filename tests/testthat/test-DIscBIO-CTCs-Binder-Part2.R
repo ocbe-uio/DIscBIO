@@ -2,11 +2,10 @@
 # Loading and rearranging files                            #
 # ======================================================== #
 
-notebook_path <- ifelse(interactive(), "notebook", "../../notebook")
-load(file.path(notebook_path, "SC.RData"))
-load(file.path(notebook_path, "Ndata.RData"))
-load(file.path(notebook_path, "expdata.RData"))
-load(file.path(notebook_path, "DATAforDT.RData"))
+load("SC.RData")
+load("Ndata.RData")
+load("expdata.RData")
+load("DATAforDT.RData")
 
 sc <- SC
 sc@ndata <- Ndata
