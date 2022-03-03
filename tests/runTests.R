@@ -1,3 +1,2 @@
-library(testthat)
 library(DIscBIO)
-test_check("DIscBIO")
+testthat::test_check("DIscBIO")

@@ -1,8 +1,12 @@
+notebook_path <- ifelse(interactive(), "../../notebook", "notebook")
 FileName <- "CTCdataset"
-load(paste0("../../notebook/", FileName,".rda"))
+load(file.path(notebook_path, paste0(FileName,".rda")))
+load(file.path(notebook_path, "SC.RData"))
+load(file.path(notebook_path, "Ndata.RData"))
+load(file.path(notebook_path, "expdata.RData"))
 DataSet <- get(FileName)
 
-context("Data loading and pre-processing")
+context("Binder tests, part 1")
 
 test_that("Loading CTC dataset", {
 	expect_equal(length(DataSet[, 1]), 13181)
@@ -17,18 +21,12 @@ minnumber <- round(length(DataSet[1, ]) / 10)
 
 test_that("Handling datasets", {
 	expect_true(is(sc, "DISCBIO"))
-	expect_output(
-		str(S1), " 'summaryDefault' Named num"
-	)
+	expect_output(str(S1), " 'summaryDefault' Named num")
 	expect_equal(minnumber, 146)
 })
 
 sc <- Normalizedata(sc, minexpr=minexpr, minnumber=minnumber, rseed=17000)
 sc <- suppressMessages(FinalPreprocessing(sc, GeneFlitering="ExpF"))
-
-load("../../notebook/SC.RData")
-load("../../notebook/Ndata.RData")
-load("../../notebook/expdata.RData")
 sc <- SC
 sc@ndata <- Ndata
 sc@expdata <- expdata
