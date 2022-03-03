@@ -1,4 +1,4 @@
-notebook_path <- ifelse(interactive(), "../../notebook", "notebook")
+notebook_path <- ifelse(interactive(), "notebook", "../../notebook")
 FileName <- "CTCdataset"
 load(file.path(notebook_path, paste0(FileName,".rda")))
 load(file.path(notebook_path, "SC.RData"))
