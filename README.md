@@ -53,7 +53,7 @@ If you still can't install DIscBIO, please let us know by opening an issue [here
 The development version of the DIscBIO R package can be installed by running
 
 ```r
-remotes::install_github("ocbe-uio/DIscBIO", "dev", build_vignettes=TRUE)
+remotes::install_github("ocbe-uio/DIscBIO", build_vignettes=TRUE)
 ```
 
 on an interactive R session. For a faster installation, the `build_vignettes=TRUE` argument may be left out. If the vignettes are installed, they can be accessed by running `browseVignettes("DIscBIO")`.
