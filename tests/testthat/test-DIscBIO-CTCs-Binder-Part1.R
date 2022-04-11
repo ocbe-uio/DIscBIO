@@ -1,6 +1,12 @@
 context("Binder tests, part 1")
 
-notebook_data_path <- ifelse(interactive(), "../../notebook", ".")
+# Defining the relative path to current inst -----------------------------------
+if (interactive()) {
+  notebook_data_path <- "notebook"
+} else {
+  notebook_data_path <- system.file("notebook", package = "DIscBIO")
+}
+
 FileName <- "CTCdataset"
 load(file.path(notebook_data_path, paste0(FileName,".rda")))
 load(file.path(notebook_data_path, "SC.RData"))
