@@ -134,16 +134,15 @@ Ghannoum _et. al._ present the DIscBIO pipeline on the International Journal of 
 
 ## Stable version
 
-[![Current CRAN release](https://www.r-pkg.org/badges/version/DIscBIO)](https://cran.r-project.org/package=DIscBIO) [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/ocbe-uio/DIscBIO/dev?filepath=notebook)
+[![Current CRAN release](https://www.r-pkg.org/badges/version/DIscBIO)](https://cran.r-project.org/package=DIscBIO)
+[![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/ocbe-uio/DIscBIO/dev?filepath=notebook)
 [![Total downloads](http://cranlogs.r-pkg.org/badges/grand-total/DIscBIO)](https://cran.r-project.org/package=DIscBIO)
 [![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](https://cran.r-project.org/web/licenses/MIT)
 [![DOI](https://zenodo.org/badge/225632936.svg)](https://zenodo.org/badge/latestdoi/225632936)
 
 ## Development version
 
-[![Project Status: Active - The project has reached a stable, usable
-state and is being actively
-developed.](https://www.repostatus.org/badges/latest/active.svg)](https://www.repostatus.org/#active)
+[![Project Status: Inactive - The project has reached a stable, usable state but is no longer being actively developed; support/maintenance will be provided as time allows.](https://www.repostatus.org/badges/latest/inactive.svg)](https://www.repostatus.org/#inactive)
 [![Last commit](https://img.shields.io/github/last-commit/ocbe-uio/DIscBIO.svg)](https://github.com/ocbe-uio/DIscBIO/commits/dev)
 [![Code size](https://img.shields.io/github/languages/code-size/ocbe-uio/DIscBIO.svg)](https://github.com/ocbe-uio/DIscBIO)
 [![Codecov](https://app.codecov.io/gh/ocbe-uio/DIscBIO/branch/dev/graph/badge.svg)](https://app.codecov.io/gh/ocbe-uio/DIscBIO)
