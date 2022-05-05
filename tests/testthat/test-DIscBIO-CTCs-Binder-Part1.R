@@ -39,16 +39,17 @@ rm(DataSet)
 rm(SC)
 gc()
 
-sc <- Clustexp(sc, 4, bootnr = 2, B.gap = 2, quiet=FALSE, rseed=17000)
-outlg <- round(length(sc@fdata[,1]) * 0.05)
-Outliers <- FindOutliers(sc, 4, outlg=outlg, plot=FALSE, quiet=TRUE)
-jcrd <- Jaccard(sc, K=4, plot=FALSE, R = 2)
-sc <- pseudoTimeOrdering(sc, quiet=TRUE)
+# TODO #37: uncomment once optimized
+# sc <- Clustexp(sc, 4, bootnr = 2, B.gap = 2, quiet=FALSE, rseed=17000)
+# outlg <- round(length(sc@fdata[,1]) * 0.05)
+# Outliers <- FindOutliers(sc, 4, outlg=outlg, plot=FALSE, quiet=TRUE)
+# jcrd <- Jaccard(sc, K=4, plot=FALSE, R = 2)
+# sc <- pseudoTimeOrdering(sc, quiet=TRUE)
 
-test_that("Post-processing", {
-	expect_equivalent(jcrd, c(.422, .649, .335, .605))
-	expect_output(
-		object = str(sc, max.level=1),
-		expected = 'Formal class \'DISCBIO\' [package "DIscBIO"] with 21 slots'
-	)
-})
+# test_that("Post-processing", {
+# 	expect_equivalent(jcrd, c(.422, .649, .335, .605))
+# 	expect_output(
+# 		object = str(sc, max.level=1),
+# 		expected = 'Formal class \'DISCBIO\' [package "DIscBIO"] with 21 slots'
+# 	)
+# })
