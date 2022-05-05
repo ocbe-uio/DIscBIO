@@ -2,10 +2,11 @@
 # Loading and rearranging files                            #
 # ======================================================== #
 
-load("SC.RData")
-load("Ndata.RData")
-load("expdata.RData")
-load("DATAforDT.RData")
+notebook_data_path <- system.file("notebook", package = "DIscBIO")
+load(file.path(notebook_data_path, "SC.RData"))
+load(file.path(notebook_data_path, "Ndata.RData"))
+load(file.path(notebook_data_path, "expdata.RData"))
+load(file.path(notebook_data_path, "DATAforDT.RData"))
 
 sc <- SC
 sc@ndata <- Ndata
