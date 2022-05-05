@@ -108,6 +108,6 @@ ppi <- suppressMessages(PPI(data))
 networking <- suppressMessages(NetAnalysis(ppi))
 
 test_that("Networks", {
-	expect_equal(dim(ppi), c(902, 13))
-	expect_equal(dim(networking), c(174, 3))
+	expect_equal(dim(ppi), c(922, 13))
+	expect_equal(dim(networking), c(167, 3))
 })
