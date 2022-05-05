@@ -2,10 +2,11 @@
 # Loading and rearranging files                            #
 # ======================================================== #
 
-load("../../notebook/SC.RData")
-load("../../notebook/Ndata.RData")
-load("../../notebook/expdata.RData")
-load("../../notebook/DATAforDT.RData")
+notebook_data_path <- system.file("notebook", package = "DIscBIO")
+load(file.path(notebook_data_path, "SC.RData"))
+load(file.path(notebook_data_path, "Ndata.RData"))
+load(file.path(notebook_data_path, "expdata.RData"))
+load(file.path(notebook_data_path, "DATAforDT.RData"))
 
 sc <- SC
 sc@ndata <- Ndata
@@ -19,7 +20,7 @@ rm(SC)
 # differential expression analysis                         #
 # ======================================================== #
 
-context("Differential expression analysis")
+context("Binder tests, part 2: Differential expression analysis")
 
 cdiff <- DEGanalysis2clust(sc, 4, quiet=TRUE, plot=FALSE)
 
@@ -86,7 +87,7 @@ test_that("Cluster differences", {
 # Decision trees                                           #
 # ======================================================== #
 
-context("Decision trees")
+context("Binder tests, part 2: Decision trees")
 
 j48dt <- J48DT(DATAforDT, plot=FALSE, quiet=TRUE)
 rpartDT <- RpartDT(DATAforDT, plot=FALSE, quiet=TRUE)
@@ -100,13 +101,13 @@ test_that("J48 trees", {
 # Networking                                               #
 # ======================================================== #
 
-context("Networking")
+context("Binder tests, part 2: Networking")
 
 data <- cdiffBinomial[[1]] [1:200,2] # only the firat 200 genes
 ppi <- suppressMessages(PPI(data))
 networking <- suppressMessages(NetAnalysis(ppi))
 
 test_that("Networks", {
-	expect_equal(dim(ppi), c(902, 13))
-	expect_equal(dim(networking), c(174, 3))
+	expect_equal(dim(ppi), c(922, 13))
+	expect_equal(dim(networking), c(167, 3))
 })

@@ -4,6 +4,9 @@ A user-friendly pipeline for biomarker discovery in single-cell transcriptomics.
 
 ![DIscBIO](DIscBIOlogo.png)
 
+[![Current CRAN release](https://www.r-pkg.org/badges/version/DIscBIO)](https://cran.r-project.org/package=DIscBIO)
+[![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/ocbe-uio/DIscBIO/dev?filepath=notebook)
+
 DIscBIO is an R package based on [PSCAN](https://github.com/SystemsBiologist/PSCAN). It is available on [CRAN](https://cran.r-project.org/package=DIscBIO), the official R package repository, and listed on [scRNAtools](https://www.scrna-tools.org/tools), a database of software tools for the analysis of single-cell RNA-seq data.
 
 Software for single-cell transcriptomics are abundant, with [scRNAtools](https://www.scrna-tools.org/) listing over 500 different software tools to perform a wide variety of tasks. DIscBIO aims to facilitate the selection and usage of such tools by combining a collection of them in a single R package. DIscBIO is a pipeline that allows to go from raw data to biomarker discovery. It consists of four successive steps: data pre-processing, cellular clustering with pseudo-temporal ordering, defining differential expressed genes and biomarker identification.
