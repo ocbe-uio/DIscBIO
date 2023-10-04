@@ -53,7 +53,7 @@ setMethod(
         clustnr = 20,
         bootnr = 50,
         metric = "pearson",
-        do.gap = T,
+        do.gap = TRUE,
         SE.method = "Tibs2001SEmax",
         SE.factor = .25,
         B.gap = 50,

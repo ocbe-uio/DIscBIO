@@ -904,7 +904,7 @@ foldchange.twoclass <- function(x, y, logged2) {
 #' @param y y
 #' @param depth depth
 foldchange.seq.twoclass.unpaired <- function(x, y, depth) {
-  x.norm <- scale(x, center = F, scale = depth) + 1e-08
+  x.norm <- scale(x, center = FALSE, scale = depth) + 1e-08
   fc <- apply(x.norm[, y == 2], 1, median) /
     apply(x.norm[, y ==
       1], 1, median)
@@ -917,7 +917,7 @@ foldchange.seq.twoclass.paired <- function(x, y, depth) {
     o1[j] <- which(y == -j)
     o2[j] <- which(y == j)
   }
-  x.norm <- scale(x, center = F, scale = depth) + 1e-08
+  x.norm <- scale(x, center = FALSE, scale = depth) + 1e-08
   d <- x.norm[, o2, drop = FALSE] / x.norm[, o1, drop = FALSE]
   fc <- lapply(d, 1, function(x) median(x, na.rm = TRUE))
   return(fc)
@@ -1194,7 +1194,7 @@ est.s0 <- function(tt, sd, s0.perc = seq(0, 1, by = 0.05)) {
   ## returns the actual estimate s0 (not a percentile)
   br <- unique(quantile(sd, seq(0, 1, len = 101)))
   nbr <- length(br)
-  a <- cut(sd, br, labels = F)
+  a <- cut(sd, br, labels = FALSE)
   a[is.na(a)] <- 1
   cv.sd <- rep(0, length(s0.perc))
   for (j in 1:length(s0.perc)) {
@@ -1249,7 +1249,7 @@ foldchange.paired <- function(x, y, logged2) {
   return(fc)
 }
 foldchange.seq.twoclass.unpaired <- function(x, y, depth) {
-  x.norm <- scale(x, center = F, scale = depth) + 1e-08
+  x.norm <- scale(x, center = FALSE, scale = depth) + 1e-08
   fc <- apply(x.norm[, y == 2], 1, median) /
     apply(x.norm[, y == 1], 1, median)
   return(fc)
@@ -1298,7 +1298,7 @@ quantitative.func <- function(x, y, s0 = 0) {
   syy <- sum(yy^2)
   scor <- temp / syy
   b0hat <- mx - scor * my
-  ym <- matrix(y, nrow = nrow(x), ncol = ncol(x), byrow = T)
+  ym <- matrix(y, nrow = nrow(x), ncol = ncol(x), byrow = TRUE)
   xhat <- matrix(b0hat, nrow = nrow(x), ncol = ncol(x)) + ym *
     matrix(scor, nrow = nrow(x), ncol = ncol(x))
   sigma <- sqrt(rowSums((x - xhat)^2) / (ncol(xhat) - 2))
@@ -1309,7 +1309,7 @@ quantitative.func <- function(x, y, s0 = 0) {
 timearea.func <- function(x, y, s0 = 0) {
   n <- ncol(x)
   xx <- 0.5 * (x[, 2:n] + x[, 1:(n - 1)]) * matrix(diff(y),
-    nrow = nrow(x), ncol = n - 1, byrow = T
+    nrow = nrow(x), ncol = n - 1, byrow = TRUE
   )
   numer <- rowMeans(xx)
   sd <- sqrt(varr(xx, meanx = numer) / n)
@@ -1411,7 +1411,7 @@ sample.perms <- function(elem, nperms) {
   # randomly generates  nperms of the vector elem
   res <- permute.rows(matrix(elem,
     nrow = nperms, ncol = length(elem),
-    byrow = T
+    byrow = TRUE
   ))
   return(res)
 }
@@ -1421,7 +1421,7 @@ mysvd <- function(x, n.components = NULL) {
   n <- ncol(x)
   # center the observations (rows)
   feature.means <- rowMeans(x)
-  x <- t(scale(t(x), center = feature.means, scale = F))
+  x <- t(scale(t(x), center = feature.means, scale = FALSE))
   if (is.null(n.components)) {
     n.components <- min(n, p)
   }
@@ -1534,11 +1534,11 @@ samr.compute.delta.table.array <- function(
   evo <- samr.obj$evo
   nsim <- ncol(ttstar0)
   res1 <- NULL
-  foldchange.cond.up <- matrix(T,
+  foldchange.cond.up <- matrix(TRUE,
     nrow = nrow(samr.obj$ttstar),
     ncol = ncol(samr.obj$ttstar)
   )
-  foldchange.cond.lo <- matrix(T,
+  foldchange.cond.lo <- matrix(TRUE,
     nrow = nrow(samr.obj$ttstar),
     ncol = ncol(samr.obj$ttstar)
   )
@@ -1552,8 +1552,8 @@ samr.compute.delta.table.array <- function(
   g2 <- rep(NA, length(dels))
   errup <- matrix(NA, ncol = length(dels), nrow = ncol(samr.obj$ttstar0))
   errlow <- matrix(NA, ncol = length(dels), nrow = ncol(samr.obj$ttstar0))
-  cat("", fill = T)
-  cat("Computing delta table", fill = T)
+  cat("", fill = TRUE)
+  cat("Computing delta table", fill = TRUE)
   for (ii in 1:length(dels)) {
     cat(ii, fill = TRUE)
     ttt <- detec.slab(samr.obj, dels[ii], min.foldchange)
@@ -1595,7 +1595,7 @@ samr.compute.delta.table.seq <- function(
     samr.obj,
     min.foldchange = 0, dels = NULL) {
   res1 <- NULL
-  flag <- T
+  flag <- TRUE
   ## check whether any gene satisfies the foldchange
   #   restrictions
   if ((samr.obj$resp.type == samr.const.twoclass.unpaired.response |
@@ -1606,7 +1606,7 @@ samr.compute.delta.table.seq <- function(
     sat.dn <- (samr.obj$foldchange <= 1 / min.foldchange) &
       (samr.obj$evo < 0)
     if (sum(sat.up) + sum(sat.dn) == 0) {
-      flag <- F
+      flag <- FALSE
     }
   }
   if (flag) {
@@ -1615,7 +1615,7 @@ samr.compute.delta.table.seq <- function(
     }
     cat("Number of thresholds chosen (all possible thresholds) =",
       length(dels),
-      fill = T
+      fill = TRUE
     )
     if (length(dels) > 0) {
       ## sort delta to make the fast calculation right
@@ -1672,8 +1672,8 @@ samr.plot <- function(samr.obj, del = NULL, min.foldchange = 0) {
   c1 <- (1:samr.obj$n)[sort(samr.obj$tt) >= b1]
   c0 <- (1:samr.obj$n)[sort(samr.obj$tt) <= b0]
   c2 <- c(c0, c1)
-  foldchange.cond.up <- rep(T, length(samr.obj$evo))
-  foldchange.cond.lo <- rep(T, length(samr.obj$evo))
+  foldchange.cond.up <- rep(TRUE, length(samr.obj$evo))
+  foldchange.cond.lo <- rep(TRUE, length(samr.obj$evo))
   if (!is.null(samr.obj$foldchange[1]) & (min.foldchange >
     0)) {
     foldchange.cond.up <- samr.obj$foldchange >= min.foldchange
@@ -2064,8 +2064,8 @@ detec.slab <- function(samr.obj, del, min.foldchange) {
   numer <- samr.obj$tt * (samr.obj$sd + samr.obj$s0)
   tag <- order(tt)
   pup <- NULL
-  foldchange.cond.up <- rep(T, length(evo))
-  foldchange.cond.lo <- rep(T, length(evo))
+  foldchange.cond.up <- rep(TRUE, length(evo))
+  foldchange.cond.lo <- rep(TRUE, length(evo))
   if (!is.null(samr.obj$foldchange[1]) & (min.foldchange >
     0)) {
     foldchange.cond.up <- samr.obj$foldchange >= min.foldchange
@@ -2075,8 +2075,8 @@ detec.slab <- function(samr.obj, del, min.foldchange) {
   if (length(o1) > 0) {
     o1 <- o1[1]
     o11 <- o1:n
-    o111 <- rep(F, n)
-    o111[tag][o11] <- T
+    o111 <- rep(FALSE, n)
+    o111[tag][o11] <- TRUE
     pup <- (1:n)[o111 & foldchange.cond.up]
   }
   plow <- NULL
@@ -2084,8 +2084,8 @@ detec.slab <- function(samr.obj, del, min.foldchange) {
   if (length(o2) > 0) {
     o2 <- o2[length(o2)]
     o22 <- 1:o2
-    o222 <- rep(F, n)
-    o222[tag][o22] <- T
+    o222 <- rep(FALSE, n)
+    o222[tag][o22] <- TRUE
     plow <- (1:n)[o222 & foldchange.cond.lo]
   }
   return(list(plow = plow, pup = pup))
@@ -2122,7 +2122,7 @@ localfdr <- function(
   )
   ndscore <- length(d)
   dvector <- rep(NA, ndscore)
-  ind.foldchange <- rep(T, length(samr.obj$tt))
+  ind.foldchange <- rep(TRUE, length(samr.obj$tt))
   if (!is.null(samr.obj$foldchange[1]) & min.foldchange > 0) {
     ind.foldchange <- (samr.obj$foldchange >= min.foldchange) |
       (samr.obj$foldchange <= min.foldchange)

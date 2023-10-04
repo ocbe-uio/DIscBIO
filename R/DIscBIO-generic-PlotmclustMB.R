@@ -22,10 +22,10 @@ setMethod(
     total <- object@MBclusters
 
     Plotmclust <- function(mclustobj, x = 1, y = 2, MSTorder = NULL,
-                           show_tree = T, show_full_tree = F,
-                           show_cell_names = F, cell_name_size = 3,
+                           show_tree = TRUE, show_full_tree = FALSE,
+                           show_cell_names = FALSE, cell_name_size = 3,
                            markerexpr = NULL,
-                           showcluster = T) {
+                           showcluster = TRUE) {
       color_by <- "State"
       lib_info_with_pseudo <- data.frame(
         State = mclustobj$clusterid,
@@ -110,7 +110,7 @@ setMethod(
         if (show_full_tree) {
           alledges <-
             as.data.frame(get.edgelist(mclustobj$MSTtree),
-              stringsAsFactors = F
+              stringsAsFactors = FALSE
             )
           alledges[, 1] <- as.numeric(alledges[, 1])
           alledges[, 2] <- as.numeric(alledges[, 2])
@@ -144,7 +144,7 @@ setMethod(
             }))
             orderedRows <- order(
               numres[, 1], numres[, 2],
-              decreasing = T
+              decreasing = TRUE
             )[1]
             optcomb <- allcomb[orderedRows, ]
             MSTorder <- get.shortest.paths(

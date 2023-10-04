@@ -30,7 +30,7 @@ setMethod(
     if (ran_k) {
       Obj <- object@fdata
       Names <- object@cpart
-      lpsmclust <- Exprmclust(Obj, K = 4, reduce = F, cluster = Names)
+      lpsmclust <- Exprmclust(Obj, K = 4, reduce = FALSE, cluster = Names)
       lpsorder <- TSCANorder(lpsmclust)
     } else if (ran_m) {
       Obj <- object@fdata

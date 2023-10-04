@@ -39,7 +39,7 @@ setMethod(
     Obj <- object@fdata
     Clusters <- object@cpart
     sampleNames <- colnames(object@fdata)
-    lpsmclust <- Exprmclust(Obj, K = 4, reduce = F, cluster = Clusters)
+    lpsmclust <- Exprmclust(Obj, K = 4, reduce = FALSE, cluster = Clusters)
     lpsorder <- TSCANorder(lpsmclust)
     orderID <- lpsorder
     order <- 1:length(lpsorder)

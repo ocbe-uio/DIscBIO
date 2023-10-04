@@ -40,7 +40,7 @@ setMethod(
   definition = function(object, K, modelNames, reduce, cluster, quiet) {
     obj <- object@fdata
     if (reduce) {
-      sdev <- prcomp(t(obj), scale = T)$sdev[1:20]
+      sdev <- prcomp(t(obj), scale = TRUE)$sdev[1:20]
       x <- 1:20
       optpoint <- which.min(
         vapply(
@@ -55,7 +55,7 @@ setMethod(
       pcadim <- optpoint + 1
       tmpdata <- t(apply(obj, 1, scale))
       colnames(tmpdata) <- colnames(obj)
-      tmppc <- prcomp(t(tmpdata), scale = T)
+      tmppc <- prcomp(t(tmpdata), scale = TRUE)
       pcareduceres <- t(tmpdata) %*% tmppc$rotation[, 1:pcadim]
     } else {
       pcareduceres <- t(obj)
@@ -109,7 +109,7 @@ setMethod(
                         quiet = FALSE) {
     obj <- object
     if (reduce) {
-      sdev <- prcomp(t(obj), scale = T)$sdev[1:20]
+      sdev <- prcomp(t(obj), scale = TRUE)$sdev[1:20]
       x <- 1:20
       optpoint <- which.min(
         vapply(
