@@ -2,9 +2,6 @@ context("Binder tests, part 1")
 
 # Defining the relative path to current inst -----------------------------------
 notebook_data_path <- system.file("notebook", package = "DIscBIO")
-if (notebook_data_path == "") {
-	notebook_data_path <- "../notebook"
-}
 FileName <- "CTCdataset"
 load(file.path(notebook_data_path, paste0(FileName,".rda")))
 load(file.path(notebook_data_path, "SC.RData"))
