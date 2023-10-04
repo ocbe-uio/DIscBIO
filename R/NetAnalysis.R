@@ -12,42 +12,41 @@
 #' @importFrom NetIndices GenInd
 #' @return A network analysis table
 NetAnalysis <- function(
-    data, export = FALSE, FileName = "NetworkAnalysisTable-1"
-) {
-    if (length(data[, 1]) < 1)
-        stop("No Protein-Protein Interactions")
-    df <- data[, -c(1, 2)]
-    gg <- graph.data.frame(df)
-    betweenness <- betweenness(gg)
-    betweenness.table <- data.frame(betweenness)
-    names <- rownames(betweenness.table)
-    rownames(betweenness.table) <- NULL
-    degree <- degree(gg)
-    
-    Duplicated<-data[duplicated(data),]
-    if(length(Duplicated[,1])>0){
-        degree=degree/2
-    }
+    data, export = FALSE, FileName = "NetworkAnalysisTable-1") {
+  if (length(data[, 1]) < 1) {
+    stop("No Protein-Protein Interactions")
+  }
+  df <- data[, -c(1, 2)]
+  gg <- graph.data.frame(df)
+  betweenness <- betweenness(gg)
+  betweenness.table <- data.frame(betweenness)
+  names <- rownames(betweenness.table)
+  rownames(betweenness.table) <- NULL
+  degree <- degree(gg)
 
-    degree.table <- data.frame(degree)
-    names <- rownames(degree.table)
-    rownames(degree.table) <- NULL
-    AnalysisTable <- cbind(names, degree.table, betweenness.table)
+  Duplicated <- data[duplicated(data), ]
+  if (length(Duplicated[, 1]) > 0) {
+    degree <- degree / 2
+  }
 
-    if (export) {
-        write.csv(AnalysisTable, file = paste0(FileName, ".csv")
-        )
-    }
+  degree.table <- data.frame(degree)
+  names <- rownames(degree.table)
+  rownames(degree.table) <- NULL
+  AnalysisTable <- cbind(names, degree.table, betweenness.table)
 
-    test.graph.adj <- get.adjacency(gg, sparse = FALSE)
-    test.graph.properties <- GenInd(test.graph.adj)
-    message("Number of nodes: ", test.graph.properties$N)
-    message("Number of links: ", test.graph.properties$Ltot)
-    message("Link Density: ", test.graph.properties$LD)
-    message("The connectance of the graph: ", test.graph.properties$C)
-    message("Mean Distences", mean_distance(gg))
-    message("Average Path Length", average.path.length(gg), "\n")
-    AnalysisTable <-
-        AnalysisTable[order(AnalysisTable[, 2], decreasing = TRUE), ]
-    return(AnalysisTable)
+  if (export) {
+    write.csv(AnalysisTable, file = paste0(FileName, ".csv"))
+  }
+
+  test.graph.adj <- get.adjacency(gg, sparse = FALSE)
+  test.graph.properties <- GenInd(test.graph.adj)
+  message("Number of nodes: ", test.graph.properties$N)
+  message("Number of links: ", test.graph.properties$Ltot)
+  message("Link Density: ", test.graph.properties$LD)
+  message("The connectance of the graph: ", test.graph.properties$C)
+  message("Mean Distences", mean_distance(gg))
+  message("Average Path Length", average.path.length(gg), "\n")
+  AnalysisTable <-
+    AnalysisTable[order(AnalysisTable[, 2], decreasing = TRUE), ]
+  return(AnalysisTable)
 }

@@ -68,8 +68,9 @@ sc <- DISCBIO(valuesG1msTest) # changes signature of data
 
 # In this case this function is used to normalize the reads
 sc_normal <- Normalizedata(
-    sc, mintotal=1000, minexpr=0, minnumber=0, maxexpr=Inf, downsample=FALSE,
-    dsn=1, rseed=17000
+  sc,
+  mintotal = 1000, minexpr = 0, minnumber = 0, maxexpr = Inf,
+  downsample = FALSE, dsn = 1, rseed = 17000
 )
 summary(sc_normal@fdata)
 

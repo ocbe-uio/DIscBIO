@@ -56,33 +56,33 @@
 #' class(valuesG1msTest)
 #' G1_reclassified <- DISCBIO(valuesG1msTest)
 #' class(G1_reclassified)
-#' str(G1_reclassified, max.level=2)
+#' str(G1_reclassified, max.level = 2)
 #' identical(G1_reclassified@expdataAll, valuesG1msTest)
 DISCBIO <- setClass(
-    Class = "DISCBIO",
-    slots = c(
-        SingleCellExperiment = "SingleCellExperiment",
-        expdata         = "data.frame",
-        expdataAll      = "data.frame",
-        ndata           = "data.frame",
-        fdata           = "data.frame",
-        distances       = "matrix",
-        tsne            = "data.frame",
-        background      = "list",
-        out             = "list",
-        cpart           = "vector",
-        fcol            = "vector",
-        filterpar       = "list",
-        clusterpar      = "list",
-        outlierpar      = "list",
-        kmeans          = "list",
-        MBclusters      = "vector",
-        kordering       = "vector",
-        MBordering      = "vector",
-        MBtsne          = "data.frame",
-        noiseF          = "vector",
-        FinalGeneList   = "vector"
-    )
+  Class = "DISCBIO",
+  slots = c(
+    SingleCellExperiment = "SingleCellExperiment",
+    expdata = "data.frame",
+    expdataAll = "data.frame",
+    ndata = "data.frame",
+    fdata = "data.frame",
+    distances = "matrix",
+    tsne = "data.frame",
+    background = "list",
+    out = "list",
+    cpart = "vector",
+    fcol = "vector",
+    filterpar = "list",
+    clusterpar = "list",
+    outlierpar = "list",
+    kmeans = "list",
+    MBclusters = "vector",
+    kordering = "vector",
+    MBordering = "vector",
+    MBtsne = "data.frame",
+    noiseF = "vector",
+    FinalGeneList = "vector"
+  )
 )
 
 #' validity function for DISCBIO
@@ -91,78 +91,73 @@ DISCBIO <- setClass(
 #' @name DISCBIO
 #' @export
 setValidity(
-    "DISCBIO",
-    function(object) {
-        msg <- NULL
-        if (!is.data.frame(object@expdata)) {
-            msg <- c(msg, "input data must be data.frame")
-        } else if (nrow(object@expdata) < 2) {
-            msg <- c(msg, "input data must have more than one row")
-        } else if (ncol(object@expdata) < 2) {
-            msg <- c(msg, "input data must have more than one column")
-        } else if (sum(apply(is.na(object@expdata), 1, sum)) > 0) {
-            msg <- c(msg, "NAs are not allowed in input data")
-        } else if (sum(apply(object@expdata, 1, min)) < 0) {
-            msg <- c(
-                msg, "negative values are not allowed in input data"
-            )
-        }
-        if (is.null(msg))
-            TRUE
-        else
-            msg
+  "DISCBIO",
+  function(object) {
+    msg <- NULL
+    if (!is.data.frame(object@expdata)) {
+      msg <- c(msg, "input data must be data.frame")
+    } else if (nrow(object@expdata) < 2) {
+      msg <- c(msg, "input data must have more than one row")
+    } else if (ncol(object@expdata) < 2) {
+      msg <- c(msg, "input data must have more than one column")
+    } else if (sum(apply(is.na(object@expdata), 1, sum)) > 0) {
+      msg <- c(msg, "NAs are not allowed in input data")
+    } else if (sum(apply(object@expdata, 1, min)) < 0) {
+      msg <- c(
+        msg, "negative values are not allowed in input data"
+      )
     }
+    if (is.null(msg)) {
+      TRUE
+    } else {
+      msg
+    }
+  }
 )
 
 setMethod(
-    "initialize",
-    signature = "DISCBIO",
-    definition = function(.Object, expdataAll) {
-        # Fix?
-        SingleCellExperiment <- NULL
-
-        # Assess the class of the input
-        if ("SingleCellExperiment" %in% class(expdataAll)) {
-            .Object@SingleCellExperiment <- expdataAll
-            tmp <- SingleCellExperiment::counts(expdataAll)
-            tmp <- as.data.frame(as.matrix(tmp))
-            tmp <- customConvertFeats(tmp, verbose = FALSE)
-            .Object@expdataAll <- tmp
-
-        } else if (is.matrix(expdataAll)) {
-            expdataAll <- customConvertFeats(expdataAll, verbose = FALSE)
-            .Object@expdataAll <- as.data.frame(expdataAll)
-            XX <- tryCatch(
-                SingleCellExperiment::SingleCellExperiment(expdataAll),
-                error = function(e) NULL
-            )
-            .Object@SingleCellExperiment <- XX
-
-        } else if (is.data.frame(expdataAll)) {
-            expdataAll <- customConvertFeats(expdataAll, verbose = FALSE)
-            .Object@expdataAll <- expdataAll
-            XX <- tryCatch(
-                SingleCellExperiment::SingleCellExperiment(
-                    as.matrix(expdataAll)
-                ),
-                error = function(e) NULL
-            )
-            .Object@SingleCellExperiment <- XX
-        }
-
-        # Proceed
-        tmpFeats <- rownames(.Object@expdataAll)
-        tmpExpdataAll <- .Object@expdataAll
-
-        shortNames <- substr(rownames(tmpExpdataAll), 1, 3)
-        geneTypes <- factor(
-            c(ENS = "ENS", ERC = "ERC")[shortNames]
-        )
-        expdata <- tmpExpdataAll[which(grepl("^ENS", geneTypes)), ]
-        .Object@expdata <- expdata
-        .Object@ndata <- expdata
-        .Object@fdata <- expdata
-        validObject(.Object)
-        return(.Object)
+  "initialize",
+  signature = "DISCBIO",
+  definition = function(.Object, expdataAll) {
+    # Assess the class of the input
+    if ("SingleCellExperiment" %in% class(expdataAll)) {
+      .Object@SingleCellExperiment <- expdataAll
+      tmp <- SingleCellExperiment::counts(expdataAll)
+      tmp <- as.data.frame(as.matrix(tmp))
+      tmp <- customConvertFeats(tmp, verbose = FALSE)
+      .Object@expdataAll <- tmp
+    } else if (is.matrix(expdataAll)) {
+      expdataAll <- customConvertFeats(expdataAll, verbose = FALSE)
+      .Object@expdataAll <- as.data.frame(expdataAll)
+      XX <- tryCatch(
+        SingleCellExperiment::SingleCellExperiment(expdataAll),
+        error = function(e) NULL
+      )
+      .Object@SingleCellExperiment <- XX
+    } else if (is.data.frame(expdataAll)) {
+      expdataAll <- customConvertFeats(expdataAll, verbose = FALSE)
+      .Object@expdataAll <- expdataAll
+      XX <- tryCatch(
+        SingleCellExperiment::SingleCellExperiment(
+          as.matrix(expdataAll)
+        ),
+        error = function(e) NULL
+      )
+      .Object@SingleCellExperiment <- XX
     }
+
+    # Proceed
+    tmpExpdataAll <- .Object@expdataAll
+
+    shortNames <- substr(rownames(tmpExpdataAll), 1, 3)
+    geneTypes <- factor(
+      c(ENS = "ENS", ERC = "ERC")[shortNames]
+    )
+    expdata <- tmpExpdataAll[which(grepl("^ENS", geneTypes)), ]
+    .Object@expdata <- expdata
+    .Object@ndata <- expdata
+    .Object@fdata <- expdata
+    validObject(.Object)
+    return(.Object)
+  }
 )

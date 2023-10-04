@@ -76,7 +76,7 @@ This function should be used only if the dataset has ERCC.
 }
 \examples{
 sc <- DISCBIO(valuesG1msTest) # changes signature of data
-sd_filtered <- NoiseFiltering(sc, export=FALSE)
+sd_filtered <- NoiseFiltering(sc, export = FALSE)
 str(sd_filtered)
 
 }

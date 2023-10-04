@@ -13,59 +13,56 @@
 #' @return The DISCBIO-class object input with the tsne slot filled.
 #' @examples
 #' sc <- DISCBIO(valuesG1msTest) # changes signature of data
-#' sc <- Clustexp(sc, cln=2) # data must be clustered before plottin
-#' sc <- comptSNE(sc, max_iter=30)
+#' sc <- Clustexp(sc, cln = 2) # data must be clustered before plottin
+#' sc <- comptSNE(sc, max_iter = 30)
 #' head(sc@tsne)
 #'
-	setGeneric(
-	name = "comptSNE",
-	def = function(
-		object, rseed=NULL, max_iter=5000, epoch=500, quiet=FALSE, ...
-	)
-	{
-		standardGeneric("comptSNE")
-	}
+setGeneric(
+  name = "comptSNE",
+  def = function(
+      object, rseed = NULL, max_iter = 5000, epoch = 500, quiet = FALSE, ...) {
+    standardGeneric("comptSNE")
+  }
 )
 
 #' @rdname comptSNE
 #' @export
 setMethod(
-	f = "comptSNE",
-	signature = "DISCBIO",
-	definition = function(object, rseed, max_iter, epoch, quiet, ...)
-	{
-		# ======================================================================
-		# Validating
-		# ======================================================================
-		ran_k <- length(object@kmeans$kpart) > 0
-		ran_m <- length(object@MBclusters) > 0
-		if (ran_k) {
-			di <- dist.gen(as.matrix(object@distances))
-		} else if (ran_m) {
-			di <- dist.gen(as.matrix(t(object@fdata)))
-		} else {
-			stop("run clustexp before comptSNE")
-		}
-		# ======================================================================
-		# Computing
-		# ======================================================================
-		set.seed(rseed)
-		if (quiet) {
-			ts <- suppressMessages(
-				tsne(di, max_iter = max_iter, epoch = epoch, ...)
-			)
-		} else {
-			message("This function may take time")
-			ts <- tsne(di, max_iter = max_iter, epoch = epoch, ...)
-		}
-		# ======================================================================
-		# Filling output
-		# ======================================================================
-		if (ran_k) {
-			object@tsne <- as.data.frame(ts)
-		} else if (ran_m) {
-			object@MBtsne <- as.data.frame(ts)
-		}
-		return(object)
-	}
+  f = "comptSNE",
+  signature = "DISCBIO",
+  definition = function(object, rseed, max_iter, epoch, quiet, ...) {
+    # ======================================================================
+    # Validating
+    # ======================================================================
+    ran_k <- length(object@kmeans$kpart) > 0
+    ran_m <- length(object@MBclusters) > 0
+    if (ran_k) {
+      di <- dist.gen(as.matrix(object@distances))
+    } else if (ran_m) {
+      di <- dist.gen(as.matrix(t(object@fdata)))
+    } else {
+      stop("run clustexp before comptSNE")
+    }
+    # ======================================================================
+    # Computing
+    # ======================================================================
+    set.seed(rseed)
+    if (quiet) {
+      ts <- suppressMessages(
+        tsne(di, max_iter = max_iter, epoch = epoch, ...)
+      )
+    } else {
+      message("This function may take time")
+      ts <- tsne(di, max_iter = max_iter, epoch = epoch, ...)
+    }
+    # ======================================================================
+    # Filling output
+    # ======================================================================
+    if (ran_k) {
+      object@tsne <- as.data.frame(ts)
+    } else if (ran_m) {
+      object@MBtsne <- as.data.frame(ts)
+    }
+    return(object)
+  }
 )
