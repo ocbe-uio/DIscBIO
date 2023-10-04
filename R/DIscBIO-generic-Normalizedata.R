@@ -67,7 +67,7 @@ setMethod(
       stop("minnumber has to be a non-negative integer number")
     }
     if (!(is.numeric(downsample) | is.logical(downsample))) {
-      stop("downsample has to be logical (TRUE/FALSE)")
+      stop("downsample has to be logical (TRUE or FALSE)")
     }
     if (!is.numeric(dsn)) {
       stop("dsn has to be a positive integer number")

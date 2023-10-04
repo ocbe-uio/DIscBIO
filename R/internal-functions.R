@@ -355,11 +355,11 @@ prepExampleDataset <- function(dataset, save = TRUE) {
   if (save) {
     save(
       valuesG1msReduced_treated_K,
-      file = "data/valuesG1msReduced_treated_K.rda"
+      file = file.path("data", "valuesG1msReduced_treated_K.rda")
     )
     save(
       valuesG1msReduced_treated_MB,
-      file = "data/valuesG1msReduced_treated_MB.rda"
+      file = file.path("data", "valuesG1msReduced_treated_MB.rda")
     )
   } else {
     message("Not saving dataset because (save == FALSE)")

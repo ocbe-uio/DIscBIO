@@ -87,7 +87,7 @@ setMethod(
       stop("SE.factor has to be a non-negative integer")
     }
     if (!(is.numeric(do.gap) | is.logical(do.gap))) {
-      stop("do.gap has to be logical (TRUE/FALSE)")
+      stop("do.gap has to be logical (TRUE or FALSE)")
     }
     if (!is.numeric(B.gap)) {
       stop("B.gap has to be a positive integer")
