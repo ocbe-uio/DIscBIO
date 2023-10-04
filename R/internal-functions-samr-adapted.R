@@ -803,7 +803,6 @@ getperms <- function(y, nperms) {
         nperms.act = nperms.act))
 }
 foldchange.twoclass <- function(x, y, logged2) {
-    #  if(logged2){x=2^x}
     m1 <- rowMeans(x[, y == 1, drop = FALSE])
     m2 <- rowMeans(x[, y == 2, drop = FALSE])
     if (!logged2) {
@@ -1123,7 +1122,6 @@ permute.rows <- function(x) {
 }
 
 foldchange.paired <- function(x, y, logged2) {
-    #  if(logged2){x=2^x}
     nc <- ncol(x) / 2
     o <- 1:nc
     o1 <- rep(0, ncol(x) / 2)
@@ -1167,7 +1165,6 @@ integer.base.b <- function(x, b = 2) {
     ndigits <- (floor(logb(xMax, base = 2)) + 1)
     Base.b <- array(NA, dim = c(N, ndigits))
     for (i in 1:ndigits) {
-        #i <- 1
         Base.b[, ndigits - i + 1] <- (x %% b)
         x <- (x %/% b)
     }
@@ -1458,12 +1455,6 @@ samr.compute.delta.table.array <- function(samr.obj,
     samr.obj$pi0 * gmed / g2, samr.obj$pi0 * g90 / g2, cutlow,
     cutup)
   res1 <- cbind(dels, res1)
-  # remove rows with #called=0
-  #om=res1[,4]==0
-  #res1=res1[!om,,drop=F]
-  # remove duplicate rows with same # of genes called
-  #omm=!duplicated(res1[,4])
-  #res1=res1[omm,,drop=F]
   dimnames(res1) <- list(NULL, c("delta", "# med false pos",
     "90th perc false pos", "# called", "median FDR", "90th perc FDR",
     "cutlo", "cuthi"))
@@ -1897,7 +1888,6 @@ samr.seq.null.err <- function(samr.obj, min.foldchange,
   cutup.rank <- rank(cutup, ties.method = "min")
   cutlow.rank <- rank(-cutlow, ties.method = "min")
   for (jj in 1:ncol(samr.obj$ttstar0)) {
-    #cat(jj, fill=TRUE)
     keep.up <- keep.dn <- samr.obj$ttstar0[, jj]
     if ((samr.obj$resp.type == samr.const.twoclass.unpaired.response |
       samr.obj$resp.type == samr.const.twoclass.paired.response) &
@@ -1997,28 +1987,8 @@ localfdr <- function(samr.obj, min.foldchange, perc = 0.01,
     r <- sum(samr.obj$tt < d[i])
     r22 <- round(max(r - length(samr.obj$tt) * perc / 2, 1))
     dlow.sym <- sort(samr.obj$tt)[r22]
-    #      if(d[i]<0)
-    #       {
-    #         r2 <- max(r-length(samr.obj$tt)*perc/2, 1)
-    # r22= min(r+length(samr.obj$tt)*perc/2,
-    #   length(samr.obj$tt))
-    #
-    #          dlow <- sort(samr.obj$tt)[r2]
-    #          dup=sort(samr.obj$tt)[r22]
-    #       }
     r22 <- min(r + length(samr.obj$tt) * perc / 2, length(samr.obj$tt))
     dup.sym <- sort(samr.obj$tt)[r22]
-    #     if(d[i]>0)
-    #      {
-    # r2 <- min(r+length(samr.obj$tt)*perc/2,
-    #   length(samr.obj$tt))
-    #        r22 <- max(r-length(samr.obj$tt)*perc/2, 1)
-    #        dup <- sort(samr.obj$tt)[r2]
-    #        dlow <- sort(samr.obj$tt)[r22]
-    #
-    #       }
-    # o <- samr.obj$tt>=dlow & samr.obj$tt<= dup &
-    #   ind.foldchange
     oo <- samr.obj$tt >= dlow.sym & samr.obj$tt <= dup.sym &
       ind.foldchange
     nsim <- ncol(samr.obj$ttstar)
@@ -2031,11 +2001,8 @@ localfdr <- function(samr.obj, min.foldchange, perc = 0.01,
         min.foldchange)
     }
     temp <- samr.obj$ttstar0[, sample(1:nperms, size = nperms.to.use)]
-    # fdr <-median(apply(temp,2,fdr.temp,dlow, dup, pi0,
-    #   ind.foldchange))
     fdr.sym <- median(apply(temp, 2, fdr.temp, dlow.sym,
       dup.sym, pi0, ind.foldchange))
-    #      fdr <- 100*fdr/sum(o)
     fdr.sym <- 100 * fdr.sym / sum(oo)
     dlow.sym <- dlow.sym
     dup.sym <- dup.sym
