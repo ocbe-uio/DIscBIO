@@ -108,7 +108,6 @@ sammy <- function(
     ystar <- NULL
     sdstar.keep <- NULL
     censoring.status <- NULL
-    sdstar <- NULL
     pi0 <- NULL
     stand.contrasts <- NULL
     stand.contrasts.star <- NULL
@@ -158,15 +157,13 @@ sammy <- function(
     if (center.arrays) {
       x <- scale(x, center = apply(x, 2, median), scale = FALSE)
     }
-    depth <- scaling.factors <- rep(NA, ncol(x))
-    scaling.factors <- (prod(depth)^(1 / length(depth))) / depth
+    depth <- rep(NA, ncol(x))
     if (assay.type == "seq") {
       message("Estimating sequencing depths...")
       depth <- samr.estimate.depth(x)
       message("Resampling to get new data matrices...")
       xresamp <- resa(x, depth, nresamp = nresamp)
     }
-    scaling.factors <- (prod(depth)^(1 / length(depth))) / depth
     if (resp.type == samr.const.twoclass.unpaired.response) {
       if (substring(y[1], 2, 6) == "Block" | substring(
         y[1],
@@ -229,7 +226,6 @@ sammy <- function(
       x <- t(apply(x, 1, rank))
     }
     n <- nrow(x)
-    ny <- length(y)
     sd <- NULL
     numer <- NULL
     if (resp.type == samr.const.twoclass.unpaired.response &
@@ -509,7 +505,6 @@ sammy <- function(
     nperms.act <- xl.prevfit$nperms.act
     all.perms.flag <- xl.prevfit$all.perms.flag
     depth <- xl.prevfit$depth
-    scaling.factors <- xl.prevfit$scaling.factors
     nresamp <- xl.prevfit$nresamp
     nresamp.perm <- xl.prevfit$nresamp.perm
   }
@@ -655,7 +650,6 @@ sammy <- function(
     }
     evo <- apply(ttstar, 1, mean)
     evo <- evo[seq(length(evo), 1)]
-    sdstar <- sdstar.keep
     pi0 <- 1
     if (resp.type != samr.const.multiclass.response) {
       qq <- quantile(ttstar, c(0.25, 0.75))
@@ -1096,7 +1090,6 @@ parse.time.labels.and.summarize.data <- function(
 ttest.func <- function(x, y, s0 = 0, sd = NULL) {
   n1 <- sum(y == 1)
   n2 <- sum(y == 2)
-  p <- nrow(x)
   m1 <- rowMeans(x[, y == 1, drop = FALSE])
   m2 <- rowMeans(x[, y == 2, drop = FALSE])
   if (is.null(sd)) {
@@ -1163,7 +1156,6 @@ paired.ttest.func <- function(x, y, s0 = 0, sd = NULL) {
     o2[j] <- seq_len(ncol(x))[y == o[j]]
   }
   d <- x[, o2, drop = FALSE] - x[, o1, drop = FALSE]
-  su <- x[, o2, drop = FALSE] + x[, o1, drop = FALSE]
   if (is.matrix(d)) {
     m <- rowMeans(d)
   }
@@ -1355,8 +1347,7 @@ timearea.func <- function(x, y, s0 = 0) {
 }
 cox.seq.func <- function(xresamp, y, censoring.status) {
   # get the dimensions
-  ng <- dim(xresamp)[1]
-  ns <- dim(xresamp)[2]
+  ns <- ncol(xresamp)
   # prepare for the calculation
   # find the index matrix
   Dn <- sum(censoring.status == 1)
@@ -1561,12 +1552,6 @@ samr.compute.delta.table.array <- function(
   if (is.null(dels)) {
     dels <- (seq(0, lmax, length = nvals)^2)
   }
-  col <- matrix(1, nrow = length(samr.obj$evo), ncol = nvals)
-  ttstar0 <- samr.obj$ttstar0
-  tt <- samr.obj$tt
-  n <- samr.obj$n
-  evo <- samr.obj$evo
-  nsim <- ncol(ttstar0)
   res1 <- NULL
   foldchange.cond.up <- matrix(TRUE,
     nrow = nrow(samr.obj$ttstar),
@@ -1605,7 +1590,6 @@ samr.compute.delta.table.array <- function(
     errlow[, ii] <- colSums(samr.obj$ttstar0 < cutlow[ii] &
       foldchange.cond.lo)
   }
-  s <- sqrt(apply(errup, 2, var) / nsim + apply(errlow, 2, var) / nsim)
   gmed <- apply(errup + errlow, 2, median)
   g90 <- apply(errup + errlow, 2, quantile, 0.9)
   res1 <- cbind(
@@ -1694,7 +1678,6 @@ samr.plot <- function(samr.obj, del = NULL, min.foldchange = 0) {
   }
   LARGE <- 1e+10
   b <- detec.slab(samr.obj, del, min.foldchange)
-  bb <- c(b$pup, b$plow)
   b1 <- LARGE
   b0 <- -LARGE
   if (!is.null(b$pup)) {
@@ -1703,9 +1686,6 @@ samr.plot <- function(samr.obj, del = NULL, min.foldchange = 0) {
   if (!is.null(b$plow)) {
     b0 <- max(samr.obj$tt[b$plow])
   }
-  c1 <- (1:samr.obj$n)[sort(samr.obj$tt) >= b1]
-  c0 <- (1:samr.obj$n)[sort(samr.obj$tt) <= b0]
-  c2 <- c(c0, c1)
   foldchange.cond.up <- rep(TRUE, length(samr.obj$evo))
   foldchange.cond.lo <- rep(TRUE, length(samr.obj$evo))
   if (!is.null(samr.obj$foldchange[1]) & (min.foldchange >
@@ -2097,7 +2077,6 @@ detec.slab <- function(samr.obj, del, min.foldchange) {
   n <- length(samr.obj$tt)
   tt <- samr.obj$tt
   evo <- samr.obj$evo
-  numer <- samr.obj$tt * (samr.obj$sd + samr.obj$s0)
   tag <- order(tt)
   pup <- NULL
   foldchange.cond.up <- rep(TRUE, length(evo))
@@ -2175,9 +2154,6 @@ localfdr <- function(
     dup.sym <- sort(samr.obj$tt)[r22]
     oo <- samr.obj$tt >= dlow.sym & samr.obj$tt <= dup.sym &
       ind.foldchange
-    nsim <- ncol(samr.obj$ttstar)
-    fdr <- rep(NA, nsim)
-    fdr2 <- fdr
     if (!is.null(samr.obj$foldchange[1]) & min.foldchange >
       0) {
       temp <- as.vector(samr.obj$foldchange.star[, 1:nperms.to.use])

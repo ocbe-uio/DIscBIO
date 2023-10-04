@@ -119,9 +119,6 @@ setMethod(
   "initialize",
   signature = "DISCBIO",
   definition = function(.Object, expdataAll) {
-    # Fix?
-    SingleCellExperiment <- NULL
-
     # Assess the class of the input
     if ("SingleCellExperiment" %in% class(expdataAll)) {
       .Object@SingleCellExperiment <- expdataAll
@@ -150,7 +147,6 @@ setMethod(
     }
 
     # Proceed
-    tmpFeats <- rownames(.Object@expdataAll)
     tmpExpdataAll <- .Object@expdataAll
 
     shortNames <- substr(rownames(tmpExpdataAll), 1, 3)

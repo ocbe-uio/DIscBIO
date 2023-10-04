@@ -62,7 +62,8 @@ A named vector of the genes containing outlying cells and the number
   of cells on each.
 }
 \description{
-This functions performs the outlier identification for k-means and model-based clustering
+This functions performs the outlier identification for k-means
+and model-based clustering
 }
 \examples{
 sc <- DISCBIO(valuesG1msTest)
