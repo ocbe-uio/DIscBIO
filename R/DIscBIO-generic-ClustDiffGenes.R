@@ -19,19 +19,17 @@
 #' @examples
 #' sc <- DISCBIO(valuesG1msTest)
 #' sc <- Clustexp(sc, cln = 3, quiet = TRUE)
-#' cdiff <- ClustDiffGenes(sc, K=3, fdr=.3, export = FALSE)
+#' cdiff <- ClustDiffGenes(sc, K = 3, fdr = .3, export = FALSE)
 #' str(cdiff)
 #' cdiff[[2]]
-
 setGeneric(
   "ClustDiffGenes",
   function(
-    object, K, pValue = 0.05, fdr = .01, export = FALSE, quiet = FALSE,
-    filename_up = "Up-DEG-cluster",
-    filename_down = "Down-DEG-cluster",
-    filename_binom = "binomial-DEGsTable",
-    filename_sigdeg = "binomial-sigDEG"
-  ) {
+      object, K, pValue = 0.05, fdr = .01, export = FALSE, quiet = FALSE,
+      filename_up = "Up-DEG-cluster",
+      filename_down = "Down-DEG-cluster",
+      filename_binom = "binomial-DEGsTable",
+      filename_sigdeg = "binomial-sigDEG") {
     standardGeneric("ClustDiffGenes")
   }
 )
@@ -41,10 +39,8 @@ setMethod(
   "ClustDiffGenes",
   signature = "DISCBIO",
   definition = function(
-    object, K, pValue, fdr, export, quiet, filename_up, filename_down,
-    filename_binom, filename_sigdeg
-  )
-  {
+      object, K, pValue, fdr, export, quiet, filename_up, filename_down,
+      filename_binom, filename_sigdeg) {
     # ======================================================================
     # Validating
     # ======================================================================
@@ -61,12 +57,12 @@ setMethod(
       stop("pValue has to be a number between 0 and 1")
     }
     cdiff <- list()
-    x     <- object@ndata
-    y     <- object@expdata[, names(object@ndata)]
+    x <- object@ndata
+    y <- object@expdata[, names(object@ndata)]
     if (ran_k) {
-      part  <- object@kmeans$kpart
+      part <- object@kmeans$kpart
     } else if (ran_m) {
-      part  <- object@MBclusters$clusterid
+      part <- object@MBclusters$clusterid
     } else {
       stop("Run clustering before running this function")
     }
@@ -74,20 +70,23 @@ setMethod(
     # Operating
     # ======================================================================
     for (i in 1:max(part)) {
-      if (sum(part == i) == 0)
+      if (sum(part == i) == 0) {
         next
+      }
       m <- apply(x, 1, mean)
       n <-
-        if (sum(part == i) > 1)
+        if (sum(part == i) > 1) {
           apply(x[, part == i], 1, mean)
-      else
-        x[, part == i]
+        } else {
+          x[, part == i]
+        }
       no <-
-        if (sum(part == i) > 1)
+        if (sum(part == i) > 1) {
           median(apply(y[, part == i], 2, sum)) /
-          median(apply(x[, part == i], 2, sum))
-      else
-        sum(y[, part == i]) / sum(x[, part == i])
+            median(apply(x[, part == i], 2, sum))
+        } else {
+          sum(y[, part == i]) / sum(x[, part == i])
+        }
       m <- m * no
       n <- n * no
       pv <- binompval(m / sum(m), sum(n), n)
@@ -118,7 +117,7 @@ setMethod(
           for (i in 1:length(out[, 1])) {
             if (out[i, 1] > out[i, 2]) {
               Regulation[i] <- "Down"
-            } else{
+            } else {
               Regulation[i] <- "Up"
             }
           }
@@ -188,7 +187,8 @@ setMethod(
           )
           if (export) {
             write.csv(
-              Up, file = paste0(filename_up, n, ".csv")
+              Up,
+              file = paste0(filename_up, n, ".csv")
             )
           }
 
@@ -219,7 +219,8 @@ setMethod(
           sigDEG <- cbind(DEGsE, DEGsS)
           if (export) {
             write.csv(
-              sigDEG, file = paste0(filename_sigdeg, ".csv")
+              sigDEG,
+              file = paste0(filename_sigdeg, ".csv")
             )
           }
 
@@ -241,7 +242,7 @@ setMethod(
         write.csv(DEGsTable, file = paste0(filename_binom, ".csv"))
       }
       return(list(sigDEG, DEGsTable))
-    } else{
+    } else {
       print(paste("There are no DEGs with fdr =", fdr))
     }
   }

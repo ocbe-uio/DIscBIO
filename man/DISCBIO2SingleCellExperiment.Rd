@@ -22,5 +22,4 @@ class(g1_disc)
 g1_sce <- DISCBIO2SingleCellExperiment(g1_disc)
 class(g1_sce)
 
-
 }

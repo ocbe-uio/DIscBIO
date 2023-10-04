@@ -4,19 +4,16 @@
 #' @rdname plotLabelstSNE
 #' @importFrom graphics text
 #' @return Plot containing the ID of the cells in each cluster
-setGeneric("plotLabelstSNE", function(object)
-  {
+setGeneric("plotLabelstSNE", function(object) {
   standardGeneric("plotLabelstSNE")
-  }
-)
+})
 
 #' @rdname plotLabelstSNE
 #' @export
 setMethod(
   "plotLabelstSNE",
   signature = "DISCBIO",
-  definition = function(object)
-  {
+  definition = function(object) {
     # ======================================================================
     # Validating
     # ======================================================================

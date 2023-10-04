@@ -3,8 +3,9 @@
 #' @param object \code{DISCBIO} class object.
 #' @importFrom graphics text
 #' @return A plot of t-SNEs.
-setGeneric("plottSNE", function(object)
-  standardGeneric("plottSNE"))
+setGeneric("plottSNE", function(object) {
+  standardGeneric("plottSNE")
+})
 
 #' @rdname plottSNE
 #' @export
@@ -30,7 +31,7 @@ setMethod(
     # Plotting
     # ======================================================================
     col <- c("black", "blue", "green", "red", "yellow", "gray")
-  LEN <- length(levels(factor(part)))
+    LEN <- length(levels(factor(part)))
     plot(
       x,
       las = 1,

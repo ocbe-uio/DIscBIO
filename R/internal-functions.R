@@ -1,17 +1,16 @@
 #' @importFrom fpc clusterboot cluster.stats calinhara dudahart2
 clustfun <- function(
-  x,
-  clustnr   = 20,
-  bootnr    = 50,
-  metric    = "pearson",
-  do.gap    = TRUE,
-  SE.method = "Tibs2001SEmax",
-  SE.factor = .25,
-  B.gap     = 50,
-  cln       = 0,
-  rseed     = rseed,
-  quiet     = FALSE
-) {
+    x,
+    clustnr = 20,
+    bootnr = 50,
+    metric = "pearson",
+    do.gap = TRUE,
+    SE.method = "Tibs2001SEmax",
+    SE.factor = .25,
+    B.gap = 50,
+    cln = 0,
+    rseed = rseed,
+    quiet = FALSE) {
   if (clustnr < 2) stop("Choose clustnr > 1")
   di <- dist.gen(t(x), method = metric)
   if (do.gap | cln > 0) {
@@ -59,19 +58,18 @@ clustfun <- function(
   }
 }
 
-Kmeansruns <- function (
-  data,
-  krange    = 2: 10,
-  criterion = "ch",
-  iter.max  = 100,
-  runs      = 100,
-  scaledata = FALSE,
-  alpha     = 0.001,
-  critout   = FALSE,
-  plot      = FALSE,
-  method    = "euclidean",
-  ...
-) {
+Kmeansruns <- function(
+    data,
+    krange = 2:10,
+    criterion = "ch",
+    iter.max = 100,
+    runs = 100,
+    scaledata = FALSE,
+    alpha = 0.001,
+    critout = FALSE,
+    plot = FALSE,
+    method = "euclidean",
+    ...) {
   data <- as.matrix(data)
   if (criterion == "asw") sdata <- dist(data)
   if (scaledata) data <- scale(data)
@@ -103,8 +101,7 @@ Kmeansruns <- function (
         }
       }
       km[[k]] <- kmopt
-      crit[k] <- switch(
-        criterion,
+      crit[k] <- switch(criterion,
         asw = cluster.stats(sdata, km[[k]]$cluster)$avg.silwidth,
         ch  = calinhara(data, km[[k]]$cluster)
       )
@@ -114,7 +111,7 @@ Kmeansruns <- function (
     }
   }
   if (cluster1) {
-    cluster1 <- dudahart2( data, km[[2]]$cluster, alpha = alpha)$cluster1
+    cluster1 <- dudahart2(data, km[[2]]$cluster, alpha = alpha)$cluster1
   }
   k.best <- which.max(crit)
   if (cluster1) k.best <- 1
@@ -124,15 +121,15 @@ Kmeansruns <- function (
   return(out)
 }
 
-KmeansCBI <- function (data,
-  krange,
-  k = NULL,
-  scaling = FALSE,
-  runs = 1,
-  criterion = "ch",
-  method = "euclidean",
-  ...
-) {
+KmeansCBI <- function(
+    data,
+    krange,
+    k = NULL,
+    scaling = FALSE,
+    runs = 1,
+    criterion = "ch",
+    method = "euclidean",
+    ...) {
   if (!is.null(k)) krange <- k
   if (!identical(scaling, FALSE)) {
     sdata <- scale(data, center = TRUE, scale = scaling)
@@ -170,7 +167,7 @@ dist.gen <- function(x, method = "euclidean") {
 }
 
 binompval <- function(p, N, n) {
-  pval   <- pbinom(n, round(N, 0), p, lower.tail = TRUE)
+  pval <- pbinom(n, round(N, 0), p, lower.tail = TRUE)
   filter <- !is.na(pval) & pval > 0.5
   pval[filter] <- 1 - pval[filter]
   return(pval)
@@ -199,7 +196,7 @@ downsample <- function(x, n, dsn) {
   x <- round(x[, apply(x, 2, sum, na.rm = TRUE) >= n], 0)
   nn <- min(apply(x, 2, sum))
   for (j in 1:dsn) {
-    z  <- data.frame(GENEID = rownames(x))
+    z <- data.frame(GENEID = rownames(x))
     rownames(z) <- rownames(x)
     initv <- rep(0, nrow(z))
     for (i in 1:dim(x)[2]) {
@@ -277,7 +274,9 @@ MCC <- function(con.mat) {
 #' @seealso replaceDecimals
 #' @author Waldir Leoncio
 reformatSiggenes <- function(table) {
-  if (is.null(table)) return(table)
+  if (is.null(table)) {
+    return(table)
+  }
   table <- as.data.frame(table)
   # ==========================================================================
   # Replacing decimal separators
@@ -333,7 +332,8 @@ prepExampleDataset <- function(dataset, save = TRUE) {
   message("Treating dataset")
   sc <- DISCBIO(dataset)
   sc <- NoiseFiltering(
-    sc, percentile = 0.9, CV = 0.2, export = FALSE, plot = FALSE, quiet = TRUE
+    sc,
+    percentile = 0.9, CV = 0.2, export = FALSE, plot = FALSE, quiet = TRUE
   )
   sc <- Normalizedata(sc)
   sc <- FinalPreprocessing(sc, export = FALSE, quiet = TRUE)
@@ -378,8 +378,7 @@ prepExampleDataset <- function(dataset, save = TRUE) {
 #' @importFrom httr GET status_code
 #' @author Waldir Leoncio
 retrieveURL <- function(
-  data, species, outputFormat, maxRetries = 3, successCode = 200
-) {
+    data, species, outputFormat, maxRetries = 3, successCode = 200) {
   # ======================================================== #
   # Setting up retrieval                                     #
   # ======================================================== #

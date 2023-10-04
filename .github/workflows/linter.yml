@@ -31,7 +31,7 @@ jobs:
           style_rules <- list(
             T_and_F_symbol_linter(), assignment_linter(), brace_linter(),
             commas_linter(), commented_code_linter(), todo_comment_linter(),
-            cyclocomp_linter(), equals_na_linter(),
+            equals_na_linter(),
             function_left_parentheses_linter(), infix_spaces_linter(),
             line_length_linter(), whitespace_linter(), object_usage_linter(),
             absolute_path_linter(),

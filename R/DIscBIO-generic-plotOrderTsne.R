@@ -3,8 +3,9 @@
 #'   ordering.
 #' @param object \code{DISCBIO} class object.
 #' @return A plot of the pseudo-time ordering.
-setGeneric("plotOrderTsne", function(object)
-  standardGeneric("plotOrderTsne"))
+setGeneric("plotOrderTsne", function(object) {
+  standardGeneric("plotOrderTsne")
+})
 
 #' @export
 #' @rdname plotOrderTsne

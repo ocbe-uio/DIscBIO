@@ -17,12 +17,10 @@
 #' sc <- comptSNE(sc, max_iter = 30)
 #' head(sc@tsne)
 #'
-  setGeneric(
+setGeneric(
   name = "comptSNE",
   def = function(
-    object, rseed = NULL, max_iter = 5000, epoch = 500, quiet = FALSE, ...
-  )
-  {
+      object, rseed = NULL, max_iter = 5000, epoch = 500, quiet = FALSE, ...) {
     standardGeneric("comptSNE")
   }
 )
@@ -32,8 +30,7 @@
 setMethod(
   f = "comptSNE",
   signature = "DISCBIO",
-  definition = function(object, rseed, max_iter, epoch, quiet, ...)
-  {
+  definition = function(object, rseed, max_iter, epoch, quiet, ...) {
     # ======================================================================
     # Validating
     # ======================================================================

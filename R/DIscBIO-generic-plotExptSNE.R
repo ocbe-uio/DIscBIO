@@ -10,9 +10,9 @@
 #'   NULL and the first element of \code{g} is chosen.
 #' @return t-SNE plot for one particular gene
 
-setGeneric("plotExptSNE", function(object, g, n = NULL)
+setGeneric("plotExptSNE", function(object, g, n = NULL) {
   standardGeneric("plotExptSNE")
-)
+})
 
 #' @export
 #' @rdname plotExptSNE
@@ -32,11 +32,12 @@ setMethod(
     } else {
       stop("run comptSNE before plotExptSNE")
     }
-    if (length(intersect(g, rownames(object@ndata))) < length(unique(g)))
+    if (length(intersect(g, rownames(object@ndata))) < length(unique(g))) {
       stop(
         "second argument does not correspond to set of rownames slot",
         "ndata of SCseq object"
       )
+    }
     if (is.null(n)) n <- g[1]
     # ======================================================================
     # Plotting

@@ -1,7 +1,7 @@
 if (interactive()) {
   context("Binder tests, part 1")
 
-  # Defining the relative path to current inst -----------------------------------
+  # Defining the relative path to current inst ---------------------------------
   notebook_data_path <- system.file("notebook", package = "DIscBIO")
   FileName <- "CTCdataset"
   load(file.path(notebook_data_path, paste0(FileName, ".rda")))
@@ -27,7 +27,10 @@ if (interactive()) {
     expect_equal(minnumber, 146)
   })
 
-  sc <- Normalizedata(sc, minexpr = minexpr, minnumber = minnumber, rseed = 17000)
+  sc <- Normalizedata(
+    sc,
+    minexpr = minexpr, minnumber = minnumber, rseed = 17000
+  )
   sc <- suppressMessages(FinalPreprocessing(sc, GeneFlitering = "ExpF"))
   sc <- SC
   sc@ndata <- Ndata
@@ -44,14 +47,14 @@ if (interactive()) {
   if (long_test) {
     sc <- Clustexp(sc, 4, bootnr = 2, B.gap = 2, quiet = TRUE, rseed = 17000)
     outlg <- round(length(sc@fdata[, 1]) * 0.05)
-    Outliers <- FindOutliers(sc, 4, outlg=outlg, plot = FALSE, quiet = TRUE)
-    jcrd <- Jaccard(sc, K=4, plot = FALSE, R = 2)
+    Outliers <- FindOutliers(sc, 4, outlg = outlg, plot = FALSE, quiet = TRUE)
+    jcrd <- Jaccard(sc, K = 4, plot = FALSE, R = 2)
     sc <- pseudoTimeOrdering(sc, quiet = TRUE)
 
     test_that("Post-processing", {
       expect_equivalent(jcrd, c(.422, .649, .335, .605))
       expect_output(
-        object = str(sc, max.level=1),
+        object = str(sc, max.level = 1),
         expected = 'Formal class \'DISCBIO\' [package "DIscBIO"] with 21 slots'
       )
     })

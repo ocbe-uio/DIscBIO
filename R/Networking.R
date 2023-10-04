@@ -15,14 +15,12 @@
 #' @importFrom graphics plot rasterImage
 #' @return A plot of the network
 Networking <- function(
-  data,
-  FileName    = NULL,
-  species     = "9606",
-  plot_width  = 25,
-  plot_height = 15,
-  retries     = 3
-) {
-
+    data,
+    FileName = NULL,
+    species = "9606",
+    plot_width = 25,
+    plot_height = 15,
+    retries = 3) {
   # ======================================================== #
   # Validation                                               #
   # ======================================================== #

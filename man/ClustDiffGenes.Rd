@@ -62,7 +62,7 @@ Creates a table of cluster differences
 \examples{
 sc <- DISCBIO(valuesG1msTest)
 sc <- Clustexp(sc, cln = 3, quiet = TRUE)
-cdiff <- ClustDiffGenes(sc, K=3, fdr=.3, export = FALSE)
+cdiff <- ClustDiffGenes(sc, K = 3, fdr = .3, export = FALSE)
 str(cdiff)
 cdiff[[2]]
 }
