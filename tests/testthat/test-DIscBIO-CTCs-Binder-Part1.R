@@ -1,10 +1,8 @@
 context("Binder tests, part 1")
 
 # Defining the relative path to current inst -----------------------------------
-notebook_data_path <- system.file("notebook", package = "DIscBIO") # FIXME: passes test() but not check()
-print(notebook_data_path)#TEMP
+notebook_data_path <- system.file("notebook", package = "DIscBIO")
 if (notebook_data_path == "") {
-	print(getwd())#TEMP
 	notebook_data_path <- "../notebook"
 }
 FileName <- "CTCdataset"
