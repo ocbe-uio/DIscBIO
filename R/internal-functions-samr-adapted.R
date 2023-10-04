@@ -1,4 +1,6 @@
-# This script contains customized versions of functions found in the samr package. This is necessary because samr seems to have been abandoned, so an upstream collaboration doesn't seem possible at the time of writing.
+# This script contains customized versions of functions found in the samr
+# package. This is necessary because samr seems to have been abandoned, so an
+# upstream collaboration doesn't seem possible at the time of writing.
 # ATTENTION: The source code in this file is licensed under LGPL-3.
 
 # ==============================================================================
@@ -9,7 +11,8 @@ samr.const.twoclass.paired.response <- "Two class paired"
 samr.const.oneclass.response <- "One class"
 samr.const.quantitative.response <- "Quantitative"
 samr.const.multiclass.response <- "Multiclass"
-samr.const.twoclass.unpaired.timecourse.response <- "Two class unpaired timecourse"
+samr.const.twoclass.unpaired.timecourse.response <-
+  "Two class unpaired timecourse"
 samr.const.twoclass.paired.timecourse.response <- "Two class paired timecourse"
 samr.const.oneclass.timecourse.response <- "One class timecourse"
 samr.const.survival.response <- "Survival"
@@ -21,21 +24,52 @@ samr.const.patterndiscovery.response <- "Pattern discovery"
 
 #' @title Significance analysis of microarrays
 #' @description This function is an adaptation of `samr::samr`
-#' @param data Data object with components x- p by n matrix of features, one observation per column (missing values allowed); y- n-vector of outcome measurements; censoring.status- n-vector of censoring censoring.status (1= died or event occurred, 0=survived, or event was censored), needed for a censored survival outcome
-#' @param resp.type Problem type: "Quantitative" for a continuous parameter (Available for both array and sequencing data); "Two class unpaired" (for both array and sequencing data); "Survival" for censored survival outcome (for both array and sequencingdata); "Multiclass": more than 2 groups (for both array and sequencing data); "One class" for a single group (only for array data); "Two class paired" for two classes with paired observations (for both array and sequencing data); "Two class unpaired timecourse" (only for array data), "One class time course" (only for array data), "Two class.paired timecourse" (only for array data), or "Pattern discovery" (only for array data)
-#' @param assay.type Assay type: "array" for microarray data, "seq" for counts from sequencing
-#' @param s0 Exchangeability factor for denominator of test statistic; Default is automatic choice. Only used for array data.
-#' @param s0.perc Percentile of standard deviation values to use for s0; default is automatic choice; -1 means s0=0 (different from s0.perc=0, meaning s0=zeroeth percentile of standard deviation values= min of sd values. Only used for array data.
+#' @param data Data object with components x- p by n matrix of features, one
+#' observation per column (missing values allowed); y- n-vector of outcome
+#' measurements; censoring.status- n-vector of censoring censoring.status
+#' (1= died or event occurred, 0=survived, or event was censored), needed for a
+#' censored survival outcome
+#' @param resp.type Problem type: "Quantitative" for a continuous parameter
+#' (Available for both array and sequencing data); "Two class unpaired" (for
+#' both array and sequencing data); "Survival" for censored survival outcome
+#' (for both array and sequencingdata); "Multiclass": more than 2 groups (for
+#' both array and sequencing data); "One class" for a single group (only for
+#' array data); "Two class paired" for two classes with paired observations
+#' (for both array and sequencing data); "Two class unpaired timecourse" (only
+#' for array data), "One class time course" (only for array data),
+#' "Two class.paired timecourse" (only for array data), or "Pattern discovery"
+#' (only for array data)
+#' @param assay.type Assay type: "array" for microarray data, "seq" for counts
+#' from sequencing
+#' @param s0 Exchangeability factor for denominator of test statistic; Default
+#' is automatic choice. Only used for array data.
+#' @param s0.perc Percentile of standard deviation values to use for s0; default
+#' is automatic choice; -1 means s0=0 (different from s0.perc=0, meaning
+#' s0=zeroeth percentile of standard deviation values= min of sd values.
+#' Only used for array data.
 #' @param nperms Number of permutations used to estimate false discovery rates
-#' @param center.arrays Should the data for each sample (array) be median centered at the outset? Default =FALSE. Only used for array data.
-#' @param testStatistic Test statistic to use in two class unpaired case.Either "standard" (t-statistic) or ,"wilcoxon" (Two-sample wilcoxon or Mann-Whitney test). Only used for array data.
-#' @param time.summary.type Summary measure for each time course: "slope", or"signed.area"). Only used for array data.
-#' @param regression.method Regression method for quantitative case: "standard",(linear least squares) or "ranks" (linear least squares on ranked data). Only used for array data.
-#' @param return.x Should the matrix of feature values be returned? Only useful for time course data, where x contains summaries of the features over time. Otherwise x is the same as the input data data\$x
-#' @param knn.neighbors Number of nearest neighbors to use for imputation of missing features values. Only used for array data.
-#' @param random.seed Optional initial seed for random number generator (integer)
-#' @param nresamp For assay.type="seq", number of resamples used to construct test statistic. Default 20. Only used for sequencing data.
-#' @param nresamp.perm For assay.type="seq", number of resamples used to construct test statistic for permutations. Default is equal to nresamp and it must be at most nresamp. Only used for sequencing data.
+#' @param center.arrays Should the data for each sample (array) be median
+#' centered at the outset? Default =FALSE. Only used for array data.
+#' @param testStatistic Test statistic to use in two class unpaired case.Either
+#' "standard" (t-statistic) or ,"wilcoxon" (Two-sample wilcoxon or Mann-Whitney
+#' test). Only used for array data.
+#' @param time.summary.type Summary measure for each time course: "slope", or
+#' "signed.area"). Only used for array data.
+#' @param regression.method Regression method for quantitative case: "standard",
+#' (linear least squares) or "ranks" (linear least squares on ranked data).
+#' Only used for array data.
+#' @param return.x Should the matrix of feature values be returned? Only useful
+#' for time course data, where x contains summaries of the features over time.
+#' Otherwise x is the same as the input data data\$x
+#' @param knn.neighbors Number of nearest neighbors to use for imputation of
+#' missing features values. Only used for array data.
+#' @param random.seed Optional initial seed for random number generator
+#' (integer)
+#' @param nresamp For assay.type="seq", number of resamples used to construct
+#' test statistic. Default 20. Only used for sequencing data.
+#' @param nresamp.perm For assay.type="seq", number of resamples used to
+#' construct test statistic for permutations. Default is equal to nresamp and it
+#' must be at most nresamp. Only used for sequencing data.
 #' @param xl.mode Used by Excel interface
 #' @param xl.time Used by Excel interface
 #' @param xl.prevfit Used by Excel interface
@@ -101,10 +135,11 @@ sammy <- function(
       }
     }
     are.blocks.specified <- FALSE
-    cond <- (resp.type == "One class") | (resp.type == "Two class unpaired timecourse") |
-      (resp.type == "One class unpaired timecourse") |
-      (resp.type == "Two class paired timecourse") | (resp.type ==
-      "Pattern discovery")
+    cond <- resp.type %in% c(
+      "One class", "Two class unpaired timecourse",
+      "One class unpaired timecourse", "Two class paired timecourse",
+      "Pattern discovery"
+    )
     if (assay.type == "seq" & cond) {
       stop(paste("Resp.type=", resp.type, " not allowed when assay.type='seq'"))
     }
@@ -312,7 +347,9 @@ sammy <- function(
     }
     if (resp.type == samr.const.patterndiscovery.response &
       assay.type == "array") {
-      junk <- patterndiscovery.func(x, s0 = s0, eigengene.number = eigengene.number)
+      junk <- patterndiscovery.func(
+        x, s0 = s0, eigengene.number = eigengene.number
+      )
       tt <- junk$tt
       eigengene <- junk$eigengene
     }
@@ -934,8 +971,8 @@ permute <- function(elem) {
       1), ncol = dim.last[2] + 1)
     for (row in 1:(dim.last[1])) {
       for (col in 1:(dim.last[2] + 1)) {
-        new.matrix[row +
-          (col - 1) * dim.last[1], ] <- insert.value(last.matrix[row, ], elem[1], col)
+        new.matrix[row + (col - 1) * dim.last[1], ] <-
+          insert.value(last.matrix[row, ], elem[1], col)
       }
     }
     return(new.matrix)
@@ -1873,7 +1910,9 @@ samr.compute.siggenes.table <- function(
     res.lo <- res.lo[o2, , drop = FALSE]
   }
   color.ind.for.multi <- NULL
-  if (samr.obj$resp.type == samr.const.multiclass.response & !is.null(sig$pup)) {
+  if (
+    samr.obj$resp.type == samr.const.multiclass.response & !is.null(sig$pup)
+  ) {
     condition_1 <-
       samr.obj$stand.contrasts[sig$pup, ] > samr.obj$stand.contrasts.95[2]
     condition_2 <-

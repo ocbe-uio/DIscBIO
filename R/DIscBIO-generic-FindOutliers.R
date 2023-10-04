@@ -1,5 +1,6 @@
 #' @title Inference of outlier cells
-#' @description This functions performs the outlier identification for k-means and model-based clustering
+#' @description This functions performs the outlier identification for k-means
+#' and model-based clustering
 #' @param object \code{DISCBIO} class object.
 #' @param outminc minimal transcript count of a gene in a clusters to be tested
 #'   for being an outlier gene. Default is 5.
@@ -39,7 +40,9 @@ setGeneric(
 setMethod(
   "FindOutliers",
   signature = "DISCBIO",
-  definition = function(object, K, outminc, outlg, probthr, thr, outdistquant, plot, quiet) {
+  definition = function(
+    object, K, outminc, outlg, probthr, thr, outdistquant, plot, quiet
+  ) {
     # ======================================================================
     # Validating
     # ======================================================================

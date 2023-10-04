@@ -39,8 +39,10 @@ setGeneric(
 setMethod(
   "DEGanalysis2clust",
   signature = "DISCBIO",
-  definition = function(object, K, Clustering, fdr, name, First, Second, export, quiet, plot,
-                        filename_deg, filename_sigdeg, ...) {
+  definition = function(
+    object, K, Clustering, fdr, name, First, Second, export, quiet, plot,
+    filename_deg, filename_sigdeg, ...
+  ) {
     if (!(Clustering %in% c("K-means", "MB"))) {
       stop("Clustering has to be either K-means or MB")
     }

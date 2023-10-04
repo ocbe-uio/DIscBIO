@@ -3,7 +3,8 @@
 #'   by clusters. Individual clusters are highlighted with rainbow colors along
 #'   the x and y-axes.
 #' @param object \code{DISCBIO} class object.
-#' @param clustering_method either "k-means" or "model-based" ("k" and "mb" are also accepted)
+#' @param clustering_method either "k-means" or "model-based" ("k" and "mb" are
+#' also accepted)
 #' @param hmethod  Agglomeration method used for determining the cluster order
 #'   from hierarchical clustering of the cluster medoids. This should be one of
 #'   "ward.D", "ward.D2", "single", "complete", "average". Default is "single".
@@ -30,7 +31,9 @@ setGeneric(
 setMethod(
   "clustheatmap",
   signature = "DISCBIO",
-  definition = function(object, clustering_method, hmethod, rseed, quiet, plot) {
+  definition = function(
+    object, clustering_method, hmethod, rseed, quiet, plot
+  ) {
     x <- object@fdata
     if (tolower(clustering_method) %in% c("k-means", "k")) {
       part <- object@kmeans$kpart

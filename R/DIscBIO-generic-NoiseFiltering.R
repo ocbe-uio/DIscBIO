@@ -45,8 +45,10 @@ setGeneric(
 setMethod(
   f = "NoiseFiltering",
   signature = "DISCBIO",
-  definition = function(object, percentile, CV, geneCol, FgeneCol, erccCol, Val, plot,
-                        export, quiet, filename) {
+  definition = function(
+    object, percentile, CV, geneCol, FgeneCol, erccCol, Val, plot, export,
+    quiet, filename
+  ) {
     if (!is.numeric(percentile)) {
       stop("percentile has to be a positive number")
     } else if (percentile <= 0) {

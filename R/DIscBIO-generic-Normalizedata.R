@@ -29,8 +29,8 @@
 #' # In this case this function is used to normalize the reads
 #' sc_normal <- Normalizedata(
 #'   sc,
-#'   mintotal = 1000, minexpr = 0, minnumber = 0, maxexpr = Inf, downsample = FALSE,
-#'   dsn = 1, rseed = 17000
+#'   mintotal = 1000, minexpr = 0, minnumber = 0, maxexpr = Inf,
+#'   downsample = FALSE, dsn = 1, rseed = 17000
 #' )
 #' summary(sc_normal@fdata)
 #'
@@ -47,7 +47,9 @@ setGeneric(
 setMethod(
   "Normalizedata",
   signature = "DISCBIO",
-  definition = function(object, mintotal, minexpr, minnumber, maxexpr, downsample, dsn, rseed) {
+  definition = function(
+    object, mintotal, minexpr, minnumber, maxexpr, downsample, dsn, rseed
+  ) {
     # Validation
     if (!is.numeric(mintotal)) {
       stop("mintotal has to be a positive number")

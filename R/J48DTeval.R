@@ -12,7 +12,9 @@
 #' @param quiet If `TRUE`, suppresses intermediary output
 #' @importFrom stats predict
 #' @return Statistics about the J48 model
-J48DTeval <- function(data, num.folds = 10, First = "CL1", Second = "CL2", quiet = FALSE) {
+J48DTeval <- function(
+  data, num.folds = 10, First = "CL1", Second = "CL2", quiet = FALSE
+) {
   exp.imput.df <- as.data.frame(t(data))
   num.instances <- nrow(exp.imput.df)
   indices <- 1:num.instances
