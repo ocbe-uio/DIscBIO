@@ -74,10 +74,10 @@ J48DTeval <- function(
         )
         colnames(j48.confusion.matrix) <- c(First, Second)
         if (!quiet) print(j48.confusion.matrix)
-        j48.sn <- round(SN(j48.confusion.matrix),digits=2)
-        j48.sp <- round(SP(j48.confusion.matrix),digits=2)
-        j48.acc <- round(ACC(j48.confusion.matrix),digits=2)
-        j48.mcc <- round(MCC(j48.confusion.matrix),digits=2)
+        j48.sn <- round(SN(j48.confusion.matrix),digits = 2)
+        j48.sp <- round(SP(j48.confusion.matrix),digits = 2)
+        j48.acc <- round(ACC(j48.confusion.matrix),digits = 2)
+        j48.mcc <- round(MCC(j48.confusion.matrix),digits = 2)
 
         if (!quiet) {
             message(

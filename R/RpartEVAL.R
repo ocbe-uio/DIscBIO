@@ -74,10 +74,10 @@ RpartEVAL <- function(data, num.folds = 10, First = "CL1", Second = "CL2",
         )
         colnames(Rpart.confusion.matrix) <- c(First, Second)
         if (!quiet) print(Rpart.confusion.matrix)
-        Rpart.sn <- round(SN(Rpart.confusion.matrix),digits=2)
-        Rpart.sp <- round(SP(Rpart.confusion.matrix),digits=2)
-        Rpart.acc <- round(ACC(Rpart.confusion.matrix),digits=2)
-        Rpart.mcc <- round(MCC(Rpart.confusion.matrix),digits=2)
+        Rpart.sn <- round(SN(Rpart.confusion.matrix),digits = 2)
+        Rpart.sp <- round(SP(Rpart.confusion.matrix),digits = 2)
+        Rpart.acc <- round(ACC(Rpart.confusion.matrix),digits = 2)
+        Rpart.mcc <- round(MCC(Rpart.confusion.matrix),digits = 2)
 
         if (!quiet) {
             message(

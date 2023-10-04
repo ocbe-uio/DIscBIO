@@ -23,7 +23,7 @@
 #'   of cells on each.
 #' @examples
 #' sc <- DISCBIO(valuesG1msTest)
-#' sc <- Clustexp(sc, cln=2) # K-means clustering
+#' sc <- Clustexp(sc, cln = 2) # K-means clustering
 #' FindOutliers(sc, K=2)
 #'
 setGeneric(
@@ -98,7 +98,7 @@ setMethod(
             outdistquant = outdistquant
         )
         ### calibrate background model
-	EXP<-object@expdata + 0.1
+	EXP <- object@expdata + 0.1
         m <- log2(apply(EXP, 1, mean))
         v <- log2(apply(EXP, 1, var))
         f <- m > -Inf & v > -Inf

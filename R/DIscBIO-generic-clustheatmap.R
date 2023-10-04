@@ -18,10 +18,10 @@ setGeneric(
     function(
         object,
         clustering_method = "k-means",
-        hmethod="single",
-        rseed=NULL,
-        quiet=FALSE,
-        plot=TRUE)
+        hmethod = "single",
+        rseed = NULL,
+        quiet = FALSE,
+        plot = TRUE)
 	{
 	    standardGeneric("clustheatmap")
 	}

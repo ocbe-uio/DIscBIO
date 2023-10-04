@@ -23,10 +23,10 @@ NetAnalysis <- function(
     names <- rownames(betweenness.table)
     rownames(betweenness.table) <- NULL
     degree <- degree(gg)
-    
-    Duplicated<-data[duplicated(data),]
-    if(length(Duplicated[,1])>0){
-        degree=degree/2
+
+    Duplicated <- data[duplicated(data),]
+    if(length(Duplicated[, 1]) > 0){
+        degree <- degree / 2
     }
 
     degree.table <- data.frame(degree)

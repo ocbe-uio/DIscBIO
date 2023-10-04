@@ -103,7 +103,7 @@ sammy <- function (data, resp.type = c("Quantitative", "Two class unpaired",
         if (assay.type == "seq" & min(x) < 0) {
             stop(paste("Negative values not allowed when assay.type='seq'"))
         }
-        if (assay.type == "seq" & (sum(x%%1 != 0) != 0)) {
+        if (assay.type == "seq" & (sum(x %% 1 != 0) != 0)) {
             stop("Non-integer values not alled when assay.type='seq'")
         }
         if (assay.type == "seq" & center.arrays) {
@@ -116,14 +116,14 @@ sammy <- function (data, resp.type = c("Quantitative", "Two class unpaired",
             x <- scale(x, center = apply(x, 2, median), scale = FALSE)
         }
         depth = scaling.factors = rep(NA, ncol(x))
-        scaling.factors = (prod(depth)^(1/length(depth)))/depth
+        scaling.factors = (prod(depth) ^ (1 / length(depth))) / depth
         if (assay.type == "seq") {
             message("Estimating sequencing depths...")
             depth = samr.estimate.depth(x)
             message("Resampling to get new data matrices...")
             xresamp = resa(x, depth, nresamp = nresamp)
         }
-        scaling.factors = (prod(depth)^(1/length(depth)))/depth
+        scaling.factors = (prod(depth) ^ (1 / length(depth))) / depth
         if (resp.type == samr.const.twoclass.unpaired.response) {
             if (substring(y[1], 2, 6) == "Block" | substring(y[1],
                 2, 6) == "block") {
@@ -248,12 +248,12 @@ sammy <- function (data, resp.type = c("Quantitative", "Two class unpaired",
                   s0 = 0
                 }
                 if (s0.perc >= 0) {
-                  s0 <- quantile(init.fit$sd, s0.perc/100)
+                  s0 <- quantile(init.fit$sd, s0.perc / 100)
                 }
             }
             if (is.null(s0.perc)) {
                 s0 = est.s0(init.fit$tt, init.fit$sd)$s0.hat
-                s0.perc = 100 * sum(init.fit$sd < s0)/length(init.fit$sd)
+                s0.perc = 100 * sum(init.fit$sd < s0) / length(init.fit$sd)
             }
         }
         if (assay.type == "seq") {
@@ -578,7 +578,7 @@ sammy <- function (data, resp.type = c("Quantitative", "Two class unpaired",
         if (resp.type == samr.const.multiclass.response) {
             qq <- quantile(ttstar, c(0, 0.5))
         }
-        pi0 <- sum(tt > qq[1] & tt < qq[2])/(0.5 * length(tt))
+        pi0 <- sum(tt > qq[1] & tt < qq[2]) / (0.5 * length(tt))
         foldchange = NULL
         if (resp.type == samr.const.twoclass.unpaired.response &
             assay.type == "array") {
@@ -630,16 +630,16 @@ sammy <- function (data, resp.type = c("Quantitative", "Two class unpaired",
 #' @return depth: estimated sequencing depth. a vector with len sample.
 samr.estimate.depth <- function(x) {
     iter <- 5
-    cmeans <- colSums(x)/sum(x)
+    cmeans <- colSums(x) / sum(x)
     for (i in 1:iter) {
         n0 <- rowSums(x) %*% t(cmeans)
-        prop <- rowSums((x - n0)^2/(n0 + 1e-08))
+        prop <- rowSums((x - n0) ^ 2 / (n0 + 1e-08))
         qs <- quantile(prop, c(0.25, 0.75))
         keep <- (prop >= qs[1]) & (prop <= qs[2])
         cmeans <- colMeans(x[keep, ])
-        cmeans <- cmeans/sum(cmeans)
+        cmeans <- cmeans / sum(cmeans)
     }
-    depth <- cmeans/mean(cmeans)
+    depth <- cmeans / mean(cmeans)
     return(depth)
 }
 
@@ -657,7 +657,7 @@ resa <- function(x, d, nresamp = 20) {
     xresamp <- array(0, dim = c(ng, ns, nresamp))
     for (k in 1:nresamp) {
         for (j in 1:ns) {
-            xresamp[, j, k] <- rpois(n = ng, lambda = (dbar/d[j]) *
+            xresamp[, j, k] <- rpois(n = ng, lambda = (dbar / d[j]) *
                 x[, j]) + runif(ng) * 0.1
         }
     }
@@ -770,18 +770,18 @@ wilcoxon.unpaired.seq.func <- function(xresamp, y) {
     tt <- rep(0, dim(xresamp)[1])
     for (i in 1:dim(xresamp)[3]) {
         tt <- tt + rowSums(xresamp[, y == 2, i]) - sum(y == 2) *
-            (length(y) + 1)/2
+            (length(y) + 1) / 2
     }
-    tt <- tt/dim(xresamp)[3]
+    tt <- tt / dim(xresamp)[3]
     return(list(tt = tt, numer = tt, sd = rep(1, length(tt))))
 }
 wilcoxon.paired.seq.func <- function(xresamp, y) {
     tt <- rep(0, dim(xresamp)[1])
     for (i in 1:dim(xresamp)[3]) {
         tt <- tt + rowSums(xresamp[, y > 0, i]) - sum(y > 0) *
-            (length(y) + 1)/2
+            (length(y) + 1) / 2
     }
-    tt <- tt/dim(xresamp)[3]
+    tt <- tt / dim(xresamp)[3]
     return(list(tt = tt, numer = tt, sd = rep(1, length(tt))))
 }
 getperms = function(y, nperms) {
@@ -804,10 +804,10 @@ getperms = function(y, nperms) {
 }
 foldchange.twoclass = function(x, y, logged2) {
     #  if(logged2){x=2^x}
-    m1 <- rowMeans(x[, y == 1, drop = F])
-    m2 <- rowMeans(x[, y == 2, drop = F])
+    m1 <- rowMeans(x[, y == 1, drop = FALSE])
+    m2 <- rowMeans(x[, y == 2, drop = FALSE])
     if (!logged2) {
-        fc = m2/m1
+        fc = m2 / m1
     }
     if (logged2) {
         fc = 2^{
@@ -829,15 +829,15 @@ foldchange.seq.twoclass.unpaired <- function(x, y, depth)
     return(fc)
 }
 foldchange.seq.twoclass.paired <- function(x, y, depth) {
-    nc <- ncol(x)/2
+    nc <- ncol(x) / 2
     o1 <- o2 <- rep(0, nc)
     for (j in 1:nc) {
         o1[j] <- which(y == -j)
         o2[j] <- which(y == j)
     }
     x.norm <- scale(x, center = F, scale = depth) + 1e-08
-    d <- x.norm[, o2, drop = F]/x.norm[, o1, drop = F]
-    fc <- lapply(d, 1, function(x) median(x, na.rm = T))
+    d <- x.norm[, o2, drop = FALSE] / x.norm[, o1, drop = FALSE]
+    fc <- lapply(d, 1, function(x) median(x, na.rm = TRUE))
     return(fc)
 }
 permute <- function(elem) {
@@ -948,14 +948,14 @@ parse.time.labels.and.summarize.data = function(x,
     for (j in 1:npeople) {
         jj = person.id == j
         tim = timey[jj]
-        xc = t(scale(t(x[, jj, drop = F]), center = TRUE, scale = FALSE))
+        xc = t(scale(t(x[, jj, drop = FALSE]), center = TRUE, scale = FALSE))
         if (time.summary.type == "slope") {
             junk = quantitative.func(xc, tim - mean(tim))
             newx[, j] = junk$numer
             sd[, j] = junk$sd
         }
         if (time.summary.type == "signed.area") {
-            junk = timearea.func(x[, jj, drop = F], tim)
+            junk = timearea.func(x[, jj, drop = FALSE], tim)
             newx[, j] = junk$numer
             sd[, j] = junk$sd
         }
@@ -967,15 +967,15 @@ ttest.func <- function(x, y, s0 = 0, sd = NULL) {
     n1 <- sum(y == 1)
     n2 <- sum(y == 2)
     p <- nrow(x)
-    m1 <- rowMeans(x[, y == 1, drop = F])
-    m2 <- rowMeans(x[, y == 2, drop = F])
+    m1 <- rowMeans(x[, y == 1, drop = FALSE])
+    m2 <- rowMeans(x[, y == 2, drop = FALSE])
     if (is.null(sd)) {
         sd <- sqrt(((n2 - 1) * varr(x[, y == 2], meanx = m2) +
-            (n1 - 1) * varr(x[, y == 1], meanx = m1)) * (1/n1 +
-            1/n2)/(n1 + n2 - 2))
+            (n1 - 1) * varr(x[, y == 1], meanx = m1)) * (1 / n1 +
+            1 / n2) / (n1 + n2 - 2))
     }
     numer <- m2 - m1
-    dif.obs <- (numer)/(sd + s0)
+    dif.obs <- (numer) / (sd + s0)
     return(list(tt = dif.obs, numer = numer, sd = sd))
 }
 
@@ -983,10 +983,10 @@ wilcoxon.func <- function(x, y, s0 = 0) {
     n1 <- sum(y == 1)
     n2 <- sum(y == 2)
     p = nrow(x)
-    r2 = rowSums(t(apply(x, 1, rank))[, y == 2, drop = F])
-    numer = r2 - (n2/2) * (n2 + 1) - (n1 * n2)/2
-    sd = sqrt(n1 * n2 * (n1 + n2 + 1)/12)
-    tt = (numer)/(sd + s0)
+    r2 = rowSums(t(apply(x, 1, rank))[, y == 2, drop = FALSE])
+    numer = r2 - (n2 / 2) * (n2 + 1) - (n1 * n2) / 2
+    sd = sqrt(n1 * n2 * (n1 + n2 + 1) / 12)
+    tt = (numer) / (sd + s0)
     return(list(tt = tt, numer = numer, sd = rep(sd, p)))
 }
 
@@ -995,9 +995,9 @@ onesample.ttest.func <- function(x, y, s0 = 0, sd = NULL) {
     x <- x * matrix(y, nrow = nrow(x), ncol = ncol(x), byrow = TRUE)
     m <- rowMeans(x)
     if (is.null(sd)) {
-        sd <- sqrt(varr(x, meanx = m)/n)
+        sd <- sqrt(varr(x, meanx = m) / n)
     }
-    dif.obs <- m/(sd + s0)
+    dif.obs <- m / (sd + s0)
     return(list(tt = dif.obs, numer = m, sd = sd))
 }
 
@@ -1018,9 +1018,9 @@ patterndiscovery.func = function(x, s0 = 0, eigengene.number = 1) {
 }
 
 paired.ttest.func <- function(x, y, s0 = 0, sd = NULL) {
-    nc <- ncol(x)/2
+    nc <- ncol(x) / 2
     o <- 1:nc
-    o1 <- rep(0, ncol(x)/2)
+    o1 <- rep(0, ncol(x) / 2)
     o2 <- o1
     for (j in 1:nc) {
         o1[j] <- (1:ncol(x))[y == -o[j]]
@@ -1028,8 +1028,8 @@ paired.ttest.func <- function(x, y, s0 = 0, sd = NULL) {
     for (j in 1:nc) {
         o2[j] <- (1:ncol(x))[y == o[j]]
     }
-    d <- x[, o2, drop = F] - x[, o1, drop = F]
-    su <- x[, o2, drop = F] + x[, o1, drop = F]
+    d <- x[, o2, drop = FALSE] - x[, o1, drop = FALSE]
+    su <- x[, o2, drop = FALSE] + x[, o1, drop = FALSE]
     if (is.matrix(d)) {
         m <- rowMeans(d)
     }
@@ -1038,13 +1038,13 @@ paired.ttest.func <- function(x, y, s0 = 0, sd = NULL) {
     }
     if (is.null(sd)) {
         if (is.matrix(d)) {
-            sd <- sqrt(varr(d, meanx = m)/nc)
+            sd <- sqrt(varr(d, meanx = m) / nc)
         }
         if (!is.matrix(d)) {
-            sd <- sqrt(var(d)/nc)
+            sd <- sqrt(var(d) / nc)
         }
     }
-    dif.obs <- m/(sd + s0)
+    dif.obs <- m / (sd + s0)
     return(list(tt = dif.obs, numer = m, sd = sd))
 }
 
@@ -1055,7 +1055,7 @@ cox.func <- function(x, y, censoring.status, s0 = 0) {
     ind <- matrix(0, ncol(x), Dn)
     # get the matrix
     for (i in 1:Dn) {
-        ind[y > y[Dset[i]] - 1e-08, i] <- 1/sum(y > y[Dset[i]] -
+        ind[y > y[Dset[i]] - 1e-08, i] <- 1 / sum(y > y[Dset[i]] -
             1e-08)
     }
     ind.sums <- rowSums(ind)
@@ -1063,7 +1063,7 @@ cox.func <- function(x, y, censoring.status, s0 = 0) {
     # get the derivatives
     numer <- x %*% (censoring.status - ind.sums)
     sd <- sqrt((x * x) %*% ind.sums - rowSums(x.ind * x.ind))
-    tt <- numer/(sd + s0)
+    tt <- numer / (sd + s0)
     return(list(tt = tt, numer = numer, sd = sd))
 }
 
@@ -1079,11 +1079,11 @@ multiclass.func <- function(x, y, s0 = 0) {
     }
     mbar <- rowMeans(x)
     mm <- m - matrix(mbar, nrow = length(mbar), ncol = length(nn))
-    fac <- (sum(nn)/prod(nn))
+    fac <- (sum(nn) / prod(nn))
     scor <- sqrt(fac * (apply(matrix(nn, nrow = nrow(m), ncol = ncol(m),
         byrow = TRUE) * mm * mm, 1, sum)))
-    sd <- sqrt(rowSums(v) * (1/sum(nn - 1)) * sum(1/nn))
-    tt <- scor/(sd + s0)
+    sd <- sqrt(rowSums(v) * (1 / sum(nn - 1)) * sum(1 / nn))
+    tt <- scor / (sd + s0)
     mm.stand = t(scale(t(mm), center = FALSE, scale = sd))
     return(list(tt = tt, numer = scor, sd = sd, stand.contrasts = mm.stand))
 }
@@ -1099,13 +1099,13 @@ est.s0 <- function(tt, sd, s0.perc = seq(0, 1, by = 0.05)) {
     for (j in 1:length(s0.perc)) {
         w <- quantile(sd, s0.perc[j])
         w[j == 1] <- 0
-        tt2 <- tt * sd/(sd + w)
+        tt2 <- tt * sd / (sd + w)
         tt2[tt2 == Inf] = NA
         sds <- rep(0, nbr - 1)
         for (i in 1:(nbr - 1)) {
             sds[i] <- stats::mad(tt2[a == i], na.rm = TRUE)
         }
-        cv.sd[j] <- sqrt(var(sds))/mean(sds)
+        cv.sd[j] <- sqrt(var(sds)) / mean(sds)
     }
     o = (1:length(s0.perc))[cv.sd == min(cv.sd)]
     # we don;t allow taking s0.hat to be 0th percentile when
@@ -1124,9 +1124,9 @@ permute.rows <- function(x) {
 
 foldchange.paired = function(x, y, logged2) {
     #  if(logged2){x=2^x}
-    nc <- ncol(x)/2
+    nc <- ncol(x) / 2
     o <- 1:nc
-    o1 <- rep(0, ncol(x)/2)
+    o1 <- rep(0, ncol(x) / 2)
     o2 <- o1
     for (j in 1:nc) {
         o1[j] <- (1:ncol(x))[y == -o[j]]
@@ -1135,10 +1135,10 @@ foldchange.paired = function(x, y, logged2) {
         o2[j] <- (1:ncol(x))[y == o[j]]
     }
     if (!logged2) {
-        d <- x[, o2, drop = F]/x[, o1, drop = F]
+        d <- x[, o2, drop = FALSE] / x[, o1, drop = FALSE]
     }
     if (logged2) {
-        d <- x[, o2, drop = F] - x[, o1, drop = F]
+        d <- x[, o2, drop = FALSE] - x[, o1, drop = FALSE]
     }
     if (!logged2) {
         fc <- rowMeans(d)
@@ -1168,8 +1168,8 @@ integer.base.b <- function(x, b = 2) {
     Base.b <- array(NA, dim = c(N, ndigits))
     for (i in 1:ndigits) {
         #i <- 1
-        Base.b[, ndigits - i + 1] <- (x%%b)
-        x <- (x%/%b)
+        Base.b[, ndigits - i + 1] <- (x %% b)
+        x <- (x %/% b)
     }
     if (N == 1)
         Base.b[1, ]
@@ -1184,7 +1184,7 @@ varr <- function(x, meanx = NULL) {
     }
     ans <- rep(1, p)
     xdif <- x - meanx %*% t(Y)
-    ans <- (xdif^2) %*% rep(1/(n - 1), n)
+    ans <- (xdif^2) %*% rep(1 / (n - 1), n)
     ans <- drop(ans)
     return(ans)
 }
@@ -1195,14 +1195,14 @@ quantitative.func <- function(x, y, s0 = 0) {
     temp <- x %*% yy
     mx = rowMeans(x)
     syy = sum(yy^2)
-    scor <- temp/syy
+    scor <- temp / syy
     b0hat <- mx - scor * my
     ym = matrix(y, nrow = nrow(x), ncol = ncol(x), byrow = T)
     xhat <- matrix(b0hat, nrow = nrow(x), ncol = ncol(x)) + ym *
         matrix(scor, nrow = nrow(x), ncol = ncol(x))
-    sigma <- sqrt(rowSums((x - xhat)^2)/(ncol(xhat) - 2))
-    sd <- sigma/sqrt(syy)
-    tt <- scor/(sd + s0)
+    sigma <- sqrt(rowSums((x - xhat)^2) / (ncol(xhat) - 2))
+    sd <- sigma / sqrt(syy)
+    tt <- scor / (sd + s0)
     return(list(tt = tt, numer = scor, sd = sd))
 }
 timearea.func <- function(x, y, s0 = 0) {
@@ -1210,8 +1210,8 @@ timearea.func <- function(x, y, s0 = 0) {
     xx <- 0.5 * (x[, 2:n] + x[, 1:(n - 1)]) * matrix(diff(y),
         nrow = nrow(x), ncol = n - 1, byrow = T)
     numer <- rowMeans(xx)
-    sd <- sqrt(varr(xx, meanx = numer)/n)
-    tt <- numer/sqrt(sd + s0)
+    sd <- sqrt(varr(xx, meanx = numer) / n)
+    tt <- numer / sqrt(sd + s0)
     return(list(tt = tt, numer = numer, sd = sd))
 }
 cox.seq.func <- function(xresamp, y, censoring.status) {
@@ -1225,7 +1225,7 @@ cox.seq.func <- function(xresamp, y, censoring.status) {
     ind <- matrix(0, ns, Dn)
     # get the matrix
     for (i in 1:Dn) {
-        ind[y >= y[Dset[i]] - 1e-08, i] <- 1/sum(y >= y[Dset[i]] -
+        ind[y >= y[Dset[i]] - 1e-08, i] <- 1 / sum(y >= y[Dset[i]] -
             1e-08)
     }
     ind.sums <- rowSums(ind)
@@ -1234,7 +1234,7 @@ cox.seq.func <- function(xresamp, y, censoring.status) {
         dev1 <- x %*% cen.ind
         x.ind <- x %*% ind.para
         dev2 <- (x * x) %*% ind.sums.para - rowSums(x.ind * x.ind)
-        dev1/(sqrt(dev2) + 1e-08)
+        dev1 / (sqrt(dev2) + 1e-08)
     }, (censoring.status - ind.sums), ind, ind.sums)
     tt <- rowMeans(tt)
     return(list(tt = tt, numer = tt, sd = rep(1, length(tt))))
@@ -1276,7 +1276,7 @@ compute.block.perms = function(y, blocky, nperms) {
         for (j in 1:ncol(outerm)) {
             ind = ind & outerm[, j] <= factorial(tab[j])
         }
-        outerm = outerm[ind, , drop = F]
+        outerm = outerm[ind, , drop = FALSE]
         # finally, construct permutation matrix from outer product
         permsy = matrix(NA, nrow = total.nperms, ncol = ny)
         for (i in 1:total.nperms) {
@@ -1338,12 +1338,12 @@ quantitative.seq.func <- function(xresamp, y) {
     tt <- rep(0, dim(xresamp)[1])
     for (i in 1:dim(xresamp)[3]) {
         y.ranked <- rank(y, ties.method = "random") - (dim(xresamp)[2] +
-            1)/2
-        tt <- tt + (xresamp[, , i] - (dim(xresamp)[2] + 1)/2) %*%
+            1) / 2
+        tt <- tt + (xresamp[, , i] - (dim(xresamp)[2] + 1) / 2) %*%
             y.ranked
     }
     ns <- dim(xresamp)[2]
-    tt <- tt/(dim(xresamp)[3] * (ns^3 - ns)/12)
+    tt <- tt / (dim(xresamp)[3] * (ns^3 - ns) / 12)
     return(list(tt = as.vector(tt), numer = as.vector(tt), sd = rep(1,
         length(tt))))
 }
@@ -1374,8 +1374,8 @@ multiclass.seq.func <- function(xresamp, y)
     ns <- dim(xresamp)[2]
     tt <- tt / nresamp * 12 / ns / (ns + 1) - 3 * (ns + 1)
     stand.contrasts <- stand.contrasts / nresamp
-    stand.contrasts <- scale(stand.contrasts, center=n.each * (ns + 1) / 2,
-        scale=sqrt(n.each * (ns - n.each) * (ns + 1) / 12))
+    stand.contrasts <- scale(stand.contrasts, center = n.each * (ns + 1) / 2,
+        scale = sqrt(n.each * (ns - n.each) * (ns + 1) / 12))
     return(list(tt = tt, numer = tt, sd = rep(1, length(tt)),
         stand.contrasts = stand.contrasts))
 }
@@ -1425,7 +1425,7 @@ samr.compute.delta.table.array <- function(samr.obj,
 	if (!is.null(samr.obj$foldchange[1]) & (min.foldchange >
 		0)) {
 		foldchange.cond.up = samr.obj$foldchange.star >= min.foldchange
-		foldchange.cond.lo = samr.obj$foldchange.star <= 1/min.foldchange
+		foldchange.cond.lo = samr.obj$foldchange.star <= 1 / min.foldchange
 	}
 	cutup = rep(NA, length(dels))
 	cutlow = rep(NA, length(dels))
@@ -1451,11 +1451,11 @@ samr.compute.delta.table.array <- function(samr.obj,
 		errlow[, ii] = colSums(samr.obj$ttstar0 < cutlow[ii] &
 			foldchange.cond.lo)
 	}
-	s <- sqrt(apply(errup, 2, var)/nsim + apply(errlow, 2, var)/nsim)
+	s <- sqrt(apply(errup, 2, var) / nsim + apply(errlow, 2, var) / nsim)
 	gmed <- apply(errup + errlow, 2, median)
 	g90 = apply(errup + errlow, 2, quantile, 0.9)
 	res1 <- cbind(samr.obj$pi0 * gmed, samr.obj$pi0 * g90, g2,
-		samr.obj$pi0 * gmed/g2, samr.obj$pi0 * g90/g2, cutlow,
+		samr.obj$pi0 * gmed / g2, samr.obj$pi0 * g90 / g2, cutlow,
 		cutup)
 	res1 <- cbind(dels, res1)
 	# remove rows with #called=0
@@ -1484,7 +1484,7 @@ samr.compute.delta.table.seq <- function(samr.obj,
 		(min.foldchange > 0)) {
 		sat.up <- (samr.obj$foldchange >= min.foldchange) & (samr.obj$evo >
 			0)
-		sat.dn <- (samr.obj$foldchange <= 1/min.foldchange) &
+		sat.dn <- (samr.obj$foldchange <= 1 / min.foldchange) &
 			(samr.obj$evo < 0)
 		if (sum(sat.up) + sum(sat.dn) == 0) {
 			flag <- F
@@ -1513,8 +1513,8 @@ samr.compute.delta.table.seq <- function(samr.obj,
 			gmed <- apply(errnum, 2, median)
 			g90 = apply(errnum, 2, quantile, 0.9)
 			res1 <- cbind(samr.obj$pi0 * gmed, samr.obj$pi0 *
-				g90, g2, samr.obj$pi0 * gmed/g2, samr.obj$pi0 *
-				g90/g2, cutlow, cutup)
+				g90, g2, samr.obj$pi0 * gmed / g2, samr.obj$pi0 *
+				g90 / g2, cutlow, cutup)
 			res1 <- cbind(dels, res1)
 			dimnames(res1) <- list(NULL, c("delta", "# med false pos",
 				"90th perc false pos", "# called", "median FDR",
@@ -1552,7 +1552,7 @@ samr.plot <- function(samr.obj, del = NULL, min.foldchange = 0) {
 	if (!is.null(samr.obj$foldchange[1]) & (min.foldchange >
 		0)) {
 		foldchange.cond.up = samr.obj$foldchange >= min.foldchange
-		foldchange.cond.lo = samr.obj$foldchange <= 1/min.foldchange
+		foldchange.cond.lo = samr.obj$foldchange <= 1 / min.foldchange
 	}
 	col = rep(1, length(samr.obj$evo))
 	col[b$plow] = 3
@@ -1746,12 +1746,12 @@ samr.compute.siggenes.table = function(samr.obj, del,
 	if (!is.null(res.up))
 	{
 		o1 = order(-samr.obj$tt[sig$pup])
-		res.up = res.up[o1, , drop = F]
+		res.up = res.up[o1, , drop = FALSE]
 	}
 	if (!is.null(res.lo))
 	{
 		o2 = order(samr.obj$tt[sig$plo])
-		res.lo = res.lo[o2, , drop = F]
+		res.lo = res.lo[o2, , drop = FALSE]
 	}
 	color.ind.for.multi = NULL
 	if (samr.obj$resp.type == samr.const.multiclass.response & !is.null(sig$pup))
@@ -1785,7 +1785,7 @@ generate.dels <- function(samr.obj, min.foldchange = 0) {
 		res.up <- res.mat[res.mat$evo > 0, ]
 		res.lo <- res.mat[res.mat$evo < 0, ]
 		res.up <- res.up[res.up$fc >= min.foldchange, ]
-		res.lo <- res.lo[res.lo$fc <= 1/min.foldchange, ]
+		res.lo <- res.lo[res.lo$fc <= 1 / min.foldchange, ]
 	}
 	else {
 		res.mat <- data.frame(tt = samr.obj$tt[tag], evo = samr.obj$evo,
@@ -1837,7 +1837,7 @@ samr.seq.detec.slabs <- function(samr.obj, dels, min.foldchange) {
 		res.up <- res.mat[res.mat$evo > 0, ]
 		res.lo <- res.mat[res.mat$evo < 0, ]
 		res.up <- res.up[res.up$fc >= min.foldchange, ]
-		res.lo <- res.lo[res.lo$fc <= 1/min.foldchange, ]
+		res.lo <- res.lo[res.lo$fc <= 1 / min.foldchange, ]
 	}
 	else {
 		res.mat <- data.frame(tt = samr.obj$tt[tag], evo = samr.obj$evo,
@@ -1905,7 +1905,7 @@ samr.seq.null.err <- function(samr.obj, min.foldchange,
 			keep.up <- keep.up[samr.obj$foldchange.star[, jj] >=
 				min.foldchange]
 			keep.dn <- keep.dn[samr.obj$foldchange.star[, jj] <=
-				1/min.foldchange]
+				1 / min.foldchange]
 		}
 		errup[jj, ] <- length(keep.up) - (rank(c(cutup, keep.up),
 			ties.method = "min")[1:length(cutup)] - cutup.rank)
@@ -1933,7 +1933,7 @@ detec.slab <- function(samr.obj, del, min.foldchange) {
 	if (!is.null(samr.obj$foldchange[1]) & (min.foldchange >
 		0)) {
 		foldchange.cond.up = samr.obj$foldchange >= min.foldchange
-		foldchange.cond.lo = samr.obj$foldchange <= 1/min.foldchange
+		foldchange.cond.lo = samr.obj$foldchange <= 1 / min.foldchange
 	}
 	o1 <- (1:n)[(tt[tag] - evo > del) & evo > 0]
 	if (length(o1) > 0) {
@@ -1977,7 +1977,7 @@ localfdr <- function(samr.obj, min.foldchange, perc = 0.01,
 	mingenes = 50
 	# perc is increased, in order to get at least mingenes in a
 	#   window
-	perc = max(perc, mingenes/length(samr.obj$tt))
+	perc = max(perc, mingenes / length(samr.obj$tt))
 	nperms.to.use = min(20, ncol(samr.obj$ttstar))
 	nperms = ncol(samr.obj$ttstar)
 	d = seq(sort(samr.obj$tt)[1], sort(samr.obj$tt)[ngenes],
@@ -1995,7 +1995,7 @@ localfdr <- function(samr.obj, min.foldchange, perc = 0.01,
 	for (i in 1:ndscore) {
 		pi0 <- samr.obj$pi0
 		r <- sum(samr.obj$tt < d[i])
-		r22 <- round(max(r - length(samr.obj$tt) * perc/2, 1))
+		r22 <- round(max(r - length(samr.obj$tt) * perc / 2, 1))
 		dlow.sym <- sort(samr.obj$tt)[r22]
 		#      if(d[i]<0)
 		#       {
@@ -2006,7 +2006,7 @@ localfdr <- function(samr.obj, min.foldchange, perc = 0.01,
 		#          dlow <- sort(samr.obj$tt)[r2]
 		#          dup=sort(samr.obj$tt)[r22]
 		#       }
-		r22 <- min(r + length(samr.obj$tt) * perc/2, length(samr.obj$tt))
+		r22 <- min(r + length(samr.obj$tt) * perc / 2, length(samr.obj$tt))
 		dup.sym <- sort(samr.obj$tt)[r22]
 		#     if(d[i]>0)
 		#      {
@@ -2036,7 +2036,7 @@ localfdr <- function(samr.obj, min.foldchange, perc = 0.01,
 		fdr.sym <- median(apply(temp, 2, fdr.temp, dlow.sym,
 			dup.sym, pi0, ind.foldchange))
 		#      fdr <- 100*fdr/sum(o)
-		fdr.sym <- 100 * fdr.sym/sum(oo)
+		fdr.sym <- 100 * fdr.sym / sum(oo)
 		dlow.sym <- dlow.sym
 		dup.sym <- dup.sym
 		dvector[i] <- fdr.sym

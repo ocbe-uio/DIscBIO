@@ -66,7 +66,7 @@ This functions performs the outlier identification for k-means and model-based c
 }
 \examples{
 sc <- DISCBIO(valuesG1msTest)
-sc <- Clustexp(sc, cln=2) # K-means clustering
+sc <- Clustexp(sc, cln = 2) # K-means clustering
 FindOutliers(sc, K=2)
 
 }

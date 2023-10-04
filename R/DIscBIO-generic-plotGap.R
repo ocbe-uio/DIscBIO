@@ -23,7 +23,7 @@ setMethod(
             y_limits <- c(y_lo, y_up)
         }
         plot(
-            gap, las=1, ylim = y_limits, main="Gap Statistics"
+            gap, las = 1, ylim = y_limits, main = "Gap Statistics"
         )
     }
 )

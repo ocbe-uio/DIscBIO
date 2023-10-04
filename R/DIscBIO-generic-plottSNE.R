@@ -30,7 +30,7 @@ setMethod(
 		# Plotting
 		# ======================================================================
 		col <- c("black", "blue", "green", "red", "yellow", "gray")
-	LEN<-length(levels(factor(part)))
+	LEN <- length(levels(factor(part)))
 		plot(
 			x,
 			las = 1,

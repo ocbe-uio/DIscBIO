@@ -23,7 +23,7 @@ if (interactive()) {
 
 	context("Binder tests, part 2: Differential expression analysis")
 
-	cdiff <- DEGanalysis2clust(sc, 4, quiet=TRUE, plot=FALSE)
+	cdiff <- DEGanalysis2clust(sc, 4, quiet = TRUE, plot = FALSE)
 
 	test_that("DEG analysis between 2 clusters", {
 		expect_equal(
@@ -53,7 +53,7 @@ if (interactive()) {
 		)
 	})
 
-	cdiffBinomial <- ClustDiffGenes(sc, 4, quiet=TRUE)
+	cdiffBinomial <- ClustDiffGenes(sc, 4, quiet = TRUE)
 
 	test_that("Cluster differences", {
 			expect_equal(
@@ -90,8 +90,8 @@ if (interactive()) {
 
 	context("Binder tests, part 2: Decision trees")
 
-	j48dt <- J48DT(DATAforDT, plot=FALSE, quiet=TRUE)
-	rpartDT <- RpartDT(DATAforDT, plot=FALSE, quiet=TRUE)
+	j48dt <- J48DT(DATAforDT, plot = FALSE, quiet = TRUE)
+	rpartDT <- RpartDT(DATAforDT, plot = FALSE, quiet = TRUE)
 
 	test_that("J48 trees", {
 		expect_true(is(summary(j48dt), "Weka_classifier_evaluation"))

@@ -16,7 +16,7 @@ test_that("Data signature changes", {
 })
 
 # This function will be used only if the dataset has ERCC
-sc <- NoiseFiltering(sc, plot=FALSE, export=FALSE, quiet=TRUE)
+sc <- NoiseFiltering(sc, plot = FALSE, export = FALSE, quiet = TRUE)
 
 test_that("Noise filtering is added", {
     expect_equal(length(sc@noiseF), 163)
@@ -24,8 +24,8 @@ test_that("Noise filtering is added", {
 
 # In this case this function is used to normalize the reads
 sc <- Normalizedata(
-    sc, mintotal=1000, minexpr=0, minnumber=0, maxexpr=Inf, downsample=FALSE,
-    dsn=1, rseed=17000
+    sc, mintotal = 1000, minexpr = 0, minnumber = 0, maxexpr = Inf,
+    downsample = FALSE, dsn = 1, rseed = 17000
 )
 
 test_that("Data is normalized", {
@@ -36,7 +36,9 @@ test_that("Data is normalized", {
 # This function can be used for:
 # 1 - filtering and normalizing the dataset that has no ERCC.
 # 2 - to normalize and filter genes and cells after the noise filtering.
-sc <- FinalPreprocessing(sc, GeneFlitering="NoiseF", export=FALSE, quiet=TRUE)
+sc <- FinalPreprocessing(
+    sc, GeneFlitering = "NoiseF", export = FALSE, quiet = TRUE
+)
 
 test_that("Data is normalized", {
     expect_equal(dim(sc@fdata), c(163, 15))
@@ -48,8 +50,10 @@ test_that("Data is normalized", {
 
 context("K-means clustering")
 
-sc <- Clustexp(sc, clustnr=2, cln=2, bootnr=10, quiet=TRUE, rseed=17000)
-sc <- comptSNE(sc, rseed=15555, quiet=TRUE, max_iter=1, epoch=10)
+sc <- Clustexp(
+    sc, clustnr = 2, cln = 2, bootnr = 10, quiet = TRUE, rseed = 17000
+)
+sc <- comptSNE(sc, rseed = 15555, quiet = TRUE, max_iter = 1, epoch = 10)
 
 test_that("tSNE is computed", {
     expect_equal(class(sc@tsne), "data.frame")
@@ -58,7 +62,7 @@ test_that("tSNE is computed", {
 
 test_that("Cluster plots output is as expexted", {
     expect_equivalent(
-        object = Jaccard(sc, Clustering="K-means", K=2, plot=FALSE, R=5),
+        object = Jaccard(sc, Clustering = "K-means", K = 2, plot = FALSE, R = 5),
         expected = c(.417, .413),
         tolerance = .01
     )
@@ -73,8 +77,8 @@ test_that("Cluster plots output is as expexted", {
 context("Outliers")
 
 Outliers <- FindOutliers(
-    sc, K=2, outminc=5, outlg=2, probthr=.5*1e-3, thr=2 ^ (-1:-40),
-    outdistquant=.75, plot = FALSE, quiet = TRUE
+    sc, K = 2, outminc = 5, outlg = 2, probthr = .5 * 1e-3, thr = 2 ^ (-1:-40),
+    outdistquant = .75, plot = FALSE, quiet = TRUE
 )
 Order <- pseudoTimeOrdering(sc, quiet = TRUE, export = FALSE)
 

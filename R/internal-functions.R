@@ -310,7 +310,7 @@ reformatSiggenes <- function(table) {
 #' @param from decimal separator on input file
 #' @param to decimal separator for output file
 #' @seealso reformatSiggenes
-replaceDecimals <- function(x, from=",", to=".") {
+replaceDecimals <- function(x, from = ",", to = ".") {
 	x <- gsub(",", ".", x)
 	return(x)
 }
@@ -326,27 +326,27 @@ replaceDecimals <- function(x, from=",", to=".") {
 #' @return Two rda files, ones for K-means clustering and another for
 #' Model-based clustering.
 #' @author Waldir Leoncio
-prepExampleDataset <- function(dataset, save=TRUE) {
+prepExampleDataset <- function(dataset, save = TRUE) {
 	# ==========================================================================
 	# Initial data treatment
 	# ==========================================================================
 	message("Treating dataset")
 	sc <- DISCBIO(dataset)
 	sc <- NoiseFiltering(
-		sc, percentile=0.9, CV=0.2, export=FALSE, plot=FALSE, quiet=TRUE
+		sc, percentile = 0.9, CV = 0.2, export = FALSE, plot = FALSE, quiet = TRUE
 	)
 	sc <- Normalizedata(sc)
-	sc <- FinalPreprocessing(sc, export=FALSE, quiet=TRUE)
+	sc <- FinalPreprocessing(sc, export = FALSE, quiet = TRUE)
 	# ==========================================================================
 	# Clustering
 	# ==========================================================================
 	message("K-means clustering")
-	sc_k <- Clustexp(sc, cln=3, quiet=TRUE)
-	sc_k <- comptSNE(sc_k, quiet=TRUE)
+	sc_k <- Clustexp(sc, cln = 3, quiet = TRUE)
+	sc_k <- comptSNE(sc_k, quiet = TRUE)
 	valuesG1msReduced_treated_K <- sc_k
 	message("Model-based clustering")
-	sc_mb <- Exprmclust(sc, quiet=TRUE)
-	sc_mb <- comptSNE(sc_mb, rseed=15555, quiet=TRUE)
+	sc_mb <- Exprmclust(sc, quiet = TRUE)
+	sc_mb <- comptSNE(sc_mb, rseed = 15555, quiet = TRUE)
 	valuesG1msReduced_treated_MB <- sc_mb
 	# ==========================================================================
 	# Output
@@ -378,7 +378,7 @@ prepExampleDataset <- function(dataset, save=TRUE) {
 #' @importFrom httr GET status_code
 #' @author Waldir Leoncio
 retrieveURL <- function(
-	data, species, outputFormat, maxRetries=3, successCode=200
+	data, species, outputFormat, maxRetries = 3, successCode = 200
 ) {
 	# ======================================================== #
 	# Setting up retrieval                                     #

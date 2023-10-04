@@ -10,9 +10,9 @@
 #' @return The DISCBIO-class object input with the kordering slot filled.
 setGeneric("pseudoTimeOrdering", function(
 	object,
-	quiet=FALSE,
-	export=FALSE,
-	filename="Cellular_pseudo-time_ordering"
+	quiet = FALSE,
+	export = FALSE,
+	filename = "Cellular_pseudo-time_ordering"
 	)
 	{
 		standardGeneric("pseudoTimeOrdering")

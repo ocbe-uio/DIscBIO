@@ -46,7 +46,7 @@ Networking <- function(
 		"\n",
 		paste0(y)
 	)
-	Network <- readPNG(FileName, native=TRUE)
+	Network <- readPNG(FileName, native = TRUE)
 	set_plot_dimensions <- function(width_choice, height_choice) {
 		opar <- options(
 			repr.plot.width = width_choice,

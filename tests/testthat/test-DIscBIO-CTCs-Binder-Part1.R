@@ -16,8 +16,8 @@ if (interactive()) {
 	})
 
 	sc <- DISCBIO(DataSet)
-	S1 <- summary(colSums(DataSet, na.rm=TRUE))
-	S2 <- summary(rowMeans(DataSet,na.rm=TRUE))
+	S1 <- summary(colSums(DataSet, na.rm = TRUE))
+	S2 <- summary(rowMeans(DataSet,na.rm = TRUE))
 	minexpr <- S2[3]
 	minnumber <- round(length(DataSet[1, ]) / 10)
 
@@ -27,8 +27,8 @@ if (interactive()) {
 		expect_equal(minnumber, 146)
 	})
 
-	sc <- Normalizedata(sc, minexpr=minexpr, minnumber=minnumber, rseed=17000)
-	sc <- suppressMessages(FinalPreprocessing(sc, GeneFlitering="ExpF"))
+	sc <- Normalizedata(sc, minexpr = minexpr, minnumber = minnumber, rseed = 17000)
+	sc <- suppressMessages(FinalPreprocessing(sc, GeneFlitering = "ExpF"))
 	sc <- SC
 	sc@ndata <- Ndata
 	sc@expdata <- expdata
@@ -41,11 +41,11 @@ if (interactive()) {
 	gc()
 
 	# TODO #37: uncomment once optimized
-	# sc <- Clustexp(sc, 4, bootnr = 2, B.gap = 2, quiet=FALSE, rseed=17000)
+	# sc <- Clustexp(sc, 4, bootnr = 2, B.gap = 2, quiet = FALSE, rseed = 17000)
 	# outlg <- round(length(sc@fdata[,1]) * 0.05)
-	# Outliers <- FindOutliers(sc, 4, outlg=outlg, plot=FALSE, quiet=TRUE)
-	# jcrd <- Jaccard(sc, K=4, plot=FALSE, R = 2)
-	# sc <- pseudoTimeOrdering(sc, quiet=TRUE)
+	# Outliers <- FindOutliers(sc, 4, outlg=outlg, plot = FALSE, quiet = TRUE)
+	# jcrd <- Jaccard(sc, K=4, plot = FALSE, R = 2)
+	# sc <- pseudoTimeOrdering(sc, quiet = TRUE)
 
 	# test_that("Post-processing", {
 	# 	expect_equivalent(jcrd, c(.422, .649, .335, .605))

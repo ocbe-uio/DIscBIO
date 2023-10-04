@@ -14,7 +14,7 @@
 #' @return A plot of the PCA.
 #' @export
 
-PlotMBpca <- function(object, type="order", g=NULL, n=NULL) {
+PlotMBpca <- function(object, type = "order", g = NULL, n = NULL) {
     # ==========================================================================
     # Validation
     # ==========================================================================
