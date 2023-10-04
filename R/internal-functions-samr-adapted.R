@@ -1148,7 +1148,7 @@ paired.ttest.func <- function(x, y, s0 = 0, sd = NULL) {
 cox.func <- function(x, y, censoring.status, s0 = 0) {
   # find the index matrix
   Dn <- sum(censoring.status == 1)
-  Dset <- c(1:ncol(x))[censoring.status == 1] # the set of observed
+  Dset <- seq_len(ncol(x))[censoring.status == 1] # the set of observed
   ind <- matrix(0, ncol(x), Dn)
   # get the matrix
   for (i in 1:Dn) {
@@ -1323,7 +1323,7 @@ cox.seq.func <- function(xresamp, y, censoring.status) {
   # prepare for the calculation
   # find the index matrix
   Dn <- sum(censoring.status == 1)
-  Dset <- c(1:ns)[censoring.status == 1] # the set of died
+  Dset <- seq_len(ns)[censoring.status == 1] # the set of died
   ind <- matrix(0, ns, Dn)
   # get the matrix
   for (i in 1:Dn) {

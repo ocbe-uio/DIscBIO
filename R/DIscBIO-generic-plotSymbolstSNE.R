@@ -34,7 +34,7 @@ setMethod(
     }
 
     coloc <- rainbow(length(unique(types)))
-    syms <- c()
+    syms <- vector()
     plot(
       object@tsne,
       xlab = "Dim 1",

@@ -50,7 +50,7 @@ setMethod(
     SC <- Normalizedata(SC)
     DatasetForDT <- SC@fdata
     Nam <- colnames(DatasetForDT)
-    num <- c(1:K)
+    num <- 1:K
     num1 <- paste("CL", num, sep = "")
     for (n in num) {
       Nam <- ifelse((Cluster_ID == n), num1[n], Nam)

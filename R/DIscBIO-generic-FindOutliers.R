@@ -132,9 +132,9 @@ setMethod(
       }
 
     ### identify outliers
-    out <- c()
+    out <- vector()
     stest <- rep(0, length(thr))
-    cprobs <- c()
+    cprobs <- vector()
     for (n in 1:max(clusters)) {
       if (sum(clusters == n) == 1) {
         cprobs <-
@@ -185,7 +185,7 @@ setMethod(
       )
 
     ### cluster outliers
-    clp2p.cl <- c()
+    clp2p.cl <- vector()
     cols <- names(object@fdata)
     di <- as.data.frame(object@distances)
     for (i in 1:max(clusters)) {

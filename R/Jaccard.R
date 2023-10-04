@@ -22,7 +22,7 @@ Jaccard <- function(
     plot = TRUE,
     R = 100,
     ...) {
-  JACCARD <- c()
+  JACCARD <- vector()
 
   # Validation
   if (!(Clustering %in% c("K-means", "MB"))) {

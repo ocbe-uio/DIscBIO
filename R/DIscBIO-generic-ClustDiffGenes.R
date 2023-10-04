@@ -99,8 +99,8 @@ setMethod(
         )[order(pv, decreasing = FALSE), ]
       cdiff[[i]] <- d[d$pv < pValue, ]
     }
-    DEGsE <- c()
-    DEGsS <- c()
+    DEGsE <- vector()
+    DEGsS <- vector()
     DEGsTable <- data.frame()
 
     for (n in 1:K) {
@@ -113,7 +113,7 @@ setMethod(
         out <- cbind(cdiff[[n]], p.adj)
         out <- subset(out, out[, 5] < fdr)
         if (length(out[, 1]) > 0) {
-          Regulation <- c()
+          Regulation <- vector()
           for (i in 1:length(out[, 1])) {
             if (out[i, 1] > out[i, 2]) {
               Regulation[i] <- "Down"

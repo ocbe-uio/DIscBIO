@@ -25,7 +25,7 @@ setMethod(
     types <- gsub("_[0-9]+", "", types)
     coloc <- rainbow(length(unique(types)))
     total <- object@MBclusters$pcareduceres
-    syms <- c()
+    syms <- vector()
     plot(
       total[, 1],
       total[, 2],

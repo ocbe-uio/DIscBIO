@@ -52,7 +52,7 @@ setMethod(
       object@distances <- as.matrix(y$di)
       part <- object@MBclusters$clusterid
     }
-    na <- c()
+    na <- vector()
     j <- 0
     for (i in 1:max(part)) {
       if (sum(part == i) == 0) {
@@ -88,7 +88,7 @@ setMethod(
     part <- q
     di <- as.data.frame(as.matrix(dist.gen(t(object@distances))))
     pto <- part[order(part, decreasing = FALSE)]
-    ptn <- c()
+    ptn <- vector()
     for (i in 1:max(pto)) {
       pt <-
         names(pto)[pto == i]
@@ -130,7 +130,7 @@ setMethod(
       abline(0, 1)
       box()
 
-      tmp <- c()
+      tmp <- vector()
       for (u in 1:max(part)) {
         ol <- (0:(length(part) - 1) /
           (length(part) - 1))[ptn %in% names(x)[part == u]]

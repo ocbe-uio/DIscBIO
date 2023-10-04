@@ -76,7 +76,7 @@ setMethod(
     gene_names2 <- gene_names[idx_genes]
     dataset <- object@expdata[gene_names2, ]
     Nam <- colnames(dataset)
-    num <- c(1:K)
+    num <- 1:K
     num1 <- paste("CL", num, sep = "")
 
     for (n in num) {
@@ -89,7 +89,7 @@ setMethod(
     }
     num1 <- paste("CL", num, sep = "")
     clustName <- paste("Cl", num, sep = "")
-    ClusterLength <- c()
+    ClusterLength <- vector()
     for (i in num) {
       d1 <- clustName[i]
       d2 <- dataset[, which(names(dataset) == num1[i])]
@@ -102,8 +102,8 @@ setMethod(
     if (!quiet) {
       print(clustName)
     }
-    first <- c()
-    second <- c()
+    first <- vector()
+    second <- vector()
     if (K < 2) {
       stop("K has to be at least 2")
     } else if (K == 2) {
@@ -185,19 +185,19 @@ setMethod(
         paste0(clustName[6])
       )
     }
-    o <- c(1:K)
+    o <- 1:K
     oo <- o[-length(o)]
     com <- sum(oo)
     if (!quiet) message("Number of comparisons: ", com * 2, "\n")
-    comNUM <- paste("comp", c(1:com), sep = "")
+    comNUM <- paste("comp", seq_len(com), sep = "")
     DEGsTable <- data.frame()
-    DEGsE <- c()
-    DEGsS <- c()
+    DEGsE <- vector()
+    DEGsS <- vector()
     for (i in seq_len(com)) {
       FinalDEGsL <- data.frame()
       FinalDEGsU <- data.frame()
-      FDRl <- c()
-      FDRu <- c()
+      FDRl <- vector()
+      FDRu <- vector()
 
       d1 <- comNUM[i]
       d2 <- cbind(get(first[i]), get(second[i]))

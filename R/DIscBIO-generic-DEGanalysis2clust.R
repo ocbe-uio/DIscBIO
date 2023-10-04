@@ -63,7 +63,7 @@ setMethod(
         stop("run ExprmclustMB before running DEGanalysis2clust")
       }
     }
-    num <- c(1:K)
+    num <- seq_len(K)
     num1 <- paste("CL", num, sep = "")
     for (n in num) {
       Nam <- ifelse((Cluster_ID == n), num1[n], Nam)
@@ -115,8 +115,8 @@ setMethod(
       delta.table <- samr.compute.delta.table(samr.obj)
     }
     DEGsTable <- data.frame()
-    DEGsE <- c()
-    DEGsS <- c()
+    DEGsE <- vector()
+    DEGsS <- vector()
     wm <- which.min(delta.table[, 5])
     if (delta.table[wm, 5] <= fdr) {
       w <- which(delta.table[, 5] <= fdr)
