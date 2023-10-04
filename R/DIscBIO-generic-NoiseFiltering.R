@@ -61,8 +61,8 @@ setMethod(
             stop("CV has to be a positive number")
 
         # Split data into sub tables based on the factor data geneTypes
-        GeneList = rownames(object@expdata)
-        data = object@expdataAll
+        GeneList <- rownames(object@expdata)
+        data <- object@expdataAll
         shortNames <- substr(rownames(data), 1, 4)
         geneTypes <-
             factor(c(ENSG = "ENSG", ERCC = "ERCC")[shortNames])

@@ -54,13 +54,13 @@ setMethod(
         dataset <- object@expdata[gene_names2, ]
         Nam <- colnames(dataset)
         if (Clustering == "K-means") {
-            Cluster_ID = object@cpart
+            Cluster_ID <- object@cpart
             if (length(object@cpart) < 1)
                 stop("run Clustexp before running DEGanalysis2clust")
         }
 
         if (Clustering == "MB") {
-            Cluster_ID = object@MBclusters$clusterid
+            Cluster_ID <- object@MBclusters$clusterid
             if (length(object@MBclusters$clusterid) < 1)
                 stop("run ExprmclustMB before running DEGanalysis2clust")
         }
@@ -89,7 +89,7 @@ setMethod(
         L <- as.matrix(sg)
         gname <- rownames(sg)
         x <- L
-        data = list(x = x, y = y, geneid = gname)
+        data <- list(x = x, y = y, geneid = gname)
         if (quiet) {
             suppressMessages(
                 invisible(capture.output({

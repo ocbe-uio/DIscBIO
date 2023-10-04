@@ -116,7 +116,7 @@ setMethod(
             x2 <- pmax(0, x - i)
             sum(lm(sdev ~ x + x2)$residuals ^ 2)
             }))
-            pcadim = optpoint + 1
+            pcadim <- optpoint + 1
             tmpdata <- t(apply(obj, 1, scale))
             colnames(tmpdata) <- colnames(obj)
             tmppc <- prcomp(t(tmpdata), scale = TRUE)

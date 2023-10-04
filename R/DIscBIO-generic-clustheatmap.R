@@ -100,7 +100,7 @@ setMethod(
                 pt[hclust(as.dist(t(di[pt, pt])), method = hmethod)$order]
             ptn <- append(ptn, z)
         }
-        col = c("black", "blue", "green", "red", "yellow", "gray")
+        col <- c("black", "blue", "green", "red", "yellow", "gray")
         mi  <- min(di, na.rm = TRUE)
         ma  <- max(di, na.rm = TRUE)
         if (plot) {

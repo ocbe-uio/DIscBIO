@@ -24,7 +24,7 @@ setMethod(
                                 show_cell_names = F, cell_name_size = 3,
                                 markerexpr = NULL,
                                 showcluster = T) {
-            color_by = "State"
+            color_by <- "State"
             lib_info_with_pseudo <- data.frame(
                 State = mclustobj$clusterid,
                 sample_name = names(mclustobj$clusterid)

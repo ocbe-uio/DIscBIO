@@ -42,7 +42,7 @@ setMethod(
     ClustersFactor <- gsub("5", "yellow", ClustersFactor)
     ClustersFactor <- gsub("6", "gray", ClustersFactor)
     COL <- ClustersFactor
-    labels = names(object@ndata)
+    labels <- names(object@ndata)
     plot(
       x,
       xlab = "Dim 1",

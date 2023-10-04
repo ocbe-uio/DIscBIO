@@ -117,9 +117,9 @@ setMethod(
           Regulation <- c()
           for (i in 1:length(out[, 1])) {
             if (out[i, 1] > out[i, 2]) {
-              Regulation[i] = "Down"
+              Regulation[i] <- "Down"
             } else{
-              Regulation[i] = "Up"
+              Regulation[i] <- "Up"
             }
           }
           out <- cbind(out, Regulation)

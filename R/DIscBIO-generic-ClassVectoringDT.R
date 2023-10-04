@@ -43,11 +43,11 @@ setMethod(
         }
 
         if (Clustering == "K-means") {
-            Cluster_ID = object@cpart
+            Cluster_ID <- object@cpart
         }
 
         if (Clustering == "MB") {
-            Cluster_ID = object@MBclusters$clusterid
+            Cluster_ID <- object@MBclusters$clusterid
         }
         Obj <- object@expdata
         SC <- DISCBIO(Obj)
@@ -79,7 +79,7 @@ setMethod(
                 "cells: ", length(DEGsfilteredDataset[1, ])
             )
         }
-        G_list = sigDEG
+        G_list <- sigDEG
         genes <- rownames(DEGsfilteredDataset)
         DATAforDT <- cbind(genes, DEGsfilteredDataset)
 

@@ -51,49 +51,49 @@ sammy <- function (data, resp.type = c("Quantitative", "Two class unpaired",
     nresamp = 20, nresamp.perm = NULL, xl.mode = c("regular",
         "firsttime", "next20", "lasttime"), xl.time = NULL, xl.prevfit = NULL)
 {
-    this.call = match.call()
-    resp.type.arg = match.arg(resp.type)
-    assay.type = match.arg(assay.type)
-    xl.mode = match.arg(xl.mode)
+    this.call <- match.call()
+    resp.type.arg <- match.arg(resp.type)
+    assay.type <- match.arg(assay.type)
+    xl.mode <- match.arg(xl.mode)
     set.seed(random.seed)
     if (is.null(nresamp.perm)) nresamp.perm <- nresamp
-    nresamp.perm = min(nresamp, nresamp.perm)
+    nresamp.perm <- min(nresamp, nresamp.perm)
     if (xl.mode == "regular" | xl.mode == "firsttime") {
-        x = NULL
-        xresamp = NULL
-        ttstar0 = NULL
-        evo = NULL
-        ystar = NULL
-        sdstar.keep = NULL
-        censoring.status = NULL
-        sdstar = NULL
-        pi0 = NULL
-        stand.contrasts = NULL
-        stand.contrasts.star = NULL
-        stand.contrasts.95 = NULL
-        foldchange = NULL
-        foldchange.star = NULL
-        perms = NULL
-        permsy = NULL
-        eigengene = NULL
-        eigengene.number = NULL
+        x <- NULL
+        xresamp <- NULL
+        ttstar0 <- NULL
+        evo <- NULL
+        ystar <- NULL
+        sdstar.keep <- NULL
+        censoring.status <- NULL
+        sdstar <- NULL
+        pi0 <- NULL
+        stand.contrasts <- NULL
+        stand.contrasts.star <- NULL
+        stand.contrasts.95 <- NULL
+        foldchange <- NULL
+        foldchange.star <- NULL
+        perms <- NULL
+        permsy <- NULL
+        eigengene <- NULL
+        eigengene.number <- NULL
         testStatistic <- match.arg(testStatistic)
         time.summary.type <- match.arg(time.summary.type)
         regression.method <- match.arg(regression.method)
-        x = data$x
-        y = data$y
-        argy = y
+        x <- data$x
+        y <- data$y
+        argy <- y
         if (!is.null(data$eigengene.number)) {
-            eigengene.number = data$eigengene.number
+            eigengene.number <- data$eigengene.number
         }
         if (sum(is.na(x)) > 0) {
-            x = impute.knn(x, k = knn.neighbors)
+            x <- impute.knn(x, k = knn.neighbors)
             if (!is.matrix(x)) {
-                x = x$data
+                x <- x$data
             }
         }
-        are.blocks.specified = FALSE
-        cond = (resp.type == "One class") | (resp.type == "Two class unpaired timecourse") |
+        are.blocks.specified <- FALSE
+        cond <- (resp.type == "One class") | (resp.type == "Two class unpaired timecourse") |
             (resp.type == "One class unpaired timecourse") |
             (resp.type == "Two class paired timecourse") | (resp.type ==
             "Pattern discovery")
@@ -115,39 +115,39 @@ sammy <- function (data, resp.type = c("Quantitative", "Two class unpaired",
         if (center.arrays) {
             x <- scale(x, center = apply(x, 2, median), scale = FALSE)
         }
-        depth = scaling.factors = rep(NA, ncol(x))
-        scaling.factors = (prod(depth) ^ (1 / length(depth))) / depth
+        depth <- scaling.factors <- rep(NA, ncol(x))
+        scaling.factors <- (prod(depth) ^ (1 / length(depth))) / depth
         if (assay.type == "seq") {
             message("Estimating sequencing depths...")
-            depth = samr.estimate.depth(x)
+            depth <- samr.estimate.depth(x)
             message("Resampling to get new data matrices...")
-            xresamp = resa(x, depth, nresamp = nresamp)
+            xresamp <- resa(x, depth, nresamp = nresamp)
         }
-        scaling.factors = (prod(depth) ^ (1 / length(depth))) / depth
+        scaling.factors <- (prod(depth) ^ (1 / length(depth))) / depth
         if (resp.type == samr.const.twoclass.unpaired.response) {
             if (substring(y[1], 2, 6) == "Block" | substring(y[1],
                 2, 6) == "block") {
-                junk = parse.block.labels.for.2classes(y)
-                y = junk$y
-                blocky = junk$blocky
-                are.blocks.specified = TRUE
+                junk <- parse.block.labels.for.2classes(y)
+                y <- junk$y
+                blocky <- junk$blocky
+                are.blocks.specified <- TRUE
             }
         }
         if (resp.type == samr.const.twoclass.unpaired.response |
             resp.type == samr.const.twoclass.paired.response |
             resp.type == samr.const.oneclass.response | resp.type ==
             samr.const.quantitative.response | resp.type == samr.const.multiclass.response) {
-            y = as.numeric(y)
+            y <- as.numeric(y)
         }
-        sd.internal = NULL
+        sd.internal <- NULL
         if (resp.type == samr.const.twoclass.unpaired.timecourse.response |
             resp.type == samr.const.twoclass.paired.timecourse.response |
             resp.type == samr.const.oneclass.timecourse.response) {
-            junk = parse.time.labels.and.summarize.data(x, y,
+            junk <- parse.time.labels.and.summarize.data(x, y,
                 resp.type, time.summary.type)
-            y = junk$y
-            x = junk$x
-            sd.internal = sqrt(rowMeans(junk$sd^2))
+            y <- junk$y
+            x <- junk$x
+            sd.internal <- sqrt(rowMeans(junk$sd^2))
             if (min(table(y)) == 1) {
                 warning(
                     "Only one timecourse in one or more classes;\n",
@@ -157,24 +157,24 @@ sammy <- function (data, resp.type = c("Quantitative", "Two class unpaired",
             }
         }
         if (resp.type == samr.const.twoclass.unpaired.timecourse.response) {
-            resp.type = samr.const.twoclass.unpaired.response
+            resp.type <- samr.const.twoclass.unpaired.response
         }
         if (resp.type == samr.const.twoclass.paired.timecourse.response) {
-            resp.type = samr.const.twoclass.paired.response
+            resp.type <- samr.const.twoclass.paired.response
         }
         if (resp.type == samr.const.oneclass.timecourse.response) {
-            resp.type = samr.const.oneclass.response
+            resp.type <- samr.const.oneclass.response
         }
-        stand.contrasts = NULL
-        stand.contrasts.95 = NULL
+        stand.contrasts <- NULL
+        stand.contrasts.95 <- NULL
         if (resp.type == samr.const.survival.response) {
-            censoring.status = data$censoring.status
+            censoring.status <- data$censoring.status
         }
         check.format(y, resp.type = resp.type, censoring.status = censoring.status)
         if (resp.type == samr.const.quantitative.response & regression.method ==
             "ranks") {
-            y = rank(y)
-            x = t(apply(x, 1, rank))
+            y <- rank(y)
+            x <- t(apply(x, 1, rank))
         }
         n <- nrow(x)
         ny <- length(y)
@@ -235,8 +235,8 @@ sammy <- function (data, resp.type = c("Quantitative", "Two class unpaired",
             samr.const.twoclass.unpaired.response & assay.type ==
             "array" & testStatistic == "wilcoxon" | (nrow(x) <
             500) & is.null(s0) & is.null(s0.perc)) {
-            s0 = quantile(sd, 0.05)
-            s0.perc = 0.05
+            s0 <- quantile(sd, 0.05)
+            s0.perc <- 0.05
         }
         if (is.null(s0) & assay.type == "array") {
             if (!is.null(s0.perc)) {
@@ -245,20 +245,20 @@ sammy <- function (data, resp.type = c("Quantitative", "Two class unpaired",
                   stop("Illegal value for s0.perc: must be between 0 and 100, or equal\nto (-1) (meaning that s0 should be set to zero)")
                 }
                 if (s0.perc == -1) {
-                  s0 = 0
+                  s0 <- 0
                 }
                 if (s0.perc >= 0) {
                   s0 <- quantile(init.fit$sd, s0.perc / 100)
                 }
             }
             if (is.null(s0.perc)) {
-                s0 = est.s0(init.fit$tt, init.fit$sd)$s0.hat
-                s0.perc = 100 * sum(init.fit$sd < s0) / length(init.fit$sd)
+                s0 <- est.s0(init.fit$tt, init.fit$sd)$s0.hat
+                s0.perc <- 100 * sum(init.fit$sd < s0) / length(init.fit$sd)
             }
         }
         if (assay.type == "seq") {
-            s0 = 0
-            s0.perc = 0
+            s0 <- 0
+            s0.perc <- 0
         }
         if (resp.type == samr.const.twoclass.unpaired.response &
             testStatistic == "standard" & assay.type == "array") {
@@ -283,8 +283,8 @@ sammy <- function (data, resp.type = c("Quantitative", "Two class unpaired",
         if (resp.type == samr.const.multiclass.response & assay.type ==
             "array") {
             junk2 <- multiclass.func(x, y, s0 = s0)
-            tt = junk2$tt
-            stand.contrasts = junk2$stand.contrasts
+            tt <- junk2$tt
+            stand.contrasts <- junk2$stand.contrasts
         }
         if (resp.type == samr.const.quantitative.response & assay.type ==
             "array") {
@@ -294,177 +294,177 @@ sammy <- function (data, resp.type = c("Quantitative", "Two class unpaired",
             assay.type == "array") {
             junk <- patterndiscovery.func(x, s0 = s0, eigengene.number = eigengene.number)
             tt <- junk$tt
-            eigengene = junk$eigengene
+            eigengene <- junk$eigengene
         }
         if (resp.type == samr.const.twoclass.unpaired.response &
             assay.type == "seq") {
-            junk = wilcoxon.unpaired.seq.func(xresamp, y)
-            tt = junk$tt
-            numer = junk$numer
-            sd = junk$sd
+            junk <- wilcoxon.unpaired.seq.func(xresamp, y)
+            tt <- junk$tt
+            numer <- junk$numer
+            sd <- junk$sd
         }
         if (resp.type == samr.const.twoclass.paired.response &
             assay.type == "seq") {
             junk <- wilcoxon.paired.seq.func(xresamp, y)
-            tt = junk$tt
-            numer = junk$numer
-            sd = junk$sd
+            tt <- junk$tt
+            numer <- junk$numer
+            sd <- junk$sd
         }
         if (resp.type == samr.const.quantitative.response & assay.type ==
             "seq") {
             junk <- quantitative.seq.func(xresamp, y)
-            tt = junk$tt
-            numer = junk$numer
-            sd = junk$sd
+            tt <- junk$tt
+            numer <- junk$numer
+            sd <- junk$sd
         }
         if (resp.type == samr.const.survival.response & assay.type ==
             "seq") {
             junk <- cox.seq.func(xresamp, y, censoring.status)
-            tt = junk$tt
-            numer = junk$numer
-            sd = junk$sd
+            tt <- junk$tt
+            numer <- junk$numer
+            sd <- junk$sd
         }
         if (resp.type == samr.const.multiclass.response & assay.type ==
             "seq") {
             junk2 <- multiclass.seq.func(xresamp, y)
-            tt = junk2$tt
-            numer = junk2$numer
-            sd = junk2$sd
-            stand.contrasts = junk2$stand.contrasts
+            tt <- junk2$tt
+            numer <- junk2$numer
+            sd <- junk2$sd
+            stand.contrasts <- junk2$stand.contrasts
         }
         if (resp.type == samr.const.quantitative.response | resp.type ==
             samr.const.multiclass.response | resp.type == samr.const.survival.response) {
             junk <- getperms(y, nperms)
-            perms = junk$perms
-            all.perms.flag = junk$all.perms.flag
-            nperms.act = junk$nperms.act
+            perms <- junk$perms
+            all.perms.flag <- junk$all.perms.flag
+            nperms.act <- junk$nperms.act
         }
         if (resp.type == samr.const.twoclass.unpaired.response) {
             if (are.blocks.specified) {
-                junk = compute.block.perms(y, blocky, nperms)
-                permsy = matrix(junk$permsy, ncol = length(y))
-                all.perms.flag = junk$all.perms.flag
-                nperms.act = junk$nperms.act
+                junk <- compute.block.perms(y, blocky, nperms)
+                permsy <- matrix(junk$permsy, ncol = length(y))
+                all.perms.flag <- junk$all.perms.flag
+                nperms.act <- junk$nperms.act
             }
             else {
                 junk <- getperms(y, nperms)
-                permsy = matrix(y[junk$perms], ncol = length(y))
-                all.perms.flag = junk$all.perms.flag
-                nperms.act = junk$nperms.act
+                permsy <- matrix(y[junk$perms], ncol = length(y))
+                all.perms.flag <- junk$all.perms.flag
+                nperms.act <- junk$nperms.act
             }
         }
         if (resp.type == samr.const.oneclass.response) {
             if ((length(y) * log(2)) < log(nperms)) {
-                allii = 0:((2^length(y)) - 1)
-                nperms.act = 2^length(y)
-                all.perms.flag = 1
+                allii <- 0:((2^length(y)) - 1)
+                nperms.act <- 2^length(y)
+                all.perms.flag <- 1
             }
             else {
-                nperms.act = nperms
-                all.perms.flag = 0
+                nperms.act <- nperms
+                all.perms.flag <- 0
             }
-            permsy = matrix(NA, nrow = nperms.act, ncol = length(y))
+            permsy <- matrix(NA, nrow = nperms.act, ncol = length(y))
             if (all.perms.flag == 1) {
-                k = 0
+                k <- 0
                 for (i in allii) {
-                  junk = integer.base.b(i, b = 2)
+                  junk <- integer.base.b(i, b = 2)
                   if (length(junk) < length(y)) {
-                    junk = c(rep(0, length(y) - length(junk)),
+                    junk <- c(rep(0, length(y) - length(junk)),
                       junk)
                   }
-                  k = k + 1
-                  permsy[k, ] = y * (2 * junk - 1)
+                  k <- k + 1
+                  permsy[k, ] <- y * (2 * junk - 1)
                 }
             }
             else {
                 for (i in 1:nperms.act) {
-                  permsy[i, ] = sample(c(-1, 1), size = length(y),
+                  permsy[i, ] <- sample(c(-1, 1), size = length(y),
                     replace = TRUE)
                 }
             }
         }
         if (resp.type == samr.const.twoclass.paired.response) {
-            junk = compute.block.perms(y, abs(y), nperms)
-            permsy = junk$permsy
-            all.perms.flag = junk$all.perms.flag
-            nperms.act = junk$nperms.act
+            junk <- compute.block.perms(y, abs(y), nperms)
+            permsy <- junk$permsy
+            all.perms.flag <- junk$all.perms.flag
+            nperms.act <- junk$nperms.act
         }
         if (resp.type == samr.const.patterndiscovery.response) {
-            nperms.act = nperms
-            perms = NULL
-            permsy = NULL
-            all.perms.flag = FALSE
+            nperms.act <- nperms
+            perms <- NULL
+            permsy <- NULL
+            all.perms.flag <- FALSE
         }
         sdstar.keep <- NULL
         if (assay.type != "seq") {
             sdstar.keep <- matrix(0, ncol = nperms.act, nrow = nrow(x))
         }
         ttstar <- matrix(0, nrow = nrow(x), ncol = nperms.act)
-        foldchange.star = NULL
+        foldchange.star <- NULL
         if (resp.type == samr.const.twoclass.unpaired.response |
             resp.type == samr.const.twoclass.paired.response) {
             foldchange.star <- matrix(0, nrow = nrow(x), ncol = nperms.act)
         }
         if (resp.type == samr.const.multiclass.response) {
-            stand.contrasts.star = array(NA, c(nrow(x), length(table(y)),
+            stand.contrasts.star <- array(NA, c(nrow(x), length(table(y)),
                 nperms.act))
         }
     }
     if (xl.mode == "next20" | xl.mode == "lasttime") {
-        evo = xl.prevfit$evo
-        tt = xl.prevfit$tt
-        numer = xl.prevfit$numer
-        eigengene = xl.prevfit$eigengene
-        eigengene.number = xl.prevfit$eigengene.number
-        sd = xl.prevfit$sd - xl.prevfit$s0
-        sd.internal = xl.prevfit$sd.internal
-        ttstar = xl.prevfit$ttstar
-        ttstar0 = xl.prevfit$ttstar0
-        n = xl.prevfit$n
-        pi0 = xl.prevfit$pi0
-        foldchange = xl.prevfit$foldchange
-        y = xl.prevfit$y
-        x = xl.prevfit$x
-        xresamp = xl.prevfit$xresamp
-        censoring.status = xl.prevfit$censoring.status
-        argy = xl.prevfit$argy
-        testStatistic = xl.prevfit$testStatistic
-        foldchange.star = xl.prevfit$foldchange.star
-        s0 = xl.prevfit$s0
-        s0.perc = xl.prevfit$s0.perc
-        resp.type = xl.prevfit$resp.type
-        resp.type.arg = xl.prevfit$resp.type.arg
-        assay.type = xl.prevfit$assay.type
-        sdstar.keep = xl.prevfit$sdstar.keep
-        resp.type = xl.prevfit$resp.type
-        stand.contrasts = xl.prevfit$stand.contrasts
-        stand.contrasts.star = xl.prevfit$stand.contrasts.star
-        stand.contrasts.95 = xl.prevfit$stand.contrasts.95
-        perms = xl.prevfit$perms
-        permsy = xl.prevfit$permsy
-        nperms = xl.prevfit$nperms
-        nperms.act = xl.prevfit$nperms.act
-        all.perms.flag = xl.prevfit$all.perms.flag
-        depth = xl.prevfit$depth
-        scaling.factors = xl.prevfit$scaling.factors
-        nresamp = xl.prevfit$nresamp
-        nresamp.perm = xl.prevfit$nresamp.perm
+        evo <- xl.prevfit$evo
+        tt <- xl.prevfit$tt
+        numer <- xl.prevfit$numer
+        eigengene <- xl.prevfit$eigengene
+        eigengene.number <- xl.prevfit$eigengene.number
+        sd <- xl.prevfit$sd - xl.prevfit$s0
+        sd.internal <- xl.prevfit$sd.internal
+        ttstar <- xl.prevfit$ttstar
+        ttstar0 <- xl.prevfit$ttstar0
+        n <- xl.prevfit$n
+        pi0 <- xl.prevfit$pi0
+        foldchange <- xl.prevfit$foldchange
+        y <- xl.prevfit$y
+        x <- xl.prevfit$x
+        xresamp <- xl.prevfit$xresamp
+        censoring.status <- xl.prevfit$censoring.status
+        argy <- xl.prevfit$argy
+        testStatistic <- xl.prevfit$testStatistic
+        foldchange.star <- xl.prevfit$foldchange.star
+        s0 <- xl.prevfit$s0
+        s0.perc <- xl.prevfit$s0.perc
+        resp.type <- xl.prevfit$resp.type
+        resp.type.arg <- xl.prevfit$resp.type.arg
+        assay.type <- xl.prevfit$assay.type
+        sdstar.keep <- xl.prevfit$sdstar.keep
+        resp.type <- xl.prevfit$resp.type
+        stand.contrasts <- xl.prevfit$stand.contrasts
+        stand.contrasts.star <- xl.prevfit$stand.contrasts.star
+        stand.contrasts.95 <- xl.prevfit$stand.contrasts.95
+        perms <- xl.prevfit$perms
+        permsy <- xl.prevfit$permsy
+        nperms <- xl.prevfit$nperms
+        nperms.act <- xl.prevfit$nperms.act
+        all.perms.flag <- xl.prevfit$all.perms.flag
+        depth <- xl.prevfit$depth
+        scaling.factors <- xl.prevfit$scaling.factors
+        nresamp <- xl.prevfit$nresamp
+        nresamp.perm <- xl.prevfit$nresamp.perm
     }
     if (xl.mode == "regular") {
-        first = 1
-        last = nperms.act
+        first <- 1
+        last <- nperms.act
     }
     if (xl.mode == "firsttime") {
-        first = 1
-        last = 1
+        first <- 1
+        last <- 1
     }
     if (xl.mode == "next20") {
-        first = xl.time
-        last = min(xl.time + 19, nperms.act - 1)
+        first <- xl.time
+        last <- min(xl.time + 19, nperms.act - 1)
     }
     if (xl.mode == "lasttime") {
-        first = nperms.act
-        last = nperms.act
+        first <- nperms.act
+        last <- nperms.act
     }
     for (b in first:last) {
         message(c("perm = ", b))
@@ -475,18 +475,18 @@ sammy <- function (data, resp.type = c("Quantitative", "Two class unpaired",
             xstar <- xresamp[, , 1:nresamp.perm]
         }
         if (resp.type == samr.const.oneclass.response) {
-            ystar = permsy[b, ]
+            ystar <- permsy[b, ]
             if (testStatistic == "standard") {
                 ttstar[, b] <- onesample.ttest.func(xstar, ystar,
                   s0 = s0, sd = sd.internal)$tt
             }
         }
         if (resp.type == samr.const.twoclass.paired.response) {
-            ystar = permsy[b, ]
+            ystar <- permsy[b, ]
             if (assay.type == "array") {
                 ttstar[, b] <- paired.ttest.func(xstar, ystar,
                   s0 = s0, sd = sd.internal)$tt
-                foldchange.star[, b] = foldchange.paired(xstar,
+                foldchange.star[, b] <- foldchange.paired(xstar,
                   ystar, data$logged2)
             }
             if (assay.type == "seq") {
@@ -497,7 +497,7 @@ sammy <- function (data, resp.type = c("Quantitative", "Two class unpaired",
             }
         }
         if (resp.type == samr.const.twoclass.unpaired.response) {
-            ystar = permsy[b, ]
+            ystar <- permsy[b, ]
             if (assay.type == "array") {
                 if (testStatistic == "standard") {
                   junk <- ttest.func(xstar, ystar, s0 = s0, sd = sd.internal)
@@ -507,7 +507,7 @@ sammy <- function (data, resp.type = c("Quantitative", "Two class unpaired",
                 }
                 ttstar[, b] <- junk$tt
                 sdstar.keep[, b] <- junk$sd
-                foldchange.star[, b] = foldchange.twoclass(xstar,
+                foldchange.star[, b] <- foldchange.twoclass(xstar,
                   ystar, data$logged2)
             }
             if (assay.type == "seq") {
@@ -528,12 +528,12 @@ sammy <- function (data, resp.type = c("Quantitative", "Two class unpaired",
             }
         }
         if (resp.type == samr.const.multiclass.response) {
-            ystar = y[perms[b, ]]
+            ystar <- y[perms[b, ]]
             if (assay.type == "array") {
                 junk <- multiclass.func(xstar, ystar, s0 = s0)
                 ttstar[, b] <- junk$tt
                 sdstar.keep[, b] <- junk$sd
-                stand.contrasts.star[, , b] = junk$stand.contrasts
+                stand.contrasts.star[, , b] <- junk$stand.contrasts
             }
             if (assay.type == "seq") {
                 junk <- multiclass.seq.func(xstar, ystar)
@@ -542,7 +542,7 @@ sammy <- function (data, resp.type = c("Quantitative", "Two class unpaired",
             }
         }
         if (resp.type == samr.const.quantitative.response) {
-            ystar = y[perms[b, ]]
+            ystar <- y[perms[b, ]]
             if (assay.type == "array") {
                 junk <- quantitative.func(xstar, ystar, s0 = s0)
                 ttstar[, b] <- junk$tt
@@ -554,7 +554,7 @@ sammy <- function (data, resp.type = c("Quantitative", "Two class unpaired",
             }
         }
         if (resp.type == samr.const.patterndiscovery.response) {
-            xstar = permute.rows(x)
+            xstar <- permute.rows(x)
             junk <- patterndiscovery.func(xstar, s0 = s0, eigengene.number = eigengene.number)
             ttstar[, b] <- junk$tt
             sdstar.keep[, b] <- junk$sd
@@ -571,7 +571,7 @@ sammy <- function (data, resp.type = c("Quantitative", "Two class unpaired",
         evo <- apply(ttstar, 1, mean)
         evo <- evo[length(evo):1]
         sdstar <- sdstar.keep
-        pi0 = 1
+        pi0 <- 1
         if (resp.type != samr.const.multiclass.response) {
             qq <- quantile(ttstar, c(0.25, 0.75))
         }
@@ -579,21 +579,21 @@ sammy <- function (data, resp.type = c("Quantitative", "Two class unpaired",
             qq <- quantile(ttstar, c(0, 0.5))
         }
         pi0 <- sum(tt > qq[1] & tt < qq[2]) / (0.5 * length(tt))
-        foldchange = NULL
+        foldchange <- NULL
         if (resp.type == samr.const.twoclass.unpaired.response &
             assay.type == "array") {
-            foldchange = foldchange.twoclass(x, y, data$logged2)
+            foldchange <- foldchange.twoclass(x, y, data$logged2)
         }
         if (resp.type == samr.const.twoclass.paired.response &
             assay.type == "array") {
-            foldchange = foldchange.paired(x, y, data$logged2)
+            foldchange <- foldchange.paired(x, y, data$logged2)
         }
         if (resp.type == samr.const.oneclass.response & assay.type ==
             "array") {
         }
-        stand.contrasts.95 = NULL
+        stand.contrasts.95 <- NULL
         if (resp.type == samr.const.multiclass.response) {
-            stand.contrasts.95 = quantile(stand.contrasts.star,
+            stand.contrasts.95 <- quantile(stand.contrasts.star,
                 c(0.025, 0.975))
         }
         if (resp.type == samr.const.twoclass.unpaired.response &
@@ -607,7 +607,7 @@ sammy <- function (data, resp.type = c("Quantitative", "Two class unpaired",
                 depth)
         }
         if (return.x == FALSE) {
-            x = NULL
+            x <- NULL
         }
     }
     return(list(n = n, x = x, xresamp = xresamp, y = y, argy = argy,
@@ -677,11 +677,11 @@ resa <- function(x, d, nresamp = 20) {
 rankcols <- function(x) {
     # ranks the elements within each col of the matrix x
     # and returns these ranks in a matrix
-    n = nrow(x)
-    p = ncol(x)
-    mode(n) = "integer"
-    mode(p) = "integer"
-    mode(x) = "double"
+    n <- nrow(x)
+    p <- ncol(x)
+    mode(n) <- "integer"
+    mode(p) <- "integer"
+    mode(x) <- "double"
     xr <- apply(x, 2, rank)
     return(xr)
 }
@@ -721,8 +721,8 @@ check.format <- function(y, resp.type, censoring.status = NULL) {
         }
     }
     if (resp.type == samr.const.multiclass.response) {
-        tt = table(y)
-        nc = length(tt)
+        tt <- table(y)
+        nc <- length(tt)
         if (sum(y <= nc & y > 0) < length(y)) {
             stop(paste("Error in input response data: response type ",
                 resp.type, " specified; values must be 1,2, ... number of classes"))
@@ -784,33 +784,33 @@ wilcoxon.paired.seq.func <- function(xresamp, y) {
     tt <- tt / dim(xresamp)[3]
     return(list(tt = tt, numer = tt, sd = rep(1, length(tt))))
 }
-getperms = function(y, nperms) {
-    total.perms = factorial(length(y))
+getperms <- function(y, nperms) {
+    total.perms <- factorial(length(y))
     if (total.perms <= nperms) {
-        perms = permute(1:length(y))
-        all.perms.flag = 1
-        nperms.act = total.perms
+        perms <- permute(1:length(y))
+        all.perms.flag <- 1
+        nperms.act <- total.perms
     }
     if (total.perms > nperms) {
-        perms = matrix(NA, nrow = nperms, ncol = length(y))
+        perms <- matrix(NA, nrow = nperms, ncol = length(y))
         for (i in 1:nperms) {
-            perms[i, ] = sample(1:length(y), size = length(y))
+            perms[i, ] <- sample(1:length(y), size = length(y))
         }
-        all.perms.flag = 0
-        nperms.act = nperms
+        all.perms.flag <- 0
+        nperms.act <- nperms
     }
     return(list(perms = perms, all.perms.flag = all.perms.flag,
         nperms.act = nperms.act))
 }
-foldchange.twoclass = function(x, y, logged2) {
+foldchange.twoclass <- function(x, y, logged2) {
     #  if(logged2){x=2^x}
     m1 <- rowMeans(x[, y == 1, drop = FALSE])
     m2 <- rowMeans(x[, y == 2, drop = FALSE])
     if (!logged2) {
-        fc = m2 / m1
+        fc <- m2 / m1
     }
     if (logged2) {
-        fc = 2^{
+        fc <- 2^{
             m2 - m1
         }
     }
@@ -866,101 +866,101 @@ insert.value <- function(vec, newval, pos) {
         return(c(vec, newval))
     return(c(vec[1:pos - 1], newval, vec[pos:lvec]))
 }
-parse.block.labels.for.2classes = function(y) {
+parse.block.labels.for.2classes <- function(y) {
     #this only works for 2 class case- having form jBlockn,
     #   where j=1 or 2
-    n = length(y)
-    y.act = rep(NA, n)
-    blocky = rep(NA, n)
+    n <- length(y)
+    y.act <- rep(NA, n)
+    blocky <- rep(NA, n)
     for (i in 1:n) {
-        blocky[i] = as.numeric(substring(y[i], 7, nchar(y[i])))
-        y.act[i] = as.numeric(substring(y[i], 1, 1))
+        blocky[i] <- as.numeric(substring(y[i], 7, nchar(y[i])))
+        y.act[i] <- as.numeric(substring(y[i], 1, 1))
     }
     return(list(y.act = y.act, blocky = blocky))
 }
-parse.time.labels.and.summarize.data = function(x,
+parse.time.labels.and.summarize.data <- function(x,
     y, resp.type, time.summary.type) {
     # parse time labels, and summarize time data for each
     #   person, via a slope or area
     # does some error checking too
-    n = length(y)
-    last5char = rep(NA, n)
-    last3char = rep(NA, n)
+    n <- length(y)
+    last5char <- rep(NA, n)
+    last3char <- rep(NA, n)
     for (i in 1:n) {
-        last3char[i] = substring(y[i], nchar(y[i]) - 2, nchar(y[i]))
-        last5char[i] = substring(y[i], nchar(y[i]) - 4, nchar(y[i]))
+        last3char[i] <- substring(y[i], nchar(y[i]) - 2, nchar(y[i]))
+        last5char[i] <- substring(y[i], nchar(y[i]) - 4, nchar(y[i]))
     }
     if (sum(last3char == "End") != sum(last5char == "Start")) {
         stop("Error in format of  time course data: a Start or End tag is missing")
     }
-    y.act = rep(NA, n)
-    timey = rep(NA, n)
-    person.id = rep(NA, n)
-    k = 1
-    end.flag = FALSE
-    person.id[1] = 1
+    y.act <- rep(NA, n)
+    timey <- rep(NA, n)
+    person.id <- rep(NA, n)
+    k <- 1
+    end.flag <- FALSE
+    person.id[1] <- 1
     if (substring(y[1], nchar(y[1]) - 4, nchar(y[1])) != "Start") {
         stop("Error in format of  time course data: first cell should have a Start tag")
     }
     for (i in 1:n) {
         message(i)
-        j = 1
+        j <- 1
         while (substring(y[i], j, j) != "T") {
-            j = j + 1
+            j <- j + 1
         }
-        end.of.y = j - 1
-        y.act[i] = as.numeric(substring(y[i], 1, end.of.y))
-        timey[i] = substring(y[i], end.of.y + 5, nchar(y[i]))
+        end.of.y <- j - 1
+        y.act[i] <- as.numeric(substring(y[i], 1, end.of.y))
+        timey[i] <- substring(y[i], end.of.y + 5, nchar(y[i]))
         if (nchar(timey[i]) > 3 & substring(timey[i], nchar(timey[i]) -
             2, nchar(timey[i])) == "End") {
-            end.flag = TRUE
-            timey[i] = substring(timey[i], 1, nchar(timey[i]) -
+            end.flag <- TRUE
+            timey[i] <- substring(timey[i], 1, nchar(timey[i]) -
                 3)
         }
         if (nchar(timey[i]) > 3 & substring(timey[i], nchar(timey[i]) -
             4, nchar(timey[i])) == "Start") {
-            timey[i] = substring(timey[i], 1, nchar(timey[i]) -
+            timey[i] <- substring(timey[i], 1, nchar(timey[i]) -
                 5)
         }
         if (i < n & !end.flag) {
-            person.id[i + 1] = k
+            person.id[i + 1] <- k
         }
         if (i < n & end.flag) {
-            k = k + 1
-            person.id[i + 1] = k
+            k <- k + 1
+            person.id[i + 1] <- k
         }
-        end.flag = FALSE
+        end.flag <- FALSE
     }
-    timey = as.numeric(timey)
+    timey <- as.numeric(timey)
     # do a check that the format was correct
-    tt = table(person.id, y.act)
-    junk = function(x) {
+    tt <- table(person.id, y.act)
+    junk <- function(x) {
         sum(x != 0)
     }
     if (sum(apply(tt, 1, junk) != 1) > 0) {
-        num = (1:nrow(tt))[apply(tt, 1, junk) > 1]
+        num <- (1:nrow(tt))[apply(tt, 1, junk) > 1]
         stop(paste("Error in format of  time course data, timecourse #",
             as.character(num)))
     }
-    npeople = length(unique(person.id))
-    newx = matrix(NA, nrow = nrow(x), ncol = npeople)
-    sd = matrix(NA, nrow = nrow(x), ncol = npeople)
+    npeople <- length(unique(person.id))
+    newx <- matrix(NA, nrow = nrow(x), ncol = npeople)
+    sd <- matrix(NA, nrow = nrow(x), ncol = npeople)
     for (j in 1:npeople) {
-        jj = person.id == j
-        tim = timey[jj]
-        xc = t(scale(t(x[, jj, drop = FALSE]), center = TRUE, scale = FALSE))
+        jj <- person.id == j
+        tim <- timey[jj]
+        xc <- t(scale(t(x[, jj, drop = FALSE]), center = TRUE, scale = FALSE))
         if (time.summary.type == "slope") {
-            junk = quantitative.func(xc, tim - mean(tim))
-            newx[, j] = junk$numer
-            sd[, j] = junk$sd
+            junk <- quantitative.func(xc, tim - mean(tim))
+            newx[, j] <- junk$numer
+            sd[, j] <- junk$sd
         }
         if (time.summary.type == "signed.area") {
-            junk = timearea.func(x[, jj, drop = FALSE], tim)
-            newx[, j] = junk$numer
-            sd[, j] = junk$sd
+            junk <- timearea.func(x[, jj, drop = FALSE], tim)
+            newx[, j] <- junk$numer
+            sd[, j] <- junk$sd
         }
     }
-    y.unique = y.act[!duplicated(person.id)]
+    y.unique <- y.act[!duplicated(person.id)]
     return(list(y = y.unique, x = newx, sd = sd))
 }
 ttest.func <- function(x, y, s0 = 0, sd = NULL) {
@@ -982,11 +982,11 @@ ttest.func <- function(x, y, s0 = 0, sd = NULL) {
 wilcoxon.func <- function(x, y, s0 = 0) {
     n1 <- sum(y == 1)
     n2 <- sum(y == 2)
-    p = nrow(x)
-    r2 = rowSums(t(apply(x, 1, rank))[, y == 2, drop = FALSE])
-    numer = r2 - (n2 / 2) * (n2 + 1) - (n1 * n2) / 2
-    sd = sqrt(n1 * n2 * (n1 + n2 + 1) / 12)
-    tt = (numer) / (sd + s0)
+    p <- nrow(x)
+    r2 <- rowSums(t(apply(x, 1, rank))[, y == 2, drop = FALSE])
+    numer <- r2 - (n2 / 2) * (n2 + 1) - (n1 * n2) / 2
+    sd <- sqrt(n1 * n2 * (n1 + n2 + 1) / 12)
+    tt <- (numer) / (sd + s0)
     return(list(tt = tt, numer = numer, sd = rep(sd, p)))
 }
 
@@ -1001,19 +1001,19 @@ onesample.ttest.func <- function(x, y, s0 = 0, sd = NULL) {
     return(list(tt = dif.obs, numer = m, sd = sd))
 }
 
-patterndiscovery.func = function(x, s0 = 0, eigengene.number = 1) {
-    a = mysvd(x, n.components = eigengene.number)
-    v = a$v[, eigengene.number]
+patterndiscovery.func <- function(x, s0 = 0, eigengene.number = 1) {
+    a <- mysvd(x, n.components = eigengene.number)
+    v <- a$v[, eigengene.number]
     # here we try to guess the most interpretable orientation
     #   for the eigengene
-    om = abs(a$u[, eigengene.number]) > quantile(abs(a$u[, eigengene.number]),
+    om <- abs(a$u[, eigengene.number]) > quantile(abs(a$u[, eigengene.number]),
         0.95)
     if (median(a$u[om, eigengene.number]) < 0) {
-        v = -1 * v
+        v <- -1 * v
     }
-    aa = quantitative.func(x, v, s0 = s0)
-    eigengene = cbind(1:nrow(a$v), v)
-    dimnames(eigengene) = list(NULL, c("sample number", "value"))
+    aa <- quantitative.func(x, v, s0 = s0)
+    eigengene <- cbind(1:nrow(a$v), v)
+    dimnames(eigengene) <- list(NULL, c("sample number", "value"))
     return(list(tt = aa$tt, numer = aa$numer, sd = aa$sd, eigengene = eigengene))
 }
 
@@ -1084,15 +1084,15 @@ multiclass.func <- function(x, y, s0 = 0) {
         byrow = TRUE) * mm * mm, 1, sum)))
     sd <- sqrt(rowSums(v) * (1 / sum(nn - 1)) * sum(1 / nn))
     tt <- scor / (sd + s0)
-    mm.stand = t(scale(t(mm), center = FALSE, scale = sd))
+    mm.stand <- t(scale(t(mm), center = FALSE, scale = sd))
     return(list(tt = tt, numer = scor, sd = sd, stand.contrasts = mm.stand))
 }
 
 est.s0 <- function(tt, sd, s0.perc = seq(0, 1, by = 0.05)) {
     ## estimate s0 (exchangeability) factor for denominator.
     ## returns the actual estimate s0 (not a percentile)
-    br = unique(quantile(sd, seq(0, 1, len = 101)))
-    nbr = length(br)
+    br <- unique(quantile(sd, seq(0, 1, len = 101)))
+    nbr <- length(br)
     a <- cut(sd, br, labels = F)
     a[is.na(a)] <- 1
     cv.sd <- rep(0, length(s0.perc))
@@ -1100,17 +1100,17 @@ est.s0 <- function(tt, sd, s0.perc = seq(0, 1, by = 0.05)) {
         w <- quantile(sd, s0.perc[j])
         w[j == 1] <- 0
         tt2 <- tt * sd / (sd + w)
-        tt2[tt2 == Inf] = NA
+        tt2[tt2 == Inf] <- NA
         sds <- rep(0, nbr - 1)
         for (i in 1:(nbr - 1)) {
             sds[i] <- stats::mad(tt2[a == i], na.rm = TRUE)
         }
         cv.sd[j] <- sqrt(var(sds)) / mean(sds)
     }
-    o = (1:length(s0.perc))[cv.sd == min(cv.sd)]
+    o <- (1:length(s0.perc))[cv.sd == min(cv.sd)]
     # we don;t allow taking s0.hat to be 0th percentile when
     #   min sd is 0
-    s0.hat = quantile(sd[sd != 0], s0.perc[o])
+    s0.hat <- quantile(sd[sd != 0], s0.perc[o])
     return(list(s0.perc = s0.perc, cv.sd = cv.sd, s0.hat = s0.hat))
 }
 
@@ -1122,7 +1122,7 @@ permute.rows <- function(x) {
     matrix(t(x)[order(mm)], n, p, byrow = TRUE)
 }
 
-foldchange.paired = function(x, y, logged2) {
+foldchange.paired <- function(x, y, logged2) {
     #  if(logged2){x=2^x}
     nc <- ncol(x) / 2
     o <- 1:nc
@@ -1190,14 +1190,14 @@ varr <- function(x, meanx = NULL) {
 }
 quantitative.func <- function(x, y, s0 = 0) {
     # regression of x on y
-    my = mean(y)
+    my <- mean(y)
     yy <- y - my
     temp <- x %*% yy
-    mx = rowMeans(x)
-    syy = sum(yy^2)
+    mx <- rowMeans(x)
+    syy <- sum(yy^2)
     scor <- temp / syy
     b0hat <- mx - scor * my
-    ym = matrix(y, nrow = nrow(x), ncol = ncol(x), byrow = T)
+    ym <- matrix(y, nrow = nrow(x), ncol = ncol(x), byrow = T)
     xhat <- matrix(b0hat, nrow = nrow(x), ncol = ncol(x)) + ym *
         matrix(scor, nrow = nrow(x), ncol = ncol(x))
     sigma <- sqrt(rowSums((x - xhat)^2) / (ncol(xhat) - 2))
@@ -1239,66 +1239,66 @@ cox.seq.func <- function(xresamp, y, censoring.status) {
     tt <- rowMeans(tt)
     return(list(tt = tt, numer = tt, sd = rep(1, length(tt))))
 }
-compute.block.perms = function(y, blocky, nperms) {
+compute.block.perms <- function(y, blocky, nperms) {
     # y are the data (eg class label 1 vs 2; or -1,1, -2,2 for
     #   paired data)
     # blocky are the block labels (abs(y) for paired daatr)
-    ny = length(y)
-    nblocks = length(unique(blocky))
-    tab = table(blocky)
-    total.nperms = prod(factorial(tab))
+    ny <- length(y)
+    nblocks <- length(unique(blocky))
+    tab <- table(blocky)
+    total.nperms <- prod(factorial(tab))
     # block.perms is a list of all possible permutations
-    block.perms = vector("list", nblocks)
+    block.perms <- vector("list", nblocks)
     # first enumerate all perms, when possible
     if (total.nperms <= nperms) {
-        all.perms.flag = 1
-        nperms.act = total.nperms
+        all.perms.flag <- 1
+        nperms.act <- total.nperms
         for (i in 1:nblocks) {
-            block.perms[[i]] = permute(y[blocky == i])
+            block.perms[[i]] <- permute(y[blocky == i])
         }
-        kk = 0:(factorial(max(tab))^nblocks - 1)
+        kk <- 0:(factorial(max(tab))^nblocks - 1)
         #the rows of the matrix outerm runs through the 'outer
         #   product'
         # first we assume that all blocks have max(tab) members;
         #   then we remove rows of outerm that
         #  are illegal (ie when a block has fewer members)
-        outerm = matrix(0, nrow = length(kk), ncol = nblocks)
+        outerm <- matrix(0, nrow = length(kk), ncol = nblocks)
         for (i in 1:length(kk)) {
-            kkkk = integer.base.b(kk[i], b = factorial(max(tab)))
+            kkkk <- integer.base.b(kk[i], b = factorial(max(tab)))
             if (length(kkkk) > nblocks) {
-                kkkk = kkkk[(length(kkkk) - nblocks + 1):length(kkkk)]
+                kkkk <- kkkk[(length(kkkk) - nblocks + 1):length(kkkk)]
             }
-            outerm[i, (nblocks - length(kkkk) + 1):nblocks] = kkkk
+            outerm[i, (nblocks - length(kkkk) + 1):nblocks] <- kkkk
         }
-        outerm = outerm + 1
+        outerm <- outerm + 1
         # now remove rows that are illegal perms
-        ind = rep(TRUE, nrow(outerm))
+        ind <- rep(TRUE, nrow(outerm))
         for (j in 1:ncol(outerm)) {
-            ind = ind & outerm[, j] <= factorial(tab[j])
+            ind <- ind & outerm[, j] <= factorial(tab[j])
         }
-        outerm = outerm[ind, , drop = FALSE]
+        outerm <- outerm[ind, , drop = FALSE]
         # finally, construct permutation matrix from outer product
-        permsy = matrix(NA, nrow = total.nperms, ncol = ny)
+        permsy <- matrix(NA, nrow = total.nperms, ncol = ny)
         for (i in 1:total.nperms) {
-            junk = NULL
+            junk <- NULL
             for (j in 1:nblocks) {
-                junk = c(junk, block.perms[[j]][outerm[i, j],
+                junk <- c(junk, block.perms[[j]][outerm[i, j],
                   ])
             }
-            permsy[i, ] = junk
+            permsy[i, ] <- junk
         }
     }
     # next handle case when there are too many perms to enumerate
     if (total.nperms > nperms) {
-        all.perms.flag = 0
-        nperms.act = nperms
-        permsy = NULL
-        block.perms = vector("list", nblocks)
+        all.perms.flag <- 0
+        nperms.act <- nperms
+        permsy <- NULL
+        block.perms <- vector("list", nblocks)
         for (j in 1:nblocks) {
-            block.perms[[j]] = sample.perms(y[blocky == j], nperms = nperms)
+            block.perms[[j]] <- sample.perms(y[blocky == j], nperms = nperms)
         }
         for (j in 1:nblocks) {
-            permsy = cbind(permsy, block.perms[[j]])
+            permsy <- cbind(permsy, block.perms[[j]])
         }
     }
     return(list(permsy = permsy, all.perms.flag = all.perms.flag,
@@ -1306,7 +1306,7 @@ compute.block.perms = function(y, blocky, nperms) {
 }
 sample.perms <- function(elem, nperms) {
     # randomly generates  nperms of the vector elem
-    res = permute.rows(matrix(elem, nrow = nperms, ncol = length(elem),
+    res <- permute.rows(matrix(elem, nrow = nperms, ncol = length(elem),
         byrow = T))
     return(res)
 }
@@ -1318,7 +1318,7 @@ mysvd <- function(x, n.components = NULL) {
     feature.means <- rowMeans(x)
     x <- t(scale(t(x), center = feature.means, scale = F))
     if (is.null(n.components)) {
-        n.components = min(n, p)
+        n.components <- min(n, p)
     }
     if (p > n) {
         a <- eigen(t(x) %*% x)
@@ -1329,7 +1329,7 @@ mysvd <- function(x, n.components = NULL) {
     }
     else {
         junk <- svd(x, LINPACK = TRUE)
-        nc = min(ncol(junk$u), n.components)
+        nc <- min(ncol(junk$u), n.components)
         return(list(u = junk$u[, 1:nc], d = junk$d[1:nc], v = junk$v[,
             1:nc]))
     }
@@ -1407,31 +1407,31 @@ samr.compute.delta.table.array <- function(samr.obj,
   #   min.foldchange=0, dels=NULL, nvals=50) {
   # computes delta table, starting with samr object 'a', for
   #   nvals values of delta
-  lmax = sqrt(max(abs(sort(samr.obj$tt) - samr.obj$evo)))
+  lmax <- sqrt(max(abs(sort(samr.obj$tt) - samr.obj$evo)))
   if (is.null(dels)) {
-    dels = (seq(0, lmax, length = nvals)^2)
+    dels <- (seq(0, lmax, length = nvals)^2)
   }
-  col = matrix(1, nrow = length(samr.obj$evo), ncol = nvals)
+  col <- matrix(1, nrow = length(samr.obj$evo), ncol = nvals)
   ttstar0 <- samr.obj$ttstar0
   tt <- samr.obj$tt
   n <- samr.obj$n
   evo <- samr.obj$evo
   nsim <- ncol(ttstar0)
   res1 <- NULL
-  foldchange.cond.up = matrix(T, nrow = nrow(samr.obj$ttstar),
+  foldchange.cond.up <- matrix(T, nrow = nrow(samr.obj$ttstar),
     ncol = ncol(samr.obj$ttstar))
-  foldchange.cond.lo = matrix(T, nrow = nrow(samr.obj$ttstar),
+  foldchange.cond.lo <- matrix(T, nrow = nrow(samr.obj$ttstar),
     ncol = ncol(samr.obj$ttstar))
   if (!is.null(samr.obj$foldchange[1]) & (min.foldchange >
     0)) {
-    foldchange.cond.up = samr.obj$foldchange.star >= min.foldchange
-    foldchange.cond.lo = samr.obj$foldchange.star <= 1 / min.foldchange
+    foldchange.cond.up <- samr.obj$foldchange.star >= min.foldchange
+    foldchange.cond.lo <- samr.obj$foldchange.star <= 1 / min.foldchange
   }
-  cutup = rep(NA, length(dels))
-  cutlow = rep(NA, length(dels))
-  g2 = rep(NA, length(dels))
-  errup = matrix(NA, ncol = length(dels), nrow = ncol(samr.obj$ttstar0))
-  errlow = matrix(NA, ncol = length(dels), nrow = ncol(samr.obj$ttstar0))
+  cutup <- rep(NA, length(dels))
+  cutlow <- rep(NA, length(dels))
+  g2 <- rep(NA, length(dels))
+  errup <- matrix(NA, ncol = length(dels), nrow = ncol(samr.obj$ttstar0))
+  errlow <- matrix(NA, ncol = length(dels), nrow = ncol(samr.obj$ttstar0))
   cat("", fill = T)
   cat("Computing delta table", fill = T)
   for (ii in 1:length(dels)) {
@@ -1445,15 +1445,15 @@ samr.compute.delta.table.array <- function(samr.obj,
     if (length(ttt$plow) > 0) {
       cutlow[ii] <- max(samr.obj$tt[ttt$plow])
     }
-    g2[ii] = sumlengths(ttt)
-    errup[, ii] = colSums(samr.obj$ttstar0 > cutup[ii] &
+    g2[ii] <- sumlengths(ttt)
+    errup[, ii] <- colSums(samr.obj$ttstar0 > cutup[ii] &
       foldchange.cond.up)
-    errlow[, ii] = colSums(samr.obj$ttstar0 < cutlow[ii] &
+    errlow[, ii] <- colSums(samr.obj$ttstar0 < cutlow[ii] &
       foldchange.cond.lo)
   }
   s <- sqrt(apply(errup, 2, var) / nsim + apply(errlow, 2, var) / nsim)
   gmed <- apply(errup + errlow, 2, median)
-  g90 = apply(errup + errlow, 2, quantile, 0.9)
+  g90 <- apply(errup + errlow, 2, quantile, 0.9)
   res1 <- cbind(samr.obj$pi0 * gmed, samr.obj$pi0 * g90, g2,
     samr.obj$pi0 * gmed / g2, samr.obj$pi0 * g90 / g2, cutlow,
     cutup)
@@ -1511,7 +1511,7 @@ samr.compute.delta.table.seq <- function(samr.obj,
         cutup, cutlow)
       res1 <- NULL
       gmed <- apply(errnum, 2, median)
-      g90 = apply(errnum, 2, quantile, 0.9)
+      g90 <- apply(errnum, 2, quantile, 0.9)
       res1 <- cbind(samr.obj$pi0 * gmed, samr.obj$pi0 *
         g90, g2, samr.obj$pi0 * gmed / g2, samr.obj$pi0 *
         g90 / g2, cutlow, cutup)
@@ -1531,13 +1531,13 @@ samr.plot <- function(samr.obj, del = NULL, min.foldchange = 0) {
   ## make observed-expected plot
   ## takes foldchange into account too
   if (is.null(del)) {
-    del = sqrt(max(abs(sort(samr.obj$tt) - samr.obj$evo)))
+    del <- sqrt(max(abs(sort(samr.obj$tt) - samr.obj$evo)))
   }
-  LARGE = 1e+10
+  LARGE <- 1e+10
   b <- detec.slab(samr.obj, del, min.foldchange)
   bb <- c(b$pup, b$plow)
-  b1 = LARGE
-  b0 = -LARGE
+  b1 <- LARGE
+  b0 <- -LARGE
   if (!is.null(b$pup)) {
     b1 <- min(samr.obj$tt[b$pup])
   }
@@ -1547,21 +1547,21 @@ samr.plot <- function(samr.obj, del = NULL, min.foldchange = 0) {
   c1 <- (1:samr.obj$n)[sort(samr.obj$tt) >= b1]
   c0 <- (1:samr.obj$n)[sort(samr.obj$tt) <= b0]
   c2 <- c(c0, c1)
-  foldchange.cond.up = rep(T, length(samr.obj$evo))
-  foldchange.cond.lo = rep(T, length(samr.obj$evo))
+  foldchange.cond.up <- rep(T, length(samr.obj$evo))
+  foldchange.cond.lo <- rep(T, length(samr.obj$evo))
   if (!is.null(samr.obj$foldchange[1]) & (min.foldchange >
     0)) {
-    foldchange.cond.up = samr.obj$foldchange >= min.foldchange
-    foldchange.cond.lo = samr.obj$foldchange <= 1 / min.foldchange
+    foldchange.cond.up <- samr.obj$foldchange >= min.foldchange
+    foldchange.cond.lo <- samr.obj$foldchange <= 1 / min.foldchange
   }
-  col = rep(1, length(samr.obj$evo))
-  col[b$plow] = 3
-  col[b$pup] = 2
+  col <- rep(1, length(samr.obj$evo))
+  col[b$plow] <- 3
+  col[b$pup] <- 2
   if (!is.null(samr.obj$foldchange[1]) & (min.foldchange >
     0)) {
-    col[!foldchange.cond.lo & !foldchange.cond.up] = 1
+    col[!foldchange.cond.lo & !foldchange.cond.up] <- 1
   }
-  col.ordered = col[order(samr.obj$tt)]
+  col.ordered <- col[order(samr.obj$tt)]
   ylims <- range(samr.obj$tt)
   xlims <- range(samr.obj$evo)
   plot(samr.obj$evo, sort(samr.obj$tt), xlab = "expected score",
@@ -1576,7 +1576,7 @@ samr.plot <- function(samr.obj, del = NULL, min.foldchange = 0) {
 # ==============================================================================
 # samr.compute.siggenes.table
 # ==============================================================================
-samr.compute.siggenes.table = function(samr.obj, del,
+samr.compute.siggenes.table <- function(samr.obj, del,
   data, delta.table, min.foldchange = 0, all.genes = FALSE,
   compute.localfdr = FALSE)
 {
@@ -1587,43 +1587,43 @@ samr.compute.siggenes.table = function(samr.obj, del,
   #   of del is ignored)
   if (is.null(data$geneid))
   {
-    data$geneid = paste("g", 1:nrow(data$x), sep = "")
+    data$geneid <- paste("g", 1:nrow(data$x), sep = "")
   }
   if (is.null(data$genenames))
   {
-    data$genenames = paste("g", 1:nrow(data$x), sep = "")
+    data$genenames <- paste("g", 1:nrow(data$x), sep = "")
   }
   if (!all.genes)
   {
-    sig = detec.slab(samr.obj, del, min.foldchange)
+    sig <- detec.slab(samr.obj, del, min.foldchange)
   }
   if (all.genes)
   {
-    p = length(samr.obj$tt)
-    pup = (1:p)[samr.obj$tt >= 0]
-    plo = (1:p)[samr.obj$tt < 0]
-    sig = list(pup = pup, plo = plo)
+    p <- length(samr.obj$tt)
+    pup <- (1:p)[samr.obj$tt >= 0]
+    plo <- (1:p)[samr.obj$tt < 0]
+    sig <- list(pup = pup, plo = plo)
   }
   if (compute.localfdr)
   {
-    aa = localfdr(samr.obj, min.foldchange)
+    aa <- localfdr(samr.obj, min.foldchange)
     if (length(sig$pup) > 0)
     {
-      fdr.up = predictlocalfdr(aa$smooth.object, samr.obj$tt[sig$pup])
+      fdr.up <- predictlocalfdr(aa$smooth.object, samr.obj$tt[sig$pup])
     }
     if (length(sig$plo) > 0)
     {
-      fdr.lo = predictlocalfdr(aa$smooth.object, samr.obj$tt[sig$plo])
+      fdr.lo <- predictlocalfdr(aa$smooth.object, samr.obj$tt[sig$plo])
     }
   }
-  qvalues = NULL
+  qvalues <- NULL
   if (length(sig$pup) > 0 | length(sig$plo) > 0)
   {
-    qvalues = qvalue.func(samr.obj, sig, delta.table)
+    qvalues <- qvalue.func(samr.obj, sig, delta.table)
   }
-  res.up = NULL
-  res.lo = NULL
-  done = FALSE
+  res.up <- NULL
+  res.lo <- NULL
+  done <- FALSE
 
   # two class unpaired or paired  (foldchange is reported)
   if ((samr.obj$resp.type == samr.const.twoclass.unpaired.response |
@@ -1631,43 +1631,43 @@ samr.compute.siggenes.table = function(samr.obj, del,
   {
     if (!is.null(sig$pup))
     {
-      res.up = cbind(sig$pup + 1, data$genenames[sig$pup],
+      res.up <- cbind(sig$pup + 1, data$genenames[sig$pup],
         data$geneid[sig$pup], samr.obj$tt[sig$pup], samr.obj$numer[sig$pup],
         samr.obj$sd[sig$pup], samr.obj$foldchange[sig$pup],
         qvalues$qvalue.up)
       if (compute.localfdr)
       {
-        res.up = cbind(res.up, fdr.up)
+        res.up <- cbind(res.up, fdr.up)
       }
-      temp.names = list(NULL, c("Row", "Gene ID", "Gene Name",
+      temp.names <- list(NULL, c("Row", "Gene ID", "Gene Name",
         "Score(d)", "Numerator(r)", "Denominator(s+s0)",
         "Fold Change", "q-value(%)"))
       if (compute.localfdr)
       {
-        temp.names[[2]] = c(temp.names[[2]], "localfdr(%)")
+        temp.names[[2]] <- c(temp.names[[2]], "localfdr(%)")
       }
-      dimnames(res.up) = temp.names
+      dimnames(res.up) <- temp.names
     }
     if (!is.null(sig$plo))
     {
-      res.lo = cbind(sig$plo + 1, data$genenames[sig$plo],
+      res.lo <- cbind(sig$plo + 1, data$genenames[sig$plo],
         data$geneid[sig$plo], samr.obj$tt[sig$plo], samr.obj$numer[sig$plo],
         samr.obj$sd[sig$plo], samr.obj$foldchange[sig$plo],
         qvalues$qvalue.lo)
       if (compute.localfdr)
       {
-        res.lo = cbind(res.lo, fdr.lo)
+        res.lo <- cbind(res.lo, fdr.lo)
       }
-      temp.names = list(NULL, c("Row", "Gene ID", "Gene Name",
+      temp.names <- list(NULL, c("Row", "Gene ID", "Gene Name",
         "Score(d)", "Numerator(r)", "Denominator(s+s0)",
         "Fold Change", "q-value(%)"))
       if (compute.localfdr)
       {
-        temp.names[[2]] = c(temp.names[[2]], "localfdr(%)")
+        temp.names[[2]] <- c(temp.names[[2]], "localfdr(%)")
       }
-      dimnames(res.lo) = temp.names
+      dimnames(res.lo) <- temp.names
     }
-    done = TRUE
+    done <- TRUE
   }
 
   # multiclass
@@ -1675,29 +1675,29 @@ samr.compute.siggenes.table = function(samr.obj, del,
   {
     if (!is.null(sig$pup))
     {
-      res.up = cbind(sig$pup + 1, data$genenames[sig$pup],
+      res.up <- cbind(sig$pup + 1, data$genenames[sig$pup],
       data$geneid[sig$pup], samr.obj$tt[sig$pup], samr.obj$numer[sig$pup],
       samr.obj$sd[sig$pup], samr.obj$stand.contrasts[sig$pup, ], qvalues$qvalue.up)
 
       if (compute.localfdr)
       {
-        res.up = cbind(res.up, fdr.up)
+        res.up <- cbind(res.up, fdr.up)
       }
 
-      collabs.contrast = paste("contrast-", as.character(1:ncol(samr.obj$stand.contrasts)),
+      collabs.contrast <- paste("contrast-", as.character(1:ncol(samr.obj$stand.contrasts)),
         sep = "")
-      temp.names = list(NULL, c("Row", "Gene ID", "Gene Name",
+      temp.names <- list(NULL, c("Row", "Gene ID", "Gene Name",
       "Score(d)", "Numerator(r)", "Denominator(s+s0)",
       collabs.contrast, "q-value(%)"))
 
       if (compute.localfdr)
       {
-        temp.names[[2]] = c(temp.names[[2]], "localfdr(%)")
+        temp.names[[2]] <- c(temp.names[[2]], "localfdr(%)")
       }
-      dimnames(res.up) = temp.names
+      dimnames(res.up) <- temp.names
     }
-    res.lo = NULL
-    done = TRUE
+    res.lo <- NULL
+    done <- TRUE
   }
 
   #all other cases
@@ -1705,70 +1705,70 @@ samr.compute.siggenes.table = function(samr.obj, del,
   {
     if (!is.null(sig$pup))
     {
-      res.up = cbind(sig$pup + 1, data$genenames[sig$pup],
+      res.up <- cbind(sig$pup + 1, data$genenames[sig$pup],
         data$geneid[sig$pup], samr.obj$tt[sig$pup], samr.obj$numer[sig$pup],
         samr.obj$sd[sig$pup], samr.obj$foldchange[sig$pup],
         qvalues$qvalue.up)
       if (compute.localfdr)
       {
-        res.up = cbind(res.up, fdr.up)
+        res.up <- cbind(res.up, fdr.up)
       }
-      temp.names = list(NULL, c("Row", "Gene ID", "Gene Name",
+      temp.names <- list(NULL, c("Row", "Gene ID", "Gene Name",
         "Score(d)", "Numerator(r)", "Denominator(s+s0)",
         "q-value(%)"))
       if (compute.localfdr)
       {
-        temp.names[[2]] = c(temp.names[[2]], "localfdr(%)")
+        temp.names[[2]] <- c(temp.names[[2]], "localfdr(%)")
       }
-      dimnames(res.up) = temp.names
+      dimnames(res.up) <- temp.names
     }
     if (!is.null(sig$plo))
     {
-      res.lo = cbind(sig$plo + 1, data$genenames[sig$plo],
+      res.lo <- cbind(sig$plo + 1, data$genenames[sig$plo],
         data$geneid[sig$plo], samr.obj$tt[sig$plo], samr.obj$numer[sig$plo],
         samr.obj$sd[sig$plo], samr.obj$foldchange[sig$plo],
         qvalues$qvalue.lo)
       if (compute.localfdr)
       {
-        res.lo = cbind(res.lo, fdr.lo)
+        res.lo <- cbind(res.lo, fdr.lo)
       }
-      temp.names = list(NULL, c("Row", "Gene ID", "Gene Name",
+      temp.names <- list(NULL, c("Row", "Gene ID", "Gene Name",
         "Score(d)", "Numerator(r)", "Denominator(s+s0)",
         "q-value(%)"))
       if (compute.localfdr)
       {
-        temp.names[[2]] = c(temp.names[[2]], "localfdr(%)")
+        temp.names[[2]] <- c(temp.names[[2]], "localfdr(%)")
       }
-      dimnames(res.lo) = temp.names
+      dimnames(res.lo) <- temp.names
     }
-    done = TRUE
+    done <- TRUE
   }
   if (!is.null(res.up))
   {
-    o1 = order(-samr.obj$tt[sig$pup])
-    res.up = res.up[o1, , drop = FALSE]
+    o1 <- order(-samr.obj$tt[sig$pup])
+    res.up <- res.up[o1, , drop = FALSE]
   }
   if (!is.null(res.lo))
   {
-    o2 = order(samr.obj$tt[sig$plo])
-    res.lo = res.lo[o2, , drop = FALSE]
+    o2 <- order(samr.obj$tt[sig$plo])
+    res.lo <- res.lo[o2, , drop = FALSE]
   }
-  color.ind.for.multi = NULL
+  color.ind.for.multi <- NULL
   if (samr.obj$resp.type == samr.const.multiclass.response & !is.null(sig$pup))
   {
-    color.ind.for.multi = 1 * (samr.obj$stand.contrasts[sig$pup,
+    color.ind.for.multi <- 1 * (samr.obj$stand.contrasts[sig$pup,
       ] > samr.obj$stand.contrasts.95[2]) + (-1) * (samr.obj$stand.contrasts[sig$pup,
       ] < samr.obj$stand.contrasts.95[1])
   }
-  ngenes.up = nrow(res.up)
+  ngenes.up <- nrow(res.up)
   if (is.null(ngenes.up))
   {
-    ngenes.up = 0
+    ngenes.up <- 0
   }
-  ngenes.lo = nrow(res.lo)
+  ngenes.lo <- nrow(res.lo)
   if (is.null(ngenes.lo))
   {
-    ngenes.lo = 0
+    ngenes.lo <- 0
   }
   return(list(genes.up = res.up, genes.lo = res.lo, color.ind.for.multi = color.ind.for.multi,
     ngenes.up = ngenes.up, ngenes.lo = ngenes.lo))
@@ -1892,8 +1892,8 @@ sumlengths <- function(aa) {
 
 samr.seq.null.err <- function(samr.obj, min.foldchange,
   cutup, cutlow) {
-  errup = matrix(NA, ncol = length(cutup), nrow = ncol(samr.obj$ttstar0))
-  errlow = matrix(NA, ncol = length(cutlow), nrow = ncol(samr.obj$ttstar0))
+  errup <- matrix(NA, ncol = length(cutup), nrow = ncol(samr.obj$ttstar0))
+  errlow <- matrix(NA, ncol = length(cutlow), nrow = ncol(samr.obj$ttstar0))
   cutup.rank <- rank(cutup, ties.method = "min")
   cutlow.rank <- rank(-cutlow, ties.method = "min")
   for (jj in 1:ncol(samr.obj$ttstar0)) {
@@ -1928,12 +1928,12 @@ detec.slab <- function(samr.obj, del, min.foldchange) {
   numer <- samr.obj$tt * (samr.obj$sd + samr.obj$s0)
   tag <- order(tt)
   pup <- NULL
-  foldchange.cond.up = rep(T, length(evo))
-  foldchange.cond.lo = rep(T, length(evo))
+  foldchange.cond.up <- rep(T, length(evo))
+  foldchange.cond.lo <- rep(T, length(evo))
   if (!is.null(samr.obj$foldchange[1]) & (min.foldchange >
     0)) {
-    foldchange.cond.up = samr.obj$foldchange >= min.foldchange
-    foldchange.cond.lo = samr.obj$foldchange <= 1 / min.foldchange
+    foldchange.cond.up <- samr.obj$foldchange >= min.foldchange
+    foldchange.cond.lo <- samr.obj$foldchange <= 1 / min.foldchange
   }
   o1 <- (1:n)[(tt[tag] - evo > del) & evo > 0]
   if (length(o1) > 0) {
@@ -1973,23 +1973,23 @@ localfdr <- function(samr.obj, min.foldchange, perc = 0.01,
   # I try two window shapes: symmetric and an assymetric one
   # currently I use the symmetric window to estimate the
   #   compute.localfdr
-  ngenes = length(samr.obj$tt)
-  mingenes = 50
+  ngenes <- length(samr.obj$tt)
+  mingenes <- 50
   # perc is increased, in order to get at least mingenes in a
   #   window
-  perc = max(perc, mingenes / length(samr.obj$tt))
-  nperms.to.use = min(20, ncol(samr.obj$ttstar))
-  nperms = ncol(samr.obj$ttstar)
-  d = seq(sort(samr.obj$tt)[1], sort(samr.obj$tt)[ngenes],
+  perc <- max(perc, mingenes / length(samr.obj$tt))
+  nperms.to.use <- min(20, ncol(samr.obj$ttstar))
+  nperms <- ncol(samr.obj$ttstar)
+  d <- seq(sort(samr.obj$tt)[1], sort(samr.obj$tt)[ngenes],
     length = 100)
   ndscore <- length(d)
   dvector <- rep(NA, ndscore)
-  ind.foldchange = rep(T, length(samr.obj$tt))
+  ind.foldchange <- rep(T, length(samr.obj$tt))
   if (!is.null(samr.obj$foldchange[1]) & min.foldchange > 0) {
-    ind.foldchange = (samr.obj$foldchange >= min.foldchange) |
+    ind.foldchange <- (samr.obj$foldchange >= min.foldchange) |
       (samr.obj$foldchange <= min.foldchange)
   }
-  fdr.temp = function(temp, dlow, dup, pi0, ind.foldchange) {
+  fdr.temp <- function(temp, dlow, dup, pi0, ind.foldchange) {
     return(sum(pi0 * (temp >= dlow & temp <= dup & ind.foldchange)))
   }
   for (i in 1:ndscore) {
@@ -2026,11 +2026,11 @@ localfdr <- function(samr.obj, min.foldchange, perc = 0.01,
     fdr2 <- fdr
     if (!is.null(samr.obj$foldchange[1]) & min.foldchange >
       0) {
-      temp = as.vector(samr.obj$foldchange.star[, 1:nperms.to.use])
-      ind.foldchange = (temp >= min.foldchange) | (temp <=
+      temp <- as.vector(samr.obj$foldchange.star[, 1:nperms.to.use])
+      ind.foldchange <- (temp >= min.foldchange) | (temp <=
         min.foldchange)
     }
-    temp = samr.obj$ttstar0[, sample(1:nperms, size = nperms.to.use)]
+    temp <- samr.obj$ttstar0[, sample(1:nperms, size = nperms.to.use)]
     # fdr <-median(apply(temp,2,fdr.temp,dlow, dup, pi0,
     #   ind.foldchange))
     fdr.sym <- median(apply(temp, 2, fdr.temp, dlow.sym,
@@ -2041,80 +2041,80 @@ localfdr <- function(samr.obj, min.foldchange, perc = 0.01,
     dup.sym <- dup.sym
     dvector[i] <- fdr.sym
   }
-  om = !is.na(dvector) & (dvector != Inf)
-  aa = smooth.spline(d[om], dvector[om], df = df)
+  om <- !is.na(dvector) & (dvector != Inf)
+  aa <- smooth.spline(d[om], dvector[om], df = df)
   return(list(smooth.object = aa, perc = perc, df = df))
 }
 
-predictlocalfdr = function(smooth.object, d) {
-  yhat = predict(smooth.object, d)$y
-  yhat = pmin(yhat, 100)
-  yhat = pmax(yhat, 0)
+predictlocalfdr <- function(smooth.object, d) {
+  yhat <- predict(smooth.object, d)$y
+  yhat <- pmin(yhat, 100)
+  yhat <- pmax(yhat, 0)
   return(yhat)
 }
 
-qvalue.func = function(samr.obj, sig, delta.table) {
+qvalue.func <- function(samr.obj, sig, delta.table) {
   # returns q-value as a percentage (out of 100)
-  LARGE = 1e+10
-  qvalue.up = rep(NA, length(sig$pup))
-  o1 = sig$pup
-  cutup = delta.table[, 8]
-  FDR = delta.table[, 5]
-  ii = 0
+  LARGE <- 1e+10
+  qvalue.up <- rep(NA, length(sig$pup))
+  o1 <- sig$pup
+  cutup <- delta.table[, 8]
+  FDR <- delta.table[, 5]
+  ii <- 0
   for (i in o1) {
-    o = abs(cutup - samr.obj$tt[i])
-    o[is.na(o)] = LARGE
-    oo = (1:length(o))[o == min(o)]
-    oo = oo[length(oo)]
-    ii = ii + 1
-    qvalue.up[ii] = FDR[oo]
+    o <- abs(cutup - samr.obj$tt[i])
+    o[is.na(o)] <- LARGE
+    oo <- (1:length(o))[o == min(o)]
+    oo <- oo[length(oo)]
+    ii <- ii + 1
+    qvalue.up[ii] <- FDR[oo]
   }
-  qvalue.lo = rep(NA, length(sig$plo))
-  o2 = sig$plo
-  cutlo = delta.table[, 7]
-  ii = 0
+  qvalue.lo <- rep(NA, length(sig$plo))
+  o2 <- sig$plo
+  cutlo <- delta.table[, 7]
+  ii <- 0
   for (i in o2) {
-    o = abs(cutlo - samr.obj$tt[i])
-    o[is.na(o)] = LARGE
-    oo = (1:length(o))[o == min(o)]
-    oo = oo[length(oo)]
-    ii = ii + 1
-    qvalue.lo[ii] = FDR[oo]
+    o <- abs(cutlo - samr.obj$tt[i])
+    o[is.na(o)] <- LARGE
+    oo <- (1:length(o))[o == min(o)]
+    oo <- oo[length(oo)]
+    ii <- ii + 1
+    qvalue.lo[ii] <- FDR[oo]
   }
   # any qvalues that are missing, are set to 1 (the highest
   #   value)
-  qvalue.lo[is.na(qvalue.lo)] = 1
-  qvalue.up[is.na(qvalue.up)] = 1
+  qvalue.lo[is.na(qvalue.lo)] <- 1
+  qvalue.up[is.na(qvalue.up)] <- 1
   # ensure that each qvalue vector is monotone non-increasing
-  o1 = order(samr.obj$tt[sig$plo])
-  qv1 = qvalue.lo[o1]
-  qv11 = qv1
+  o1 <- order(samr.obj$tt[sig$plo])
+  qv1 <- qvalue.lo[o1]
+  qv11 <- qv1
   if (length(qv1) > 1) {
     for (i in 2:length(qv1)) {
       if (qv11[i] < qv11[i - 1]) {
-        qv11[i] = qv11[i - 1]
+        qv11[i] <- qv11[i - 1]
       }
     }
-    qv111 = qv11
-    qv111[o1] = qv11
+    qv111 <- qv11
+    qv111[o1] <- qv11
   }
   else {
-    qv111 = qv1
+    qv111 <- qv1
   }
-  o2 = order(samr.obj$tt[sig$pup])
-  qv2 = qvalue.up[o2]
-  qv22 = qv2
+  o2 <- order(samr.obj$tt[sig$pup])
+  qv2 <- qvalue.up[o2]
+  qv22 <- qv2
   if (length(qv2) > 1) {
     for (i in 2:length(qv2)) {
       if (qv22[i] > qv22[i - 1]) {
-        qv22[i] = qv22[i - 1]
+        qv22[i] <- qv22[i - 1]
       }
     }
-    qv222 = qv22
-    qv222[o2] = qv22
+    qv222 <- qv22
+    qv222[o2] <- qv22
   }
   else {
-    qv222 = qv2
+    qv222 <- qv2
   }
   return(list(qvalue.lo = 100 * qv111, qvalue.up = 100 * qv222))
 }
