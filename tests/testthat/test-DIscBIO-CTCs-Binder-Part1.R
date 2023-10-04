@@ -2,6 +2,7 @@ context("Binder tests, part 1")
 
 # Defining the relative path to current inst -----------------------------------
 notebook_data_path <- system.file("notebook", package = "DIscBIO")
+print(notebook_data_path) # TEMP
 FileName <- "CTCdataset"
 load(file.path(notebook_data_path, paste0(FileName,".rda")))
 load(file.path(notebook_data_path, "SC.RData"))
