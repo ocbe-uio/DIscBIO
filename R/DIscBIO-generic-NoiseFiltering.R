@@ -154,8 +154,8 @@ setMethod(
       cv2G1ms[idx_test] # take out cv2 values for fulfilled genes
     cv2G1ms_test <-
       cv2G1ms_test[!is.na(cv2G1ms_test)] # remove na entries
-    genes_test <- genes_test[which(!sapply(genes_test, is.null))]
-    genes_test <- sapply(genes_test, paste0, collapse = "")
+    genes_test <- genes_test[which(!vapply(genes_test, is.null, FALSE))]
+    genes_test <- vapply(genes_test, paste0, collapse = "", "")
 
     if (!quiet) {
       message(

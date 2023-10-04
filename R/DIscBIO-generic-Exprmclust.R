@@ -43,12 +43,13 @@ setMethod(
       sdev <- prcomp(t(obj), scale = T)$sdev[1:20]
       x <- 1:20
       optpoint <- which.min(
-        sapply(
+        vapply(
           2:10,
           function(i) {
             x2 <- pmax(0, x - i)
             sum(lm(sdev ~ x + x2)$residuals^2)
-          }
+          },
+          0
         )
       )
       pcadim <- optpoint + 1
@@ -110,10 +111,16 @@ setMethod(
     if (reduce) {
       sdev <- prcomp(t(obj), scale = T)$sdev[1:20]
       x <- 1:20
-      optpoint <- which.min(sapply(2:10, function(i) {
-        x2 <- pmax(0, x - i)
-        sum(lm(sdev ~ x + x2)$residuals^2)
-      }))
+      optpoint <- which.min(
+        vapply(
+          2:10,
+          function(i) {
+            x2 <- pmax(0, x - i)
+            sum(lm(sdev ~ x + x2)$residuals^2)
+          },
+          0
+        )
+      )
       pcadim <- optpoint + 1
       tmpdata <- t(apply(obj, 1, scale))
       colnames(tmpdata) <- colnames(obj)

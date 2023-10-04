@@ -50,8 +50,8 @@ setMethod(
       widths = c(5, 1, 5, 1),
       heights = c(5, 1, 1, 1)
     )
-    opar <- par(mar = c(3, 5, 2.5, 2))
-    on.exit(par(opar))
+    opar <- withr::local_par(mar = c(3, 5, 2.5, 2))
+    on.exit(withr::local_par(opar))
     plot(
       x,
       xlab = "Dim 1",
@@ -71,8 +71,8 @@ setMethod(
         cex = 1.5
       )
     }
-    opar <- par(mar = c(3, 2.5, 2.5, 2))
-    on.exit(par(opar))
+    opar <- withr::local_par(mar = c(3, 2.5, 2.5, 2))
+    on.exit(withr::local_par(opar))
     image(
       1,
       ColorLevels,

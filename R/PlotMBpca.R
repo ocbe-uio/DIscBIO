@@ -62,8 +62,8 @@ PlotMBpca <- function(object, type = "order", g = NULL, n = NULL) {
     widths = c(5, 1, 5, 1),
     heights = c(5, 1, 1, 1)
   )
-  opar <- par(mar = c(5, 5, 2.5, 2))
-  on.exit(par(opar))
+  opar <- withr::local_par(mar = c(5, 5, 2.5, 2))
+  on.exit(withr::local_par(opar))
   plot(
     x[, 1],
     x[, 2],
@@ -84,8 +84,8 @@ PlotMBpca <- function(object, type = "order", g = NULL, n = NULL) {
       cex = 2
     )
   }
-  opar <- par(mar = c(3, 2.5, 2.5, 2))
-  on.exit(par(opar))
+  opar <- withr::local_par(mar = c(3, 2.5, 2.5, 2))
+  on.exit(withr::local_par(opar))
   image(
     1,
     ColorLevels,

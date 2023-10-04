@@ -46,11 +46,11 @@ Networking <- function(
   )
   Network <- readPNG(FileName, native = TRUE)
   set_plot_dimensions <- function(width_choice, height_choice) {
-    opar <- options(
+    opar <- withr::with_options(
       repr.plot.width = width_choice,
       repr.plot.height = height_choice
     )
-    on.exit(options(opar))
+    on.exit(withr::with_options(opar))
   }
   set_plot_dimensions(plot_width, plot_height)
 

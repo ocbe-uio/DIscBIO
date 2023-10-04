@@ -41,7 +41,8 @@ Encoding: UTF-8
 Imports: methods, TSCAN, boot, httr, mclust, statmod, igraph,
   RWeka, philentropy, NetIndices, png, grDevices,
   RColorBrewer, ggplot2, rpart, fpc, cluster, rpart.plot,
-  tsne, AnnotationDbi, org.Hs.eg.db, graphics, stats, utils, impute
+  tsne, AnnotationDbi, org.Hs.eg.db, graphics, stats, utils, impute,
+  withr
 Depends:
   R (>= 4.0), SingleCellExperiment
 Suggests:

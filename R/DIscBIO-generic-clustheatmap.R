@@ -124,8 +124,8 @@ setMethod(
         )
       }
 
-      opar <- par(mar = c(3, 5, 2.5, 2))
-      on.exit(par(opar))
+      opar <- withr::local_par(mar = c(3, 5, 2.5, 2))
+      on.exit(withr::local_par(opar))
       image(as.matrix(di[ptn, ptn]), col = ColorRamp, axes = FALSE)
       abline(0, 1)
       box()
@@ -152,8 +152,8 @@ setMethod(
       }
       axis(1, at = tmp, labels = cclmo)
       axis(2, at = tmp, labels = cclmo)
-      opar <- par(mar = c(3, 2.5, 2.5, 2))
-      on.exit(par(opar))
+      opar <- withr::local_par(mar = c(3, 2.5, 2.5, 2))
+      on.exit(withr::local_par(opar))
       image(
         1,
         ColorLevels,

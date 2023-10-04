@@ -9,9 +9,9 @@
 #' @param fileName File name for exporting (if `export = TRUE`)
 #' @return The DISCBIO-class object input with the FinalGeneList slot filled.
 #' @examples
-#' sc <- DISCBIO(valuesG1msTest)
-#' sc <- NoiseFiltering(sc, percentile = 0.9, CV = 0.2, export = FALSE)
-#' sc <- FinalPreprocessing(sc, GeneFlitering = "NoiseF", export = FALSE)
+#' #sc <- DISCBIO(valuesG1msTest)
+#' #sc <- NoiseFiltering(sc, percentile = 0.9, CV = 0.2, export = FALSE)
+#' #sc <- FinalPreprocessing(sc, GeneFlitering = "NoiseF", export = FALSE)
 #'
 setGeneric(
   "FinalPreprocessing",

@@ -1,4 +1,5 @@
 #' @importFrom fpc clusterboot cluster.stats calinhara dudahart2
+#' @importFrom withr with_par with_options local_options
 clustfun <- function(
     x,
     clustnr = 20,
@@ -81,22 +82,21 @@ Kmeansruns <- function(
       minSS <- Inf
       kmopt <- NULL
       for (i in 1:runs) {
-        opar <- options(show.error.messages = FALSE)
-        on.exit(options(opar))
+        opar <- withr::local_options(show.error.messages = FALSE)
         repeat {
           kmm <- try(kmeans(data, k))
           if (!is(kmm, "try-error")) break
         }
-        opar <- options(show.error.messages = TRUE)
-        on.exit(options(opar))
+        opar <- withr::local_options(show.error.messages = TRUE)
+        on.exit(withr::local_options(opar))
         swss <- sum(kmm$withinss)
         if (swss < minSS) {
           kmopt <- kmm
           minSS <- swss
         }
         if (plot) {
-          opar <- par(ask = TRUE)
-          on.exit(par(opar))
+          opar <- withr::local_par(ask = TRUE)
+          on.exit(withr::local_par(opar))
           pairs(data, col = kmm$cluster, main = swss)
         }
       }
@@ -174,13 +174,13 @@ binompval <- function(p, N, n) {
 }
 
 add_legend <- function(...) {
-  opar <- par(
+  opar <- withr::local_par(
     fig = c(0, 1, 0, 1),
     oma = c(0, 0, 0, 0),
     mar = c(0, 0, 0, 0),
     new = TRUE
   )
-  on.exit(par(opar))
+  on.exit(withr::local_par(opar))
   plot(
     x    = 0,
     y    = 0,
