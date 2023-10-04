@@ -114,7 +114,7 @@ setMethod(
         out <- subset(out, out[, 5] < fdr)
         if (length(out[, 1]) > 0) {
           Regulation <- vector()
-          for (i in 1:length(out[, 1])) {
+          for (i in seq_len(length(out[, 1]))) {
             if (out[i, 1] > out[i, 2]) {
               Regulation[i] <- "Down"
             } else {

@@ -114,7 +114,7 @@ setMethod(
             )
           alledges[, 1] <- as.numeric(alledges[, 1])
           alledges[, 2] <- as.numeric(alledges[, 2])
-          for (i in 1:nrow(alledges)) {
+          for (i in seq_len(nrow(alledges))) {
             clulines <- rbind(
               clulines,
               c(
@@ -183,7 +183,7 @@ setMethod(
         clucenter <- data.frame(
           x = clucenter[, 1],
           y = clucenter[, 2],
-          id = 1:nrow(clucenter)
+          id = seq_len(nrow(clucenter))
         )
         g <- g + geom_text(
           aes_string(

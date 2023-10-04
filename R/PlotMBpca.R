@@ -75,7 +75,7 @@ PlotMBpca <- function(object, type = "order", g = NULL, n = NULL) {
     las = 1,
     main = n
   )
-  for (k in 1:length(v)) {
+  for (k in seq_len(length(v))) {
     points(
       x[k, 1],
       x[k, 2],

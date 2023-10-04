@@ -56,7 +56,7 @@ Jaccard <- function(
   if (plot) {
     barplot(
       height    = JACCARD,
-      names.arg = 1:length(JACCARD),
+      names.arg = seq_len(length(JACCARD)),
       ylab      = "Mean Jaccard's similarity values",
       xlab      = "Clusters",
       las       = 1,

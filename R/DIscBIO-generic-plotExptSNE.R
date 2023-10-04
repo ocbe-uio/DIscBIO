@@ -72,7 +72,7 @@ setMethod(
       col = "grey",
       las = 1
     )
-    for (k in 1:length(v)) {
+    for (k in seq_len(length(v))) {
       points(
         x[k, 1],
         x[k, 2],

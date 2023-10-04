@@ -42,7 +42,7 @@ setMethod(
     lpsmclust <- Exprmclust(Obj, K = 4, reduce = FALSE, cluster = Clusters)
     lpsorder <- TSCANorder(lpsmclust)
     orderID <- lpsorder
-    order <- 1:length(lpsorder)
+    order <- seq_len(length(lpsorder))
     orderTable <- data.frame(order, orderID)
     if (export) write.csv(orderTable, file = paste0(filename, ".csv"))
     if (!quiet) print(orderTable)

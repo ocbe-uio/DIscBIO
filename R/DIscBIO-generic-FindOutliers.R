@@ -172,7 +172,7 @@ setMethod(
       if (sum(f) > 0) {
         out <- append(out, names(x)[f])
       }
-      for (j in 1:length(thr)) {
+      for (j in seq_len(length(thr))) {
         stest[j] <- stest[j] + sum(cp < thr[j])
       }
     }
@@ -210,15 +210,17 @@ setMethod(
         n <- out
         m <- as.data.frame(di[out, out])
 
-        for (i in 1:length(out)) {
+        for (i in seq_len(length(out))) {
           if (length(n) > 1) {
             o <-
               order(
-                apply(cbind(m, 1:dim(
-                  m
-                )[1]), 1, function(x) {
-                  min(x[1:(length(x) - 1)][-x[length(x)]])
-                }),
+                apply(
+                  cbind(m, seq_len(dim(m)[1])),
+                  1,
+                  function(x) {
+                    min(x[1:(length(x) - 1)][-x[length(x)]])
+                  }
+                ),
                 decreasing = FALSE
               )
             m <- m[o, o]
@@ -249,7 +251,7 @@ setMethod(
         }
       }
 
-      for (i in 1:length(cadd)) {
+      for (i in seq_len(length(cadd))) {
         cpart[cols %in% cadd[[i]]] <- max(cpart) + 1
       }
     }

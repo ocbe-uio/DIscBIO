@@ -199,7 +199,7 @@ downsample <- function(x, n, dsn) {
     z <- data.frame(GENEID = rownames(x))
     rownames(z) <- rownames(x)
     initv <- rep(0, nrow(z))
-    for (i in 1:dim(x)[2]) {
+    for (i in seq_len(ncol(x))) {
       y <- aggregate(
         rep(1, nn), list(sample(
           rep(rownames(x), x[, i]), nn
@@ -222,7 +222,7 @@ downsample <- function(x, n, dsn) {
 }
 
 eval.pred <- function(pred.class, true.class, class1, performance) {
-  for (index in 1:length(pred.class)) {
+  for (index in seq_len(length(pred.class))) {
     pred <- pred.class[index]
     true <- true.class[index]
     if (pred == true && true == class1) {

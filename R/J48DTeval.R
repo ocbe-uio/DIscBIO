@@ -22,7 +22,7 @@ J48DTeval <- function(data, num.folds = 10, First = "CL1", Second = "CL2", quiet
     function(exp.df, class.vec, segments, performance, class.algo) {
       # Start cross validation loop
       class1 <- levels(class.vec)[1]
-      for (fold in 1:length(segments)) {
+      for (fold in seq_len(length(segments))) {
         if (!quiet) message("Fold ", fold, " of ", length(segments))
         # Define training and test set
         test.ind <- segments[[fold]]
