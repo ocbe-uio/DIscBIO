@@ -1459,18 +1459,15 @@ multiclass.seq.func <- function(xresamp, y) {
   # number of classes and number of samples in each class
   K <- max(y)
   n.each <- rep(0, K)
-  for (k in 1:K)
-  {
+  for (k in 1:K) {
     n.each[k] <- sum(y == k)
   }
   # the statistic
   tt <- temp <- rep(0, dim(xresamp)[1])
   stand.contrasts <- matrix(0, dim(xresamp)[1], K)
 
-  for (i in 1:dim(xresamp)[3])
-  {
-    for (k in 1:K)
-    {
+  for (i in 1:dim(xresamp)[3]) {
+    for (k in 1:K) {
       temp <- rowSums(xresamp[, y == k, i])
       tt <- tt + temp^2 / n.each[k]
       stand.contrasts[, k] <- stand.contrasts[, k] + temp
