@@ -48,7 +48,7 @@ Suggests:
 	testthat,
 	Seurat
 LazyData: true
-RoxygenNote: 7.1.2
+RoxygenNote: 7.2.3
 URL: https://github.com/ocbe-uio/DIscBIO
 BugReports: https://github.com/ocbe-uio/DIscBIO/issues
 Collate:
