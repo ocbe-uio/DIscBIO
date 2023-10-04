@@ -38,7 +38,7 @@ Networking <- function(
   } else {
     FileName <- tempfile()
   }
-  download.file(y, FileName, mode = 'wb')
+  download.file(y, FileName, mode = "wb")
   message(
     "\n",
     "You can see the network with high resolution ",

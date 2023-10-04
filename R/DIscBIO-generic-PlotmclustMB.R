@@ -215,7 +215,7 @@ setMethod(
                 theme(panel.background = element_rect(fill = "white")) +
                 theme(
                     axis.text.x = element_text(size = 17, color = "black"),
-                    axis.text.y = element_text(size = 17, color = 'black'),
+                    axis.text.y = element_text(size = 17, color = "black"),
                     axis.title.x = element_text(size = 20, vjust = -1),
                     axis.title.y = element_text(size = 20, vjust = 1),
                     plot.margin = unit(c(1, 1, 1, 1), "cm")

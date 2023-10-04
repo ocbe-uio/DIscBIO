@@ -69,7 +69,7 @@ VolcanoPlot <- function(object, value = 0.05, name = NULL, fc = 0.5, FS = .4) {
         pch = 20,
         col = c("black", "red", "blue"),
         horiz = TRUE,
-        bty = 'n',
+        bty = "n",
         cex = FS
     )
 }

@@ -29,26 +29,26 @@ if (interactive()) {
     expect_equal(
       object = head(cdiff[[1]])[, 1],
       expected = c(
-        'ENSG00000008988', 'ENSG00000010278', 'ENSG00000034510',
-        'ENSG00000071082', 'ENSG00000071127', 'ENSG00000075624'
+         "ENSG00000008988",  "ENSG00000010278",  "ENSG00000034510",
+         "ENSG00000071082",  "ENSG00000071127",  "ENSG00000075624"
       )
     )
     expect_equal(
       object = head(cdiff[[1]])[, 2],
-      expected = c('RPS20', 'CD9', 'TMSB10', 'RPL31', 'WDR1', 'ACTB')
+      expected = c( "RPS20",  "CD9",  "TMSB10",  "RPL31",  "WDR1",  "ACTB")
     )
     expect_equivalent(
       object = as.character(head(cdiff[[2]])[1, ]),
       expected = c(
-        'CL1 VS CL2', 'CL2', '106', 'Up-regulated-NameCL2inCL1VSCL2.csv',
-        '82', 'Low-regulated-NameCL2inCL1VSCL2.csv'
+        "CL1 VS CL2",  "CL2",  "106", "Up-regulated-NameCL2inCL1VSCL2.csv",
+         "82", "Low-regulated-NameCL2inCL1VSCL2.csv"
       )
     )
     expect_equal(
       object = as.character(head(cdiff[[2]])[2, ]),
       expected = c(
-        'CL1 VS CL2', 'CL1', '106', 'Low-regulated-NameCL1inCL1VSCL2.csv',
-        '82', 'Up-regulated-NameCL1inCL1VSCL2.csv'
+        "CL1 VS CL2",  "CL1",  "106", "Low-regulated-NameCL1inCL1VSCL2.csv",
+         "82", "Up-regulated-NameCL1inCL1VSCL2.csv"
       )
     )
   })
@@ -59,26 +59,26 @@ if (interactive()) {
       expect_equal(
       object = head(cdiffBinomial[[1]])[, 1],
       expected = c(
-        'ENSG00000001630', 'ENSG00000002586', 'ENSG00000003402',
-        'ENSG00000003436', 'ENSG00000003756', 'ENSG00000004059'
+         "ENSG00000001630",  "ENSG00000002586",  "ENSG00000003402",
+         "ENSG00000003436",  "ENSG00000003756",  "ENSG00000004059"
       )
     )
     expect_equal(
       object = head(cdiffBinomial[[1]])[, 2],
-      expected = c('CYP51A1', 'CD99', 'CFLAR', 'TFPI', 'RBM5', 'ARF5')
+      expected = c( "CYP51A1",  "CD99",  "CFLAR",  "TFPI",  "RBM5",  "ARF5")
     )
     expect_equivalent(
       object = as.character(head(cdiffBinomial[[2]])[1, ]),
       expected = c(
-        'Cluster 1', 'Remaining Clusters', '1052', 'Up-DEG-cluster1.csv',
-        '678', 'Down-DEG-cluster1.csv'
+        "Cluster 1", "Remaining Clusters",  "1052", "Up-DEG-cluster1.csv",
+         "678", "Down-DEG-cluster1.csv"
       )
     )
     expect_equal(
       object = as.character(head(cdiffBinomial[[2]])[2, ]),
       expected = c(
-        'Cluster 2', 'Remaining Clusters', '0', 'Up-DEG-cluster2.csv', '1',
-        'Down-DEG-cluster2.csv'
+        "Cluster 2", "Remaining Clusters",  "0", "Up-DEG-cluster2.csv",  "1",
+        "Down-DEG-cluster2.csv"
       )
     )
   })

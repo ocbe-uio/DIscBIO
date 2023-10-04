@@ -187,10 +187,10 @@ add_legend <- function(...) {
   plot(
     x    = 0,
     y    = 0,
-    type = 'n',
-    bty  = 'n',
-    xaxt = 'n',
-    yaxt =  'n'
+    type = "n",
+    bty  = "n",
+    xaxt = "n",
+    yaxt =  "n"
   )
   legend(...)
 }
@@ -386,7 +386,7 @@ retrieveURL <- function(
   string_api_url <- "https://string-db.org/api/"
   method <- "network"
   url <- paste0(
-    string_api_url, outputFormat, '/', method, '?identifiers=',
+    string_api_url, outputFormat, "/", method, "?identifiers=",
     paste(as.character(data), collapse = "%0d"), "&species=",
     species
   )

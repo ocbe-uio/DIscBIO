@@ -258,7 +258,7 @@ setMethod(
                 pch = c(15, 20, 20),
                 col = c("red", erccCol, FgeneCol),
                 horiz = TRUE,
-                bty = 'n',
+                bty = "n",
                 cex = 0.85
             )
         }
