@@ -44,31 +44,31 @@ setMethod(
         object, K, outminc, outlg, probthr, thr, outdistquant, plot, quiet
     )
     {
-		# ======================================================================
-		# Validating
-		# ======================================================================
-		ran_k <- length(object@kmeans) > 0
-		ran_m <- length(object@MBclusters) > 0
-		if (ran_k) {
-			clusters <- object@kmeans$kpart
-		} else if (ran_m) {
-			object <- Clustexp(
-				object,
-				clustnr = 20,
-				bootnr = 50,
-				metric = "pearson",
-				do.gap = T,
-				SE.method = "Tibs2001SEmax",
-				SE.factor = .25,
-				B.gap = 50,
-				cln = K,
-				rseed = 17000,
-				quiet = quiet
-			)
-			clusters <- object@MBclusters$clusterid
-		} else {
-			stop("run Clustexp before FindOutliers")
-		}
+    # ======================================================================
+    # Validating
+    # ======================================================================
+    ran_k <- length(object@kmeans) > 0
+    ran_m <- length(object@MBclusters) > 0
+    if (ran_k) {
+      clusters <- object@kmeans$kpart
+    } else if (ran_m) {
+      object <- Clustexp(
+        object,
+        clustnr = 20,
+        bootnr = 50,
+        metric = "pearson",
+        do.gap = T,
+        SE.method = "Tibs2001SEmax",
+        SE.factor = .25,
+        B.gap = 50,
+        cln = K,
+        rseed = 17000,
+        quiet = quiet
+      )
+      clusters <- object@MBclusters$clusterid
+    } else {
+      stop("run Clustexp before FindOutliers")
+    }
         if (!is.numeric(outminc))
             stop("outminc has to be a non-negative integer")
         else if (round(outminc) != outminc | outminc < 0)
@@ -98,7 +98,7 @@ setMethod(
             outdistquant = outdistquant
         )
         ### calibrate background model
-	EXP <- object@expdata + 0.1
+  EXP <- object@expdata + 0.1
         m <- log2(apply(EXP, 1, mean))
         v <- log2(apply(EXP, 1, var))
         f <- m > -Inf & v > -Inf

@@ -22,9 +22,9 @@ setGeneric(
         rseed = NULL,
         quiet = FALSE,
         plot = TRUE)
-	{
-	    standardGeneric("clustheatmap")
-	}
+  {
+      standardGeneric("clustheatmap")
+  }
 )
 
 #' @export
@@ -35,28 +35,28 @@ setMethod(
     definition = function(
         object, clustering_method, hmethod, rseed, quiet, plot
     )
-	{
+  {
         x <- object@fdata
-		if (tolower(clustering_method) %in% c("k-means", "k")) {
-			part <- object@kmeans$kpart
-		} else if (tolower(clustering_method) %in% c("model-based", "mb")) {
-			object@clusterpar$metric <- "pearson"
-			y <- clustfun(
-				object@fdata,
-				clustnr = 20,
-				bootnr = 50,
-				metric = "pearson",
-				do.gap = TRUE,
-				SE.method = "Tibs2001SEmax",
-				SE.factor = .25,
-				B.gap = 50,
-				cln = 0,
-				rseed = rseed,
-				quiet = quiet
-			)
-			object@distances <- as.matrix(y$di)
-    		part <- object@MBclusters$clusterid
-		}
+    if (tolower(clustering_method) %in% c("k-means", "k")) {
+      part <- object@kmeans$kpart
+    } else if (tolower(clustering_method) %in% c("model-based", "mb")) {
+      object@clusterpar$metric <- "pearson"
+      y <- clustfun(
+        object@fdata,
+        clustnr = 20,
+        bootnr = 50,
+        metric = "pearson",
+        do.gap = TRUE,
+        SE.method = "Tibs2001SEmax",
+        SE.factor = .25,
+        B.gap = 50,
+        cln = 0,
+        rseed = rseed,
+        quiet = quiet
+      )
+      object@distances <- as.matrix(y$di)
+        part <- object@MBclusters$clusterid
+    }
         na <- c()
         j <- 0
         for (i in 1:max(part)) {
@@ -114,8 +114,8 @@ setMethod(
                 heights = c(5, 1, 1, 1)
             )
             ColorRamp <- colorRampPalette(
-				brewer.pal(n = 7, name = "RdYlBu")
-			)(100)
+        brewer.pal(n = 7, name = "RdYlBu")
+      )(100)
             ColorLevels <- seq(mi, ma, length = length(ColorRamp))
             if (mi == ma) {
                 ColorLevels <- seq(
