@@ -4,7 +4,7 @@ if (interactive()) {
   # Defining the relative path to current inst -----------------------------------
   notebook_data_path <- system.file("notebook", package = "DIscBIO")
   FileName <- "CTCdataset"
-  load(file.path(notebook_data_path, paste0(FileName,".rda")))
+  load(file.path(notebook_data_path, paste0(FileName, ".rda")))
   load(file.path(notebook_data_path, "SC.RData"))
   load(file.path(notebook_data_path, "Ndata.RData"))
   load(file.path(notebook_data_path, "expdata.RData"))
@@ -17,7 +17,7 @@ if (interactive()) {
 
   sc <- DISCBIO(DataSet)
   S1 <- summary(colSums(DataSet, na.rm = TRUE))
-  S2 <- summary(rowMeans(DataSet,na.rm = TRUE))
+  S2 <- summary(rowMeans(DataSet, na.rm = TRUE))
   minexpr <- S2[3]
   minnumber <- round(length(DataSet[1, ]) / 10)
 
@@ -43,7 +43,7 @@ if (interactive()) {
   long_test <- FALSE # switching to true runs slow tests below
   if (long_test) {
     sc <- Clustexp(sc, 4, bootnr = 2, B.gap = 2, quiet = TRUE, rseed = 17000)
-    outlg <- round(length(sc@fdata[,1]) * 0.05)
+    outlg <- round(length(sc@fdata[, 1]) * 0.05)
     Outliers <- FindOutliers(sc, 4, outlg=outlg, plot = FALSE, quiet = TRUE)
     jcrd <- Jaccard(sc, K=4, plot = FALSE, R = 2)
     sc <- pseudoTimeOrdering(sc, quiet = TRUE)

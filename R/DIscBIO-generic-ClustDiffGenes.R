@@ -160,7 +160,7 @@ setMethod(
               by.y = "ENSEMBL",
               all.x = TRUE
             )
-          Final <- Final[!duplicated(Final[, 1]),]
+          Final <- Final[!duplicated(Final[, 1]), ]
           Final[is.na(Final[, 9]), c(1, 9)] <-
             Final[is.na(Final[, 9]), 1]
           rownames(Final) <- Final[, 1]

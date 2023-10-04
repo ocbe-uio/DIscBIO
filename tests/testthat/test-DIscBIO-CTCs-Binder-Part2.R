@@ -104,7 +104,7 @@ if (interactive()) {
 
   context("Binder tests, part 2: Networking")
 
-  data <- cdiffBinomial[[1]] [1:200,2] # only the firat 200 genes
+  data <- cdiffBinomial[[1]] [1:200, 2] # only the firat 200 genes
   ppi <- suppressMessages(PPI(data))
   networking <- suppressMessages(NetAnalysis(ppi))
 

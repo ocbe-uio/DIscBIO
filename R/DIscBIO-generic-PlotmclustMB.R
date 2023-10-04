@@ -127,7 +127,7 @@ setMethod(
                             as.numeric(names(alldeg)[alldeg == 1])
                         )
                         allcomb <-
-                            allcomb[allcomb[, 1] < allcomb[, 2],]
+                            allcomb[allcomb[, 1] < allcomb[, 2], ]
                         numres <- t(apply(allcomb, 1, function(i) {
                             tmp <- as.vector(
                                 get.shortest.paths(mclustobj$MSTtree,

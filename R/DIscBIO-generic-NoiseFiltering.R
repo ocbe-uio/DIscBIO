@@ -68,8 +68,8 @@ setMethod(
             factor(c(ENSG = "ENSG", ERCC = "ERCC")[shortNames])
 
         # calculate normalisation for counts\n",
-        countsG1ms <- data[which(geneTypes == "ENSG"),]
-        countsERCC <- data[which(geneTypes == "ERCC"),]
+        countsG1ms <- data[which(geneTypes == "ENSG"), ]
+        countsERCC <- data[which(geneTypes == "ERCC"), ]
 
         estimateSizeFactorsForMatrix <- function (counts, locfunc = median) {
             loggeomeans <- rowMeans(log(counts))

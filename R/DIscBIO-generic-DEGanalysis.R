@@ -78,7 +78,7 @@ setMethod(
         gene_names <- rownames(object@expdata)
         idx_genes <- is.element(gene_names, gene_list)
         gene_names2 <- gene_names[idx_genes]
-        dataset <- object@expdata[gene_names2,]
+        dataset <- object@expdata[gene_names2, ]
         Nam <- colnames(dataset)
         num <- c(1:K)
         num1 <- paste("CL", num, sep = "")
@@ -101,7 +101,7 @@ setMethod(
             assign(d1, d2)
         }
         ccdf <- data.frame(clustName, ClusterLength)
-        ccdff <- ccdf[order(ClusterLength),]
+        ccdff <- ccdf[order(ClusterLength), ]
         clustName <- ccdff[, 1]
         if (!quiet)
             print(clustName)
@@ -204,7 +204,7 @@ setMethod(
             d2 <- cbind(get(first[i]), get(second[i]))
             assign(d1, d2)
             len <-
-                c(length(get(first[i])[1,]), length(get(second[i])[1,]))
+                c(length(get(first[i])[1, ]), length(get(second[i])[1, ]))
             y <- c(rep(1:2, len))
             L <- as.matrix(get(comNUM[i]))
             gname <- rownames(get(comNUM[i]))

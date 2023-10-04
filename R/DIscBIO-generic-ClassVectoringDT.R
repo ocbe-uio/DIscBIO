@@ -86,7 +86,7 @@ setMethod(
         DATAforDT <- merge(DATAforDT, G_list, by.x = "genes", by.y = "DEGsE")
         DATAforDT
         DATAforDT[, 1] <- DATAforDT[, length(DATAforDT[1, ])]
-        DATAforDT <- DATAforDT[!duplicated(DATAforDT[, 1]),]
+        DATAforDT <- DATAforDT[!duplicated(DATAforDT[, 1]), ]
 
         rownames(DATAforDT) <- DATAforDT[, 1]
         DATAforDT <- DATAforDT[, c(-1, -length(DATAforDT[1, ]))]

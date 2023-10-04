@@ -31,7 +31,7 @@ Jaccard <- function(
     }
 
     JS <- function(data, indices) {
-        d      <- data[indices,] # allows boot to select sample
+        d      <- data[indices, ] # allows boot to select sample
         jac    <- suppressMessages(distance(t(d), method = "jaccard"))
         jac1   <- 1 - jac
         JSmean <- mean(jac1)

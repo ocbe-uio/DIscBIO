@@ -55,7 +55,7 @@ clustfun <- function(
       seed          = rseed,
       count         = !quiet
     )
-    return(list(x = x, clb = clb,gpr = gpr, di = di))
+    return(list(x = x, clb = clb, gpr = gpr, di = di))
   }
 }
 
