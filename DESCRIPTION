@@ -38,7 +38,7 @@ Description: An open, multi-algorithmic pipeline for easy, fast and efficient
   <doi:10.1101/700989>.
 License: MIT + file LICENSE
 Encoding: UTF-8
-Imports: methods, TSCAN, boot, httr, mclust, statmod, igraph,
+Imports: methods, TSCAN, httr, mclust, statmod, igraph,
   RWeka, philentropy, NetIndices, png, grDevices,
   RColorBrewer, ggplot2, rpart, fpc, cluster, rpart.plot,
   tsne, AnnotationDbi, org.Hs.eg.db, graphics, stats, utils, impute,
@@ -87,6 +87,7 @@ Collate:
     'RpartDT.R'
     'RpartEVAL.R'
     'VolcanoPlot.R'
+    'bootstrap.R'
     'calc_pcareduceres.R'
     'cross.val.R'
     'customConverters.R'

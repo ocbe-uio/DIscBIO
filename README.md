@@ -70,7 +70,7 @@ if (!requireNamespace("BiocManager", quietly = TRUE)) install.packages("BiocMana
 
 BiocManager::install(
     c(
-        "SingleCellExperimentmethods", "TSCAN", "boot", "httr", "mclust",
+        "SingleCellExperimentmethods", "TSCAN", "httr", "mclust",
         "statmod", "igraph", "RWeka", "philentropy", "NetIndices", "png",
         "grDevices", "RColorBrewer", "ggplot2", "rpart", "fpc",
         "cluster", "rpart.plot", "tsne", "AnnotationDbi", "org.Hs.eg.db",

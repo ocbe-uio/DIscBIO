@@ -4,7 +4,7 @@
 \alias{Jaccard}
 \title{Jaccard’s similarity}
 \usage{
-Jaccard(object, Clustering = "K-means", K, plot = TRUE, R = 100, ...)
+Jaccard(object, Clustering = "K-means", K, plot = TRUE, R = 100)
 }
 \arguments{
 \item{object}{\code{DISCBIO} class object.}
@@ -17,8 +17,6 @@ Jaccard(object, Clustering = "K-means", K, plot = TRUE, R = 100, ...)
 \item{plot}{if `TRUE`, plots the mean Jaccard similarities}
 
 \item{R}{number of bootstrap replicates}
-
-\item{...}{Further arguments passed to \code{boot::boot}}
 }
 \value{
 A plot of the mean Jaccard similarity coefficient per cluster.
