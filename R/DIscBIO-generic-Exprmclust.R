@@ -38,28 +38,7 @@ setMethod(
   f = "Exprmclust",
   signature = "DISCBIO",
   definition = function(object, K, modelNames, reduce, cluster, quiet) {
-    obj <- object@fdata
-    if (reduce) {
-      sdev <- prcomp(t(obj), scale = TRUE)$sdev[1:20]
-      x <- 1:20
-      optpoint <- which.min(
-        vapply(
-          2:10,
-          function(i) {
-            x2 <- pmax(0, x - i)
-            sum(lm(sdev ~ x + x2)$residuals^2)
-          },
-          0
-        )
-      )
-      pcadim <- optpoint + 1
-      tmpdata <- t(apply(obj, 1, scale))
-      colnames(tmpdata) <- colnames(obj)
-      tmppc <- prcomp(t(tmpdata), scale = TRUE)
-      pcareduceres <- t(tmpdata) %*% tmppc$rotation[, 1:pcadim]
-    } else {
-      pcareduceres <- t(obj)
-    }
+    pcareduceres <- calc_pcareduceres(object@fdata, reduce)
     if (is.null(cluster)) {
       K <- K[K > 1]
       res <- Mclust(
@@ -107,29 +86,7 @@ setMethod(
                         reduce = TRUE,
                         cluster = NULL,
                         quiet = FALSE) {
-    obj <- object
-    if (reduce) {
-      sdev <- prcomp(t(obj), scale = TRUE)$sdev[1:20]
-      x <- 1:20
-      optpoint <- which.min(
-        vapply(
-          2:10,
-          function(i) {
-            x2 <- pmax(0, x - i)
-            sum(lm(sdev ~ x + x2)$residuals^2)
-          },
-          0
-        )
-      )
-      pcadim <- optpoint + 1
-      tmpdata <- t(apply(obj, 1, scale))
-      colnames(tmpdata) <- colnames(obj)
-      tmppc <- prcomp(t(tmpdata), scale = TRUE)
-      pcareduceres <-
-        t(tmpdata) %*% tmppc$rotation[, 1:pcadim]
-    } else {
-      pcareduceres <- t(obj)
-    }
+    pcareduceres <- calc_pcareduceres(object, reduce)
     if (is.null(cluster)) {
       K <- K[K > 1]
       res <- Mclust(

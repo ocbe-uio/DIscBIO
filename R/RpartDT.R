@@ -12,7 +12,7 @@
 #'   tree.
 RpartDT <- function(data, quiet = FALSE, plot = TRUE) {
   exp.df <- as.data.frame(t(data))
-  classVector <- factor(colnames(data))
+  exp.df$classVector <- factor(colnames(data))
   model <- rpart(
     classVector ~ .,
     exp.df,

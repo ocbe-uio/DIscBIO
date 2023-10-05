@@ -26,7 +26,7 @@ J48DT <- function(data, quiet = FALSE, plot = TRUE) {
   if (is.null(msg)) TRUE else msg
 
   exp.df <- as.data.frame(t(data))
-  classVector <- factor(colnames(data))
+  exp.df$classVector <- factor(colnames(data))
   j48.model <- J48(classVector ~ ., exp.df)
   if (!quiet) print(j48.model)
   if (plot) plot(j48.model)

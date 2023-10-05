@@ -1676,16 +1676,7 @@ samr.plot <- function(samr.obj, del = NULL, min.foldchange = 0) {
   if (is.null(del)) {
     del <- sqrt(max(abs(sort(samr.obj$tt) - samr.obj$evo)))
   }
-  LARGE <- 1e+10
   b <- detec.slab(samr.obj, del, min.foldchange)
-  b1 <- LARGE
-  b0 <- -LARGE
-  if (!is.null(b$pup)) {
-    b1 <- min(samr.obj$tt[b$pup])
-  }
-  if (!is.null(b$plow)) {
-    b0 <- max(samr.obj$tt[b$plow])
-  }
   foldchange.cond.up <- rep(TRUE, length(samr.obj$evo))
   foldchange.cond.lo <- rep(TRUE, length(samr.obj$evo))
   if (!is.null(samr.obj$foldchange[1]) & (min.foldchange >

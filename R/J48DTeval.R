@@ -19,52 +19,11 @@ J48DTeval <- function(
   num.instances <- nrow(exp.imput.df)
   indices <- 1:num.instances
   classVector <- factor(colnames(data))
-
-  cross.val <-
-    function(exp.df, class.vec, segments, performance, class.algo) {
-      # Start cross validation loop
-      class1 <- levels(class.vec)[1]
-      for (fold in seq_len(length(segments))) {
-        if (!quiet) message("Fold ", fold, " of ", length(segments))
-        # Define training and test set
-        test.ind <- segments[[fold]]
-        training.set <- exp.df[-test.ind, ]
-        training.class <- class.vec[-test.ind]
-        test.set <- exp.df[test.ind, , drop = FALSE]
-        test.class <- class.vec[test.ind]
-        # Train J48 on training set
-        if (class.algo == "J48") {
-          cv.model <- J48(training.class ~ ., training.set)
-          pred.class <- predict(cv.model, test.set)
-        } else if (class.algo == "rpart") {
-          cv.model <- rpart(
-            training.class ~ ., training.set,
-            method = "class"
-          )
-          pred.class <-
-            predict(cv.model, test.set, type = "class")
-        } else {
-          stop("Unknown classification algorithm")
-        }
-        # Evaluate model on test set
-        performance <- eval.pred(
-          pred.class, test.class, class1, performance
-        )
-      }
-      return(performance)
-    }
-
   cv.segments <- split(
     sample(indices), rep(1:num.folds, length = num.instances)
   )
-  j48.performance <- c(
-    "TP" = 0,
-    "FN" = 0,
-    "FP" = 0,
-    "TN" = 0
-  )
   j48.performance <- cross.val(
-    exp.imput.df, classVector, cv.segments, j48.performance, "J48"
+    exp.imput.df, classVector, cv.segments, j48.performance, "J48", quiet
   )
   if (!quiet) print(j48.performance)
 
