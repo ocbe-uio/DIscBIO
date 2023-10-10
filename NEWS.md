@@ -1,4 +1,4 @@
-# DIscBIO (development version)
+# DIscBIO 1.2.1
 
 * Fixed integration and unit tests (issue #22, #37)
 * Improved coding style (issue #38)
