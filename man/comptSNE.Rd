@@ -46,8 +46,8 @@ This function is used to compute the t-Distributed Stochastic
 }
 \examples{
 sc <- DISCBIO(valuesG1msTest) # changes signature of data
-sc <- Clustexp(sc, cln=2) # data must be clustered before plottin
-sc <- comptSNE(sc, max_iter=30)
+sc <- Clustexp(sc, cln = 2) # data must be clustered before plottin
+sc <- comptSNE(sc, max_iter = 30)
 head(sc@tsne)
 
 }

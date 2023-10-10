@@ -78,5 +78,5 @@ This functions performs the initial clustering of the RaceID
 }
 \examples{
 sc <- DISCBIO(valuesG1msTest) # changes signature of data
-sc <- Clustexp(sc, cln=2)
+sc <- Clustexp(sc, cln = 2)
 }

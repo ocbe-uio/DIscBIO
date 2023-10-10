@@ -2,14 +2,16 @@
 % Please edit documentation in R/PlotMBpca.R
 \name{PlotMBpca}
 \alias{PlotMBpca}
-\title{Plotting pseudo-time ordering or gene expression in Model-based clustering in PCA}
+\title{Plotting pseudo-time ordering or gene expression in Model-based
+clustering in PCA}
 \usage{
 PlotMBpca(object, type = "order", g = NULL, n = NULL)
 }
 \arguments{
 \item{object}{\code{DISCBIO} class object.}
 
-\item{type}{either `order` to plot pseudo-time ordering or `exp` to plot gene expression}
+\item{type}{either `order` to plot pseudo-time ordering or `exp` to plot gene
+expression}
 
 \item{g}{Individual gene name or vector with a group of gene names
 corresponding to a subset of valid row names of the \code{ndata} slot of
@@ -23,5 +25,6 @@ NULL and the first element of \code{g} is chosen. Ignored if
 A plot of the PCA.
 }
 \description{
-The PCA representation can either be used to show pseudo-time ordering or the gene expression of a particular gene.
+The PCA representation can either be used to show pseudo-time
+ordering or the gene expression of a particular gene.
 }

@@ -12,44 +12,45 @@
 #' @importFrom cluster silhouette
 #' @return A silhouette plot
 setGeneric(
-	name = "plotSilhouette",
-	def = function(object, K) standardGeneric("plotSilhouette")
+  name = "plotSilhouette",
+  def = function(object, K) standardGeneric("plotSilhouette")
 )
 
 #' @export
 #' @rdname plotSilhouette
 setMethod(
-	f = "plotSilhouette",
-	signature = "DISCBIO",
-	definition = function(object, K) {
-		# ======================================================================
-		# Validation
-		# ======================================================================
-		ran_clustexp <- length(object@kmeans$kpart) > 0
-		ran_exprmclust <- length(object@MBclusters) > 0
-		if (ran_clustexp) {
-			kpart <- object@kmeans$kpart
-			DIS <- object@distances
-		} else if (ran_exprmclust) {
-			kpart <- object@MBclusters$clusterid
-			y <- clustfun(
-				object@fdata, clustnr = 3, bootnr = 50,
-				metric = "pearson", do.gap = TRUE, SE.method = "Tibs2001SEmax",
-				SE.factor = .25, B.gap = 50, cln = 0, rseed = NULL, quiet = TRUE
-			)
-			DIS <- as.matrix(y$di)
-		} else {
-			stop("run clustexp or exprmclust before plotSilhouette")
-		}
-		if (length(unique(kpart)) < 2) {
-			stop("only a single cluster: no silhouette plot")
-		}
-		# ======================================================================
-		# Plotting
-		# ======================================================================
-		col <- c("black", "blue", "green", "red", "yellow", "gray")
-		distances <- DIS
-		si <- silhouette(kpart, distances)
-		plot(si, col = col[1:K])
-	}
+  f = "plotSilhouette",
+  signature = "DISCBIO",
+  definition = function(object, K) {
+    # ======================================================================
+    # Validation
+    # ======================================================================
+    ran_clustexp <- length(object@kmeans$kpart) > 0
+    ran_exprmclust <- length(object@MBclusters) > 0
+    if (ran_clustexp) {
+      kpart <- object@kmeans$kpart
+      DIS <- object@distances
+    } else if (ran_exprmclust) {
+      kpart <- object@MBclusters$clusterid
+      y <- clustfun(
+        object@fdata,
+        clustnr = 3, bootnr = 50,
+        metric = "pearson", do.gap = TRUE, SE.method = "Tibs2001SEmax",
+        SE.factor = .25, B.gap = 50, cln = 0, rseed = NULL, quiet = TRUE
+      )
+      DIS <- as.matrix(y$di)
+    } else {
+      stop("run clustexp or exprmclust before plotSilhouette")
+    }
+    if (length(unique(kpart)) < 2) {
+      stop("only a single cluster: no silhouette plot")
+    }
+    # ======================================================================
+    # Plotting
+    # ======================================================================
+    col <- c("black", "blue", "green", "red", "yellow", "gray")
+    distances <- DIS
+    si <- silhouette(kpart, distances)
+    plot(si, col = col[1:K])
+  }
 )

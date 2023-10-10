@@ -26,7 +26,8 @@ clustheatmap(
 \arguments{
 \item{object}{\code{DISCBIO} class object.}
 
-\item{clustering_method}{either "k-means" or "model-based" ("k" and "mb" are also accepted)}
+\item{clustering_method}{either "k-means" or "model-based" ("k" and "mb" are
+also accepted)}
 
 \item{hmethod}{Agglomeration method used for determining the cluster order
 from hierarchical clustering of the cluster medoids. This should be one of

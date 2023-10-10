@@ -13,6 +13,11 @@ data/genes20k.rda
 data/pan_indrop_matrix_8000cells_18556genes.rda
 data/valuesG1msReduced_treated_K.rda
 data/valuesG1msReduced_treated_MB.rda
+tests/testthat/SC.RData
+tests/testthat/Ndata.RData
+tests/testthat/CTCdataset.rda
+tests/testthat/expdata.RData
+tests/testthat/DATAforDT.RData
 apt.txt
 install.R
 postBuild
@@ -22,4 +27,5 @@ runtime.txt
 .git
 Aux
 binder
-tests
+^\.github$
+tests/

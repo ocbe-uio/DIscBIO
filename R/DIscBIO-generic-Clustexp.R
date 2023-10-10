@@ -32,106 +32,114 @@
 #' @return The DISCBIO-class object input with the cpart slot filled.
 #' @examples
 #' sc <- DISCBIO(valuesG1msTest) # changes signature of data
-#' sc <- Clustexp(sc, cln=2)
-setGeneric("Clustexp", function(object, clustnr = 3, bootnr = 50,
+#' sc <- Clustexp(sc, cln = 2)
+setGeneric("Clustexp", function(
+    object, clustnr = 3, bootnr = 50,
     metric = "pearson", do.gap = TRUE, SE.method = "Tibs2001SEmax",
-    SE.factor = .25, B.gap = 50, cln = 0, rseed = NULL, quiet = FALSE)
-    {
-        standardGeneric("Clustexp")
-    }
-)
+    SE.factor = .25, B.gap = 50, cln = 0, rseed = NULL, quiet = FALSE) {
+  standardGeneric("Clustexp")
+})
 
 #' @export
 #' @rdname Clustexp
 setMethod(
-    f = "Clustexp",
-    signature = "DISCBIO",
-    definition = function(object, clustnr, bootnr, metric, do.gap, SE.method,
-        SE.factor, B.gap, cln, rseed, quiet)
-    {
-        if (!is.numeric(clustnr))
-            stop("clustnr has to be a positive integer")
-        else if (round(clustnr) != clustnr | clustnr <= 0)
-            stop("clustnr has to be a positive integer")
-        if (!is.numeric(bootnr))
-            stop("bootnr has to be a positive integer")
-        else if (round(bootnr) != bootnr | bootnr <= 0)
-            stop("bootnr has to be a positive integer")
-        if (!(
-            metric %in% c(
-                "spearman", "pearson", "kendall", "euclidean", "maximum",
-                "manhattan", "canberra", "binary", "minkowski"
-            )
-        ))
-            stop(
-                "metric has to be one of the following: spearman, ",
-                "pearson, kendall, euclidean, maximum, manhattan, ",
-                "canberra, binary, minkowski"
-            )
-        if (!(
-            SE.method %in% c(
-                "firstSEmax", "Tibs2001SEmax", "globalSEmax", "firstmax",
-                "globalmax"
-            )
-        ))
-            stop(
-                "SE.method has to be one of the following: ",
-                "firstSEmax, Tibs2001SEmax, globalSEmax, ",
-                "firstmax, globalmax"
-            )
-        if (!is.numeric(SE.factor))
-            stop("SE.factor has to be a non-negative integer")
-        else if (SE.factor < 0)
-            stop("SE.factor has to be a non-negative integer")
-        if (!(is.numeric(do.gap) | is.logical(do.gap)))
-            stop("do.gap has to be logical (TRUE/FALSE)")
-        if (!is.numeric(B.gap))
-            stop("B.gap has to be a positive integer")
-        else if (round(B.gap) != B.gap | B.gap <= 0)
-            stop("B.gap has to be a positive integer")
-        if (!is.numeric(cln))
-            stop("cln has to be a non-negative integer")
-        else if (round(cln) != cln | cln < 0)
-            stop("cln has to be a non-negative integer")
-        if (!is.null(rseed) & !is.numeric(rseed))
-            stop("rseed has to be numeric or NULL")
-        if (!do.gap & cln == 0)
-            stop("cln has to be a positive integer or do.gap has to be TRUE")
-
-        # Operations
-        object@clusterpar <-
-            list(
-                clustnr = clustnr,
-                bootnr = bootnr,
-                metric = metric,
-                do.gap = do.gap,
-                SE.method = SE.method,
-                SE.factor = SE.factor,
-                B.gap = B.gap,
-                cln = cln,
-                rseed = rseed
-            )
-        y <- clustfun(
-            object@fdata,
-            clustnr,
-            bootnr,
-            metric,
-            do.gap,
-            SE.method,
-            SE.factor,
-            B.gap,
-            cln,
-            rseed = rseed,
-            quiet = quiet
-        )
-        object@kmeans <- list(
-            kpart = y$clb$result$partition,
-            jaccard = y$clb$bootmean,
-            gap = y$gpr
-        )
-        object@distances <- as.matrix(y$di)
-        object@fcol <- rainbow(max(y$clb$result$partition))
-        object@cpart <- object@kmeans$kpart
-        return(object)
+  f = "Clustexp",
+  signature = "DISCBIO",
+  definition = function(object, clustnr, bootnr, metric, do.gap, SE.method,
+                        SE.factor, B.gap, cln, rseed, quiet) {
+    if (!is.numeric(clustnr)) {
+      stop("clustnr has to be a positive integer")
+    } else if (round(clustnr) != clustnr | clustnr <= 0) {
+      stop("clustnr has to be a positive integer")
     }
+    if (!is.numeric(bootnr)) {
+      stop("bootnr has to be a positive integer")
+    } else if (round(bootnr) != bootnr | bootnr <= 0) {
+      stop("bootnr has to be a positive integer")
+    }
+    if (!(
+      metric %in% c(
+        "spearman", "pearson", "kendall", "euclidean", "maximum",
+        "manhattan", "canberra", "binary", "minkowski"
+      )
+    )) {
+      stop(
+        "metric has to be one of the following: spearman, ",
+        "pearson, kendall, euclidean, maximum, manhattan, ",
+        "canberra, binary, minkowski"
+      )
+    }
+    if (!(
+      SE.method %in% c(
+        "firstSEmax", "Tibs2001SEmax", "globalSEmax", "firstmax",
+        "globalmax"
+      )
+    )) {
+      stop(
+        "SE.method has to be one of the following: ",
+        "firstSEmax, Tibs2001SEmax, globalSEmax, ",
+        "firstmax, globalmax"
+      )
+    }
+    if (!is.numeric(SE.factor)) {
+      stop("SE.factor has to be a non-negative integer")
+    } else if (SE.factor < 0) {
+      stop("SE.factor has to be a non-negative integer")
+    }
+    if (!(is.numeric(do.gap) | is.logical(do.gap))) {
+      stop("do.gap has to be logical (TRUE or FALSE)")
+    }
+    if (!is.numeric(B.gap)) {
+      stop("B.gap has to be a positive integer")
+    } else if (round(B.gap) != B.gap | B.gap <= 0) {
+      stop("B.gap has to be a positive integer")
+    }
+    if (!is.numeric(cln)) {
+      stop("cln has to be a non-negative integer")
+    } else if (round(cln) != cln | cln < 0) {
+      stop("cln has to be a non-negative integer")
+    }
+    if (!is.null(rseed) & !is.numeric(rseed)) {
+      stop("rseed has to be numeric or NULL")
+    }
+    if (!do.gap & cln == 0) {
+      stop("cln has to be a positive integer or do.gap has to be TRUE")
+    }
+
+    # Operations
+    object@clusterpar <-
+      list(
+        clustnr = clustnr,
+        bootnr = bootnr,
+        metric = metric,
+        do.gap = do.gap,
+        SE.method = SE.method,
+        SE.factor = SE.factor,
+        B.gap = B.gap,
+        cln = cln,
+        rseed = rseed
+      )
+    y <- clustfun(
+      object@fdata,
+      clustnr,
+      bootnr,
+      metric,
+      do.gap,
+      SE.method,
+      SE.factor,
+      B.gap,
+      cln,
+      rseed = rseed,
+      quiet = quiet
+    )
+    object@kmeans <- list(
+      kpart = y$clb$result$partition,
+      jaccard = y$clb$bootmean,
+      gap = y$gpr
+    )
+    object@distances <- as.matrix(y$di)
+    object@fcol <- rainbow(max(y$clb$result$partition))
+    object@cpart <- object@kmeans$kpart
+    return(object)
+  }
 )

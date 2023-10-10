@@ -11,16 +11,16 @@
 #' @return Information about the model and, by default, a plot of the decision
 #'   tree.
 RpartDT <- function(data, quiet = FALSE, plot = TRUE) {
-    exp.df <- as.data.frame(t(data))
-    classVector <- factor(colnames(data))
-    model <- rpart(
-        classVector ~ .,
-        exp.df,
-        method = "class",
-        minsplit = 1,
-        cp = -1
-    )
-    if (!quiet) print(model)
-    if (plot) rpart.plot(model, type = 4, extra = 101)
-    return(model)
+  exp.df <- as.data.frame(t(data))
+  exp.df$classVector <- factor(colnames(data))
+  model <- rpart(
+    classVector ~ .,
+    exp.df,
+    method = "class",
+    minsplit = 1,
+    cp = -1
+  )
+  if (!quiet) print(model)
+  if (plot) rpart.plot(model, type = 4, extra = 101)
+  return(model)
 }
