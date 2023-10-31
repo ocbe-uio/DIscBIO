@@ -11,10 +11,10 @@ bootstrap <- function(data, n_reps) {
   return(results)
 }
 
+#' @importFrom vegan vegdist
 JS <- function(data, indices) {
   d <- data[indices, ]
-  jac <- suppressMessages(distance(t(d), method = "jaccard"))
+  jac <- vegan::vegdist(d, method = "jaccard")
   jac1 <- 1 - jac
-  JSmean <- mean(jac1)
-  return(JSmean)
+  return(mean(jac1))
 }
