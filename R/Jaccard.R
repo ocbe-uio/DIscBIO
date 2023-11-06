@@ -10,7 +10,6 @@
 #' @param K A numeric value of the number of clusters
 #' @param plot if `TRUE`, plots the mean Jaccard similarities
 #' @param R number of bootstrap replicates
-#' @importFrom philentropy distance
 #' @importFrom graphics barplot box
 #' @return A plot of the mean Jaccard similarity coefficient per cluster.
 Jaccard <- function(object, Clustering = "K-means", K, plot = TRUE, R = 100) {

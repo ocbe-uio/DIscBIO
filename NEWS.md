@@ -1,3 +1,7 @@
+# DIscBIO 1.2.2
+
+* Fixed calculation of Jaccard index (issue #44)
+
 # DIscBIO 1.2.1
 
 * Fixed integration and unit tests (issue #22, #37)
