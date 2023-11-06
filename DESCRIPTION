@@ -1,7 +1,7 @@
 Package: DIscBIO
-Date: 2023-10-09
+Date: 2023-11-06
 Title: A User-Friendly Pipeline for Biomarker Discovery in Single-Cell Transcriptomics
-Version: 1.2.1
+Version: 1.2.2
 Authors@R:
   c(
     person(
