@@ -66,7 +66,7 @@ test_that("tSNE is computed", {
 test_that("Cluster plots output is as expexted", {
   expect_equivalent(
     object = Jaccard(sc, Clustering = "K-means", K = 2, plot = FALSE, R = 5),
-    expected = c(.417, .413),
+    expected = c(.683, .624),
     tolerance = .01
   )
   expect_equal(
