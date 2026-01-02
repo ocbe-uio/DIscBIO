@@ -22,7 +22,7 @@
 #'   prediction of rare cell types.
 #' @slot cpart A vector containing the final clustering partition computed
 #'   by K-means.
-#' @slot fcol A vector contaning the colour scheme for the clusters.
+#' @slot fcol A vector containing the colour scheme for the clusters.
 #' @slot filterpar A list containing the parameters used for cell and gene
 #'   filtering based on expression.
 #' @slot clusterpar A list containing the parameters used for the K-means

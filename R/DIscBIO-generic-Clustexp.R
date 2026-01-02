@@ -5,7 +5,7 @@
 #' @param object \code{DISCBIO} class object.
 #' @param clustnr Maximum number of clusters for the derivation of the cluster
 #'   number by the saturation of mean within-cluster-dispersion. Default is 20.
-#' @param bootnr A numeric value of booststrapping runs for \code{clusterboot}.
+#' @param bootnr A numeric value of bootstrapping runs for \code{clusterboot}.
 #'   Default is 50.
 #' @param metric Is the method to transform the input data to a distance object.
 #'   Metric has to be one of the following: ["spearman", "pearson", "kendall",

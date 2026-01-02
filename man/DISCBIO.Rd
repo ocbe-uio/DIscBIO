@@ -49,7 +49,7 @@ prediction of rare cell types.}
 \item{\code{cpart}}{A vector containing the final clustering partition computed
 by K-means.}
 
-\item{\code{fcol}}{A vector contaning the colour scheme for the clusters.}
+\item{\code{fcol}}{A vector containing the colour scheme for the clusters.}
 
 \item{\code{filterpar}}{A list containing the parameters used for cell and gene
 filtering based on expression.}

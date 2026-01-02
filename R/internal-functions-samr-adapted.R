@@ -761,7 +761,7 @@ resa <- function(x, d, nresamp = 20) {
 #' @description Ranks the elements within each col of the matrix x and returns
 #' these ranks in a matrix
 #' @note this function is equivalent to `samr::rankcol`, but uses `apply` to
-#' rank the colums instead of a compiled Fortran function which was causing our
+#' rank the columns instead of a compiled Fortran function which was causing our
 #' DEGanalysis functions to freeze in large datasets.
 #' @param x x
 rankcols <- function(x) {

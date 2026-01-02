@@ -40,7 +40,7 @@ Clustexp(
 \item{clustnr}{Maximum number of clusters for the derivation of the cluster
 number by the saturation of mean within-cluster-dispersion. Default is 20.}
 
-\item{bootnr}{A numeric value of booststrapping runs for \code{clusterboot}.
+\item{bootnr}{A numeric value of bootstrapping runs for \code{clusterboot}.
 Default is 50.}
 
 \item{metric}{Is the method to transform the input data to a distance object.
