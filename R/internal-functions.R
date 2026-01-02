@@ -436,7 +436,7 @@ retrieve_geneList <- function() {
     error = function(e) {
       message(
         "Package 'org.Hs.eg.db' not found. Using internal gene list data. ",
-        "Consider installing 'org.Hs.eg.db' for the most up-to-date annotations."
+        "Consider installing 'org.Hs.eg.db' for up-to-date annotations."
       )
       utils::data("geneList", package = "DIscBIO")
     }
