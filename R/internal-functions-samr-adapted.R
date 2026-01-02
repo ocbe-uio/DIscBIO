@@ -907,7 +907,7 @@ getperms <- function(y, nperms) {
   if (total.perms > nperms) {
     perms <- matrix(NA, nrow = nperms, ncol = length(y))
     for (i in 1:nperms) {
-      perms[i, ] <- sample(seq_along(y)), size = length(y)
+      perms[i, ] <- sample(seq_along(y), size = length(y))
     }
     all.perms.flag <- 0
     nperms.act <- nperms
