@@ -900,14 +900,14 @@ wilcoxon.paired.seq.func <- function(xresamp, y) {
 getperms <- function(y, nperms) {
   total.perms <- factorial(length(y))
   if (total.perms <= nperms) {
-    perms <- permute(seq_len(length(y)))
+    perms <- permute(seq_along(y))
     all.perms.flag <- 1
     nperms.act <- total.perms
   }
   if (total.perms > nperms) {
     perms <- matrix(NA, nrow = nperms, ncol = length(y))
     for (i in 1:nperms) {
-      perms[i, ] <- sample(seq_len(length(y)), size = length(y))
+      perms[i, ] <- sample(seq_along(y)), size = length(y)
     }
     all.perms.flag <- 0
     nperms.act <- nperms
@@ -1198,7 +1198,7 @@ multiclass.func <- function(x, y, s0 = 0) {
   nn <- table(y)
   m <- matrix(0, nrow = nrow(x), ncol = length(nn))
   v <- m
-  for (j in seq_len(length(nn))) {
+  for (j in seq_along(nn)) {
     m[, j] <- rowMeans(x[, y == j])
     v[, j] <- (nn[j] - 1) * varr(x[, y == j], meanx = m[
       ,
@@ -1226,7 +1226,7 @@ est.s0 <- function(tt, sd, s0.perc = seq(0, 1, by = 0.05)) {
   a <- cut(sd, br, labels = FALSE)
   a[is.na(a)] <- 1
   cv.sd <- rep(0, length(s0.perc))
-  for (j in seq_len(length(s0.perc))) {
+  for (j in seq_along(s0.perc)) {
     w <- quantile(sd, s0.perc[j])
     w[j == 1] <- 0
     tt2 <- tt * sd / (sd + w)
@@ -1237,7 +1237,7 @@ est.s0 <- function(tt, sd, s0.perc = seq(0, 1, by = 0.05)) {
     }
     cv.sd[j] <- sqrt(var(sds)) / mean(sds)
   }
-  o <- seq_len(length(s0.perc))[cv.sd == min(cv.sd)]
+  o <- seq_along(s0.perc)[cv.sd == min(cv.sd)]
   # we don;t allow taking s0.hat to be 0th percentile when
   #   min sd is 0
   s0.hat <- quantile(sd[sd != 0], s0.perc[o])
@@ -1393,7 +1393,7 @@ compute.block.perms <- function(y, blocky, nperms) {
     #   then we remove rows of outerm that
     #  are illegal (ie when a block has fewer members)
     outerm <- matrix(0, nrow = length(kk), ncol = nblocks)
-    for (i in seq_len(length(kk))) {
+    for (i in seq_along(kk)) {
       kkkk <- integer.base.b(kk[i], b = factorial(max(tab)))
       if (length(kkkk) > nblocks) {
         kkkk <- kkkk[(length(kkkk) - nblocks + 1):length(kkkk)]
@@ -1573,7 +1573,7 @@ samr.compute.delta.table.array <- function(
   errlow <- matrix(NA, ncol = length(dels), nrow = ncol(samr.obj$ttstar0))
   cat("", fill = TRUE)
   cat("Computing delta table", fill = TRUE)
-  for (ii in seq_len(length(dels))) {
+  for (ii in seq_along(dels)) {
     cat(ii, fill = TRUE)
     ttt <- detec.slab(samr.obj, dels[ii], min.foldchange)
     cutup[ii] <- 1e+10
@@ -2050,10 +2050,10 @@ samr.seq.null.err <- function(
     }
     errup[jj, ] <- length(keep.up) - (rank(c(cutup, keep.up),
       ties.method = "min"
-    )[seq_len(length(cutup))] - cutup.rank)
+    )[seq_along(cutup)] - cutup.rank)
     errlow[jj, ] <- length(keep.dn) - (rank(c(-cutlow, -keep.dn),
       ties.method = "min"
-    )[seq_len(length(cutlow))] - cutlow.rank)
+    )[seq_along(cutlow)] - cutlow.rank)
   }
   errnum <- errup + errlow
   return(errnum)
@@ -2184,7 +2184,7 @@ qvalue.func <- function(samr.obj, sig, delta.table) {
   for (i in o1) {
     o <- abs(cutup - samr.obj$tt[i])
     o[is.na(o)] <- LARGE
-    oo <- seq_len(length(o))[o == min(o)]
+    oo <- seq_along(o)[o == min(o)]
     oo <- oo[length(oo)]
     ii <- ii + 1
     qvalue.up[ii] <- FDR[oo]
@@ -2196,7 +2196,7 @@ qvalue.func <- function(samr.obj, sig, delta.table) {
   for (i in o2) {
     o <- abs(cutlo - samr.obj$tt[i])
     o[is.na(o)] <- LARGE
-    oo <- seq_len(length(o))[o == min(o)]
+    oo <- seq_along(o)[o == min(o)]
     oo <- oo[length(oo)]
     ii <- ii + 1
     qvalue.lo[ii] <- FDR[oo]
