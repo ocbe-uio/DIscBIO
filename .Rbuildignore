@@ -29,3 +29,4 @@ Aux
 binder
 ^\.github$
 tests/
+^CRAN-SUBMISSION$
