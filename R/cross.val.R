@@ -7,7 +7,7 @@ cross.val <- function(
   }
   # Start cross validation loop
   class1 <- levels(class.vec)[1]
-  for (fold in seq_len(length(segments))) {
+  for (fold in seq_along(segments)) {
     if (!quiet) message("Fold ", fold, " of ", length(segments))
     # Define training and test set
     test.ind <- segments[[fold]]

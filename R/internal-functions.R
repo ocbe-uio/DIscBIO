@@ -222,7 +222,7 @@ downsample <- function(x, n, dsn) {
 }
 
 eval.pred <- function(pred.class, true.class, class1, performance) {
-  for (index in seq_len(length(pred.class))) {
+  for (index in seq_along(pred.class)) {
     pred <- pred.class[index]
     true <- true.class[index]
     if (pred == true && true == class1) {

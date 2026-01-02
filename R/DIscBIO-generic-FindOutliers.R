@@ -175,7 +175,7 @@ setMethod(
       if (sum(f) > 0) {
         out <- append(out, names(x)[f])
       }
-      for (j in seq_len(length(thr))) {
+      for (j in seq_along(thr)) {
         stest[j] <- stest[j] + sum(cp < thr[j])
       }
     }
@@ -213,7 +213,7 @@ setMethod(
         n <- out
         m <- as.data.frame(di[out, out])
 
-        for (i in seq_len(length(out))) {
+        for (i in seq_along(out)) {
           if (length(n) > 1) {
             o <-
               order(
@@ -254,7 +254,7 @@ setMethod(
         }
       }
 
-      for (i in seq_len(length(cadd))) {
+      for (i in seq_along(cadd)) {
         cpart[cols %in% cadd[[i]]] <- max(cpart) + 1
       }
     }

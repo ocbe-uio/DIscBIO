@@ -42,7 +42,7 @@ setMethod(
       pch = 20,
       col = "grey"
     )
-    for (i in seq_len(length(unique(types)))) {
+    for (i in seq_along(unique(types))) {
       f <- types == sort(unique(types))[i]
       syms <- append(syms, ((i - 1) %% 25) + 1)
       points(
