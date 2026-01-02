@@ -92,3 +92,4 @@ Collate:
     'datasets.R'
     'internal-functions-samr-adapted.R'
     'internal-functions.R'
+    'retrieve_geneList.R'
