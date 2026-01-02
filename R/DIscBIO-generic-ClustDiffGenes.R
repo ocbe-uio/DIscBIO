@@ -110,10 +110,6 @@ setMethod(
     gene_list <- geneList[, 3]
 
     for (n in 1:K) {
-      if (length(cdiff[[n]][, 1]) == 0) {
-        next
-      }
-
       if (length(cdiff[[n]][, 1]) > 0) {
         p.adj <- p.adjust(cdiff[[n]][, 4], method = "bonferroni")
         out <- cbind(cdiff[[n]], p.adj)
