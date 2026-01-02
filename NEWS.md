@@ -1,3 +1,5 @@
+# DIscBIO (development version)
+
 # DIscBIO 1.2.2
 
 * Fixed calculation of Jaccard index (issue #44)

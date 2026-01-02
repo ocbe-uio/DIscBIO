@@ -13,7 +13,7 @@
 #' @param quiet if `TRUE`, suppresses intermediary output
 #' @importFrom mclust Mclust mclustBIC
 #' @importFrom stats dist prcomp lm
-#' @importFrom igraph graph.adjacency minimum.spanning.tree
+#' @importFrom igraph graph_from_adjacency_matrix mst
 #' @return If `object` is of class DISCBIO, the output is the same object  with
 #'   the MBclusters slot filled. If the `object` is a data frame, the function
 #'   returns a named list containing the four objects that together correspond
@@ -62,8 +62,8 @@ setMethod(
       )
     }
     dp <- as.matrix(dist(clucenter))
-    gp <- graph.adjacency(dp, mode = "undirected", weighted = TRUE)
-    dp_mst <- minimum.spanning.tree(gp)
+    gp <- graph_from_adjacency_matrix(dp, mode = "undirected", weighted = TRUE)
+    dp_mst <- mst(gp)
     full_List <- list(
       pcareduceres = pcareduceres,
       MSTtree = dp_mst,
@@ -113,8 +113,8 @@ setMethod(
     }
     dp <- as.matrix(dist(clucenter))
     gp <-
-      graph.adjacency(dp, mode = "undirected", weighted = TRUE)
-    dp_mst <- minimum.spanning.tree(gp)
+      graph_from_adjacency_matrix(dp, mode = "undirected", weighted = TRUE)
+    dp_mst <- mst(gp)
     object <- list(
       pcareduceres = pcareduceres,
       MSTtree = dp_mst,

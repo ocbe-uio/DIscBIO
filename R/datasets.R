@@ -21,3 +21,10 @@ NULL
 #' @name HumanMouseGeneIds
 #' @docType data
 NULL
+
+#' org.Hs.eg.db annotation package data
+#'
+#' Verbatim output from org.Hs.eg.db::org.Hs.eg.db
+#' @name geneList
+#' @docType data
+NULL

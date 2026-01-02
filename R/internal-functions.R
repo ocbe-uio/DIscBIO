@@ -418,3 +418,27 @@ retrieveURL <- function(
     return(repos)
   }
 }
+
+#' @importFrom utils data
+#' @importFrom AnnotationDbi keys select
+retrieve_geneList <- function() {
+  # Use data from org.Hs.eg.db if the package is present.
+  # Otherwise, use internal data (potentially outdated).
+    tryCatch(
+    expr = {
+      db <- org.Hs.eg.db::org.Hs.eg.db
+      AnnotationDbi::select(
+        x       = db,
+        keys    = AnnotationDbi::keys(db),
+        columns = c("SYMBOL", "ENSEMBL")
+      )
+    },
+    error = function(e) {
+      message(
+        "Package 'org.Hs.eg.db' not found. Using internal gene list data. ",
+        "Consider installing 'org.Hs.eg.db' for the most up-to-date annotations."
+      )
+      utils::data("geneList", package = "DIscBIO")
+    }
+  )
+}
