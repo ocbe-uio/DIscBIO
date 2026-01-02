@@ -1,5 +1,5 @@
 Package: DIscBIO
-Date: 2023-11-06
+Date: 2026-01-02
 Title: A User-Friendly Pipeline for Biomarker Discovery in Single-Cell Transcriptomics
 Version: 1.2.2.9000
 Authors@R:
@@ -93,3 +93,4 @@ Collate:
     'internal-functions-samr-adapted.R'
     'internal-functions.R'
     'retrieve_geneList.R'
+Language: en-US
