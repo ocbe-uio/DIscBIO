@@ -420,7 +420,6 @@ retrieveURL <- function(
 }
 
 #' @importFrom utils data
-#' @importFrom AnnotationDbi keys select
 retrieve_geneList <- function() {
   # Use data from org.Hs.eg.db if the package is present.
   # Otherwise, use internal data (potentially outdated).
