@@ -30,3 +30,4 @@ binder
 ^\.github$
 tests/
 ^CRAN-SUBMISSION$
+cran-comments.md
