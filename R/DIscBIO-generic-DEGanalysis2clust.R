@@ -22,7 +22,6 @@
 #' @param ... additional parameters to be passed to samr()
 #' @importFrom graphics title
 #' @importFrom utils write.csv capture.output
-#' @importFrom AnnotationDbi keys
 #' @return A list containing two tables.
 setGeneric(
   "DEGanalysis2clust",
