@@ -6,7 +6,6 @@
 #' @param quiet if `TRUE`, suppresses intermediary output
 #' @param export if `TRUE`, exports order table to csv
 #' @param filename Name of the exported file (if `export=TRUE`)
-#' @importFrom TSCAN TSCANorder
 #' @return The DISCBIO-class object input with the kordering slot filled.
 setGeneric("pseudoTimeOrdering", function(
     object,
@@ -18,6 +17,7 @@ setGeneric("pseudoTimeOrdering", function(
 
 #' @export
 #' @rdname pseudoTimeOrdering
+#' @importFrom TSCAN TSCANorder
 setMethod(
   "pseudoTimeOrdering",
   signature = "DISCBIO",
@@ -31,15 +31,15 @@ setMethod(
       Obj <- object@fdata
       Names <- object@cpart
       lpsmclust <- Exprmclust(Obj, K = 4, reduce = FALSE, cluster = Names)
-      lpsorder <- TSCANorder(lpsmclust)
     } else if (ran_m) {
       Obj <- object@fdata
       Names <- names(object@MBclusters$clusterid)
       lpsmclust <- object@MBclusters
-      lpsorder <- TSCANorder(lpsmclust)
     } else {
       stop("run clustexp before this pseudoTimeOrdering")
     }
+    lpsorder <- TSCANorder(lpsmclust)
+
     # ======================================================================
     # Ordering
     # ======================================================================
