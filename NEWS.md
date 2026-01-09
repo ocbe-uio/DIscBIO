@@ -1,4 +1,4 @@
-# DIscBIO (development version)
+# DIscBIO 1.2.3
 
 * Delinted package
 * Removed dependency on `philentropy` and `org.Hs.eg.db` (issue #44, #45)

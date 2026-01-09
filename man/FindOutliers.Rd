@@ -51,7 +51,7 @@ threshold. Default is 2**-(1:40).set}
 \item{outdistquant}{Real number between zero and one. Outlier cells are
 merged to outlier clusters if their distance smaller than the
 outdistquant-quantile of the distance distribution of  pairs of cells in
-the orginal clusters after outlier removal. Default is 0.75.}
+the original clusters after outlier removal. Default is 0.75.}
 
 \item{plot}{if `TRUE`, produces a plot of -log10prob per K}
 

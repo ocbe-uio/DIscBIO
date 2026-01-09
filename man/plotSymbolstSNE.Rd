@@ -20,7 +20,7 @@ automatically. Default is NULL}
 "bottomright"}
 }
 \value{
-Plot of tsne objet slot, grouped by gene.
+Plot of tsne object slot, grouped by gene.
 }
 \description{
 Visualizing the K-means clusters using tSNE maps

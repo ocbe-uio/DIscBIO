@@ -15,6 +15,6 @@ these ranks in a matrix
 }
 \note{
 this function is equivalent to `samr::rankcol`, but uses `apply` to
-rank the colums instead of a compiled Fortran function which was causing our
+rank the columns instead of a compiled Fortran function which was causing our
 DEGanalysis functions to freeze in large datasets.
 }

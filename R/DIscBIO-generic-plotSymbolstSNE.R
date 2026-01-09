@@ -14,7 +14,7 @@ setGeneric(
 )
 
 #' @export
-#' @return Plot of tsne objet slot, grouped by gene.
+#' @return Plot of tsne object slot, grouped by gene.
 #' @rdname plotSymbolstSNE
 setMethod(
   "plotSymbolstSNE",

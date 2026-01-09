@@ -15,7 +15,7 @@
 #' @param outdistquant Real number between zero and one. Outlier cells are
 #'   merged to outlier clusters if their distance smaller than the
 #'   outdistquant-quantile of the distance distribution of  pairs of cells in
-#'   the orginal clusters after outlier removal. Default is 0.75.
+#'   the original clusters after outlier removal. Default is 0.75.
 #' @param K Number of clusters to be used.
 #' @param plot if `TRUE`, produces a plot of -log10prob per K
 #' @param quiet if `TRUE`, intermediary output is suppressed
