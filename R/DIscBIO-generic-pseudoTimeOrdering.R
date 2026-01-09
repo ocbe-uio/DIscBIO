@@ -31,15 +31,15 @@ setMethod(
       Obj <- object@fdata
       Names <- object@cpart
       lpsmclust <- Exprmclust(Obj, K = 4, reduce = FALSE, cluster = Names)
-      lpsorder <- TSCANorder(lpsmclust)
     } else if (ran_m) {
       Obj <- object@fdata
       Names <- names(object@MBclusters$clusterid)
       lpsmclust <- object@MBclusters
-      lpsorder <- TSCANorder(lpsmclust)
     } else {
       stop("run clustexp before this pseudoTimeOrdering")
     }
+    lpsorder <- TSCANorder(lpsmclust)
+
     # ======================================================================
     # Ordering
     # ======================================================================
