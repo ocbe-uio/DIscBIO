@@ -51,13 +51,11 @@ If you still can't install DIscBIO, please let us know by opening an issue [here
 
 ## Development version
 
-The development version of the DIscBIO R package can be installed by running
+The development version of the DIscBIO R package can be installed by running the following on an interactive R session:
 
 ```r
-remotes::install_github("ocbe-uio/DIscBIO", build_vignettes=TRUE)
+remotes::install_github("ocbe-uio/DIscBIO")
 ```
-
-on an interactive R session. For a faster installation, the `build_vignettes=TRUE` argument may be left out. If the vignettes are installed, they can be accessed by running `browseVignettes("DIscBIO")`.
 
 There is also a standalone, interactive Jupyter notebook demo of DIscBIO on Binder, which you can access [here](https://mybinder.org/v2/gh/ocbe-uio/DIscBIO/dev?filepath=/notebook).
 
@@ -89,7 +87,7 @@ library(DIscBIO)
 
 # Binder Notebooks
 
-A step-by-step tutorial of DIscBIO is under construction as a standalone R vignette. In the meantime, you can use the interactive Jupyter notebook available here:
+As a step-by-step tutorial of DIscBIO, you can use the interactive Jupyter notebook available here:
 
 There are THREE main Binder notebooks; the [DIscBIO-MLS-Binder](notebook/DIscBIO-MLS-Binder.ipynb), [DIscBIO-CTCs-Notebook](notebook/DIscBIO-CTCs-Notebook.ipynb) and [DIscBIO-CONQUER-Binder](notebook/DIscBIO-CONQUER-Binder.ipynb)".
 
