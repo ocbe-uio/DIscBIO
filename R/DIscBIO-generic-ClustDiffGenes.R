@@ -12,7 +12,6 @@
 #' @param filename_binom Name of the exported binomial file
 #' @param filename_sigdeg Name of the exported sigDEG file
 #' @importFrom stats pbinom median
-#' @import org.Hs.eg.db
 #' @rdname ClustDiffGenes
 #' @return A list containing two tables.
 #' @export
@@ -103,18 +102,21 @@ setMethod(
     DEGsS <- vector()
     DEGsTable <- data.frame()
 
-    for (n in 1:K) {
-      if (length(cdiff[[n]][, 1]) == 0) {
-        next
-      }
+    # Generate gene list
+    geneList <- retrieve_geneList()
+    GL <- c(1, "MTRNR2", "ENSG00000210082")
+    GL1 <- c(1, "MTRNR1", "ENSG00000211459")
+    geneList <- rbind(geneList, GL, GL1)
+    gene_list <- geneList[, 3]
 
+    for (n in 1:K) {
       if (length(cdiff[[n]][, 1]) > 0) {
         p.adj <- p.adjust(cdiff[[n]][, 4], method = "bonferroni")
         out <- cbind(cdiff[[n]], p.adj)
         out <- subset(out, out[, 5] < fdr)
         if (length(out[, 1]) > 0) {
           Regulation <- vector()
-          for (i in seq_len(length(out[, 1]))) {
+          for (i in seq_along(out[, 1])) {
             if (out[i, 1] > out[i, 2]) {
               Regulation[i] <- "Down"
             } else {
@@ -122,31 +124,7 @@ setMethod(
             }
           }
           out <- cbind(out, Regulation)
-          if (quiet) {
-            suppressMessages(
-              geneList <-
-                AnnotationDbi::select(
-                  org.Hs.eg.db,
-                  keys = keys(org.Hs.eg.db),
-                  columns = c("SYMBOL", "ENSEMBL")
-                )
-            )
-            GL <- c(1, "MTRNR2", "ENSG00000210082")
-            GL1 <- c(1, "MTRNR1", "ENSG00000211459")
-            geneList <- rbind(geneList, GL, GL1)
-          } else {
-            geneList <-
-              AnnotationDbi::select(
-                org.Hs.eg.db,
-                keys = keys(org.Hs.eg.db),
-                columns = c("SYMBOL", "ENSEMBL")
-              )
-            GL <- c(1, "MTRNR2", "ENSG00000210082")
-            GL1 <- c(1, "MTRNR1", "ENSG00000211459")
-            geneList <- rbind(geneList, GL, GL1)
-          }
           genes <- rownames(out)
-          gene_list <- geneList[, 3]
           idx_genes <- is.element(gene_list, genes)
           genes2 <- geneList[idx_genes, ]
           Final <- cbind(genes, out)
@@ -233,6 +211,7 @@ setMethod(
         }
       }
     }
+
     if (length(DEGsTable) > 0) {
       colnames(DEGsTable) <- c(
         "Target Cluster", "VS", "Gene number", "File name",

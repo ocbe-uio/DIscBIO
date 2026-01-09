@@ -15,7 +15,7 @@
 #' @param outdistquant Real number between zero and one. Outlier cells are
 #'   merged to outlier clusters if their distance smaller than the
 #'   outdistquant-quantile of the distance distribution of  pairs of cells in
-#'   the orginal clusters after outlier removal. Default is 0.75.
+#'   the original clusters after outlier removal. Default is 0.75.
 #' @param K Number of clusters to be used.
 #' @param plot if `TRUE`, produces a plot of -log10prob per K
 #' @param quiet if `TRUE`, intermediary output is suppressed
@@ -175,7 +175,7 @@ setMethod(
       if (sum(f) > 0) {
         out <- append(out, names(x)[f])
       }
-      for (j in seq_len(length(thr))) {
+      for (j in seq_along(thr)) {
         stest[j] <- stest[j] + sum(cp < thr[j])
       }
     }
@@ -213,7 +213,7 @@ setMethod(
         n <- out
         m <- as.data.frame(di[out, out])
 
-        for (i in seq_len(length(out))) {
+        for (i in seq_along(out)) {
           if (length(n) > 1) {
             o <-
               order(
@@ -254,7 +254,7 @@ setMethod(
         }
       }
 
-      for (i in seq_len(length(cadd))) {
+      for (i in seq_along(cadd)) {
         cpart[cols %in% cadd[[i]]] <- max(cpart) + 1
       }
     }

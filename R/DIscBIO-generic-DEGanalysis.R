@@ -289,29 +289,11 @@ setMethod(
 
         if (length(FDRl) > 0) {
           genes <- siggenes.table$genes.lo[, 3]
-          if (quiet) {
-            suppressMessages(
-              geneList <-
-                AnnotationDbi::select(
-                  org.Hs.eg.db,
-                  keys = keys(org.Hs.eg.db),
-                  columns = c("SYMBOL", "ENSEMBL")
-                )
-            )
-            GL <- c(1, "MTRNR2", "ENSG00000210082")
-            geneList <- rbind(geneList, GL)
-          } else {
-            geneList <-
-              AnnotationDbi::select(
-                org.Hs.eg.db,
-                keys = keys(org.Hs.eg.db),
-                columns = c("SYMBOL", "ENSEMBL")
-              )
-            GL <- c(1, "MTRNR2", "ENSG00000210082")
-            geneList <- rbind(geneList, GL)
-          }
-          FinalDEGsL <- cbind(genes, siggenes.table$genes.lo)
+          geneList <- retrieve_geneList()
+          GL <- c(1, "MTRNR2", "ENSG00000210082")
+          geneList <- rbind(geneList, GL)
           gene_list <- geneList[, 3]
+          FinalDEGsL <- cbind(genes, siggenes.table$genes.lo)
           idx_genes <- is.element(gene_list, genes)
           genes2 <- geneList[idx_genes, ]
           FinalDEGsL <- merge(
@@ -353,31 +335,12 @@ setMethod(
         }
         if (length(FDRu) > 0) {
           genes <- siggenes.table$genes.up[, 3]
-          if (quiet) {
-            suppressMessages(
-              geneList <-
-                AnnotationDbi::select(
-                  org.Hs.eg.db,
-                  keys = keys(org.Hs.eg.db),
-                  columns = c("SYMBOL", "ENSEMBL")
-                )
-            )
-            GL <- c(1, "MTRNR2", "ENSG00000210082")
-            GL1 <- c(1, "MTRNR1", "ENSG00000211459")
-            geneList <- rbind(geneList, GL, GL1)
-          } else {
-            geneList <-
-              AnnotationDbi::select(
-                org.Hs.eg.db,
-                keys = keys(org.Hs.eg.db),
-                columns = c("SYMBOL", "ENSEMBL")
-              )
-            GL <- c(1, "MTRNR2", "ENSG00000210082")
-            GL1 <- c(1, "MTRNR1", "ENSG00000211459")
-            geneList <- rbind(geneList, GL, GL1)
-          }
-          FinalDEGsU <- cbind(genes, siggenes.table$genes.up)
+          geneList <- retrieve_geneList()
+          GL <- c(1, "MTRNR2", "ENSG00000210082")
+          GL1 <- c(1, "MTRNR1", "ENSG00000211459")
+          geneList <- rbind(geneList, GL, GL1)
           gene_list <- geneList[, 3]
+          FinalDEGsU <- cbind(genes, siggenes.table$genes.up)
           idx_genes <- is.element(gene_list, genes)
           genes2 <- geneList[idx_genes, ]
           FinalDEGsU <- merge(

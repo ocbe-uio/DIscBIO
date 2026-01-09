@@ -33,7 +33,7 @@ Jaccard <- function(object, Clustering = "K-means", K, plot = TRUE, R = 100) {
   if (plot) {
     barplot(
       height    = JACCARD,
-      names.arg = seq_len(length(JACCARD)),
+      names.arg = seq_along(JACCARD),
       ylab      = "Mean Jaccard's similarity values",
       xlab      = "Clusters",
       las       = 1,

@@ -14,7 +14,7 @@ setGeneric(
 )
 
 #' @export
-#' @return Plot of tsne objet slot, grouped by gene.
+#' @return Plot of tsne object slot, grouped by gene.
 #' @rdname plotSymbolstSNE
 setMethod(
   "plotSymbolstSNE",
@@ -42,7 +42,7 @@ setMethod(
       pch = 20,
       col = "grey"
     )
-    for (i in seq_len(length(unique(types)))) {
+    for (i in seq_along(unique(types))) {
       f <- types == sort(unique(types))[i]
       syms <- append(syms, ((i - 1) %% 25) + 1)
       points(

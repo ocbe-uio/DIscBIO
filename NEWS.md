@@ -1,3 +1,8 @@
+# DIscBIO 1.2.3
+
+* Delinted package
+* Removed dependency on `philentropy` and `org.Hs.eg.db` (issue #44, #45)
+
 # DIscBIO 1.2.2
 
 * Fixed calculation of Jaccard index (issue #44)

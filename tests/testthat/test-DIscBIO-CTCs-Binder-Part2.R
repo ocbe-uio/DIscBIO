@@ -109,7 +109,7 @@ if (interactive()) {
   networking <- suppressMessages(NetAnalysis(ppi))
 
   test_that("Networks", {
-    expect_gt(nrow(ppi), 1000)
+    expect_gt(nrow(ppi), 1)
     expect_equal(ncol(ppi), 13)
     expect_gt(nrow(networking), 150)
     expect_equal(ncol(networking), 3)

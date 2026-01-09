@@ -222,7 +222,7 @@ downsample <- function(x, n, dsn) {
 }
 
 eval.pred <- function(pred.class, true.class, class1, performance) {
-  for (index in seq_len(length(pred.class))) {
+  for (index in seq_along(pred.class)) {
     pred <- pred.class[index]
     true <- true.class[index]
     if (pred == true && true == class1) {
@@ -417,4 +417,28 @@ retrieveURL <- function(
     message("Successful retrieval.")
     return(repos)
   }
+}
+
+#' @importFrom utils data
+retrieve_geneList <- function() {
+  # Use data from org.Hs.eg.db if the package is present.
+  # Otherwise, use internal data (potentially outdated).
+    tryCatch(
+    expr = {
+      db <- org.Hs.eg.db::org.Hs.eg.db
+      AnnotationDbi::select(
+        x       = db,
+        keys    = AnnotationDbi::keys(db),
+        columns = c("SYMBOL", "ENSEMBL")
+      )
+    },
+    error = function(e) {
+      message(
+        "Packages org.Hs.eg.db and AnnotationDbi not found. ",
+        "Using internal gene list data. ",
+        "Consider installing those packages for up-to-date annotations."
+      )
+      utils::data("geneList", package = "DIscBIO")
+    }
+  )
 }

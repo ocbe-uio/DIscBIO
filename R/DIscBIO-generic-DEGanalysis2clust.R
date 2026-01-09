@@ -22,7 +22,6 @@
 #' @param ... additional parameters to be passed to samr()
 #' @importFrom graphics title
 #' @importFrom utils write.csv capture.output
-#' @importFrom AnnotationDbi keys
 #' @return A list containing two tables.
 setGeneric(
   "DEGanalysis2clust",
@@ -170,27 +169,10 @@ setMethod(
       FinalDEGsL <- data.frame()
       if (length(FDRl) > 0) {
         genes <- siggenes.table$genes.lo[, 3]
-        if (quiet) {
-          suppressMessages(
-            geneList <- AnnotationDbi::select(
-              org.Hs.eg.db,
-              keys = keys(org.Hs.eg.db),
-              columns = c("SYMBOL", "ENSEMBL")
-            )
-          )
-          GL <- c(1, "MTRNR2", "ENSG00000210082")
-          GL1 <- c(1, "MTRNR1", "ENSG00000211459")
-          geneList <- rbind(geneList, GL, GL1)
-        } else {
-          geneList <- AnnotationDbi::select(
-            org.Hs.eg.db,
-            keys = keys(org.Hs.eg.db),
-            columns = c("SYMBOL", "ENSEMBL")
-          )
-          GL <- c(1, "MTRNR2", "ENSG00000210082")
-          GL1 <- c(1, "MTRNR1", "ENSG00000211459")
-          geneList <- rbind(geneList, GL, GL1)
-        }
+        geneList <- retrieve_geneList()
+        GL <- c(1, "MTRNR2", "ENSG00000210082")
+        GL1 <- c(1, "MTRNR1", "ENSG00000211459")
+        geneList <- rbind(geneList, GL, GL1)
         FinalDEGsL <- cbind(genes, siggenes.table$genes.lo)
         gene_list <- geneList[, 3]
         idx_genes <- is.element(gene_list, genes)
@@ -236,27 +218,11 @@ setMethod(
       FinalDEGsU <- data.frame()
       if (length(FDRu) > 0) {
         genes <- siggenes.table$genes.up[, 3]
-        if (quiet) {
-          suppressMessages(
-            geneList <- AnnotationDbi::select(
-              org.Hs.eg.db,
-              keys = keys(org.Hs.eg.db),
-              columns = c("SYMBOL", "ENSEMBL")
-            )
-          )
-          GL <- c(1, "MTRNR2", "ENSG00000210082")
-          geneList <- rbind(geneList, GL)
-        } else {
-          geneList <- AnnotationDbi::select(
-            org.Hs.eg.db,
-            keys = keys(org.Hs.eg.db),
-            columns = c("SYMBOL", "ENSEMBL")
-          )
-          GL <- c(1, "MTRNR2", "ENSG00000210082")
-          geneList <- rbind(geneList, GL)
-        }
-        FinalDEGsU <- cbind(genes, siggenes.table$genes.up)
+        geneList <- retrieve_geneList()
+        GL <- c(1, "MTRNR2", "ENSG00000210082")
+        geneList <- rbind(geneList, GL)
         gene_list <- geneList[, 3]
+        FinalDEGsU <- cbind(genes, siggenes.table$genes.up)
         idx_genes <- is.element(gene_list, genes)
         genes2 <- geneList[idx_genes, ]
         if (!is.null(FinalDEGsU)) {
