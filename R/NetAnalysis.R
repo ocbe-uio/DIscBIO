@@ -7,8 +7,8 @@
 #'   PPI function.
 #' @param export if `TRUE`, exports the analysis table as a csv file
 #' @param FileName suffix for the file name (if export = TRUE)
-#' @importFrom igraph graph.data.frame as_adjacency_matrix distance_table
-#'   average.path.length get.adjacency V E mean_distance betweenness
+#' @importFrom igraph graph_from_data_frame as_adjacency_matrix distance_table
+#'   mean_distance as_adjacency_matrix V E mean_distance betweenness
 #' @importFrom NetIndices GenInd
 #' @return A network analysis table
 NetAnalysis <- function(
@@ -17,7 +17,7 @@ NetAnalysis <- function(
     stop("No Protein-Protein Interactions")
   }
   df <- data[, -c(1, 2)]
-  gg <- graph.data.frame(df)
+  gg <- graph_from_data_frame(df)
   betweenness <- betweenness(gg)
   betweenness.table <- data.frame(betweenness)
   names <- rownames(betweenness.table)
@@ -38,14 +38,14 @@ NetAnalysis <- function(
     write.csv(AnalysisTable, file = paste0(FileName, ".csv"))
   }
 
-  test.graph.adj <- get.adjacency(gg, sparse = FALSE)
+  test.graph.adj <- as_adjacency_matrix(gg, sparse = FALSE)
   test.graph.properties <- GenInd(test.graph.adj)
   message("Number of nodes: ", test.graph.properties$N)
   message("Number of links: ", test.graph.properties$Ltot)
   message("Link Density: ", test.graph.properties$LD)
   message("The connectance of the graph: ", test.graph.properties$C)
   message("Mean Distences", mean_distance(gg))
-  message("Average Path Length", average.path.length(gg), "\n")
+  message("Average Path Length", mean_distance(gg), "\n")
   AnalysisTable <-
     AnalysisTable[order(AnalysisTable[, 2], decreasing = TRUE), ]
   return(AnalysisTable)
