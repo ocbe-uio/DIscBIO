@@ -6,7 +6,6 @@
 #' @param quiet if `TRUE`, suppresses intermediary output
 #' @param export if `TRUE`, exports order table to csv
 #' @param filename Name of the exported file (if `export=TRUE`)
-#' @importFrom TSCAN TSCANorder
 #' @note This function has been replaced by pseudoTimeOrdering(), but it is
 #'   being kept for legacy purposes. It will, however, be removed from future
 #'   versions of DIscBIO.
@@ -19,6 +18,7 @@ setGeneric("KmeanOrder", function(
 
 #' @export
 #' @rdname KmeanOrder
+#' @importFrom TSCAN TSCANorder
 setMethod(
   "KmeanOrder",
   signature = "DISCBIO",
@@ -31,6 +31,7 @@ setMethod(
       "but will be removed in future versions of DIscBIO. ",
       "Please adapt your scripts accordingly."
     )
+
     # Validation
     if (length(object@kmeans$kpart) == 0) {
       stop("run Clustexp before KmeanOrder")

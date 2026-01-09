@@ -6,7 +6,6 @@
 #' @param quiet if `TRUE`, suppresses intermediary output
 #' @param export if `TRUE`, exports order table to csv
 #' @param filename Name of the exported file (if `export=TRUE`)
-#' @importFrom TSCAN TSCANorder
 #' @return The DISCBIO-class object input with the kordering slot filled.
 setGeneric("pseudoTimeOrdering", function(
     object,
@@ -18,6 +17,7 @@ setGeneric("pseudoTimeOrdering", function(
 
 #' @export
 #' @rdname pseudoTimeOrdering
+#' @importFrom TSCAN TSCANorder
 setMethod(
   "pseudoTimeOrdering",
   signature = "DISCBIO",
