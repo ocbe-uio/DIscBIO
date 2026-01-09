@@ -1,3 +1,7 @@
+# DIscBIO (development version)
+
+* Replaced deprecated functions from `igraph`
+
 # DIscBIO 1.2.3
 
 * Delinted package
